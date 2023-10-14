@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 * {
   box-sizing: border-box;
@@ -8,6 +8,18 @@
   font-family: -apple-system, BlinkMacSystemFont, "Sarabun", "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
+}
+
+.bg-login {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.25),
+      rgba(255, 255, 255, 0.25)
+    ),
+    url(https://snc-services.sncformer.com/ivrs/admin/images/bg.png);
+  background-size: 1100px;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
 }
 
 /* style scroll bar */
@@ -29,6 +41,22 @@
   background: #555;
 }
 
-.blink {
-  animation: blink-animate 1.5s infinite;
+.request-blink {
+  animation: request-blink-animate 1.5s infinite;
+}
+
+@keyframes request-blink-animate {
+  0% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+  50% {
+    transition: 0.3s;
+    transform: scale(1.5);
+    box-shadow: 0 0 30px 8px rgba(255, 255, 0, 0.25);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
 }
