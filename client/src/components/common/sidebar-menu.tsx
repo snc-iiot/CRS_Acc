@@ -19,31 +19,31 @@ export const workspaceLinks = () => [
   },
   {
     Icon: <Icons.fileText className="h-5 w-5" />,
-    name: "Quotations",
-    href: `/quotations`,
+    name: "Registrations",
+    href: `/registrations`,
     disabled: false,
   },
-  {
-    Icon: <Icons.checkCircle className="h-5 w-5" />,
-    name: "Customers",
-    href: `/customers`,
-    disabled: false,
-  },
-  {
-    Icon: <Icons.shoppingCart className="h-5 w-5" />,
-    name: "Products",
-    href: `/products`,
-  },
-  {
-    Icon: <Icons.users className="h-5 w-5" />,
-    name: "Authorized",
-    href: `/authorized`,
-  },
-  {
-    Icon: <Icons.settings className="h-5 w-5" />,
-    name: "Settings",
-    href: `/settings`,
-  },
+  // {
+  //   Icon: <Icons.checkCircle className="h-5 w-5" />,
+  //   name: "Customers",
+  //   href: `/customers`,
+  //   disabled: false,
+  // },
+  // {
+  //   Icon: <Icons.shoppingCart className="h-5 w-5" />,
+  //   name: "Products",
+  //   href: `/products`,
+  // },
+  // {
+  //   Icon: <Icons.users className="h-5 w-5" />,
+  //   name: "Authorized",
+  //   href: `/authorized`,
+  // },
+  // {
+  //   Icon: <Icons.settings className="h-5 w-5" />,
+  //   name: "Settings",
+  //   href: `/settings`,
+  // },
 ];
 
 export type WorkspaceSidebarMenuProps = {

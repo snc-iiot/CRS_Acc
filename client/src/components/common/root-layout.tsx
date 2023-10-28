@@ -34,33 +34,38 @@ const RootLayout: FC = () => {
         <Header
           left={
             <div
-              className="flex cursor-pointer items-center gap-2"
+              className="flex items-center"
               // onClick={() => navigate("/")}
             >
               <div
-                className="grid h-[40px] w-[45px] place-items-center delay-200 hover:rounded-full hover:bg-primary-foreground"
+                className="grid h-[40px] w-[45px] cursor-pointer place-items-center delay-200 hover:rounded-full hover:bg-primary-foreground"
                 onClick={() => setCollapsed(!collapsed)}
               >
                 <Icons.menu className="text-gray-500" />
               </div>
-              <img
-                src="/images/logo.webp"
-                alt="SNC Logo"
-                width={230}
-                height={230}
-                className="h-auto w-[5.5rem] select-none"
-              />
-              <Separator
-                orientation="vertical"
-                className="h-[2rem] bg-foreground"
-              />
-              <div className="flex flex-col">
-                <p className="text-sm font-bold">
-                  CUSTOMER REGISTRATION SYSTEM
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Powered by The Center of Digital Expertise (CoDE)
-                </p>
+              <div
+                className="flex cursor-pointer items-center gap-x-2"
+                onClick={() => navigate("//")}
+              >
+                <img
+                  src="/images/logo.webp"
+                  alt="SNC Logo"
+                  width={230}
+                  height={230}
+                  className="h-auto w-[5.5rem] select-none"
+                />
+                <Separator
+                  orientation="vertical"
+                  className="h-[2rem] bg-foreground"
+                />
+                <div className="flex flex-col">
+                  <p className="text-sm font-bold">
+                    CUSTOMER REGISTRATION SYSTEM
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Powered by The Center of Digital Expertise (CoDE)
+                  </p>
+                </div>
               </div>
             </div>
           }
@@ -139,7 +144,7 @@ const RootLayout: FC = () => {
         <div className="flex h-full">
           <Sidebar />
 
-          <div className="p-2">
+          <div className="w-full p-2">
             <Outlet />
           </div>
         </div>

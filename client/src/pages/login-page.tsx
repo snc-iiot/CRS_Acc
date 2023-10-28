@@ -2,6 +2,7 @@ import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select-custom";
 import {
   Tooltip,
   TooltipContent,
@@ -21,15 +22,20 @@ const LoginPage: FC = () => {
     },
   ];
 
+  const businessCodes: { BUCode: string; Description: string }[] = [
+    { BUCode: "SCAN", Description: "SNC CREATIVITY ANTHOLOGY CO.,LTD." },
+    { BUCode: "SEREN", Description: "SNC SERENITY CO., LTD." },
+  ];
+
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm();
   const onSubmit = handleSubmit((data) => console.log(data));
 
-  console.log(watch("example")); // watch input value by passing the name of it
+  // console.log(watch("example")); // watch input value by passing the name of it
 
   return (
     <FadeIn>
@@ -56,9 +62,9 @@ const LoginPage: FC = () => {
           </div>
 
           {/* //! Content */}
-          <div className="grid h-full grid-cols-4">
+          <div className="flex h-full">
             {/* //! Left */}
-            <div className="border-r px-4">
+            <div className="w-[400px] border-r px-4">
               <h1 className="text-lg font-bold">
                 iCRS Customer Registration (Admin)
               </h1>
@@ -96,7 +102,30 @@ const LoginPage: FC = () => {
                   )}
                 </div>
 
-                <div className="mt-5 flex items-center justify-between">
+                <div className="mb-2">
+                  <p className="font-[600]">Business Code</p>
+                  <Select
+                    placeholder="Select business code"
+                    {...register("buCodeRequired", { required: true })}
+                  >
+                    <>
+                      {!businessCodes.length
+                        ? null
+                        : businessCodes.map((item, i) => (
+                            <option key={i} value={item?.BUCode}>
+                              [{item?.BUCode}] {item?.Description}
+                            </option>
+                          ))}
+                    </>
+                  </Select>
+                  {errors.buCodeRequired && (
+                    <span className="text-sm text-red-600">
+                      This field is required
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-6 flex items-center justify-between">
                   <Button type="button" variant="link" className="text-xs">
                     ลืมรหัสผ่าน
                     <br />
@@ -114,7 +143,7 @@ const LoginPage: FC = () => {
             </div>
 
             {/* //! Right */}
-            <div className="col-span-3 px-3 pt-2">
+            <div className="px-3 pt-2 ">
               <p className="pb-1 text-sm font-bold underline">
                 แจ้งผู้ใช้งานเว็บไซต์
               </p>
