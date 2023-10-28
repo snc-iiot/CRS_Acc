@@ -1,5 +1,6 @@
 import {
   CompanyInformationForm,
+  ContractInformationForm,
   ShareholderInformationForm,
 } from "@/components/registration";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -81,7 +82,7 @@ active section based on the intersection. */
                   buttonVariants({
                     variant: "ghost",
                   }),
-                  "flex w-full items-center justify-start gap-2 rounded-md",
+                  "flex w-full items-center justify-start gap-2 truncate rounded-md",
                 )}
                 onClick={() => handleLinkClick(item.id)}
               >
@@ -89,7 +90,8 @@ active section based on the intersection. */
                   className={cn(
                     "text-sm",
                     "text-muted-foreground",
-                    activeSection === item.id && "font-bold text-primary",
+                    activeSection === item.id &&
+                      "truncate font-bold text-primary",
                   )}
                 >
                   {item.title}
@@ -109,6 +111,7 @@ active section based on the intersection. */
                 <ScrollArea className="h-0 flex-grow">
                   <CompanyInformationForm />
                   <ShareholderInformationForm />
+                  <ContractInformationForm />
                   <ScrollBar />
                 </ScrollArea>
               </section>

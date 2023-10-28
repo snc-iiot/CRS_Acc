@@ -1,6 +1,9 @@
-import { Sections } from "@/helpers/register.helper";
+import {
+  CompanyInfo,
+  ConditionalInput,
+  Sections,
+} from "@/helpers/register.helper";
 import { FC } from "react";
-import { Input } from "../ui/input";
 
 const CompanyInformationForm: FC = () => {
   return (
@@ -12,26 +15,19 @@ const CompanyInformationForm: FC = () => {
           </h2>
         </section>
         <section className="flex h-full w-full flex-col gap-2">
-          {new Array(8).fill(0).map((_, index) => (
+          {CompanyInfo?.map((item, index) => (
             <div
               className="grid w-full grid-cols-10 items-center gap-2"
               key={index}
             >
               <div className="col-span-4 flex justify-end">
-                <label
-                  htmlFor="companyName"
-                  className="text-sm text-muted-foreground"
-                >
-                  ชื่อบริษัท
+                <label htmlFor={item?.name} className="text-sm text-primary">
+                  {item?.label}
                 </label>
               </div>
-              <div className="col-span-6">
-                <Input
-                  id="companyName"
-                  name="companyName"
-                  placeholder="ชื่อบริษัท"
-                  variant="unstyled"
-                />
+              <div className="col-span-4">{ConditionalInput(item)}</div>
+              <div className="col-span-2 flex justify-end">
+                <p className="text-sm text-red-500">{item?.required && "*"}</p>
               </div>
             </div>
           ))}
