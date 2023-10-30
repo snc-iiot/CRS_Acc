@@ -1,5 +1,5 @@
 import { CopyToClipboardCustom } from "@/hooks/use-copy-to-clipboard";
-import { createRef, FC, Fragment, useRef } from "react";
+import { FC, Fragment } from "react";
 
 const ContactPerson: FC = () => {
   const contactPersonInformation: {
@@ -28,19 +28,6 @@ const ContactPerson: FC = () => {
     },
   ];
 
-  const infoRefs = useRef(
-    Array.from(
-      {
-        length:
-          contactPersonInformation.length *
-          Object.keys(contactPersonInformation[0])?.filter(
-            (item) => item != "title",
-          ).length,
-      },
-      () => createRef<HTMLDivElement>(),
-    ),
-  );
-
   return (
     <div className="grid grid-cols-4 pl-1 pr-4 text-xs">
       {contactPersonInformation?.map((item, i) => (
@@ -49,9 +36,9 @@ const ContactPerson: FC = () => {
           <h4>ชื่อ-นามสกุล</h4>
           <div className="col-span-3 flex items-center gap-x-1">
             <CopyToClipboardCustom
-              ref={infoRefs.current[3 * i]}
               text={item?.name}
               delay={500}
+              className="h-3 w-3"
             />
             <p className="w-full border-b">{item?.name}</p>
           </div>
@@ -59,9 +46,9 @@ const ContactPerson: FC = () => {
           <h4>โทรศัพท์</h4>
           <div className="col-span-3 flex items-center gap-x-1">
             <CopyToClipboardCustom
-              ref={infoRefs.current[3 * i + 1]}
               text={item?.tel}
               delay={500}
+              className="h-3 w-3"
             />
             <p className="w-full border-b">{item?.tel}</p>
           </div>
@@ -69,9 +56,9 @@ const ContactPerson: FC = () => {
           <h4>อีเมล</h4>
           <div className="col-span-3 flex items-center gap-x-1">
             <CopyToClipboardCustom
-              ref={infoRefs.current[3 * i + 2]}
               text={item?.email}
               delay={500}
+              className="h-3 w-3"
             />
             <p className="w-full border-b">{item?.email}</p>
           </div>

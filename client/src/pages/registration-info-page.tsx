@@ -3,8 +3,19 @@ import { Icons } from "@/components/common/icons";
 import {
   ContactPerson,
   CustomerCompanyInformation,
+  R1Form,
+  R2Form,
+  R3Form,
+  R4Form,
+  R5Form,
+  R6Form,
+  R7Form,
+  R8Form,
+  R9Form,
+  R10Form,
   ShareholderProportion,
   StandardsCertifications,
+  UploadDocuments,
 } from "@/components/pages/registration-info-page";
 import {
   Accordion,
@@ -12,6 +23,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
@@ -64,13 +77,7 @@ const RegistrationInfo: FC = () => {
     {
       topic: "topic-5",
       title: "เอกสารอัพโหลด / Upload Documents",
-      content: (
-        <div>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora
-          rerum quidem corrupti numquam sit repudiandae dolor in nihil. Impedit,
-          officia!
-        </div>
-      ),
+      content: <UploadDocuments />,
     },
   ];
 
@@ -92,7 +99,7 @@ const RegistrationInfo: FC = () => {
       <div className="relative h-screen w-full">
         <div
           className={cn(
-            "fixed bottom-2 left-2",
+            "fixed bottom-2 left-2 z-50",
             "grid h-[40px] w-[40px] cursor-pointer place-items-center rounded-sm border p-2 hover:translate-x-1",
             "bg-primary-foreground",
           )}
@@ -113,7 +120,7 @@ const RegistrationInfo: FC = () => {
         </div>
 
         <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2 py-2">
-          <div className="absolute left-[50%] top-2 flex translate-x-[-50%] gap-x-3">
+          <div className="absolute left-[50%] top-3 flex translate-x-[-50%] gap-x-3">
             <Icons.panelRight
               className="h-5 w-5 cursor-pointer hover:scale-105"
               onClick={() => setViewPage("L")}
@@ -145,51 +152,96 @@ const RegistrationInfo: FC = () => {
             {/* //! Left Content */}
             <div
               className={cn(
-                "h-full overflow-y-auto border-r-2 p-1",
+                "relative h-full overflow-y-auto border-r-2 p-1",
                 viewPage == "R" ? "hidden delay-500" : "block",
               )}
             >
               <h3 className="text-md font-bold">
                 รายละเอียดบริษัทลูกค้า / Customer Details
               </h3>
-              <form>
-                <Accordion
-                  type="multiple"
-                  defaultValue={leftAccordionList?.map((item) => item?.topic)}
-                >
-                  {leftAccordionList?.map((item, i) => (
-                    <AccordionItem value={item?.topic} key={i}>
-                      <AccordionTrigger className="text-xs font-bold">
-                        {i + 1}. {item?.title}
-                      </AccordionTrigger>
-                      <AccordionContent>{item?.content}</AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </form>
+              <Accordion
+                type="multiple"
+                className="mb-[3rem]"
+                defaultValue={leftAccordionList?.map((item) => item?.topic)}
+              >
+                {leftAccordionList?.map((item, i) => (
+                  <AccordionItem value={item?.topic} key={i}>
+                    <AccordionTrigger className="py-1 text-xs font-bold">
+                      {i + 1}. {item?.title}
+                    </AccordionTrigger>
+                    <AccordionContent>{item?.content}</AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+
+              <div
+                className={cn(
+                  "fixed bottom-2 flex justify-end pr-8",
+                  viewPage == "L" ? "w-full" : "w-1/3",
+                )}
+              >
+                <Button className="bg-yellow-500 hover:bg-yellow-600">
+                  <Icons.edit className="mr-2 h-5 w-5" /> แก้ไขข้อมูลลูกค้า
+                </Button>
+              </div>
+
+              {/* <div className="absolute bottom-2 right-2">
+                <Button className="bg-yellow-500 hover:bg-yellow-600">
+                  แก้ไขข้อมูลลูกค้า
+                </Button>
+              </div> */}
             </div>
+
             {/* //! Right Content */}
             <div
               className={cn(
-                "p-1",
+                "h-full p-1",
                 viewPage == "L" ? "hidden delay-500" : "col-span-2 block",
               )}
             >
-              Right info
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Officia, animi cum maxime fugiat molestias voluptas incidunt ad.
-                Voluptatem iure repellendus non animi saepe deserunt corporis
-                unde voluptas, necessitatibus ut architecto aspernatur
-                temporibus, possimus amet beatae reprehenderit iste porro
-                cupiditate aliquam cum, fugiat quis nihil culpa. Fuga placeat
-                quo excepturi itaque dolorem maxime quos ipsa sint, aliquid,
-                numquam possimus quod modi id tempore, assumenda dicta non magni
-                iusto dolor magnam. Iste esse reprehenderit ducimus fugiat nisi
-                velit ea. Tenetur quidem tempora non, quibusdam dolorem delectus
-                sunt atque asperiores hic voluptate? Inventore repudiandae
-                tempore cum culpa error adipisci eaque nisi vitae similique.
-              </p>
+              <Tabs defaultValue="R1" className="h-full">
+                <nav className="fixed right-1 top-2">
+                  <TabsList>
+                    {Array(10)
+                      .fill(0)
+                      .map((_, i) => (
+                        <TabsTrigger key={i} value={"R" + (i + 1)}>
+                          R{i + 1}
+                        </TabsTrigger>
+                      ))}
+                  </TabsList>
+                </nav>
+                <TabsContent value="R1" className="h-full">
+                  <R1Form />
+                </TabsContent>
+                <TabsContent value="R2" className="h-full">
+                  <R2Form />
+                </TabsContent>
+                <TabsContent value="R3" className="h-full">
+                  <R3Form />
+                </TabsContent>
+                <TabsContent value="R4" className="h-full">
+                  <R4Form />
+                </TabsContent>
+                <TabsContent value="R5" className="h-full">
+                  <R5Form />
+                </TabsContent>
+                <TabsContent value="R6" className="h-full">
+                  <R6Form />
+                </TabsContent>
+                <TabsContent value="R7" className="h-full">
+                  <R7Form />
+                </TabsContent>
+                <TabsContent value="R8" className="h-full">
+                  <R8Form />
+                </TabsContent>
+                <TabsContent value="R9" className="h-full">
+                  <R9Form />
+                </TabsContent>
+                <TabsContent value="R10" className="h-full">
+                  <R10Form />
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </main>

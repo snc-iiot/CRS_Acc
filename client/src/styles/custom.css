@@ -10,6 +10,11 @@
     "Segoe UI Symbol";
 }
 
+html,
+body {
+  font-size: 15px;
+}
+
 .bg-login {
   background: linear-gradient(
       rgba(255, 255, 255, 0.25),

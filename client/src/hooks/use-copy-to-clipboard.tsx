@@ -2,8 +2,6 @@ import { Icons } from "@/components/common/icons";
 import { cn } from "@/lib/utils";
 import { forwardRef, useRef } from "react";
 
-// import { CopyToClipboard } from "react-copy-to-clipboard";
-
 interface Props {
   text?: string;
   delay?: number;
@@ -12,7 +10,7 @@ interface Props {
 
 type Ref = HTMLDivElement;
 
-export const CopyToClipboardCustom = forwardRef<Ref, Props>(
+const CopyToClipboardCustom = forwardRef<Ref, Props>(
   ({ text = "", delay = 1000, className = "" }, ref) => {
     const beforeRef = useRef<SVGSVGElement>(null);
     const afterRef = useRef<SVGSVGElement>(null);
@@ -36,19 +34,15 @@ export const CopyToClipboardCustom = forwardRef<Ref, Props>(
 
     return (
       <div ref={ref}>
-        {/* <CopyToClipboard text={text}> */}
         <div className="relative overflow-hidden">
           <Icons.copy
             ref={beforeRef}
-            className={cn(
-              "h-3 w-3 cursor-pointer hover:scale-105 hover:drop-shadow-[1px_1px_3px_rgba(50,200,20,0.5)]",
-              className,
-            )}
+            className={cn("cursor-pointer hover:scale-105", className)}
             onClick={handleCopyToClipboard}
           />
-          <Icons.checkCircle
+          <Icons.check
             ref={afterRef}
-            className={cn("hidden h-3 w-3 text-green-600", className)}
+            className={cn("hidden text-green-600", className)}
           />
           <input
             ref={inputRef}
@@ -57,8 +51,11 @@ export const CopyToClipboardCustom = forwardRef<Ref, Props>(
             className="absolute right-[1000px] top-0"
           />
         </div>
-        {/* </CopyToClipboard> */}
       </div>
     );
   },
 );
+
+CopyToClipboardCustom.displayName = "CopyToClipboardCustom";
+
+export { CopyToClipboardCustom };
