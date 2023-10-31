@@ -204,11 +204,11 @@ const StandardsCertifications: FC = () => {
               <Fragment key={i}>
                 <div className="flex items-center gap-x-1">
                   {item?.isChecked ? (
-                    <Icons.checkSquare className="h-3 w-3" />
+                    <Icons.checkSquare className="h-3 w-3 text-primary" />
                   ) : (
                     <Icons.square className="h-3 w-3" />
                   )}
-                  <p>
+                  <p className={item?.isChecked ? "text-primary" : ""}>
                     {item?.label}{" "}
                     {item?.isChecked ? (
                       <small className="text-red-500">exp: {item?.exp}</small>
@@ -225,12 +225,14 @@ const StandardsCertifications: FC = () => {
               <Fragment key={i}>
                 <div className="col-span-2 flex items-center gap-x-1">
                   {item?.isChecked ? (
-                    <Icons.checkSquare className="h-3 w-3" />
+                    <Icons.checkSquare className="h-3 w-3 text-primary" />
                   ) : (
                     <Icons.square className="h-3 w-3" />
                   )}
                   <div className="flex w-full items-center gap-x-1">
-                    {item?.label}{" "}
+                    <p className={item?.isChecked ? "text-primary" : ""}>
+                      {item?.label}
+                    </p>{" "}
                     {!item?.isChecked ? (
                       ""
                     ) : (
@@ -241,7 +243,9 @@ const StandardsCertifications: FC = () => {
                     {item?.value == "" ? (
                       ""
                     ) : (
-                      <p className="ml-2 mr-4 w-full border-b">{item?.value}</p>
+                      <p className="ml-2 mr-4 w-full border-b text-primary">
+                        {item?.value}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -260,18 +264,20 @@ const StandardsCertifications: FC = () => {
               <Fragment key={i}>
                 <div className="flex items-center gap-x-1">
                   {item?.isChecked ? (
-                    <Icons.checkSquare className="h-3 w-3" />
+                    <Icons.checkSquare className="h-3 w-3 text-primary" />
                   ) : (
                     <Icons.square className="h-3 w-3" />
                   )}
-                  <p>
-                    {item?.label}{" "}
+                  <div className="flex items-center gap-x-1">
+                    <p className={item?.isChecked ? "text-primary" : ""}>
+                      {item?.label}
+                    </p>{" "}
                     {item?.isChecked ? (
                       <small className="text-red-500">exp: {item?.exp}</small>
                     ) : (
                       ""
                     )}
-                  </p>
+                  </div>
                 </div>
               </Fragment>
             ))}
@@ -280,12 +286,14 @@ const StandardsCertifications: FC = () => {
               <Fragment key={i}>
                 <div className="col-span-3 flex items-center gap-x-1">
                   {item?.isChecked ? (
-                    <Icons.checkSquare className="h-3 w-3" />
+                    <Icons.checkSquare className="h-3 w-3 text-primary" />
                   ) : (
                     <Icons.square className="h-3 w-3" />
                   )}
                   <div className="flex w-full items-center gap-x-1">
-                    {item?.label}{" "}
+                    <p className={item?.isChecked ? "text-primary" : ""}>
+                      {item?.label}
+                    </p>{" "}
                     {!item?.isChecked ? (
                       ""
                     ) : (
@@ -296,7 +304,9 @@ const StandardsCertifications: FC = () => {
                     {item?.value == "" ? (
                       ""
                     ) : (
-                      <p className="ml-2 mr-4 w-full border-b">{item?.value}</p>
+                      <p className="ml-2 mr-4 w-full border-b text-primary">
+                        {item?.value}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -325,10 +335,10 @@ const StandardsCertifications: FC = () => {
           <div />
 
           <div className="flex items-center gap-x-1">
-            <Icons.checkCircle className="h-3 w-3" />
+            <Icons.checkCircle className="h-3 w-3 text-primary" />
             <p>อื่นๆ</p>
           </div>
-          <div className="border-b px-1">
+          <div className="border-b px-1 text-primary">
             <p>180 วัน</p>
           </div>
         </div>
@@ -342,11 +352,11 @@ const StandardsCertifications: FC = () => {
           </div>
 
           <div className="flex items-center gap-x-1">
-            <Icons.checkCircle className="h-3 w-3" />
-            <p>รับเช็ค</p>
+            <Icons.checkCircle className="h-3 w-3 text-primary" />
+            <p className="text-primary">รับเช็ค</p>
           </div>
           <div className="col-span-3 pr-4">
-            <p className="border-b">
+            <p className="border-b text-primary">
               เซ็นทรัลระยอง, 12.00AM, นายสถาพร ไชยเจริญ
             </p>
           </div>
@@ -360,13 +370,13 @@ const StandardsCertifications: FC = () => {
         {/* //! 4.3.3 */}
         <div className="grid grid-cols-4 items-center">
           <h5>3.3 ระเบียบการวางบิล</h5>
-          <div className="border-b pl-1">THB</div>
+          <div className="border-b pl-1 text-primary">THB</div>
         </div>
 
         {/* //! 4.3.4 */}
         <div className="grid grid-cols-4 items-center">
           <h5>3.4 Incoterm</h5>
-          <div className="border-b pl-1">EXW</div>
+          <div className="border-b pl-1 text-primary">EXW</div>
         </div>
 
         {/* //! 4.3.5 */}
@@ -377,8 +387,8 @@ const StandardsCertifications: FC = () => {
             <p>มี</p>
           </div>
           <div className="col-span-4 flex items-center gap-x-1">
-            <Icons.checkCircle className="h-3 w-3" />
-            <p>ไม่มี</p>
+            <Icons.checkCircle className="h-3 w-3 text-primary" />
+            <p className="text-primary">ไม่มี</p>
           </div>
         </div>
 
@@ -386,12 +396,12 @@ const StandardsCertifications: FC = () => {
         <h5>3.6 เงื่อนไขการขนส่งสินค้า</h5>
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
-            <Icons.checkSquare className="h-3 w-3" />
+            <Icons.checkSquare className="h-3 w-3 text-primary" />
             <p>บริษัทขนส่งสินค้าเอง</p>
           </div>
           <div className="flex items-center gap-x-1">
-            <Icons.checkSquare className="h-3 w-3" />
-            <p>ลูกค้ามารับสินค้าเอง</p>
+            <Icons.checkSquare className="h-3 w-3 text-primary" />
+            <p className="text-primary">ลูกค้ามารับสินค้าเอง</p>
           </div>
         </div>
 
@@ -399,18 +409,20 @@ const StandardsCertifications: FC = () => {
         <h5>3.7 เงื่อนไขในการวางเงินมัดจำ</h5>
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
-            <Icons.checkCircle className="h-3 w-3" />
-            <p>มี</p>
+            <Icons.checkCircle className="h-3 w-3 text-primary" />
+            <p className="text-primary">มี</p>
           </div>
 
-          <div className="h-full w-[80%] border-b pl-1">
+          <div className="h-full w-[80%] border-b pl-1 text-primary">
             <p>อื่นๆ</p>
           </div>
 
           <div className="col-span-2 flex items-center gap-x-1 pr-4">
-            <div className="flex w-full items-center gap-x-1">
-              <p className="ml-1 w-full border-b">วางเงินมัดจำ 20/80 %</p>
-            </div>
+            {/* <div className="flex w-full items-center gap-x-1"> */}
+            <p className="ml-1 w-full border-b text-primary">
+              วางเงินมัดจำ 20/80 %
+            </p>
+            {/* </div> */}
           </div>
 
           <div className="flex items-center gap-x-1">
@@ -423,11 +435,11 @@ const StandardsCertifications: FC = () => {
         <h5>3.8 รับประกันสินค้า</h5>
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
-            <Icons.checkCircle className="h-3 w-3" />
+            <Icons.checkCircle className="h-3 w-3 text-primary" />
             <p>มี</p>
           </div>
 
-          <div className="h-full w-[80%] border-b pl-1">3 ปี</div>
+          <div className="h-full w-[80%] border-b pl-1 text-primary">3 ปี</div>
 
           <div className="col-span-4 flex items-center gap-x-1">
             <Icons.circle className="h-3 w-3" />
@@ -440,17 +452,17 @@ const StandardsCertifications: FC = () => {
       <h4 className="font-semibold">
         4. นโยบายการดำเนินการ / Company Policies
       </h4>
-      <div className="mb-1 grid grid-cols-9 items-center pl-1 pr-4">
+      <div className="mb-1 grid grid-cols-9 items-center gap-x-1 pl-1 pr-4">
         {companyPoliciesInformation?.length == 0
           ? null
           : companyPoliciesInformation?.map((item, i) => (
               <Fragment key={i}>
-                <p className="col-span-7">
+                <p className="col-span-7 truncate">
                   4.{i + 1} {item?.lable}
                 </p>
                 <div className="flex items-center gap-x-1">
                   {item?.isChecked ? (
-                    <Icons.checkCircle className="h-3 w-3" />
+                    <Icons.checkCircle className="h-3 w-3 text-primary" />
                   ) : (
                     <Icons.circle className="h-3 w-3" />
                   )}
@@ -458,7 +470,7 @@ const StandardsCertifications: FC = () => {
                 </div>
                 <div className="flex items-center gap-x-1">
                   {!item?.isChecked ? (
-                    <Icons.checkCircle className="h-3 w-3" />
+                    <Icons.checkCircle className="h-3 w-3 text-primary" />
                   ) : (
                     <Icons.circle className="h-3 w-3" />
                   )}
@@ -481,7 +493,7 @@ const StandardsCertifications: FC = () => {
           <Icons.circle className="h-3 w-3" />
           <p>ผลิตงาน</p>
         </div>
-        <div className="flex items-center gap-x-1 pr-4">
+        <div className="flex items-center gap-x-1 pr-4 text-primary">
           <Icons.checkCircle className="h-3 w-3" />
           <p>อื่นๆ</p>
           <p className="ml-2 w-full border-b">เพื่อนำมาทดสอบงาน</p>
@@ -498,11 +510,11 @@ const StandardsCertifications: FC = () => {
           <p>ลูกค้าในประเทศไทย</p>
         </div>
         <div className="flex items-center gap-x-1 pr-4">
-          <Icons.checkCircle className="h-3 w-3" />
-          <p>ลูกค้าต่างประเทศ</p>
+          <Icons.checkCircle className="h-3 w-3 text-primary" />
+          <p className="text-primary">ลูกค้าต่างประเทศ</p>
         </div>
         <div className="col-span-2">
-          <p className="w-full border-b">ประเทศจีน</p>
+          <p className="w-full border-b text-primary">ประเทศจีน</p>
         </div>
       </div>
     </div>

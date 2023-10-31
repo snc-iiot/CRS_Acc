@@ -40,7 +40,7 @@ const ContactPerson: FC = () => {
               delay={500}
               className="h-3 w-3"
             />
-            <p className="w-full border-b">{item?.name}</p>
+            <p className="w-full border-b text-primary">{item?.name}</p>
           </div>
 
           <h4>โทรศัพท์</h4>
@@ -50,7 +50,7 @@ const ContactPerson: FC = () => {
               delay={500}
               className="h-3 w-3"
             />
-            <p className="w-full border-b">{item?.tel}</p>
+            <p className="w-full border-b text-primary">{item?.tel}</p>
           </div>
 
           <h4>อีเมล</h4>
@@ -60,7 +60,7 @@ const ContactPerson: FC = () => {
               delay={500}
               className="h-3 w-3"
             />
-            <p className="w-full border-b">{item?.email}</p>
+            <p className="w-full border-b text-primary">{item?.email}</p>
           </div>
           <div className="col-span-4 mb-1" />
         </Fragment>

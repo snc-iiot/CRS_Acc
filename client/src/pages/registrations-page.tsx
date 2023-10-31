@@ -2,7 +2,7 @@ import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import {
-  //   Table,
+  Table,
   //   TableCaption,
   TableBody as TBody,
   TableCell as Td,
@@ -30,7 +30,8 @@ const Registrations: FC = () => {
         <h2 className="text-2xl font-semibold">รายการลงทะเบียนลูกค้า</h2>
 
         <div className="mt-5 max-h-[500px] w-full overflow-auto border border-red-500">
-          <table className="relative w-full border-separate">
+          <Table className="relative w-full border-separate">
+            {/* <table className="relative w-full border-separate"> */}
             {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
             <THead className="sticky top-0 z-10 bg-primary-foreground text-sm">
               <Tr>
@@ -44,14 +45,14 @@ const Registrations: FC = () => {
             </THead>
             <TBody className="text-sm">
               {registrations
-                //  .concat(registrations)
-                //  .concat(registrations)
-                //  .concat(registrations)
-                //  .concat(registrations)
-                //  .concat(registrations)
-                //  .concat(registrations)
-                //  .concat(registrations)
-                //  .concat(registrations)
+                .concat(registrations)
+                .concat(registrations)
+                .concat(registrations)
+                .concat(registrations)
+                .concat(registrations)
+                .concat(registrations)
+                .concat(registrations)
+                .concat(registrations)
                 ?.map((item, i) => (
                   <Tr key={i} className="border-b">
                     <Td>{i + 1}</Td>
@@ -72,7 +73,8 @@ const Registrations: FC = () => {
                   </Tr>
                 ))}
             </TBody>
-          </table>
+            {/* </table> */}
+          </Table>
         </div>
       </main>
     </FadeIn>

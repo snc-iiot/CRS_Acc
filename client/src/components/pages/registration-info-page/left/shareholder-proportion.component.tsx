@@ -9,22 +9,22 @@ const ShareholderProportion: FC = () => {
       <div />
 
       <h4 className="font-semibold">สัญชาติผู้ถือหุ้นสูงสุด</h4>
-      <p className="border pr-1 text-right">90</p>
+      <p className="border pr-1 text-right text-primary">90</p>
       <div />
       <div />
 
       <h4 className="font-semibold">สัญชาติไทย</h4>
-      <p className="border pr-1 text-right">5</p>
+      <p className="border pr-1 text-right text-primary">5</p>
       <div />
       <div />
 
       <h4 className="font-semibold">สัญชาติอื่นๆ</h4>
-      <p className="border pr-1 text-right">95</p>
+      <p className="border pr-1 text-right text-primary">95</p>
       <div />
       <div />
 
       <h4 className="font-semibold">รวมทุกสัญชาติ</h4>
-      <p className="border pr-1 text-right">100</p>
+      <p className="border pr-1 text-right text-primary">100</p>
       <div />
       <div />
     </div>

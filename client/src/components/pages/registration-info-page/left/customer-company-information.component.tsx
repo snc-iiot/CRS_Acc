@@ -40,7 +40,9 @@ const CustomerDetails: FC = () => {
               className="h-3 w-3"
             />
 
-            <p className="w-full truncate border-b">{item?.value}</p>
+            <p className="w-full truncate border-b text-primary">
+              {item?.value}
+            </p>
           </div>
         </Fragment>
       ))}

@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FC } from "react";
+import { R1AdminInformation } from "./r1-admin-information.sub.component";
 import { R1UpdateDocuments } from "./r1-update-documents.sub.component";
 
 const R1Form: FC = () => {
@@ -16,7 +17,7 @@ const R1Form: FC = () => {
     {
       topic: "r1-topic-1",
       title: "ข้อมูลส่วน SNC / SNC Information",
-      content: <div>Hello</div>,
+      content: <R1AdminInformation />,
     },
     {
       topic: "r1-topic-2",

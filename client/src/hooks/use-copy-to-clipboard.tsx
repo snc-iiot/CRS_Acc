@@ -1,16 +1,14 @@
 import { Icons } from "@/components/common/icons";
 import { cn } from "@/lib/utils";
-import { forwardRef, useRef } from "react";
+import { forwardRef, HTMLAttributes, useRef } from "react";
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   text?: string;
   delay?: number;
   className?: string;
 }
 
-type Ref = HTMLDivElement;
-
-const CopyToClipboardCustom = forwardRef<Ref, Props>(
+const CopyToClipboardCustom = forwardRef<HTMLDivElement, Props>(
   ({ text = "", delay = 1000, className = "" }, ref) => {
     const beforeRef = useRef<SVGSVGElement>(null);
     const afterRef = useRef<SVGSVGElement>(null);

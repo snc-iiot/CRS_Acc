@@ -1,5 +1,6 @@
 import { Icons } from "@/components/common/icons";
 import { UploadFile } from "@/hooks/upload-file";
+import Base64Tools from "@/lib/base64-tools";
 import { FC, Fragment } from "react";
 
 export const R1UpdateDocuments: FC = () => {
@@ -15,6 +16,11 @@ export const R1UpdateDocuments: FC = () => {
   function handleUploadFile(filename: string, base64: string) {
     console.log(filename);
     console.log(base64);
+
+    const test = new Base64Tools();
+    test.openBase64NewTab(
+      base64.split("data:application/pdf;base64,").join(""),
+    );
   }
 
   return (
