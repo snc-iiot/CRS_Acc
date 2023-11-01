@@ -48,6 +48,15 @@ const RegistrationInfo: FC = () => {
   //   return <div />;
   // }
 
+  const showSplitScreen: {
+    tooltip: string;
+    value: string;
+  }[] = [
+    { tooltip: "Left form", value: "L" },
+    { tooltip: "Two form", value: "2" },
+    { tooltip: "Right form", value: "R" },
+  ];
+
   const leftAccordionList: {
     topic: string;
     title: string;
@@ -96,7 +105,7 @@ const RegistrationInfo: FC = () => {
 
   return (
     <FadeIn>
-      <div className="relative h-screen w-full">
+      <div className="relative h-[100dvh] w-full">
         <div
           className={cn(
             "fixed bottom-2 left-2 z-50",
@@ -113,7 +122,7 @@ const RegistrationInfo: FC = () => {
                 />
               </TooltipTrigger>
               <TooltipContent side="right">
-                <p>กลับ</p>
+                <span>กลับ</span>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -121,18 +130,35 @@ const RegistrationInfo: FC = () => {
 
         <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2 py-2">
           <div className="absolute left-[50%] top-3 flex translate-x-[-50%] gap-x-3">
-            <Icons.panelRight
-              className="h-5 w-5 cursor-pointer hover:scale-105"
-              onClick={() => setViewPage("L")}
-            />
-            <Icons.columns
-              className="h-5 w-5 cursor-pointer hover:scale-105"
-              onClick={() => setViewPage("2")}
-            />
-            <Icons.panelLeft
-              className="h-5 w-5 cursor-pointer hover:scale-105"
-              onClick={() => setViewPage("R")}
-            />
+            {showSplitScreen?.map((item, i) => (
+              <TooltipProvider key={i}>
+                <Tooltip>
+                  <TooltipTrigger>
+                    {item?.value == "L" ? (
+                      <Icons.panelLeft
+                        className="h-5 w-5 cursor-pointer hover:scale-105"
+                        onClick={() => setViewPage(item?.value)}
+                      />
+                    ) : item?.value == "2" ? (
+                      <Icons.columns
+                        className="h-5 w-5 cursor-pointer hover:scale-105"
+                        onClick={() => setViewPage(item?.value)}
+                      />
+                    ) : (
+                      <Icons.panelRight
+                        className="h-5 w-5 cursor-pointer hover:scale-105"
+                        onClick={() => setViewPage(item?.value)}
+                      />
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent
+                  // side="right"
+                  >
+                    <span>{item?.tooltip}</span>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ))}
           </div>
           <div className="grid place-items-center">
             {/* <h2 className="text-lg font-semibold">ข้อมูลลูกค้า</h2> */}
@@ -195,11 +221,11 @@ const RegistrationInfo: FC = () => {
             {/* //! Right Content */}
             <div
               className={cn(
-                "h-full p-1",
+                "relative h-full px-1 py-0",
                 viewPage == "L" ? "hidden delay-500" : "col-span-2 block",
               )}
             >
-              <Tabs defaultValue="R1" className="h-full">
+              <Tabs defaultValue="R1" className="h-[70%]">
                 <nav className="fixed right-1 top-2">
                   <TabsList>
                     {Array(10)
@@ -242,6 +268,19 @@ const RegistrationInfo: FC = () => {
                   <R10Form />
                 </TabsContent>
               </Tabs>
+
+              {/* //! Comments & Other */}
+              <div className="grid h-[25%] grid-cols-2 border border-blue-500">
+                <div className="h-full border">
+                  <h3 className="text-sm font-semibold underline">
+                    ข้อเสนอแนะ / Comments
+                  </h3>
+                </div>
+                <div className="h-full border border-green-500"></div>
+              </div>
+
+              {/* //! Right Footer */}
+              <div className="h-[5%] border border-red-500"></div>
             </div>
           </div>
         </main>

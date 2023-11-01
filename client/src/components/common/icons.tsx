@@ -40,7 +40,7 @@ import {
   Lock,
   LogIn,
   LogOut,
-  LucideProps,
+  // LucideProps,
   Menu,
   Moon,
   MoreHorizontal,
@@ -69,11 +69,12 @@ import {
   Users,
   X,
   XCircle,
-  //   type Icon as LucideIcon,
-  type IconNode as LucideIcon,
+  type LucideIcon,
+  // type Icon as LucideIcon,
+  type LucideProps,
 } from "lucide-react";
 
-export type Icon = LucideIcon;
+export type IconType = LucideIcon;
 
 export const Icons = {
   arrowUpRight: ArrowUpRight,

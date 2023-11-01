@@ -336,7 +336,7 @@ const StandardsCertifications: FC = () => {
 
           <div className="flex items-center gap-x-1">
             <Icons.checkCircle className="h-3 w-3 text-primary" />
-            <p>อื่นๆ</p>
+            <p className="text-primary">อื่นๆ</p>
           </div>
           <div className="border-b px-1 text-primary">
             <p>180 วัน</p>
@@ -397,7 +397,7 @@ const StandardsCertifications: FC = () => {
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
             <Icons.checkSquare className="h-3 w-3 text-primary" />
-            <p>บริษัทขนส่งสินค้าเอง</p>
+            <p className="text-primary">บริษัทขนส่งสินค้าเอง</p>
           </div>
           <div className="flex items-center gap-x-1">
             <Icons.checkSquare className="h-3 w-3 text-primary" />
@@ -436,7 +436,7 @@ const StandardsCertifications: FC = () => {
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
             <Icons.checkCircle className="h-3 w-3 text-primary" />
-            <p>มี</p>
+            <p className="text-primary">มี</p>
           </div>
 
           <div className="h-full w-[80%] border-b pl-1 text-primary">3 ปี</div>
@@ -466,7 +466,7 @@ const StandardsCertifications: FC = () => {
                   ) : (
                     <Icons.circle className="h-3 w-3" />
                   )}
-                  <p>มี</p>
+                  <p className={item?.isChecked ? "text-primary" : ""}>มี</p>
                 </div>
                 <div className="flex items-center gap-x-1">
                   {!item?.isChecked ? (
@@ -474,7 +474,9 @@ const StandardsCertifications: FC = () => {
                   ) : (
                     <Icons.circle className="h-3 w-3" />
                   )}
-                  <p>ไม่มี</p>
+                  <p className={!item?.isChecked ? "text-primary" : ""}>
+                    ไม่มี
+                  </p>
                 </div>
               </Fragment>
             ))}

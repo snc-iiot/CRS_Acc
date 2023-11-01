@@ -1,37 +1,37 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+// import {
+//   Accordion,
+//   AccordionContent,
+//   AccordionItem,
+//   AccordionTrigger,
+// } from "@/components/ui/accordion";
 import { FC } from "react";
 import { R1AdminInformation } from "./r1-admin-information.sub.component";
 import { R1UpdateDocuments } from "./r1-update-documents.sub.component";
 
 const R1Form: FC = () => {
-  const accordionList: {
-    topic: string;
-    title: string;
-    content: JSX.Element;
-  }[] = [
-    {
-      topic: "r1-topic-1",
-      title: "ข้อมูลส่วน SNC / SNC Information",
-      content: <R1AdminInformation />,
-    },
-    {
-      topic: "r1-topic-2",
-      title: "เอกสารอัพโหลด",
-      content: <R1UpdateDocuments />,
-    },
-  ];
+  // const accordionList: {
+  //   topic: string;
+  //   title: string;
+  //   content: JSX.Element;
+  // }[] = [
+  //   {
+  //     topic: "r1-topic-1",
+  //     title: "ข้อมูลส่วน SNC / SNC Information",
+  //     content: <R1AdminInformation />,
+  //   },
+  //   {
+  //     topic: "r1-topic-2",
+  //     title: "เอกสารอัพโหลด",
+  //     content: <R1UpdateDocuments />,
+  //   },
+  // ];
 
   return (
-    <div>
+    <div className="h-full overflow-auto pb-4">
       <h3 className="text-md font-bold">
         แบบฟอร์มคัดเลือกลูกค้า / Customer Evaluation Form
       </h3>
-      <Accordion
+      {/* <Accordion
         type="multiple"
         className="mb-[3rem]"
         defaultValue={accordionList?.map((item) => item?.topic)}
@@ -44,7 +44,14 @@ const R1Form: FC = () => {
             <AccordionContent>{item?.content}</AccordionContent>
           </AccordionItem>
         ))}
-      </Accordion>
+      </Accordion> */}
+      <div className="text-sm">
+        <h4 className="font-semibold">ข้อมูลส่วน SNC / SNC Information</h4>
+        <R1AdminInformation />
+
+        <h4 className="mt-2 font-semibold">เอกสารอัพโหลด</h4>
+        <R1UpdateDocuments />
+      </div>
     </div>
   );
 };
