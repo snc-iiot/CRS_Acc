@@ -75,8 +75,8 @@ const UploadDocuments: FC = () => {
                     )
                   }
                 >
-                  <Icons.fileDown className="mr-1 h-4 w-4" />{" "}
-                  <span>ดูและดาวน์โหลด</span>
+                  <Icons.fileText className="mr-1 h-4 w-4" />
+                  <span>ดูเพิ่มเติม</span>
                 </div>
               </div>
             </Fragment>
