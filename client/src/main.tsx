@@ -9,8 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "@/styles/index.css";
 import "@/styles/custom.css";
 
-// import "./index.css";
-
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

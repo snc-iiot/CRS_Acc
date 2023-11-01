@@ -127,7 +127,6 @@ const RegistrationInfo: FC = () => {
             </Tooltip>
           </TooltipProvider>
         </div>
-
         <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2 py-2">
           <div className="absolute left-[50%] top-3 flex translate-x-[-50%] gap-x-3">
             {showSplitScreen?.map((item, i) => (
@@ -160,15 +159,8 @@ const RegistrationInfo: FC = () => {
               </TooltipProvider>
             ))}
           </div>
-          <div className="grid place-items-center">
-            {/* <h2 className="text-lg font-semibold">ข้อมูลลูกค้า</h2> */}
-          </div>
-          <div className="grid place-items-center">
-            {/* <h2 className="text-lg font-semibold">ข้อมูลผู้ประเมิน</h2> */}
-          </div>
         </header>
-
-        <main className="h-[calc(100vh-3rem)] p-2">
+        <main className="h-[calc(100%-3rem)]">
           <div
             className={cn(
               "grid h-full",
@@ -177,6 +169,7 @@ const RegistrationInfo: FC = () => {
           >
             {/* //! Left Content */}
             <div
+              // className="hidden"
               className={cn(
                 "relative h-full overflow-y-auto border-r-2 p-1",
                 viewPage == "R" ? "hidden delay-500" : "block",
@@ -199,7 +192,6 @@ const RegistrationInfo: FC = () => {
                   </AccordionItem>
                 ))}
               </Accordion>
-
               <div
                 className={cn(
                   "fixed bottom-2 flex justify-end pr-8",
@@ -210,64 +202,85 @@ const RegistrationInfo: FC = () => {
                   <Icons.edit className="mr-2 h-5 w-5" /> แก้ไขข้อมูลลูกค้า
                 </Button>
               </div>
-
               {/* <div className="absolute bottom-2 right-2">
-                <Button className="bg-yellow-500 hover:bg-yellow-600">
-                  แก้ไขข้อมูลลูกค้า
-                </Button>
-              </div> */}
+                  <Button className="bg-yellow-500 hover:bg-yellow-600">
+                    แก้ไขข้อมูลลูกค้า
+                  </Button>
+                </div> */}
             </div>
-
             {/* //! Right Content */}
             <div
+              // className="hidden"
               className={cn(
                 "relative h-full px-1 py-0",
                 viewPage == "L" ? "hidden delay-500" : "col-span-2 block",
               )}
             >
-              <Tabs defaultValue="R1" className="h-[70%]">
-                <nav className="fixed right-1 top-2">
-                  <TabsList>
-                    {Array(10)
-                      .fill(0)
-                      .map((_, i) => (
-                        <TabsTrigger key={i} value={"R" + (i + 1)}>
-                          R{i + 1}
-                        </TabsTrigger>
-                      ))}
-                  </TabsList>
-                </nav>
-                <TabsContent value="R1" className="h-full">
-                  <R1Form />
-                </TabsContent>
-                <TabsContent value="R2" className="h-full">
-                  <R2Form />
-                </TabsContent>
-                <TabsContent value="R3" className="h-full">
-                  <R3Form />
-                </TabsContent>
-                <TabsContent value="R4" className="h-full">
-                  <R4Form />
-                </TabsContent>
-                <TabsContent value="R5" className="h-full">
-                  <R5Form />
-                </TabsContent>
-                <TabsContent value="R6" className="h-full">
-                  <R6Form />
-                </TabsContent>
-                <TabsContent value="R7" className="h-full">
-                  <R7Form />
-                </TabsContent>
-                <TabsContent value="R8" className="h-full">
-                  <R8Form />
-                </TabsContent>
-                <TabsContent value="R9" className="h-full">
-                  <R9Form />
-                </TabsContent>
-                <TabsContent value="R10" className="h-full">
-                  <R10Form />
-                </TabsContent>
-              </Tabs>
+              <div className="h-[70%]">
+                <Tabs defaultValue="R1" className="h-full">
+                  <nav className="fixed right-1 top-2">
+                    <TabsList>
+                      {Array(10)
+                        .fill(0)
+                        .map((_, i) => (
+                          <TabsTrigger key={i} value={"R" + (i + 1)}>
+                            R{i + 1}
+                          </TabsTrigger>
+                        ))}
+                    </TabsList>
+                  </nav>
+                  <TabsContent value="R1" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R1Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R2" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R2Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R3" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R3Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R4" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R4Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R5" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R5Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R6" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R6Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R7" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R7Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R8" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R8Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R9" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R9Form />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="R10" className="h-full overflow-auto">
+                    <div className="flex h-0 flex-grow flex-col">
+                      <R10Form />
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
 
               {/* //! Comments & Other */}
               <div className="grid h-[25%] grid-cols-2 border border-blue-500">

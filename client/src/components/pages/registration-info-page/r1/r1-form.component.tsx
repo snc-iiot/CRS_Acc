@@ -27,7 +27,7 @@ const R1Form: FC = () => {
   // ];
 
   return (
-    <div className="h-full overflow-auto pb-4">
+    <div className="pb-4">
       <h3 className="text-md font-bold">
         แบบฟอร์มคัดเลือกลูกค้า / Customer Evaluation Form
       </h3>
@@ -48,6 +48,7 @@ const R1Form: FC = () => {
       <div className="text-sm">
         <h4 className="font-semibold">ข้อมูลส่วน SNC / SNC Information</h4>
         <R1AdminInformation />
+        {/* <p>lorem5000</p> */}
 
         <h4 className="mt-2 font-semibold">เอกสารอัพโหลด</h4>
         <R1UpdateDocuments />

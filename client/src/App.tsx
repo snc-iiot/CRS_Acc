@@ -20,7 +20,11 @@ function App() {
             <Route path="/test-page" element={<TestPage />} />
             <Route path="/registrations" element={<Registrations />} />
           </Route>
-          <Route path="/registration-info" element={<RegistrationInfo />} />
+          <Route
+            path="/registration-info"
+            // element={<div className="h-screen border-2 border-red-600" />}
+            element={<RegistrationInfo />}
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

@@ -7,6 +7,7 @@
 // } from "@/components/ui/input-custom";
 // import { Input } from "@/components/ui/input";
 // import { Select } from "@/components/ui/select-custom";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FC, useId, useState } from "react";
 
@@ -19,6 +20,8 @@ export const R1AdminInformation: FC = () => {
   ];
   const [mcAddInvert, setMCAddInvert] = useState<boolean>(false);
   const [moldAddInvert, setMoldAddInvert] = useState<boolean>(false);
+  const [mainSupplierCreditTerm, setMainSupplierCreditTerm] =
+    useState<number>(1);
 
   const mcCheckboxIds: {
     enough: string;
@@ -74,8 +77,10 @@ export const R1AdminInformation: FC = () => {
     abroard: useId(),
   };
 
+  const mainSupplierCreditTermId = useId();
+
   return (
-    <div className="h-full pl-1 text-xs">
+    <div className="pl-1 text-xs">
       {/* <div className="flex items-center gap-x-3 pr-4">
         <h4 className="whitespace-nowrap">
           1. สินค้าที่ผลิต (Part, OEM, Tooling ,Other)
@@ -516,7 +521,211 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">10. เครดิตเทอม ซัพพลายเออร์หลัก</h4>
-        <div className="pl-1"></div>
+        <div className="col-span-4 pl-1">
+          {new Array(mainSupplierCreditTerm).fill(0).map((_, i) => {
+            return (
+              <div key={i} className="mb-2">
+                <div className="mb-1 flex items-center gap-x-1">
+                  <p className="w-[7rem] whitespace-nowrap">
+                    {i + 1}. ชื่อซัพพลายเออร์
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="โปรดระบุ"
+                    className="ml-2 w-[30rem] border-0 border-b p-0.5 text-primary outline-0"
+                  />
+                </div>
+                <div className="mb-1 flex items-center gap-x-1">
+                  <p className="w-[7rem] whitespace-nowrap">
+                    &nbsp;&nbsp;&nbsp;&nbsp;สัดส่วนการใช้
+                  </p>
+                  <input
+                    type="number"
+                    placeholder="โปรดระบุ"
+                    className="ml-2 w-[10rem] border-0 border-b p-0.5 text-primary outline-0"
+                  />
+                  <span>%</span>
+                </div>
+                <div className="mb-1 flex items-center gap-x-1">
+                  <p className="w-[7rem] whitespace-nowrap">
+                    &nbsp;&nbsp;&nbsp;&nbsp;เครดิตเทอม
+                  </p>
+                  <input
+                    type="number"
+                    placeholder="โปรดระบุ"
+                    className="ml-2 w-[10rem] border-0 border-b p-0.5 text-primary outline-0"
+                  />
+                  <span>วัน</span>
+                </div>
+                <div className="mb-1 grid w-[50rem] grid-cols-5 items-center pl-2.5">
+                  <div className="flex select-none items-center gap-x-1">
+                    <input
+                      type="radio"
+                      name={`${mainSupplierCreditTermId}_${i}`}
+                      id={`${mainSupplierCreditTermId}_${i}_thai`}
+                      className="cursor-pointer [&:checked+label]:text-primary"
+                      defaultChecked
+                    />
+                    <label
+                      htmlFor={`${mainSupplierCreditTermId}_${i}_thai`}
+                      className="cursor-pointer"
+                    >
+                      ในประเทศไทย
+                    </label>
+                  </div>
+
+                  <div className="flex select-none items-center gap-x-1">
+                    <input
+                      type="radio"
+                      name={`${mainSupplierCreditTermId}_${i}`}
+                      id={`${mainSupplierCreditTermId}_${i}_abroad`}
+                      className="cursor-pointer [&:checked+label]:text-primary"
+                    />
+                    <label
+                      htmlFor={`${mainSupplierCreditTermId}_${i}_abroad`}
+                      className="cursor-pointer"
+                    >
+                      ต่างประเทศ
+                    </label>
+                  </div>
+
+                  <div className="col-span-3 flex items-center gap-x-1">
+                    <input
+                      type="text"
+                      placeholder="โปรดระบุ"
+                      className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div className="flex items-center gap-x-1">
+            <Button
+              size={"sm"}
+              type="button"
+              className="bg-green-600 hover:bg-green-700"
+              onClick={() => setMainSupplierCreditTerm((value) => value + 1)}
+            >
+              เพิ่ม
+            </Button>
+            <Button
+              size={"sm"}
+              type="button"
+              className="bg-red-600 hover:bg-red-700"
+              onClick={() =>
+                setMainSupplierCreditTerm((value) =>
+                  value > 1 ? value - 1 : value,
+                )
+              }
+            >
+              ลบ
+            </Button>
+          </div>
+        </div>
+
+        <h4 className="whitespace-nowrap">11. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
+        <div className="col-span-4 pl-2">
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">ซื้อในประเทศไทย</p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>%</span>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">ซื้อต่างประเทศ</p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>%</span>
+          </div>
+        </div>
+
+        <h4 className="whitespace-nowrap">
+          12. สัดส่วนวัตถุดิบ ต้นทุน และกำไร
+        </h4>
+        <div className="col-span-4 pl-2">
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">Raw Material</p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>%</span>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">Cost</p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>%</span>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">GP (Gross Profit)</p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>%</span>
+          </div>
+        </div>
+
+        <h4 className="whitespace-nowrap">
+          13. ระยะเวลาจัดเก็บสินค้า (Inventory day)
+        </h4>
+        <div className="col-span-4 pl-2">
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">
+              เรียกสินค้าล่วงหน้า (RM)
+            </p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>วัน</span>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">
+              ระยะเวลาในการผลิต (PRD.)
+            </p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>วัน</span>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">เก็บสินค้า (FG)</p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>วัน</span>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <p className="w-[12rem] whitespace-nowrap">
+              สินค้าคงคลัง (Inventory)
+            </p>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+            />
+            <span>วัน</span>
+          </div>
+        </div>
       </div>
     </div>
   );
