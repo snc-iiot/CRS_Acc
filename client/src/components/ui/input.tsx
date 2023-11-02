@@ -65,24 +65,12 @@ const InputGroup = React.forwardRef<
     (child) => React.isValidElement(child) && child.type === InputRightAddon,
   );
   const inputRightAddon = children[inputRightAddonIndex] as React.ReactElement;
-
-  const inputLeftElementIndex = children.findIndex(
-    (child) => React.isValidElement(child) && child.type === InputLeftElement,
-  );
-  const inputLeftElement = children[
-    inputLeftElementIndex
-  ] as React.ReactElement;
-  const inputRightElementIndex = children.findIndex(
-    (child) => React.isValidElement(child) && child.type === InputRightElement,
-  );
-  const inputRightElement = children[
-    inputRightElementIndex
-  ] as React.ReactElement;
-
   //? Conditionally render the input group based on the addon index
   const isLeftAddon = inputLeftAddonIndex === 0 && inputRightAddonIndex === -1;
-  const isRightAddon = inputLeftAddonIndex === -1 && inputRightAddonIndex === 0;
+  const isRightAddon = inputLeftAddonIndex === -1 && inputRightAddonIndex === 1;
   const isBothAddon = inputLeftAddonIndex === 0 && inputRightAddonIndex === 2;
+
+  // console.log(inputLeftAddonIndex, inputRightAddonIndex);
 
   //? Conditionally render the input group based on the element index
   // const isLeftElement =
@@ -99,7 +87,7 @@ const InputGroup = React.forwardRef<
       {...props}
     >
       {inputLeftAddonIndex !== -1 && <div>{inputLeftAddon}</div>}
-      {inputLeftElementIndex !== -1 && <div>{inputLeftElement}</div>}
+
       {React.cloneElement(input, {
         className: cn(
           input.props.className,
@@ -112,7 +100,6 @@ const InputGroup = React.forwardRef<
             : "",
         ),
       })}
-      {inputRightElementIndex !== -1 && <div>{inputRightElement}</div>}
       {inputRightAddonIndex !== -1 && <div>{inputRightAddon}</div>}
     </div>
   );

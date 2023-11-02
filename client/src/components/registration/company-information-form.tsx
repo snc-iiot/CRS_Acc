@@ -1,8 +1,6 @@
-import {
-  CompanyInfo,
-  ConditionalInput,
-  Sections,
-} from "@/helpers/register.helper";
+import { CompanyInfo } from "@/helpers/company.helper";
+import { ConditionalInput, Sections } from "@/helpers/register.helper";
+import { cn } from "@/lib/utils";
 import { FC } from "react";
 
 const CompanyInformationForm: FC = () => {
@@ -17,11 +15,14 @@ const CompanyInformationForm: FC = () => {
         <section className="flex h-full w-full flex-col gap-2">
           {CompanyInfo?.map((item, index) => (
             <div
-              className="grid w-full grid-cols-10 items-center gap-2"
+              className={cn(
+                "grid w-full grid-cols-10 gap-2",
+                item?.type === "textarea" ? "items-start" : "items-center",
+              )}
               key={index}
             >
               <div className="col-span-4 flex justify-end">
-                <label htmlFor={item?.name} className="text-sm text-primary">
+                <label htmlFor={item?.name} className="text-sm">
                   {item?.label}
                 </label>
               </div>

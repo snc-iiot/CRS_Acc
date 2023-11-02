@@ -26,7 +26,7 @@ const RootLayout: FC = () => {
                 orientation="vertical"
                 className="h-[2rem] bg-primary"
               />
-              <div className="flex flex-col text-primary">
+              <div className="flex flex-col">
                 <p className="text-sm font-bold">
                   CUSTOMER REGISTRATION SYSTEM
                 </p>

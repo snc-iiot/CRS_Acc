@@ -1,6 +1,6 @@
 import { Sections } from "@/helpers/register.helper";
 import { FC } from "react";
-import { Input } from "../ui/input";
+import { Input, InputGroup, InputRightAddon } from "../ui/input";
 import { Select } from "../ui/select-custom";
 
 const ShareholderInformationForm: FC = () => {
@@ -13,15 +13,12 @@ const ShareholderInformationForm: FC = () => {
           </h2>
         </section>
         <section className="flex h-full w-full flex-col gap-2">
-          {/* <h3 className="text-sm font-bold">สัดส่วนผู้ถือหุ้น</h3> */}
           <div className="grid w-full grid-cols-10 items-center gap-2">
             <div className="col-span-4 flex justify-end">
-              <h3 className="text-sm font-bold text-primary">
-                สัดส่วนผู้ถือหุ้น
-              </h3>
+              <h3 className="text-sm font-bold">สัดส่วนผู้ถือหุ้น</h3>
             </div>
             <div className="col-span-6 flex">
-              <h3 className="text-sm font-bold text-primary">%</h3>
+              <h3 className="text-sm font-bold">%</h3>
             </div>
           </div>
           <div className="grid w-full grid-cols-10 items-center gap-2">
@@ -38,11 +35,14 @@ const ShareholderInformationForm: FC = () => {
               </div>
             </div>
             <div className="col-span-4 flex">
-              <Input
-                type="number"
-                placeholder="กรอกสัดส่วนผู้ถือหุ้น"
-                className="text-sm"
-              />
+              <InputGroup>
+                <Input
+                  type="number"
+                  placeholder="กรอกสัดส่วนผู้ถือหุ้น"
+                  className="text-sm"
+                />
+                <InputRightAddon children="%" />
+              </InputGroup>
             </div>
             <div className="col-span-2 flex justify-end">
               <p className="text-sm text-red-500">*</p>
@@ -50,14 +50,17 @@ const ShareholderInformationForm: FC = () => {
           </div>
           <div className="grid w-full grid-cols-10 items-center gap-2">
             <div className="col-span-4 flex justify-end">
-              <h3 className="text-sm text-primary">สัญชาติไทย</h3>
+              <h3 className="text-sm">สัญชาติไทย</h3>
             </div>
             <div className="col-span-4 flex">
-              <Input
-                type="number"
-                placeholder="กรอกสัดส่วนผู้ถือหุ้น"
-                className="text-sm"
-              />
+              <InputGroup>
+                <Input
+                  type="number"
+                  placeholder="กรอกสัดส่วนผู้ถือหุ้น"
+                  className="text-sm"
+                />
+                <InputRightAddon children="%" />
+              </InputGroup>
             </div>
             <div className="col-span-2 flex justify-end">
               <p className="text-sm text-red-500">*</p>
@@ -65,14 +68,17 @@ const ShareholderInformationForm: FC = () => {
           </div>
           <div className="grid w-full grid-cols-10 items-center gap-2">
             <div className="col-span-4 flex justify-end">
-              <h3 className="text-sm text-primary">สัญชาติอื่นๆ</h3>
+              <h3 className="text-sm ">สัญชาติอื่นๆ</h3>
             </div>
             <div className="col-span-4 flex">
-              <Input
-                type="number"
-                placeholder="กรอกสัดส่วนผู้ถือหุ้น"
-                className="text-sm"
-              />
+              <InputGroup>
+                <Input
+                  type="number"
+                  placeholder="กรอกสัดส่วนผู้ถือหุ้น"
+                  className="text-sm"
+                />
+                <InputRightAddon children="%" />
+              </InputGroup>
             </div>
             <div className="col-span-2 flex justify-end">
               <p className="text-sm text-red-500">*</p>
@@ -80,15 +86,18 @@ const ShareholderInformationForm: FC = () => {
           </div>
           <div className="grid w-full grid-cols-10 items-center gap-2">
             <div className="col-span-4 flex justify-end">
-              <h3 className="text-sm text-primary">รวมทุกสัญชาติ</h3>
+              <h3 className="text-sm ">รวมทุกสัญชาติ</h3>
             </div>
             <div className="col-span-4 flex">
-              <Input
-                type="number"
-                placeholder="กรอกสัดส่วนผู้ถือหุ้น"
-                className="text-sm"
-                readOnly
-              />
+              <InputGroup>
+                <Input
+                  type="number"
+                  placeholder="กรอกสัดส่วนผู้ถือหุ้น"
+                  className="text-sm"
+                  readOnly
+                />
+                <InputRightAddon children="%" />
+              </InputGroup>
             </div>
             <div className="col-span-2 flex justify-end">
               <p className="text-sm text-red-500">*</p>

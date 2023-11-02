@@ -1,4 +1,5 @@
-import { ContractInfo, Sections } from "@/helpers/register.helper";
+import { ContractInfo } from "@/helpers/contract.helper";
+import { Sections } from "@/helpers/register.helper";
 import { FC, Fragment } from "react";
 import { Input } from "../ui/input";
 
@@ -16,9 +17,7 @@ const ContractInformationForm: FC = () => {
             <Fragment key={index}>
               <div className="grid w-full grid-cols-10 items-center gap-2">
                 <div className="col-span-4 flex justify-end">
-                  <h3 className="text-sm font-bold text-primary">
-                    {item?.group}
-                  </h3>
+                  <h3 className="text-sm font-bold">{item?.group}</h3>
                 </div>
               </div>
               {item?.fields?.map((field, index) => (
@@ -27,7 +26,7 @@ const ContractInformationForm: FC = () => {
                   key={index}
                 >
                   <div className="col-span-4 flex justify-end">
-                    <h3 className="text-sm text-primary">{field?.label}</h3>
+                    <h3 className="text-sm ">{field?.label}</h3>
                   </div>
                   <div className="col-span-4 flex">
                     <Input
