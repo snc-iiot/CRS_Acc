@@ -8,6 +8,7 @@ import App from "./App.tsx";
 import "react-toastify/dist/ReactToastify.css";
 import "@/styles/index.css";
 import "@/styles/custom.css";
+import { TailwindIndicator } from "./tailwind-indicators.tsx";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         {/* <DevTools  /> */}
         <App />
         <ToastContainer />
+        <TailwindIndicator />
       </Provider>
     </React.StrictMode>
   </QueryClientProvider>,

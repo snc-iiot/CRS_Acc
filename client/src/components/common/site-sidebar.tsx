@@ -11,7 +11,7 @@ const Sidebar: FC = () => {
   return (
     <div
       className={cn(
-        "relative inset-y-0 z-20 flex h-full shrink-0 grow-0 flex-col border-r duration-300",
+        "relative inset-y-0 z-20 flex h-full shrink-0 grow-0 flex-col border-r duration-75",
         !collapsed ? "left-0 w-[70px]" : "-left-full w-[250px] md:left-0",
       )}
     >

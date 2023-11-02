@@ -1,56 +1,53 @@
-// import { Icons } from "@/components/common/icons";
-import Base64Tools from "@/lib/base64-tools";
 import { cn } from "@/lib/utils";
-import { forwardRef, Fragment, HTMLAttributes, useRef } from "react";
+import {
+  ChangeEvent,
+  forwardRef,
+  Fragment,
+  HTMLAttributes,
+  useRef,
+  useState,
+} from "react";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children?: string | JSX.Element;
   className?: string;
-  acceptFiles?: string;
-  callbackFn: (filename: string, base64: string) => void;
+  accept?: string;
+  showFileName?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const UploadFile = forwardRef<HTMLDivElement, Props>(
-  ({ className, children, acceptFiles = "*", callbackFn, ...props }, ref) => {
-    const base64Tools = new Base64Tools();
+  (
+    {
+      className,
+      children,
+      accept = "*",
+      onChange,
+      showFileName = true,
+      ...props
+    },
+    ref,
+  ) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    // const uploadingRef = useRef<SVGSVGElement>(null);
-    // const uploadedRef = useRef<SVGSVGElement>(null);
+    const [fileNames, setFileNames] = useState<string[]>([]);
 
     function handleUpload() {
       inputRef.current?.click();
     }
 
-    async function handleSelectedFile() {
-      if (inputRef.current?.files?.length) {
-        try {
-          // uploadingRef.current?.classList?.remove("hidden");
-          // uploadingRef.current?.classList?.add("block");
-          const file = inputRef.current?.files[0];
-          const filename: string = file?.name;
-          const base64 = await base64Tools.getBase64(file);
-          // console.log(base64);
-          // uploadingRef.current?.classList?.remove("block");
-          // uploadingRef.current?.classList?.add("hidden");
+    function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+      setFileNames(Array.from(e.target.files || []).map((item) => item.name));
+      onChange?.(e);
+    }
 
-          // uploadedRef.current?.classList?.remove("hidden");
-          // uploadedRef.current?.classList?.add("block");
-          // setTimeout(() => {
-          //   uploadedRef.current?.classList?.remove("block");
-          //   uploadedRef.current?.classList?.add("hidden");
-          // }, 1000);
-
-          callbackFn(filename, base64);
-        } catch (error) {
-          console.error(error);
-        }
-      }
+    function handleDeleteFilename() {
+      setFileNames([]);
     }
 
     return (
-      <div ref={ref}>
+      <div ref={ref} className="flex items-center gap-x-2">
         <div
-          className={cn("relative", className)}
+          className={cn("relative overflow-visible", className)}
           {...props}
           onClick={handleUpload}
         >
@@ -59,20 +56,23 @@ const UploadFile = forwardRef<HTMLDivElement, Props>(
             <input
               ref={inputRef}
               type="file"
-              accept={acceptFiles}
+              accept={accept}
               className="hidden"
-              onChange={handleSelectedFile}
+              onChange={handleOnChange}
             />
-            {/* <Icons.hourglass
-              ref={uploadingRef}
-              className="absolute right-[-1.5rem] top-[50%] hidden h-4 w-4 translate-y-[-50%] text-yellow-500"
-            />
-            <Icons.check
-              ref={uploadedRef}
-              className="absolute right-[-1.5rem] top-[50%] hidden h-4 w-4 translate-y-[-50%] text-green-500"
-            /> */}
+
+            {!showFileName || fileNames?.length == 0 ? null : (
+              <div>
+                <p className="text-mute-foreground text-secondary-foreground/60 no-underline">
+                  {fileNames?.map((item, i) => <span key={i}>{item}</span>)}
+                </p>
+              </div>
+            )}
           </Fragment>
         </div>
+        {!showFileName || fileNames?.length == 0 ? null : (
+          <button onClick={handleDeleteFilename}>ลบ</button>
+        )}
       </div>
     );
   },

@@ -1,11 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RootLayout from "./components/common/root-layout";
 import {
+  CustomerRegistrations,
   HomePage,
   LoginPage,
   NotFoundPage,
+  Registration,
   RegistrationInfo,
-  Registrations,
   TestPage,
 } from "./pages";
 
@@ -18,7 +19,11 @@ function App() {
           <Route path="/" element={<RootLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/test-page" element={<TestPage />} />
-            <Route path="/registrations" element={<Registrations />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route
+              path="/customer-registrations"
+              element={<CustomerRegistrations />}
+            />
           </Route>
           <Route
             path="/registration-info"

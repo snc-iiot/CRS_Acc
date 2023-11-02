@@ -53,6 +53,7 @@ const UploadDocuments: FC = () => {
       file: "#",
     },
   ];
+
   return (
     <div className="mb-6 grid grid-cols-5 items-center gap-0.5 gap-y-0.5 pl-1 pr-4 text-xs">
       {documentInformation?.length == 0

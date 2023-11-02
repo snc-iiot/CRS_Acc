@@ -10,41 +10,47 @@ import { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Icons } from "./icons";
 
-export const workspaceLinks = () => [
-  {
-    Icon: <Icons.layoutGrid className="h-5 w-5" />,
-    name: "Home",
-    href: `/`,
-    disabled: false,
-  },
-  {
-    Icon: <Icons.fileText className="h-5 w-5" />,
-    name: "Registrations",
-    href: `/registrations`,
-    disabled: false,
-  },
-  // {
-  //   Icon: <Icons.checkCircle className="h-5 w-5" />,
-  //   name: "Customers",
-  //   href: `/customers`,
-  //   disabled: false,
-  // },
-  // {
-  //   Icon: <Icons.shoppingCart className="h-5 w-5" />,
-  //   name: "Products",
-  //   href: `/products`,
-  // },
-  // {
-  //   Icon: <Icons.users className="h-5 w-5" />,
-  //   name: "Authorized",
-  //   href: `/authorized`,
-  // },
-  // {
-  //   Icon: <Icons.settings className="h-5 w-5" />,
-  //   name: "Settings",
-  //   href: `/settings`,
-  // },
-];
+// export const workspaceLinks = () => [
+//   {
+//     Icon: <Icons.layoutGrid className="h-5 w-5" />,
+//     name: "หน้าหลัก",
+//     href: `/`,
+//     disabled: false,
+//   },
+//   {
+//     Icon: <Icons.fileText className="h-5 w-5" />,
+//     name: "รายการลงทะเบียน",
+//     href: `/registrations`,
+//     disabled: false,
+//   },
+//   {
+//     Icon: <Icons.fileText className="h-5 w-5" />,
+//     name: "ลงทะเบียนลูกค้า",
+//     href: `/customer-registration`,
+//     disabled: false,
+//   },
+//   // {
+//   //   Icon: <Icons.checkCircle className="h-5 w-5" />,
+//   //   name: "Customers",
+//   //   href: `/customers`,
+//   //   disabled: false,
+//   // },
+//   // {
+//   //   Icon: <Icons.shoppingCart className="h-5 w-5" />,
+//   //   name: "Products",
+//   //   href: `/products`,
+//   // },
+//   // {
+//   //   Icon: <Icons.users className="h-5 w-5" />,
+//   //   name: "Authorized",
+//   //   href: `/authorized`,
+//   // },
+//   // {
+//   //   Icon: <Icons.settings className="h-5 w-5" />,
+//   //   name: "Settings",
+//   //   href: `/settings`,
+//   // },
+// ];
 
 export type WorkspaceSidebarMenuProps = {
   isOpen: boolean;
@@ -54,9 +60,31 @@ export const WorkspaceSidebarMenu: React.FC<WorkspaceSidebarMenuProps> = ({
   isOpen,
 }) => {
   const { pathname } = useLocation();
+
+  const workspaceLinks = [
+    {
+      Icon: <Icons.layoutGrid className="h-5 w-5" />,
+      name: "หน้าหลัก",
+      href: `/`,
+      disabled: false,
+    },
+    // {
+    //   Icon: <Icons.fileText className="h-5 w-5" />,
+    //   name: "รายการลงทะเบียน",
+    //   href: `/registrations`,
+    //   disabled: false,
+    // },
+    {
+      Icon: <Icons.fileText className="h-5 w-5" />,
+      name: "รายการลงทะเบียนลูกค้า",
+      href: `/customer-registrations`,
+      disabled: false,
+    },
+  ];
+
   return (
     <div className="mt-5 w-full cursor-pointer space-y-2 px-2">
-      {workspaceLinks().map((link, index) => {
+      {workspaceLinks.map((link, index) => {
         const isActive =
           link.name === "Quotations" ||
           link.name === "Customers" ||
@@ -71,7 +99,13 @@ export const WorkspaceSidebarMenu: React.FC<WorkspaceSidebarMenuProps> = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link to={link.href} aria-controls="mobile-menu">
+                  <Link
+                    to={link.href}
+                    aria-controls="mobile-menu"
+                    className={cn(
+                      link?.disabled ? "pointer-events-none opacity-50" : "",
+                    )}
+                  >
                     <div
                       className={cn(
                         buttonVariants({

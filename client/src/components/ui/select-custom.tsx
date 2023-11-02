@@ -1,25 +1,27 @@
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import { forwardRef, SelectHTMLAttributes } from "react";
+import React, { forwardRef } from "react";
 import { buttonVariants } from "./button";
 
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {}
+export interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {}
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, children, placeholder, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     return (
       <div className="relative w-full">
         <select
+          {...props}
           ref={ref}
           className={cn(
             buttonVariants({ variant: "outline" }),
-            "w-full appearance-none bg-transparent font-normal",
+            "h-full w-full appearance-none bg-transparent font-normal",
             className,
           )}
-          {...props}
         >
-          <option value="">{placeholder}</option>
-          {children}
+          {props?.placeholder && <option value="">{props.placeholder}</option>}
+
+          {props?.children}
         </select>
         <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
       </div>

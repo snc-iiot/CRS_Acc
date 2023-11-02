@@ -169,7 +169,6 @@ const RegistrationInfo: FC = () => {
           >
             {/* //! Left Content */}
             <div
-              // className="hidden"
               className={cn(
                 "relative h-full overflow-y-auto border-r-2 p-1",
                 viewPage == "R" ? "hidden delay-500" : "block",
@@ -198,25 +197,19 @@ const RegistrationInfo: FC = () => {
                   viewPage == "L" ? "w-full" : "w-1/3",
                 )}
               >
-                <Button className="bg-yellow-500 hover:bg-yellow-600">
+                <Button className="bg-yellow-500 hover:bg-yellow-500/80">
                   <Icons.edit className="mr-2 h-5 w-5" /> แก้ไขข้อมูลลูกค้า
                 </Button>
               </div>
-              {/* <div className="absolute bottom-2 right-2">
-                  <Button className="bg-yellow-500 hover:bg-yellow-600">
-                    แก้ไขข้อมูลลูกค้า
-                  </Button>
-                </div> */}
             </div>
             {/* //! Right Content */}
             <div
-              // className="hidden"
               className={cn(
                 "relative h-full px-1 py-0",
                 viewPage == "L" ? "hidden delay-500" : "col-span-2 block",
               )}
             >
-              <div className="h-[70%]">
+              <div className="h-[calc(70%-.5rem)]">
                 <Tabs defaultValue="R1" className="h-full">
                   <nav className="fixed right-1 top-2">
                     <TabsList>
