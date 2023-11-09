@@ -412,12 +412,18 @@ const StandardInformationForm: FC = () => {
                         className="flex gap-5"
                       >
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="yes" id="yes" />
-                          <Label htmlFor="yes">มี</Label>
+                          <RadioGroupItem
+                            value={`${item}-yes`}
+                            id={`${item}-yes`}
+                          />
+                          <Label htmlFor={`${item}-yes`}>มี</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="no" id="no" />
-                          <Label htmlFor="no">ไม่มี</Label>
+                          <RadioGroupItem
+                            value={`${item}-no`}
+                            id={`${item}-no`}
+                          />
+                          <Label htmlFor={`${item}-no`}>ไม่มี</Label>
                         </div>
                       </RadioGroup>
                     </div>

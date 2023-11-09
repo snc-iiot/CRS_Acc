@@ -1,11 +1,10 @@
 import { DocumentUpload } from "@/helpers/document.helper";
 import { Sections } from "@/helpers/register.helper";
-import Base64Tools from "@/lib/base64-tools";
 import { FC } from "react";
+import { Icons } from "../common/icons";
 import { UploadFile } from "../common/upload-file";
 
 const DocumentUploadForm: FC = () => {
-  const base64Tools = new Base64Tools();
   return (
     <section id="upload-documents" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -26,16 +25,16 @@ const DocumentUploadForm: FC = () => {
               <div className="col-span-6 flex">
                 <UploadFile
                   onChange={(e) => {
-                    if (e.target.files) {
-                      base64Tools.getBase64(e.target.files[0]).then((res) => {
-                        base64Tools.openBase64NewTab(res);
-                      });
-                    }
+                    console.log(e);
                   }}
                   accept="application/pdf"
                   showFileName={true}
+                  deleteButton={
+                    <Icons.trash className="h-4 w-4 text-red-500" />
+                  }
+                  disabled
                 >
-                  อัพโหลดไฟล์
+                  <Icons.file className="h-4 w-4 text-primary" />
                 </UploadFile>
               </div>
             </div>

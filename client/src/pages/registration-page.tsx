@@ -32,14 +32,11 @@ const RegistrationPage: FC = () => {
     });
   };
 
-  /* The `useEffect` hook is used to perform side effects in a functional component. In this case, it is
-used to create an `IntersectionObserver` that observes the sections on the page and updates the
-active section based on the intersection. */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
             setActiveSection(entry.target.id);
           }
         });
@@ -50,14 +47,15 @@ active section based on the intersection. */
         threshold: 0.5,
       },
     );
-    Sections?.forEach((section) => {
-      const element = document.getElementById(section.id);
+
+    Sections?.map((item) => {
+      const element = document.getElementById(item.id);
       element && observer.observe(element);
     });
 
     return () => {
-      Sections?.forEach((section) => {
-        const element = document.getElementById(section.id);
+      Sections?.map((item) => {
+        const element = document.getElementById(item.id);
         element && observer.unobserve(element);
       });
     };
