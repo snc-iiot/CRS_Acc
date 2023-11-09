@@ -1,8 +1,19 @@
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RootLayout from "./components/common/root-layout";
 import { NotFoundPage, RegistationPage } from "./pages";
+import { fetchGetLocations } from "./services/api/test";
 
 const App = () => {
+  const getLocations = async () => {
+    const result = await fetchGetLocations();
+    console.table(result);
+  };
+
+  useEffect(() => {
+    getLocations();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
