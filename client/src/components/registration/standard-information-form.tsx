@@ -448,7 +448,7 @@ const StandardInformationForm: FC = () => {
                   {ObjectivePurchasing?.map((item, i) => (
                     <div className="flex items-center space-x-2" key={i}>
                       <RadioGroupItem value={item?.name} id={item?.name} />
-                      <Label htmlFor="purchase">{item?.label ?? "-"}</Label>
+                      <Label htmlFor={item?.name}>{item?.label ?? "-"}</Label>
                     </div>
                   ))}
                 </RadioGroup>
@@ -472,7 +472,7 @@ const StandardInformationForm: FC = () => {
                   {MainCustomerOfCompany?.map((item, i) => (
                     <div className="flex items-center space-x-2" key={i}>
                       <RadioGroupItem value={item?.name} id={item?.name} />
-                      <Label htmlFor="purchase">{item?.label ?? "-"}</Label>
+                      <Label htmlFor={item?.name}>{item?.label ?? "-"}</Label>
                     </div>
                   ))}
                 </RadioGroup>
