@@ -1,9 +1,12 @@
 import { Sections } from "@/helpers/register.helper";
+import CountryList from "@/mocks/country-list-th.json";
+import { TCountryList } from "@/types";
 import { FC } from "react";
 import { Input, InputGroup, InputRightAddon } from "../ui/input";
 import { Select } from "../ui/select-custom";
 
 const ShareholderInformationForm: FC = () => {
+  const countryList: TCountryList[] = CountryList;
   return (
     <section id="shareholder-info" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -29,8 +32,11 @@ const ShareholderInformationForm: FC = () => {
                   placeholder="เลือกสัญชาติผู้ถือหุ้นสูงสุด"
                   className="text-sm"
                 >
-                  <option value="1">ไทย</option>
-                  <option value="2">ต่างชาติ</option>
+                  {countryList?.map((item, i) => (
+                    <option key={i} value={item?.name}>
+                      {item.name}
+                    </option>
+                  ))}
                 </Select>
               </div>
             </div>
