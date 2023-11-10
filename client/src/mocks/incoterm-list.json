@@ -1,0 +1,13 @@
+[
+  { "label": "EXW", "labelEN": "EXW" },
+  { "label": "FCA", "labelEN": "FCA" },
+  { "label": "FAS", "labelEN": "FAS" },
+  { "label": "FOB", "labelEN": "FOB" },
+  { "label": "CFR", "labelEN": "CFR" },
+  { "label": "CIF", "labelEN": "CIF" },
+  { "label": "DAT", "labelEN": "DAT" },
+  { "label": "DAP", "labelEN": "DAP" },
+  { "label": "CPT", "labelEN": "CPT" },
+  { "label": "CIP", "labelEN": "CIP" },
+  { "label": "DDP", "labelEN": "DDP" }
+]

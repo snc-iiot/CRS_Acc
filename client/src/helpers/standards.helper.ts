@@ -119,25 +119,25 @@ export const CertificationStandards = [
 
 export const BenefitsStandards = [
   {
-    id: 1,
+    id: "boi",
     label: "BOI",
     isOption: false,
     options: [],
   },
   {
-    id: 2,
+    id: "freezone",
     label: "Free Zone",
     isOption: false,
     options: [],
   },
   {
-    id: 3,
+    id: "jtepa",
     label: "JTEPA",
     isOption: false,
     options: [],
   },
   {
-    id: 4,
+    id: "fta",
     label: "ไม่ได้รับสิทธิประโยชน์ใดๆ",
     isOption: false,
     options: [],

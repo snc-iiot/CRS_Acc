@@ -9,12 +9,20 @@ import {
   ObjectivePurchasing,
 } from "@/helpers/standards.helper";
 import { cn } from "@/lib/utils";
+import CountryList from "@/mocks/country-list-th.json";
+import CurrencyList from "@/mocks/currency-list.json";
+import IncotermList from "@/mocks/incoterm-list.json";
+import { TCountryList, TCurrency, TIncoterm } from "@/types";
 import { FC } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Select } from "../ui/select-custom";
 
 const StandardInformationForm: FC = () => {
+  const currencyList: TCurrency[] = CurrencyList;
+  const incotermList: TIncoterm[] = IncotermList;
+  const countryList: TCountryList[] = CountryList;
+
   return (
     <section id="standard-certification-info" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -62,9 +70,9 @@ const StandardInformationForm: FC = () => {
                   ))}
                   <div>
                     <div className="flex items-center gap-2">
-                      <Checkbox id="other" />
+                      <Checkbox id="other-certification" />
                       <label
-                        htmlFor="other"
+                        htmlFor="other-certification"
                         className="whitespace-nowrap text-sm font-medium"
                       >
                         อื่นๆ
@@ -275,8 +283,12 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-4 flex justify-start">
                 <div className="w-full">
                   <Select>
-                    <option value="thb">THB</option>
-                    <option value="usd">USD</option>
+                    <option value="">โปรดเลือกสกุลเงินที่ขาย</option>
+                    {currencyList?.map((item) => (
+                      <option key={item.cc} value={item.cc}>
+                        {item?.symbol} {item?.cc}
+                      </option>
+                    ))}
                   </Select>
                 </div>
               </div>
@@ -290,8 +302,12 @@ const StandardInformationForm: FC = () => {
               </div>
               <div className="col-span-4 flex justify-start">
                 <div className="w-full">
-                  <Select>
-                    <option value="exw">EXW</option>
+                  <Select placeholder="โปรดเลือก Incoterm">
+                    {incotermList?.map((item, i) => (
+                      <option key={i} value={item?.labelEN}>
+                        {item?.label}
+                      </option>
+                    ))}
                   </Select>
                 </div>
               </div>
@@ -320,7 +336,7 @@ const StandardInformationForm: FC = () => {
                     </label>
                   </div>
                   <div className="w-full">
-                    <Select>
+                    <Select placeholder="โปรดเลือกเงื่อนไขการเปิด L/C">
                       <option value="lc-sight">L/C at sight</option>
                       <option value="lc-30">L/C term 30</option>
                       <option value="lc-60">L/C term 60</option>
@@ -526,9 +542,11 @@ const StandardInformationForm: FC = () => {
                 </RadioGroup>
                 <div className="w-full">
                   <Select placeholder="เลือกประเทศ">
-                    <option value="thailand" className="text-sm">
-                      Thailand
-                    </option>
+                    {countryList?.map((item, i) => (
+                      <option key={i} value={item?.name}>
+                        {item?.name}
+                      </option>
+                    ))}
                   </Select>
                 </div>
               </div>
