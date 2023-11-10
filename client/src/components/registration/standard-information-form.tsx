@@ -259,7 +259,7 @@ const StandardInformationForm: FC = () => {
                 </RadioGroup>
                 <Input
                   type="text"
-                  placeholder="โปรดระบุ"
+                  placeholder="โปรดระบุสถานที่รับเช็ค, เวลา, ผู้ติดต่อ"
                   className={cn("w-full")}
                   variant="flushed"
                 />
