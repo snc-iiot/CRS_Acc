@@ -38,13 +38,7 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-6 flex justify-start">
                 <div className="grid w-full grid-cols-1 gap-1">
                   {CertificationStandards?.map((item) => (
-                    <div
-                      key={item.id}
-                      // className={cn(
-                      //   "grid grid-cols-1 gap-2",
-                      //   item.id === 15 && "col-span-2",
-                      // )}
-                    >
+                    <div key={item.id} className="grid grid-cols-2 gap-2">
                       <div className="flex items-center gap-2">
                         <Checkbox id={item.id?.toString()} />
                         <label
@@ -53,6 +47,16 @@ const StandardInformationForm: FC = () => {
                         >
                           {item.label}
                         </label>
+                      </div>
+                      <div className="flex items-center gap-2 ">
+                        <p className="whitespace-nowrap text-sm font-normal">
+                          วันที่หมดอายุ
+                        </p>
+                        <input
+                          type="date"
+                          className="w-full rounded-sm border px-2 text-sm"
+                          required
+                        />
                       </div>
                     </div>
                   ))}
@@ -66,12 +70,24 @@ const StandardInformationForm: FC = () => {
                         อื่นๆ
                       </label>
                     </div>
-                    <Input
-                      type="text"
-                      placeholder="โปรดระบุ"
-                      className={cn("w-full")}
-                      variant="flushed"
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input
+                        type="text"
+                        placeholder="โปรดระบุ"
+                        className={cn("w-full")}
+                        variant="flushed"
+                      />
+                      <div className="flex items-center gap-2 ">
+                        <p className="whitespace-nowrap text-sm font-normal">
+                          วันที่หมดอายุ
+                        </p>
+                        <input
+                          type="date"
+                          className="w-full rounded-sm border px-2 text-sm"
+                          required
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -88,7 +104,7 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-6 flex justify-start">
                 <div className="grid w-full grid-cols-1 gap-1">
                   {BenefitsStandards?.map((item) => (
-                    <div key={item.id}>
+                    <div key={item.id} className="grid grid-cols-2 gap-2">
                       <div className="flex items-center gap-2">
                         <Checkbox id={item.id?.toString()} />
                         <label
@@ -97,6 +113,16 @@ const StandardInformationForm: FC = () => {
                         >
                           {item.label}
                         </label>
+                      </div>
+                      <div className="flex items-center gap-2 ">
+                        <p className="whitespace-nowrap text-sm font-normal">
+                          วันที่หมดอายุ
+                        </p>
+                        <input
+                          type="date"
+                          className="w-full rounded-sm border px-2 text-sm"
+                          required
+                        />
                       </div>
                     </div>
                   ))}
@@ -110,12 +136,24 @@ const StandardInformationForm: FC = () => {
                         อื่นๆ
                       </label>
                     </div>
-                    <Input
-                      type="text"
-                      placeholder="โปรดระบุ"
-                      className={cn("w-full")}
-                      variant="flushed"
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input
+                        type="text"
+                        placeholder="โปรดระบุ"
+                        className={cn("w-full")}
+                        variant="flushed"
+                      />
+                      <div className="flex items-center gap-2 ">
+                        <p className="whitespace-nowrap text-sm font-normal">
+                          วันที่หมดอายุ
+                        </p>
+                        <input
+                          type="date"
+                          className="w-full rounded-sm border px-2 text-sm"
+                          required
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -148,6 +186,16 @@ const StandardInformationForm: FC = () => {
                     >
                       เครดิตเทอม
                     </label>
+                    <div className="flex items-center gap-2">
+                      <select className="w-full rounded-sm border px-2 py-[0.1rem] text-sm">
+                        <option value="" className="text-sm">
+                          โปรดเลือกจำนวนวัน
+                        </option>
+                        <option value="30">30 วัน</option>
+                        <option value="60">60 วัน</option>
+                        <option value="90">90 วัน</option>
+                      </select>
+                    </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="other-term" id="other-term" />

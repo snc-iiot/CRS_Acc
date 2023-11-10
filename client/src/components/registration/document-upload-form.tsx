@@ -3,6 +3,7 @@ import { Sections } from "@/helpers/register.helper";
 import { FC } from "react";
 import { Icons } from "../common/icons";
 import { UploadFile } from "../common/upload-file";
+import { Button } from "../ui/button";
 
 const DocumentUploadForm: FC = () => {
   return (
@@ -32,9 +33,11 @@ const DocumentUploadForm: FC = () => {
                   deleteButton={
                     <Icons.trash className="h-4 w-4 text-red-500" />
                   }
-                  disabled
                 >
-                  <Icons.file className="h-4 w-4 text-primary" />
+                  <Button className="rounded-md bg-primary px-2 py-1 text-white">
+                    <Icons.uploadCloudIcon className="mr-2 h-4 w-4" />
+                    อัพโหลดเอกสาร
+                  </Button>
                 </UploadFile>
               </div>
             </div>

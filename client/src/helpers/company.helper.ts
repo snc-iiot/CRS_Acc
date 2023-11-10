@@ -1,3 +1,4 @@
+import CountryList from "@/mocks/country-list-th.json";
 import { ICompanyForm } from "@/types";
 
 export const CompanyInfo: ICompanyForm[] = [
@@ -31,6 +32,57 @@ export const CompanyInfo: ICompanyForm[] = [
     label: "ที่อยู่",
     type: "textarea",
     placeholder: "กรอกที่อยู่",
+    required: true,
+  },
+  {
+    name: "country",
+    label: "ประเทศ",
+    type: "select",
+    placeholder: "กรอกประเทศ",
+    options: CountryList?.map((country) => ({
+      value: country?.name,
+      label: country?.name,
+    })),
+    required: true,
+  },
+  {
+    name: "province",
+    label: "จังหวัด",
+    type: "select",
+    placeholder: "กรอกจังหวัด",
+    options: [
+      { value: "1", label: "จังหวัด 1" },
+      { value: "2", label: "จังหวัด 2" },
+    ],
+    required: true,
+  },
+  {
+    name: "district",
+    label: "อำเภอ",
+    type: "select",
+    placeholder: "กรอกอำเภอ",
+    options: [
+      { value: "1", label: "อำเภอ 1" },
+      { value: "2", label: "อำเภอ 2" },
+    ],
+    required: true,
+  },
+  {
+    name: "sub-district",
+    label: "ตำบล",
+    type: "select",
+    placeholder: "กรอกตำบล",
+    options: [
+      { value: "1", label: "ตำบล 1" },
+      { value: "2", label: "ตำบล 2" },
+    ],
+    required: true,
+  },
+  {
+    name: "postcode",
+    label: "รหัสไปรษณีย์",
+    type: "number",
+    placeholder: "กรอกรหัสไปรษณีย์",
     required: true,
   },
   {
