@@ -25,7 +25,7 @@ export default class ApiClient implements IApiClient {
     apiConfiguration: ApiConfiguration,
   ): AxiosInstance {
     return Axios.create({
-      baseURL: "http://localhost:3000",
+      baseURL: "https://snc-services.sncformer.com/dev/iCDM/api/index.php",
       responseType: "json" as const,
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export default class ApiClient implements IApiClient {
       const response = config
         ? await this.client.post<TResponse>(path, payload, config)
         : await this.client.post<TResponse>(path, payload);
-      return response.data;
+      return response?.data;
     } catch (error) {
       handleServiceError(error);
     }
@@ -63,7 +63,7 @@ export default class ApiClient implements IApiClient {
   ): Promise<TResponse> {
     try {
       const response = await this.client.patch<TResponse>(path, payload);
-      return response.data;
+      return response?.data;
     } catch (error) {
       handleServiceError(error);
     }
@@ -76,7 +76,7 @@ export default class ApiClient implements IApiClient {
   ): Promise<TResponse> {
     try {
       const response = await this.client.put<TResponse>(path, payload);
-      return response.data;
+      return response?.data;
     } catch (error) {
       handleServiceError(error);
     }
@@ -86,7 +86,7 @@ export default class ApiClient implements IApiClient {
   async get<TResponse>(path: string): Promise<TResponse> {
     try {
       const response = await this.client.get<TResponse>(path);
-      return response.data;
+      return response?.data;
     } catch (error) {
       handleServiceError(error);
     }
@@ -96,7 +96,7 @@ export default class ApiClient implements IApiClient {
   async delete<TResponse>(path: string): Promise<TResponse> {
     try {
       const response = await this.client.delete<TResponse>(path);
-      return response.data;
+      return response?.data;
     } catch (error) {
       handleServiceError(error);
     }
