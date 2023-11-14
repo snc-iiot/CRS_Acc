@@ -7,6 +7,7 @@
 // } from "@/components/ui/input-custom";
 // import { Input } from "@/components/ui/input";
 // import { Select } from "@/components/ui/select-custom";
+import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FC, useId, useState } from "react";
@@ -45,11 +46,11 @@ export const R1AdminInformation: FC = () => {
     addInvest: useId(),
   };
 
-  const companyRelationshipName = useId();
-  const companyRelationshipIds: { have: string; dontHave: string } = {
-    have: useId(),
-    dontHave: useId(),
-  };
+  // const companyRelationshipName = useId();
+  // const companyRelationshipIds: { have: string; dontHave: string } = {
+  //   have: useId(),
+  //   dontHave: useId(),
+  // };
 
   const materialsProduce: {
     id: string;
@@ -425,20 +426,42 @@ export const R1AdminInformation: FC = () => {
               <p className="w-[7rem] whitespace-nowrap">ต้นทาง</p>
               <input
                 type="text"
-                placeholder="โปรดระบุ"
+                placeholder="โปรดระบุ ละติจูด,ลองจิจูด"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
               />
-              <span>GPS</span>
+              <span className="flex items-center gap-x-1">GPS</span>
+              <button
+                type="button"
+                className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
+                onClick={() =>
+                  window.open(
+                    "https://www.google.com/maps/place/12.884426690936518,101.09545134163946",
+                  )
+                }
+              >
+                <Icons.mapPin className="h-3 w-3" /> ดูแผนที่
+              </button>
             </div>
 
             <div className="flex items-center gap-x-1">
               <p className="w-[7rem] whitespace-nowrap">ปลายทาง</p>
               <input
                 type="text"
-                placeholder="โปรดระบุ"
+                placeholder="โปรดระบุ ละติจูด,ลองจิจูด"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
               />
               <span>GPS</span>
+              <button
+                type="button"
+                className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
+                onClick={() =>
+                  window.open(
+                    "https://www.google.com/maps/place/12.884426690936518,101.09545134163946",
+                  )
+                }
+              >
+                <Icons.mapPin className="h-3 w-3" /> ดูแผนที่
+              </button>
             </div>
 
             <div className="flex items-center gap-x-1">
@@ -482,7 +505,8 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">9. ความสัมพันธ์บุคคลใน SNC</h4>
+        {/* //! SNC Relationship */}
+        {/* <h4 className="whitespace-nowrap">9. ความสัมพันธ์บุคคลใน SNC</h4>
         <div className="col-span-4 pl-1">
           <div className="mb-1 flex items-center gap-x-1">
             <input
@@ -518,9 +542,9 @@ export const R1AdminInformation: FC = () => {
               ไม่มี
             </label>
           </div>
-        </div>
+        </div> */}
 
-        <h4 className="whitespace-nowrap">10. เครดิตเทอม ซัพพลายเออร์หลัก</h4>
+        <h4 className="whitespace-nowrap">9. เครดิตเทอม ซัพพลายเออร์หลัก</h4>
         <div className="col-span-4 pl-1">
           {new Array(mainSupplierCreditTerm).fill(0).map((_, i) => {
             return (
@@ -624,7 +648,7 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">11. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
+        <h4 className="whitespace-nowrap">10. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">ซื้อในประเทศไทย</p>
@@ -647,7 +671,7 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">
-          12. สัดส่วนวัตถุดิบ ต้นทุน และกำไร
+          11. สัดส่วนวัตถุดิบ ต้นทุน และกำไร
         </h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
@@ -680,7 +704,7 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">
-          13. ระยะเวลาจัดเก็บสินค้า (Inventory day)
+          12. ระยะเวลาจัดเก็บสินค้า (Inventory day)
         </h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">

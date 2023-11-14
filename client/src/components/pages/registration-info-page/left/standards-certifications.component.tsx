@@ -322,7 +322,7 @@ const StandardsCertifications: FC = () => {
       </h4>
       <div className="mb-1 pl-1">
         {/* //! 4.3.1 */}
-        <h5>3.1 เครดิตเทอมการจ่ายเงินของลูกค้า / Customer Credit Term</h5>
+        <h5>3.1 เครดิตเทอมการจ่ายเงินของลูกค้า {/*/ Customer Credit Term*/}</h5>
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
             <Icons.circle className="h-3 w-3" />

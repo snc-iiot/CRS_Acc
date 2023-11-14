@@ -1,3 +1,4 @@
+import { Icons } from "@/components/common/icons";
 import { cn } from "@/lib/utils";
 import {
   ChangeEvent,
@@ -62,16 +63,18 @@ const UploadFile = forwardRef<HTMLDivElement, Props>(
             />
 
             {!showFileName || fileNames?.length == 0 ? null : (
-              <div>
-                <p className="text-mute-foreground text-secondary-foreground/60 no-underline">
-                  {fileNames?.map((item, i) => <span key={i}>{item}</span>)}
-                </p>
+              <div className="text-mute-foreground text-secondary-foreground/60 no-underline">
+                {fileNames?.map((item, i) => <span key={i}>{item}</span>)}
               </div>
             )}
           </Fragment>
         </div>
+        {/* <button onClick={handleDeleteFilename}>ลบ</button> */}
         {!showFileName || fileNames?.length == 0 ? null : (
-          <button onClick={handleDeleteFilename}>ลบ</button>
+          <Icons.trash2
+            className="h-3.5 w-3.5 cursor-pointer text-red-500"
+            onClick={handleDeleteFilename}
+          />
         )}
       </div>
     );

@@ -1,0 +1,32 @@
+[
+  {
+    "Topic": "Accounts Receivable",
+    "Info": [
+      {
+        "Year": 2018,
+        "Amount": 208478020.0,
+        "Change": -29.99
+      },
+      {
+        "Year": 2019,
+        "Amount": 256089702.0,
+        "Change": 22.83
+      }
+    ]
+  },
+  {
+    "Topic": "Inventories",
+    "Info": [
+      {
+        "Year": 2018,
+        "Amount": 68376559.0,
+        "Change": -0.58
+      },
+      {
+        "Year": 2019,
+        "Amount": 307833320.0,
+        "Change": 350.2
+      }
+    ]
+  }
+]

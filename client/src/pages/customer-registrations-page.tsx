@@ -14,11 +14,11 @@ import {
 import registrationsMock from "@/mock/registrations.mock.json";
 import { RegistrationInterface } from "@/models";
 import { FC } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CustomerRegistrations: FC = () => {
   const registrations: RegistrationInterface[] = registrationsMock;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   //   console.log(registrations);
 
   return (
@@ -27,7 +27,10 @@ const CustomerRegistrations: FC = () => {
         <h2 className="text-xl font-bold">รายการลงทะเบียนลูกค้า</h2>
 
         <div className="mt-3 flex items-center gap-x-1">
-          <Button className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]" onClick={() => navigate('/registration')}>
+          <Button
+            className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]"
+            onClick={() => navigate("/registration")}
+          >
             <span>ลงทะเบียนลูกค้าใหม่</span>
             <Icons.plus className="h-8 w-8 font-bold" />
           </Button>
@@ -76,9 +79,9 @@ const CustomerRegistrations: FC = () => {
                     <Td>{item?.RegisWithCompany}</Td>
                     <Td>{item?.RegisDT}</Td>
                     <Td>
-                      <span className="select-none rounded bg-primary/70 p-1 uppercase text-white">
+                      <small className="select-none rounded bg-primary/70 p-1 uppercase text-white">
                         Status1
-                      </span>
+                      </small>
                     </Td>
                     <Td>
                       <Link

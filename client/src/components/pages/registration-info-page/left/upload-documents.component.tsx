@@ -67,17 +67,19 @@ const UploadDocuments: FC = () => {
                   .map(() => "......")
                   .join("")}
               </h5>
-              <div className="col-span-2 w-full">
-                <div
-                  className="col-span-2 flex w-[10rem] cursor-pointer items-center pl-1 text-left text-primary hover:underline"
-                  onClick={() =>
-                    window.open(
-                      "https://snc-services.sncformer.com/ivrs/docs/pdf/flow-iVRS2.pdf",
-                    )
-                  }
-                >
+              <div className="col-span-2">
+                <div className="flex select-none items-center pl-1 text-primary">
                   <Icons.fileText className="mr-1 h-4 w-4" />
-                  <span>ดูเพิ่มเติม</span>
+                  <span
+                    className="cursor-pointer hover:underline"
+                    onClick={() =>
+                      window.open(
+                        "https://snc-services.sncformer.com/ivrs/docs/pdf/flow-iVRS2.pdf",
+                      )
+                    }
+                  >
+                    ดูเพิ่มเติม
+                  </span>
                 </div>
               </div>
             </Fragment>

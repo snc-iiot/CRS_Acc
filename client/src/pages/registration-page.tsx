@@ -12,10 +12,12 @@ import { Separator } from "@/components/ui/separator";
 import { HeaderConditions, Sections } from "@/helpers/register.helper";
 import { cn } from "@/lib/utils";
 import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationPage: FC = () => {
   const MODE = "register";
 
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("section-1");
 
   const handleLinkClick = (section: string) => {
@@ -140,8 +142,16 @@ active section based on the intersection. */
           <Separator />
 
           <section className="flex w-full items-center justify-end gap-2">
-            <Button variant="secondary">ยกเลิก</Button>
-            <Button>ลงทะเบียน</Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => navigate(-1)}
+            >
+              ยกเลิก
+            </Button>
+            <Button type="button" onClick={() => navigate(-1)}>
+              ลงทะเบียน
+            </Button>
           </section>
         </main>
       </form>
