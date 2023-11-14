@@ -46,17 +46,34 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-6 flex justify-start">
                 <div className="grid w-full grid-cols-1 gap-1">
                   {CertificationStandards?.map((item) => (
-                    <div key={item.id} className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center gap-2">
-                        <Checkbox id={item.id?.toString()} />
+                    <div key={item.id} className="grid grid-cols-5 gap-2">
+                      <div className="col-span-2 flex items-center gap-2">
+                        <Checkbox id={item.name?.toString()} />
                         <label
-                          htmlFor={item.id?.toString()}
+                          htmlFor={item.name?.toString()}
                           className="whitespace-nowrap text-sm font-medium"
                         >
                           {item.label}
                         </label>
                       </div>
-                      <div className="flex items-center gap-2 ">
+                      <div className={cn("col-span-1 flex items-center gap-2")}>
+                        <select
+                          className={cn(
+                            "w-full rounded-sm border px-2 py-[0.1rem] text-sm",
+                            item?.id !== 14 ? "hidden" : "",
+                          )}
+                        >
+                          <option value="" className="text-sm">
+                            โปรดเลือก
+                          </option>
+                          {new Array(5).fill(0).map((_, i) => (
+                            <option key={i} value={i + 1}>
+                              ระดับ {i + 1}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="col-span-2 flex items-center gap-2">
                         <p className="whitespace-nowrap text-sm font-normal">
                           วันที่หมดอายุ
                         </p>
@@ -78,14 +95,14 @@ const StandardInformationForm: FC = () => {
                         อื่นๆ
                       </label>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-5 gap-2">
                       <Input
                         type="text"
                         placeholder="โปรดระบุ"
-                        className={cn("w-full")}
+                        className={cn("col-span-3 w-full")}
                         variant="flushed"
                       />
-                      <div className="flex items-center gap-2 ">
+                      <div className="col-span-2 flex items-center gap-2">
                         <p className="whitespace-nowrap text-sm font-normal">
                           วันที่หมดอายุ
                         </p>
@@ -112,8 +129,8 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-6 flex justify-start">
                 <div className="grid w-full grid-cols-1 gap-1">
                   {BenefitsStandards?.map((item) => (
-                    <div key={item.id} className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center gap-2">
+                    <div key={item.id} className="grid grid-cols-5 gap-2">
+                      <div className="col-span-3 flex items-center gap-2">
                         <Checkbox id={item.id?.toString()} />
                         <label
                           htmlFor={item.id?.toString()}
@@ -122,7 +139,7 @@ const StandardInformationForm: FC = () => {
                           {item.label}
                         </label>
                       </div>
-                      <div className="flex items-center gap-2 ">
+                      <div className="col-span-2 flex items-center gap-2">
                         <p className="whitespace-nowrap text-sm font-normal">
                           วันที่หมดอายุ
                         </p>
@@ -144,14 +161,14 @@ const StandardInformationForm: FC = () => {
                         อื่นๆ
                       </label>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-5 gap-2">
                       <Input
                         type="text"
                         placeholder="โปรดระบุ"
-                        className={cn("w-full")}
+                        className={cn("col-span-3 w-full")}
                         variant="flushed"
                       />
-                      <div className="flex items-center gap-2 ">
+                      <div className="col-span-2 flex items-center gap-2">
                         <p className="whitespace-nowrap text-sm font-normal">
                           วันที่หมดอายุ
                         </p>
@@ -211,13 +228,13 @@ const StandardInformationForm: FC = () => {
                       htmlFor="other-term"
                       className="whitespace-nowrap text-sm font-medium"
                     >
-                      อื่นๆ โปรดระบุ
+                      อื่นๆ
                     </label>
                   </div>
                 </RadioGroup>
                 <Input
                   type="text"
-                  placeholder="โปรดระบุ"
+                  placeholder="โปรดระบุ จำนวนวัน"
                   className={cn("w-full")}
                   variant="flushed"
                 />
@@ -286,7 +303,7 @@ const StandardInformationForm: FC = () => {
                     <option value="">โปรดเลือกสกุลเงินที่ขาย</option>
                     {currencyList?.map((item) => (
                       <option key={item.cc} value={item.cc}>
-                        {item?.symbol} {item?.cc}
+                        {item.cc} - {item.name}
                       </option>
                     ))}
                   </Select>
@@ -318,7 +335,7 @@ const StandardInformationForm: FC = () => {
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  เงื่อนไขการเปิด L/C / L/C Terms
+                  เงื่อนไขการเปิด L/C หรือ L/C Terms
                 </h3>
               </div>
               <div className="col-span-4 flex justify-start">
@@ -327,22 +344,33 @@ const StandardInformationForm: FC = () => {
                   className="flex w-full flex-col gap-1"
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="lc" id="lc" />
-                    <label
-                      htmlFor="lc"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
-                      มี
-                    </label>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="lc" id="lc" />
+                      <label
+                        htmlFor="lc"
+                        className="whitespace-nowrap text-sm font-medium"
+                      >
+                        มี
+                      </label>
+                    </div>
+                    <select className="rounded-sm border px-2 py-[0.1rem] text-sm">
+                      <option value="" className="text-sm">
+                        โปรดเลือกเงื่อนไขการเปิด L/C
+                      </option>
+                      <option value="lc-sight">L/C at sight</option>
+                      <option value="lc-30">L/C term 30</option>
+                      <option value="lc-60">L/C term 60</option>
+                      <option value="lc-90">L/C term 90</option>
+                    </select>
                   </div>
-                  <div className="w-full">
+                  {/* <div className="w-full">
                     <Select placeholder="โปรดเลือกเงื่อนไขการเปิด L/C">
                       <option value="lc-sight">L/C at sight</option>
                       <option value="lc-30">L/C term 30</option>
                       <option value="lc-60">L/C term 60</option>
                       <option value="lc-90">L/C term 90</option>
                     </Select>
-                  </div>
+                  </div> */}
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-lc" id="none-lc" />
                     <label
@@ -372,7 +400,8 @@ const StandardInformationForm: FC = () => {
                       htmlFor="customer"
                       className="whitespace-nowrap text-sm font-medium"
                     >
-                      บริษัทขนส่งสินค้าเอง
+                      {/* บริษัทขนส่งสินค้าเอง */}
+                      SNC เป็นผู้ขนส่งสินค้า
                     </label>
                   </div>
                   <div className="flex items-center gap-2">
@@ -381,7 +410,18 @@ const StandardInformationForm: FC = () => {
                       htmlFor="customer-2"
                       className="whitespace-nowrap text-sm font-medium"
                     >
-                      ลูกค้าจัดส่งเอง
+                      {/* ลูกค้าจัดส่งเอง */}
+                      ผู้รับ (Customer) เป็นผู้ขนส่งสินค้า
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Checkbox id="customer-3" />
+                    <label
+                      htmlFor="customer-3"
+                      className="whitespace-nowrap text-sm font-medium"
+                    >
+                      {/* ลูกค้าจัดส่งเอง */}
+                      ผู้รับ (Customer) จ้างขนส่งภายนอก
                     </label>
                   </div>
                 </div>
@@ -402,23 +442,35 @@ const StandardInformationForm: FC = () => {
                   className="flex w-full flex-col gap-1"
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="deposit" id="deposit" />
-                    <label
-                      htmlFor="deposit"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
-                      มี
-                    </label>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="deposit" id="deposit" />
+                      <label
+                        htmlFor="deposit"
+                        className="whitespace-nowrap text-sm font-medium"
+                      >
+                        มี
+                      </label>
+                    </div>
+                    <select className="rounded-sm border px-2 py-[0.1rem] text-sm">
+                      <option value="" className="text-sm">
+                        โปรดเลือกเงื่อนไขการวางเงินมัดจำ
+                      </option>
+                      <option value="30-70">30/70 %</option>
+                      <option value="50-50">50/50 %</option>
+                      <option value="60-40">60/40 %</option>
+                      <option value="70-30">70/30 %</option>
+                      <option value="other">อื่นๆ</option>
+                    </select>
                   </div>
-                  <div className="w-full">
+                  {/* <div className="w-full">
                     <Select placeholder="โปรดระบุ">
-                      <option value="30-70">30/70</option>
-                      <option value="50-50">50/50</option>
-                      <option value="60-40">60/40</option>
-                      <option value="70-30">70/30</option>
+                      <option value="30-70">30/70 %</option>
+                      <option value="50-50">50/50 %</option>
+                      <option value="60-40">60/40 %</option>
+                      <option value="70-30">70/30 %</option>
                       <option value="other">อื่นๆ</option>
                     </Select>
-                  </div>
+                  </div> */}
                   <Input type="text" placeholder="โปรดระบุ" variant="flushed" />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-deposit" id="none-deposit" />
@@ -433,30 +485,66 @@ const StandardInformationForm: FC = () => {
               </div>
             </article>
           </article>
-          {/* //!รัับประกันสินค้า / Product Warranty */}
+          {/* //!รับประกันสินค้า */}
           <article>
-            <section className="grid w-full grid-cols-10 items-center gap-2">
+            <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  เงื่อนไขในการวางเงินมัดจำ / Deposit Terms
+                  รับประกันสินค้า / Product Warranty
                 </h3>
               </div>
-              <div className="col-span-6 flex flex-col justify-start">
+              <div className="col-span-4 flex justify-start">
                 <RadioGroup
                   defaultValue="option-one"
-                  className="flex flex-col gap-1"
+                  className="flex w-full flex-col gap-1"
                 >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="warranty" id="warranty" />
-                    <Label htmlFor="warranty">มี</Label>
+                  <div className="item-center flex space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="warranty" id="warranty" />
+                      <label
+                        htmlFor="warranty"
+                        className="whitespace-nowrap text-sm font-medium"
+                      >
+                        มี
+                      </label>
+                    </div>
+                    <select className="rounded-sm border px-2 py-[0.1rem] text-sm">
+                      <option value="" className="text-sm">
+                        โปรดเลือกเงื่อนไขการรับประกันสินค้า
+                      </option>
+                      <option value="1">1 ปี</option>
+                      <option value="2">2 ปี</option>
+                      <option value="3">3 ปี</option>
+                      <option value="5">5 ปี</option>
+                      <option value="other">อื่นๆ</option>
+                    </select>
                   </div>
+                  {/* <div className="w-full">
+                    <Select placeholder="โปรดระบุ">
+                      <option value="1">1 ปี</option>
+                      <option value="2">2 ปี</option>
+                      <option value="3">3 ปี</option>
+                      <option value="5">5 ปี</option>
+                      <option value="other">อื่นๆ</option>
+                    </Select>
+                  </div> */}
+                  <Input
+                    type="text"
+                    placeholder="โปรดระบุ ปี"
+                    variant="flushed"
+                  />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-warranty" id="none-warranty" />
-                    <Label htmlFor="none-warranty">ไม่มี</Label>
+                    <label
+                      htmlFor="none-warranty"
+                      className="whitespace-nowrap text-sm font-medium"
+                    >
+                      ไม่มี
+                    </label>
                   </div>
                 </RadioGroup>
               </div>
-            </section>
+            </article>
           </article>
           {/* //!นโยบายการดำเนินการ / Company Policies */}
           <article>
@@ -528,7 +616,7 @@ const StandardInformationForm: FC = () => {
                   ลูกค้าหลักของลูกค้า / Main customer of customer
                 </h3>
               </div>
-              <div className="col-span-4 flex flex-col justify-start gap-2">
+              <div className="col-span-4 flex items-center justify-start gap-2">
                 <RadioGroup
                   defaultValue="option-one"
                   className="flex flex-col gap-1"
@@ -536,19 +624,39 @@ const StandardInformationForm: FC = () => {
                   {MainCustomerOfCompany?.map((item, i) => (
                     <div className="flex items-center space-x-2" key={i}>
                       <RadioGroupItem value={item?.name} id={item?.name} />
-                      <Label htmlFor={item?.name}>{item?.label ?? "-"}</Label>
+                      <Label htmlFor={item?.name} className="whitespace-nowrap">
+                        {item?.label ?? "-"}
+                      </Label>
+                      <select
+                        placeholder="เลือกประเทศ"
+                        className={cn(
+                          "w-full rounded-sm border px-2 py-[0.1rem] text-sm",
+                          i === 0 ? "hidden" : "",
+                        )}
+                      >
+                        <option value="">เลือกประเทศ</option>
+                        {countryList?.map((item, i) => (
+                          <option key={i} value={item?.name}>
+                            {item?.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   ))}
                 </RadioGroup>
-                <div className="w-full">
-                  <Select placeholder="เลือกประเทศ">
+                {/* <div>
+                  <select
+                    placeholder="เลือกประเทศ"
+                    className="w-full rounded-sm border px-2 py-[0.1rem] text-sm"
+                  >
+                    <option value="">เลือกประเทศ</option>
                     {countryList?.map((item, i) => (
                       <option key={i} value={item?.name}>
                         {item?.name}
                       </option>
                     ))}
-                  </Select>
-                </div>
+                  </select>
+                </div> */}
               </div>
             </section>
           </article>

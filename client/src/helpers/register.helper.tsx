@@ -1,7 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select-custom";
 import { Textarea } from "@/components/ui/textarea";
-import { ICompanyForm } from "@/types";
+import { ICompanyForm, TRegistrationForm } from "@/types";
+import { ChangeEvent } from "react";
 
 export const HeaderConditions: {
   [key in "register" | "login"]: {
@@ -52,15 +53,25 @@ export const Sections: {
   },
 ];
 
-export const ConditionalInput = (item: ICompanyForm) => {
+export const ConditionalInput = (
+  item: ICompanyForm,
+  handleOnChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => void,
+  value: TRegistrationForm,
+) => {
   switch (item?.type) {
     case "select": {
       return (
         <div className="w-full">
           <Select
+            name={item?.name}
             id={item?.name}
             placeholder={item?.placeholder}
             className="text-sm"
+            required={item?.required}
+            onChange={(e) => handleOnChange(e)}
+            value={value?.[item?.name as keyof TRegistrationForm]}
           >
             {item?.options?.map((option, index) => (
               <option value={option?.value} key={index}>
@@ -74,48 +85,69 @@ export const ConditionalInput = (item: ICompanyForm) => {
     case "text": {
       return (
         <Input
+          type="text"
+          name={item?.name}
           id={item?.name}
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={(e) => handleOnChange(e)}
+          value={value?.[item?.name as keyof TRegistrationForm]}
         />
       );
     }
     case "tel": {
       return (
         <Input
+          name={item?.name}
           id={item?.name}
           type="tel"
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={value?.[item?.name as keyof TRegistrationForm]}
         />
       );
     }
     case "number": {
       return (
         <Input
+          name={item?.name}
           id={item?.name}
           type="number"
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={value?.[item?.name as keyof TRegistrationForm]}
         />
       );
     }
     case "url": {
       return (
         <Input
+          name={item?.name}
           id={item?.name}
           type="url"
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={value?.[item?.name as keyof TRegistrationForm]}
         />
       );
     }
     case "textarea": {
       return (
         <Textarea
+          name={item?.name}
           id={item?.name}
           placeholder={item?.placeholder}
-          className="text-sm"
+          className="max-h-[100px] text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={value?.[item?.name as keyof TRegistrationForm]}
         />
       );
     }

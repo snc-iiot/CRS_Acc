@@ -1,52 +1,53 @@
+import CompanyList from "@/mocks/company-list.json";
 import CountryList from "@/mocks/country-list-th.json";
-import { ICompanyForm } from "@/types";
+import { ICompanyForm, TCompanyList } from "@/types";
 
 export const CompanyInfo: ICompanyForm[] = [
   {
-    name: "company-register",
+    name: "CompanyAdmin",
     label: "ขึ้นทะเบียนกับบริษัท",
     type: "select",
     placeholder: "เลือกบริษัท",
-    options: [
-      { value: "1", label: "บริษัท 1" },
-      { value: "2", label: "บริษัท 2" },
-    ],
+    options: CompanyList?.map((company: TCompanyList) => ({
+      value: company?.Company,
+      label: `[${company?.Company}] ${company?.CompanyFullNameEN} `,
+    })),
     required: true,
   },
+  // {
+  //   name: "to",
+  //   label: "เรียน",
+  //   type: "text",
+  //   placeholder: "กรอกชื่อผู้รับ",
+  //   required: true,
+  // },
   {
-    name: "to",
-    label: "เรียน",
-    type: "text",
-    placeholder: "กรอกชื่อผู้รับ",
-    required: true,
-  },
-  {
-    name: "company-name",
+    name: "CompanyName",
     label: "ชื่อบริษัท",
     type: "text",
     placeholder: "กรอกชื่อบริษัท",
     required: true,
   },
   {
-    name: "address",
+    name: "Address",
     label: "ที่อยู่",
     type: "textarea",
     placeholder: "กรอกที่อยู่",
     required: true,
   },
   {
-    name: "country",
+    name: "Country",
     label: "ประเทศ",
     type: "select",
     placeholder: "กรอกประเทศ",
     options: CountryList?.map((country) => ({
-      value: country?.name,
+      value: country?.enName,
       label: country?.name,
     })),
     required: true,
   },
   {
-    name: "province",
+    name: "Province",
     label: "จังหวัด",
     type: "select",
     placeholder: "กรอกจังหวัด",
@@ -57,7 +58,7 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "district",
+    name: "District",
     label: "อำเภอ",
     type: "select",
     placeholder: "กรอกอำเภอ",
@@ -68,7 +69,7 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "sub-district",
+    name: "SubDistrict",
     label: "ตำบล",
     type: "select",
     placeholder: "กรอกตำบล",
@@ -79,42 +80,38 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "postcode",
+    name: "ZipCode",
     label: "รหัสไปรษณีย์",
     type: "number",
     placeholder: "กรอกรหัสไปรษณีย์",
     required: true,
   },
   {
-    name: "tel",
+    name: "PhoneNumber",
     label: "เบอร์โทรศัพท์",
     type: "tel",
     placeholder: "กรอกเบอร์โทรศัพท์",
     required: true,
   },
   {
-    name: "tax-id",
+    name: "JuristicId",
     label: "เลขประจำตัวผู้เสียภาษี",
     type: "number",
     placeholder: "กรอกเลขประจำตัวผู้เสียภาษี",
     required: true,
   },
   {
-    name: "website",
+    name: "Website",
     label: "เว็บไซต์",
     type: "url",
     placeholder: "กรอกเว็บไซต์",
     required: true,
   },
   {
-    name: "business-type",
+    name: "NatureOfBusiness",
     label: "ประเภทธุรกิจ",
-    type: "select",
+    type: "text",
     placeholder: "กรอกประเภทธุรกิจ",
-    options: [
-      { value: "1", label: "ประเภทธุรกิจ 1" },
-      { value: "2", label: "ประเภทธุรกิจ 2" },
-    ],
     required: true,
   },
 ];

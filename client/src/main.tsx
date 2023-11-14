@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import "@/styles/globals.css";
 import "@/styles/style.css";
 import { Provider } from "jotai";
+import { DevTools } from "jotai-devtools";
 import { Toaster } from "sonner";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
@@ -11,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Provider>
       <Toaster position="top-right" />
       <App />
+      <DevTools />
     </Provider>
   </React.StrictMode>,
 );

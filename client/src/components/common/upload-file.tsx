@@ -66,6 +66,7 @@ const UploadFile = forwardRef<HTMLInputElement, Props>(
       >
         <input
           type="file"
+          id={name}
           name={name}
           className={cn("hidden")}
           ref={inputRef}

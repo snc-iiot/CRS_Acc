@@ -31,11 +31,33 @@ export interface InputProps
   asChild?: boolean;
 }
 
+// const Input = React.forwardRef<HTMLInputElement, InputProps>(
+//   ({ className, variant, type, ...props }, ref) => {
+//     return (
+//       // <Comp
+//       //   className={cn(inputVariants({ variant, className }))}
+//       //   ref={ref}
+//       //   value={value}
+//       //   onChange={onChange}
+//       //   {...props}
+//       // />
+//       <input
+//         type={type}
+//         className={cn(inputVariants({ variant, className }))}
+//         ref={ref}
+//         {...props}
+//       />
+//     );
+//   },
+// );
+
+// Input.displayName = "Input";
+
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, variant, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? "input" : "input";
+  ({ className, variant, type, ...props }, ref) => {
     return (
-      <Comp
+      <input
+        type={type}
         className={cn(inputVariants({ variant, className }))}
         ref={ref}
         {...props}
@@ -43,7 +65,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   },
 );
-
 Input.displayName = "Input";
 
 const InputGroup = React.forwardRef<
@@ -81,14 +102,11 @@ const InputGroup = React.forwardRef<
   //   inputLeftElementIndex === 0 && inputRightElementIndex === 2;
 
   return (
-    <div
-      className={cn(inputVariant, className, "flex w-full")}
-      ref={ref}
-      {...props}
-    >
+    <div className={cn(inputVariant, className, "flex w-full")} ref={ref}>
       {inputLeftAddonIndex !== -1 && <div>{inputLeftAddon}</div>}
-
       {React.cloneElement(input, {
+        value: inputProps.value,
+        onChange: inputProps.onChange,
         className: cn(
           input.props.className,
           isLeftAddon

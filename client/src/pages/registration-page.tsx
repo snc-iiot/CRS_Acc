@@ -16,8 +16,12 @@ import { FC, useEffect, useState } from "react";
 const RegistrationPage: FC = () => {
   const MODE = "register";
 
-  const [activeSection, setActiveSection] = useState("section-1");
+  const onSubmit = () => {
+    console.log("submit");
+  };
 
+  //? Observer Section
+  const [activeSection, setActiveSection] = useState("section-1");
   const handleLinkClick = (section: string) => {
     setActiveSection(section);
     scrollToSection(section);
@@ -32,6 +36,7 @@ const RegistrationPage: FC = () => {
     });
   };
 
+  //? Observer Section
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -63,7 +68,13 @@ const RegistrationPage: FC = () => {
 
   return (
     <div className="container relative h-full w-full overflow-y-auto py-2">
-      <form className="flex h-full w-full flex-col gap-2">
+      <form
+        className="flex h-full w-full flex-col gap-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit;
+        }}
+      >
         <main className="flex h-full flex-col items-center justify-center gap-2">
           <section className="w-full py-1">
             <h1 className="text-2xl font-bold">
@@ -136,8 +147,10 @@ const RegistrationPage: FC = () => {
           </section>
           <Separator />
           <section className="flex w-full items-center justify-end gap-2">
-            <Button variant="secondary">ยกเลิก</Button>
-            <Button>ลงทะเบียน</Button>
+            <Button variant="secondary" type="button">
+              ยกเลิก
+            </Button>
+            <Button type="submit">ลงทะเบียน</Button>
           </section>
         </main>
       </form>
