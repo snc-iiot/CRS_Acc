@@ -7,7 +7,7 @@ import { ChangeEvent, FC } from "react";
 
 const CompanyInformationForm: FC = () => {
   const { setRegistration, registration } = useAtomStore();
-  console.log(registration);
+  console.table(registration);
 
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
