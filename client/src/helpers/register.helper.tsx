@@ -41,6 +41,11 @@ export const Sections: {
     description: "กรุณากรอกข้อมูลให้ครบถ้วน",
   },
   {
+    id: "relationship-info",
+    title: "ความสัมพันธ์กับบริษัท / Relationship with Company",
+    description: "กรุณากรอกข้อมูลให้ครบถ้วน",
+  },
+  {
     id: "standard-certification-info",
     title:
       "มาตรฐานและการรับรองที่ได้รับในปัจจุบัน / Standards and Certifications",
@@ -71,7 +76,11 @@ export const ConditionalInput = (
             className="text-sm"
             required={item?.required}
             onChange={(e) => handleOnChange(e)}
-            value={value?.[item?.name as keyof TRegistrationForm]}
+            value={
+              value?.[item?.name as keyof TRegistrationForm] as
+                | string
+                | undefined
+            }
           >
             {item?.options?.map((option, index) => (
               <option value={option?.value} key={index}>
@@ -92,7 +101,9 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={(e) => handleOnChange(e)}
-          value={value?.[item?.name as keyof TRegistrationForm]}
+          value={
+            value?.[item?.name as keyof TRegistrationForm] as string | undefined
+          }
         />
       );
     }
@@ -106,7 +117,9 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TRegistrationForm]}
+          value={
+            value?.[item?.name as keyof TRegistrationForm] as string | undefined
+          }
         />
       );
     }
@@ -120,7 +133,9 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TRegistrationForm]}
+          value={
+            value?.[item?.name as keyof TRegistrationForm] as string | undefined
+          }
         />
       );
     }
@@ -134,7 +149,9 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TRegistrationForm]}
+          value={
+            value?.[item?.name as keyof TRegistrationForm] as string | undefined
+          }
         />
       );
     }
@@ -147,7 +164,9 @@ export const ConditionalInput = (
           className="max-h-[100px] text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TRegistrationForm]}
+          value={
+            value?.[item?.name as keyof TRegistrationForm] as string | undefined
+          }
         />
       );
     }

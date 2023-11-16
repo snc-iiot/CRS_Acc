@@ -40,12 +40,8 @@
     "react-hook-form": "^7.48.2",
     "react-router-dom": "^6.16.0",
     "react-wrap-balancer": "^1.1.0",
-<<<<<<< Updated upstream
     "sonner": "^1.2.0",
-=======
-    "sonner": "^1.0.3",
     "tailwind-config-viewer": "^1.7.3",
->>>>>>> Stashed changes
     "tailwindcss-animate": "^1.0.6",
     "zod": "^3.22.4"
   },
