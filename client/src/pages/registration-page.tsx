@@ -3,6 +3,7 @@ import {
   CompanyInformationForm,
   ContractInformationForm,
   DocumentUploadForm,
+  RelationshipInformationForm,
   ShareholderInformationForm,
   StandardInformationForm,
 } from "@/components/registration";
@@ -137,6 +138,7 @@ const RegistrationPage: FC = () => {
                     <CompanyInformationForm />
                     <ShareholderInformationForm />
                     <ContractInformationForm />
+                    <RelationshipInformationForm />
                     <StandardInformationForm />
                     <DocumentUploadForm />
                     <ScrollBar />

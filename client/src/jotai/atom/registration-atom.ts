@@ -42,6 +42,10 @@ export const registrationAtom = atom<TRegistrationForm>({
       email: "",
     },
   ],
+  relationship: {
+    is_relationship: false,
+    relationship_name: "",
+  },
   certificate: [],
   benefits: [],
 } as TRegistrationForm);

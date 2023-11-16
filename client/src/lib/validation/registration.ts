@@ -33,6 +33,10 @@ export const registrationSchema = z.object({
       email: z.string().min(2),
     }),
   ),
+  relationship: z.object({
+    is_relationship: z.boolean(),
+    relationship_name: z.string().min(2),
+  }),
   certificate: z.array(
     z.object({
       cer_name: z.string().min(2),
