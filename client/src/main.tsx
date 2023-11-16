@@ -5,12 +5,13 @@ import "@/styles/globals.css";
 import "@/styles/style.css";
 import { Provider } from "jotai";
 import { DevTools } from "jotai-devtools";
-import { Toaster } from "sonner";
+
+// import { Toaster } from "sonner";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider>
-      <Toaster position="top-right" />
+      {/* <Toaster position="top-right" /> */}
       <App />
       <DevTools />
     </Provider>

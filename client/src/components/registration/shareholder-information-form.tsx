@@ -18,9 +18,10 @@ const ShareholderInformationForm: FC = () => {
     isNaN(thai_nationalities) ||
     isNaN(other_nationalities)
       ? 0
-      : hight_nationalities?.percentage +
-        thai_nationalities +
-        other_nationalities;
+      : hight_nationalities?.percentage + hight_nationalities?.nationalities ==
+        "ไทย"
+      ? 0
+      : thai_nationalities + other_nationalities;
 
   const countryList: TCountryList[] = CountryList;
 
@@ -250,7 +251,8 @@ const ShareholderInformationForm: FC = () => {
                     "text-sm",
                     total != 100 ? "border border-red-500" : "",
                   )}
-                  defaultValue={total}
+                  // defaultValue={total}
+                  value={total}
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
