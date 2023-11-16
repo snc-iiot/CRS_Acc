@@ -4,7 +4,7 @@ import { ICompanyForm, TCompanyList } from "@/types";
 
 export const CompanyInfo: ICompanyForm[] = [
   {
-    name: "CompanyAdmin",
+    name: "company_admin",
     label: "ขึ้นทะเบียนกับบริษัท",
     type: "select",
     placeholder: "เลือกบริษัท",
@@ -22,21 +22,21 @@ export const CompanyInfo: ICompanyForm[] = [
   //   required: true,
   // },
   {
-    name: "CompanyName",
+    name: "company_name",
     label: "ชื่อบริษัท",
     type: "text",
     placeholder: "กรอกชื่อบริษัท",
     required: true,
   },
   {
-    name: "Address",
+    name: "address",
     label: "ที่อยู่",
     type: "textarea",
     placeholder: "กรอกที่อยู่",
     required: true,
   },
   {
-    name: "Country",
+    name: "country",
     label: "ประเทศ",
     type: "select",
     placeholder: "กรอกประเทศ",
@@ -47,7 +47,7 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "Province",
+    name: "province",
     label: "จังหวัด",
     type: "select",
     placeholder: "กรอกจังหวัด",
@@ -58,7 +58,7 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "District",
+    name: "district",
     label: "อำเภอ",
     type: "select",
     placeholder: "กรอกอำเภอ",
@@ -69,7 +69,7 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "SubDistrict",
+    name: "sub_district",
     label: "ตำบล",
     type: "select",
     placeholder: "กรอกตำบล",
@@ -80,35 +80,35 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "ZipCode",
+    name: "zip_code",
     label: "รหัสไปรษณีย์",
     type: "number",
     placeholder: "กรอกรหัสไปรษณีย์",
     required: true,
   },
   {
-    name: "PhoneNumber",
+    name: "phone_number",
     label: "เบอร์โทรศัพท์",
     type: "tel",
     placeholder: "กรอกเบอร์โทรศัพท์",
     required: true,
   },
   {
-    name: "JuristicId",
+    name: "juristic_id",
     label: "เลขประจำตัวผู้เสียภาษี",
     type: "number",
     placeholder: "กรอกเลขประจำตัวผู้เสียภาษี",
     required: true,
   },
   {
-    name: "Website",
+    name: "website",
     label: "เว็บไซต์",
     type: "url",
     placeholder: "กรอกเว็บไซต์",
     required: true,
   },
   {
-    name: "NatureOfBusiness",
+    name: "nature_of_business",
     label: "ประเภทธุรกิจ",
     type: "text",
     placeholder: "กรอกประเภทธุรกิจ",

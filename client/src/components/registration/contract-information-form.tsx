@@ -1,9 +1,11 @@
 import { ContractInfo } from "@/helpers/contract.helper";
 import { Sections } from "@/helpers/register.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC, Fragment } from "react";
 import { Input } from "../ui/input";
 
 const ContractInformationForm: FC = () => {
+  const { registration, setRegistration } = useAtomStore();
   return (
     <section id="contract-info" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -30,10 +32,35 @@ const ContractInformationForm: FC = () => {
                   </div>
                   <div className="col-span-4 flex">
                     <Input
-                      id={field?.name}
+                      name={field?.name}
                       type={field?.type}
                       placeholder={field?.placeholder}
                       className="text-sm"
+                      required={field?.required}
+                      value={
+                        registration?.contract_person?.find(
+                          (info) => info?.position === item?.id,
+                        )?.[
+                          field?.name as keyof (typeof registration)["contract_person"][0]
+                        ] ?? ""
+                      }
+                      onChange={(e) => {
+                        setRegistration({
+                          ...registration,
+                          contract_person: registration?.contract_person?.map(
+                            (info) => {
+                              if (info?.position === item?.id) {
+                                return {
+                                  ...info,
+                                  [field?.name as keyof (typeof registration)["contract_person"][0]]:
+                                    e?.target?.value,
+                                };
+                              }
+                              return info;
+                            },
+                          ),
+                        });
+                      }}
                     />
                   </div>
                   <div className="col-span-2 flex justify-end">

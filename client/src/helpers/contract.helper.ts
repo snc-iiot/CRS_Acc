@@ -2,7 +2,7 @@ import { IContractForm } from "@/types";
 
 export const ContractInfo: IContractForm[] = [
   {
-    id: "manager-scm",
+    id: "manager_scm",
     group: "ผู้จัดการแผนกฝ่ายจัดซื้อ",
     fields: [
       {
@@ -13,7 +13,7 @@ export const ContractInfo: IContractForm[] = [
         required: true,
       },
       {
-        name: "tel",
+        name: "phone_number",
         label: "เบอร์โทรศัพท์",
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
@@ -29,7 +29,7 @@ export const ContractInfo: IContractForm[] = [
     ],
   },
   {
-    id: "manager-finance",
+    id: "manager_accounting",
     group: "ผู้จัดการแผนกบัญชีและการเงิน",
     fields: [
       {
@@ -56,7 +56,7 @@ export const ContractInfo: IContractForm[] = [
     ],
   },
   {
-    id: "manager-legal",
+    id: "manager_director",
     group: "กรรมการผู้จัดการ",
     fields: [
       {

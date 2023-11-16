@@ -140,19 +140,19 @@ export const BenefitsStandards = [
     options: [],
   },
   {
-    id: "freezone",
+    id: "free_zone",
     label: "Free Zone",
     isOption: false,
     options: [],
   },
   {
-    id: "jtepa",
+    id: "j_tepa",
     label: "JTEPA",
     isOption: false,
     options: [],
   },
   {
-    id: "fta",
+    id: "none-benefit",
     label: "ไม่ได้รับสิทธิประโยชน์ใดๆ",
     isOption: false,
     options: [],

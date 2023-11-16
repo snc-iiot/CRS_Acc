@@ -8,6 +8,7 @@ import {
   MainCustomerOfCompany,
   ObjectivePurchasing,
 } from "@/helpers/standards.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import CountryList from "@/mocks/country-list-th.json";
 import CurrencyList from "@/mocks/currency-list.json";
@@ -19,9 +20,12 @@ import { Label } from "../ui/label";
 import { Select } from "../ui/select-custom";
 
 const StandardInformationForm: FC = () => {
+  const { registration, setRegistration } = useAtomStore();
   const currencyList: TCurrency[] = CurrencyList;
   const incotermList: TIncoterm[] = IncotermList;
   const countryList: TCountryList[] = CountryList;
+
+  console.table(registration?.benefits);
 
   return (
     <section id="standard-certification-info" className="pr-4">
@@ -48,10 +52,77 @@ const StandardInformationForm: FC = () => {
                   {CertificationStandards?.map((item) => (
                     <div key={item.id} className="grid grid-cols-5 gap-2">
                       <div className="col-span-2 flex items-center gap-2">
-                        <Checkbox id={item.name?.toString()} />
+                        <Checkbox
+                          checked={
+                            registration?.certificate?.find(
+                              (info) => info?.cer_name === item?.name,
+                            )?.is_active ?? false
+                          }
+                          disabled={
+                            registration?.certificate?.find(
+                              (info) => info?.cer_name === "none-certification",
+                            )?.is_active && item?.name !== "none-certification"
+                          }
+                          id={item.name?.toString()}
+                          onCheckedChange={(e) => {
+                            if (item?.name === "none-certification") {
+                              if (e) {
+                                setRegistration({
+                                  ...registration,
+                                  certificate: [
+                                    {
+                                      cer_name: item?.name,
+                                      label: item?.label,
+                                      is_active: true,
+                                      cer_value: null,
+                                      expired_date: null,
+                                    },
+                                  ],
+                                });
+                              } else {
+                                setRegistration({
+                                  ...registration,
+                                  certificate: [],
+                                });
+                              }
+                            } else {
+                              if (e) {
+                                setRegistration({
+                                  ...registration,
+                                  certificate: [
+                                    ...registration?.certificate,
+                                    {
+                                      cer_name: item?.name,
+                                      label: item?.label,
+                                      is_active: true,
+                                      cer_value: null,
+                                      expired_date: null,
+                                    },
+                                  ],
+                                });
+                              } else {
+                                setRegistration({
+                                  ...registration,
+                                  certificate: [
+                                    ...registration?.certificate.filter(
+                                      (info) => info?.cer_name !== item?.name,
+                                    ),
+                                  ],
+                                });
+                              }
+                            }
+                          }}
+                        />
                         <label
                           htmlFor={item.name?.toString()}
-                          className="whitespace-nowrap text-sm font-medium"
+                          className={cn(
+                            "whitespace-nowrap text-sm font-medium",
+                            registration?.certificate?.find(
+                              (info) => info?.cer_name === "none-certification",
+                            )?.is_active && item?.name !== "none-certification"
+                              ? "line-through opacity-50"
+                              : "",
+                          )}
                         >
                           {item.label}
                         </label>
@@ -62,6 +133,32 @@ const StandardInformationForm: FC = () => {
                             "w-full rounded-sm border px-2 py-[0.1rem] text-sm",
                             item?.id !== 14 ? "hidden" : "",
                           )}
+                          value={
+                            registration?.certificate?.find(
+                              (info) => info?.cer_name === item?.name,
+                            )?.cer_value ?? ""
+                          }
+                          onChange={(e) => {
+                            setRegistration({
+                              ...registration,
+                              certificate: [
+                                ...registration?.certificate.map((info) => {
+                                  if (info?.cer_name === item?.name) {
+                                    return {
+                                      ...info,
+                                      cer_value: e.target.value,
+                                    };
+                                  }
+                                  return info;
+                                }),
+                              ],
+                            });
+                          }}
+                          disabled={
+                            !registration?.certificate?.find(
+                              (info) => info?.cer_name === item?.name,
+                            )?.is_active
+                          }
                         >
                           <option value="" className="text-sm">
                             โปรดเลือก
@@ -73,7 +170,12 @@ const StandardInformationForm: FC = () => {
                           ))}
                         </select>
                       </div>
-                      <div className="col-span-2 flex items-center gap-2">
+                      <div
+                        className={cn(
+                          "col-span-2 flex items-center gap-2",
+                          item?.name === "none-certification" ? "hidden" : "",
+                        )}
+                      >
                         <p className="whitespace-nowrap text-sm font-normal">
                           วันที่หมดอายุ
                         </p>
@@ -81,16 +183,85 @@ const StandardInformationForm: FC = () => {
                           type="date"
                           className="w-full rounded-sm border px-2 text-sm"
                           required
+                          disabled={
+                            !registration?.certificate?.find(
+                              (info) => info?.cer_name === item?.name,
+                            )?.is_active
+                          }
+                          onChange={(e) => {
+                            setRegistration({
+                              ...registration,
+                              certificate: [
+                                ...registration?.certificate.map((info) => {
+                                  if (info?.cer_name === item?.name) {
+                                    return {
+                                      ...info,
+                                      expired_date: e.target.value,
+                                    };
+                                  }
+                                  return info;
+                                }),
+                              ],
+                            });
+                          }}
+                          value={
+                            registration?.certificate?.find(
+                              (info) => info?.cer_name === item?.name,
+                            )?.expired_date ?? ""
+                          }
                         />
                       </div>
                     </div>
                   ))}
                   <div>
                     <div className="flex items-center gap-2">
-                      <Checkbox id="other-certification" />
+                      <Checkbox
+                        id="other-certification"
+                        disabled={
+                          registration?.certificate?.find(
+                            (info) => info?.cer_name === "none-certification",
+                          )?.is_active ?? false
+                        }
+                        checked={
+                          registration?.certificate?.find(
+                            (info) => info?.cer_name === "other",
+                          )?.is_active ?? false
+                        }
+                        onCheckedChange={(e) => {
+                          if (e) {
+                            setRegistration({
+                              ...registration,
+                              certificate: [
+                                ...registration?.certificate,
+                                {
+                                  cer_name: "other",
+                                  label: "",
+                                  is_active: true,
+                                  cer_value: null,
+                                  expired_date: null,
+                                },
+                              ],
+                            });
+                          } else {
+                            setRegistration({
+                              ...registration,
+                              certificate: [
+                                ...registration?.certificate.filter(
+                                  (info) => info?.cer_name !== "other",
+                                ),
+                              ],
+                            });
+                          }
+                        }}
+                      />
                       <label
                         htmlFor="other-certification"
-                        className="whitespace-nowrap text-sm font-medium"
+                        className={cn(
+                          "whitespace-nowrap text-sm font-medium",
+                          registration?.certificate?.find(
+                            (info) => info?.cer_name === "none-certification",
+                          )?.is_active && "line-through opacity-50",
+                        )}
                       >
                         อื่นๆ
                       </label>
@@ -101,6 +272,32 @@ const StandardInformationForm: FC = () => {
                         placeholder="โปรดระบุ"
                         className={cn("col-span-3 w-full")}
                         variant="flushed"
+                        disabled={
+                          !registration?.certificate?.find(
+                            (info) => info?.cer_name === "other",
+                          )?.is_active
+                        }
+                        onChange={(e) => {
+                          setRegistration({
+                            ...registration,
+                            certificate: [
+                              ...registration?.certificate.map((info) => {
+                                if (info?.cer_name === "other") {
+                                  return {
+                                    ...info,
+                                    label: e.target.value,
+                                  };
+                                }
+                                return info;
+                              }),
+                            ],
+                          });
+                        }}
+                        value={
+                          registration?.certificate?.find(
+                            (info) => info?.cer_name === "other",
+                          )?.label ?? ""
+                        }
                       />
                       <div className="col-span-2 flex items-center gap-2">
                         <p className="whitespace-nowrap text-sm font-normal">
@@ -110,6 +307,32 @@ const StandardInformationForm: FC = () => {
                           type="date"
                           className="w-full rounded-sm border px-2 text-sm"
                           required
+                          disabled={
+                            !registration?.certificate?.find(
+                              (info) => info?.cer_name === "other",
+                            )?.is_active
+                          }
+                          onChange={(e) => {
+                            setRegistration({
+                              ...registration,
+                              certificate: [
+                                ...registration?.certificate.map((info) => {
+                                  if (info?.cer_name === "other") {
+                                    return {
+                                      ...info,
+                                      expired_date: e.target.value,
+                                    };
+                                  }
+                                  return info;
+                                }),
+                              ],
+                            });
+                          }}
+                          value={
+                            registration?.certificate?.find(
+                              (info) => info?.cer_name === "other",
+                            )?.expired_date ?? ""
+                          }
                         />
                       </div>
                     </div>
@@ -131,15 +354,87 @@ const StandardInformationForm: FC = () => {
                   {BenefitsStandards?.map((item) => (
                     <div key={item.id} className="grid grid-cols-5 gap-2">
                       <div className="col-span-3 flex items-center gap-2">
-                        <Checkbox id={item.id?.toString()} />
+                        <Checkbox
+                          id={item.id?.toString()}
+                          checked={
+                            registration?.benefits?.find(
+                              (info) => info?.name === item?.id,
+                            )?.is_active ?? false
+                          }
+                          disabled={
+                            registration?.benefits?.find(
+                              (info) => info?.name === "none-benefit",
+                            )?.is_active && item?.id !== "none-benefit"
+                          }
+                          onCheckedChange={(e) => {
+                            if (item?.id === "none-benefit") {
+                              if (e) {
+                                setRegistration({
+                                  ...registration,
+                                  benefits: [
+                                    {
+                                      name: item?.id,
+                                      label: item?.label,
+                                      is_active: true,
+                                      value: "",
+                                      expired_date: null,
+                                    },
+                                  ],
+                                });
+                              } else {
+                                setRegistration({
+                                  ...registration,
+                                  benefits: [],
+                                });
+                              }
+                            } else {
+                              if (e) {
+                                setRegistration({
+                                  ...registration,
+                                  benefits: [
+                                    ...registration?.benefits,
+                                    {
+                                      name: item?.id,
+                                      label: item?.label,
+                                      is_active: true,
+                                      value: "",
+                                      expired_date: null,
+                                    },
+                                  ],
+                                });
+                              } else {
+                                setRegistration({
+                                  ...registration,
+                                  benefits: [
+                                    ...registration?.benefits.filter(
+                                      (info) => info?.name !== item?.id,
+                                    ),
+                                  ],
+                                });
+                              }
+                            }
+                          }}
+                        />
                         <label
                           htmlFor={item.id?.toString()}
-                          className="whitespace-nowrap text-sm font-medium"
+                          className={cn(
+                            "whitespace-nowrap text-sm font-medium",
+                            registration?.benefits?.find(
+                              (info) => info?.name === "none-benefit",
+                            )?.is_active && item?.id !== "none-benefit"
+                              ? "line-through opacity-50"
+                              : "",
+                          )}
                         >
                           {item.label}
                         </label>
                       </div>
-                      <div className="col-span-2 flex items-center gap-2">
+                      <div
+                        className={cn(
+                          "col-span-2 flex items-center gap-2",
+                          item?.id === "none-benefit" ? "hidden" : "",
+                        )}
+                      >
                         <p className="whitespace-nowrap text-sm font-normal">
                           วันที่หมดอายุ
                         </p>
@@ -147,16 +442,85 @@ const StandardInformationForm: FC = () => {
                           type="date"
                           className="w-full rounded-sm border px-2 text-sm"
                           required
+                          disabled={
+                            !registration?.benefits?.find(
+                              (info) => info?.name === item?.id,
+                            )?.is_active
+                          }
+                          onChange={(e) => {
+                            setRegistration({
+                              ...registration,
+                              benefits: [
+                                ...registration?.benefits.map((info) => {
+                                  if (info?.name === item?.id) {
+                                    return {
+                                      ...info,
+                                      expired_date: e.target.value,
+                                    };
+                                  }
+                                  return info;
+                                }),
+                              ],
+                            });
+                          }}
+                          value={
+                            registration?.benefits?.find(
+                              (info) => info?.name === item?.id,
+                            )?.expired_date ?? ""
+                          }
                         />
                       </div>
                     </div>
                   ))}
                   <div>
                     <div className="flex items-center gap-2">
-                      <Checkbox id="other" />
+                      <Checkbox
+                        id="other-benefit"
+                        disabled={
+                          registration?.benefits?.find(
+                            (info) => info?.name === "none-benefit",
+                          )?.is_active ?? false
+                        }
+                        checked={
+                          registration?.benefits?.find(
+                            (info) => info?.name === "other-benefit",
+                          )?.is_active ?? false
+                        }
+                        onCheckedChange={(e) => {
+                          if (e) {
+                            setRegistration({
+                              ...registration,
+                              benefits: [
+                                ...registration?.benefits,
+                                {
+                                  name: "other-benefit",
+                                  label: "",
+                                  is_active: true,
+                                  value: "",
+                                  expired_date: null,
+                                },
+                              ],
+                            });
+                          } else {
+                            setRegistration({
+                              ...registration,
+                              benefits: [
+                                ...registration?.benefits.filter(
+                                  (info) => info?.name !== "other-benefit",
+                                ),
+                              ],
+                            });
+                          }
+                        }}
+                      />
                       <label
-                        htmlFor="other"
-                        className="whitespace-nowrap text-sm font-medium"
+                        htmlFor="other-benefit"
+                        className={cn(
+                          "whitespace-nowrap text-sm font-medium",
+                          registration?.benefits?.find(
+                            (info) => info?.name === "none-benefit",
+                          )?.is_active && "line-through opacity-50",
+                        )}
                       >
                         อื่นๆ
                       </label>
@@ -167,6 +531,32 @@ const StandardInformationForm: FC = () => {
                         placeholder="โปรดระบุ"
                         className={cn("col-span-3 w-full")}
                         variant="flushed"
+                        disabled={
+                          !registration?.benefits?.find(
+                            (info) => info?.name === "other-benefit",
+                          )?.is_active
+                        }
+                        onChange={(e) => {
+                          setRegistration({
+                            ...registration,
+                            benefits: [
+                              ...registration?.benefits.map((info) => {
+                                if (info?.name === "other-benefit") {
+                                  return {
+                                    ...info,
+                                    label: e.target.value,
+                                  };
+                                }
+                                return info;
+                              }),
+                            ],
+                          });
+                        }}
+                        value={
+                          registration?.benefits?.find(
+                            (info) => info?.name === "other-benefit",
+                          )?.label ?? ""
+                        }
                       />
                       <div className="col-span-2 flex items-center gap-2">
                         <p className="whitespace-nowrap text-sm font-normal">
@@ -176,6 +566,32 @@ const StandardInformationForm: FC = () => {
                           type="date"
                           className="w-full rounded-sm border px-2 text-sm"
                           required
+                          disabled={
+                            !registration?.benefits?.find(
+                              (info) => info?.name === "other-benefit",
+                            )?.is_active
+                          }
+                          onChange={(e) => {
+                            setRegistration({
+                              ...registration,
+                              benefits: [
+                                ...registration?.benefits.map((info) => {
+                                  if (info?.name === "other-benefit") {
+                                    return {
+                                      ...info,
+                                      expired_date: e.target.value,
+                                    };
+                                  }
+                                  return info;
+                                }),
+                              ],
+                            });
+                          }}
+                          value={
+                            registration?.benefits?.find(
+                              (info) => info?.name === "other-benefit",
+                            )?.expired_date ?? ""
+                          }
                         />
                       </div>
                     </div>
