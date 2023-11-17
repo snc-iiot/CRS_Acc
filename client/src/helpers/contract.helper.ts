@@ -1,9 +1,15 @@
 import { IContractForm } from "@/types";
 
+// - ฝ่ายจัดซื้อ (SCM Officer)
+// - ผู้จัดการฝ่ายจัดซื้อ (SCM Department Manager)
+// - ฝ่ายบัญชีและการเงิน (Accounting & Financial officer)
+// - ผู้จัดการฝ่ายบัญชีและการเงิน (Accounting & Financial Department Manager)
+// - กรรมการผู้จัดการ (Managing Director)
+
 export const ContractInfo: IContractForm[] = [
   {
-    id: "manager_scm",
-    group: "ผู้จัดการแผนกฝ่ายจัดซื้อ",
+    id: "scm_officer",
+    group: "ฝ่ายจัดซื้อ",
     fields: [
       {
         name: "name",
@@ -29,8 +35,8 @@ export const ContractInfo: IContractForm[] = [
     ],
   },
   {
-    id: "manager_accounting",
-    group: "ผู้จัดการแผนกบัญชีและการเงิน",
+    id: "scm_department_manager",
+    group: "ผู้จัดการฝ่ายจัดซื้อ",
     fields: [
       {
         name: "name",
@@ -56,7 +62,61 @@ export const ContractInfo: IContractForm[] = [
     ],
   },
   {
-    id: "manager_director",
+    id: "accounting_officer",
+    group: "ฝ่ายบัญชีและการเงิน",
+    fields: [
+      {
+        name: "name",
+        label: "ชื่อนามสกุล",
+        type: "text",
+        placeholder: "กรอกชื่อนามสกุล",
+        required: true,
+      },
+      {
+        name: "tel",
+        label: "เบอร์โทรศัพท์",
+        type: "tel",
+        placeholder: "กรอกเบอร์โทรศัพท์",
+        required: true,
+      },
+      {
+        name: "email",
+        label: "อีเมล",
+        type: "email",
+        placeholder: "กรอกอีเมล",
+        required: true,
+      },
+    ],
+  },
+  {
+    id: "accounting_department_manager",
+    group: "ผู้จัดการฝ่ายบัญชีและการเงิน",
+    fields: [
+      {
+        name: "name",
+        label: "ชื่อนามสกุล",
+        type: "text",
+        placeholder: "กรอกชื่อนามสกุล",
+        required: true,
+      },
+      {
+        name: "tel",
+        label: "เบอร์โทรศัพท์",
+        type: "tel",
+        placeholder: "กรอกเบอร์โทรศัพท์",
+        required: true,
+      },
+      {
+        name: "email",
+        label: "อีเมล",
+        type: "email",
+        placeholder: "กรอกอีเมล",
+        required: true,
+      },
+    ],
+  },
+  {
+    id: "managing_director",
     group: "กรรมการผู้จัดการ",
     fields: [
       {

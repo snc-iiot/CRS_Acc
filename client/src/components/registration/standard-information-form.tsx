@@ -605,13 +605,14 @@ const StandardInformationForm: FC = () => {
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  เงื่อนไขการขายและรับชำระเงิน / Sales and Payment Terms
+                  {/* เงื่อนไขการขายและรับชำระเงิน / Sales and Payment Terms */}
+                  เงื่อนไขการซื้อขายและการชำระเงิน / Sales and Payment Terms
                 </h3>
               </div>
               <div className="col-span-6" />
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  เครดิตเทอมการจ่ายเงินของลูกค้า / Customer Credit Term
+                  เครดิตเทอมการจ่ายเงิน / Credit Term
                 </h3>
               </div>
               <div className="col-span-6 flex flex-col justify-start">
@@ -634,6 +635,7 @@ const StandardInformationForm: FC = () => {
                         </option>
                         <option value="30">30 วัน</option>
                         <option value="60">60 วัน</option>
+                        <option value="75">75 วัน</option>
                         <option value="90">90 วัน</option>
                       </select>
                     </div>
@@ -711,12 +713,12 @@ const StandardInformationForm: FC = () => {
           <article>
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-center justify-end">
-                <h3 className="text-sm font-bold">สกุลเงินที่ขาย / Currency</h3>
+                <h3 className="text-sm font-bold">สกุลเงิน / Currency</h3>
               </div>
               <div className="col-span-4 flex justify-start">
                 <div className="w-full">
                   <Select>
-                    <option value="">โปรดเลือกสกุลเงินที่ขาย</option>
+                    <option value="">โปรดเลือกสกุลเงิน</option>
                     {currencyList?.map((item) => (
                       <option key={item.cc} value={item.cc}>
                         {item.cc} - {item.name}
@@ -871,10 +873,10 @@ const StandardInformationForm: FC = () => {
                       <option value="" className="text-sm">
                         โปรดเลือกเงื่อนไขการวางเงินมัดจำ
                       </option>
-                      <option value="30-70">30/70 %</option>
-                      <option value="50-50">50/50 %</option>
-                      <option value="60-40">60/40 %</option>
-                      <option value="70-30">70/30 %</option>
+                      <option value="30-70">30/70 (%)</option>
+                      <option value="50-50">50/50 (%)</option>
+                      <option value="60-40">60/40 (%)</option>
+                      <option value="70-30">70/30 (%)</option>
                       <option value="other">อื่นๆ</option>
                     </select>
                   </div>
@@ -906,7 +908,7 @@ const StandardInformationForm: FC = () => {
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  รับประกันสินค้า / Product Warranty
+                  เงื่อนไขการประกันสินค้า / Product Warranty
                 </h3>
               </div>
               <div className="col-span-4 flex justify-start">
@@ -921,7 +923,7 @@ const StandardInformationForm: FC = () => {
                         htmlFor="warranty"
                         className="whitespace-nowrap text-sm font-medium"
                       >
-                        มี
+                        ต้องการ
                       </label>
                     </div>
                     <select className="rounded-sm border px-2 py-[0.1rem] text-sm">
@@ -955,7 +957,7 @@ const StandardInformationForm: FC = () => {
                       htmlFor="none-warranty"
                       className="whitespace-nowrap text-sm font-medium"
                     >
-                      ไม่มี
+                      ไม่ต้องการ
                     </label>
                   </div>
                 </RadioGroup>
@@ -1000,12 +1002,12 @@ const StandardInformationForm: FC = () => {
               </div>
             </section>
           </article>
-          {/* //!วัตถุประสงค์การซื้อสินค้า / The objective of purchasing. */}
+          {/* //!วัตถุประสงค์หลักการซื้อสินค้า / The objective of purchasing. */}
           <article>
             <section className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  วัตถุประสงค์การซื้อสินค้า / The objective of purchasing.
+                  วัตถุประสงค์หลักการซื้อสินค้า / The objective of purchasing
                 </h3>
               </div>
               <div className="col-span-6 flex flex-col justify-start">

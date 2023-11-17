@@ -24,9 +24,11 @@ export const registrationSchema = z.object({
   contract_person: z.array(
     z.object({
       position: z.enum([
-        "manager_scm",
-        "manager_accounting",
-        "manager_director",
+        "scm_officer",
+        "scm_department_manager",
+        "accounting_officer",
+        "accounting_department_manager",
+        "managing_director",
       ]),
       name: z.string().min(2),
       phone_number: z.string().min(2),

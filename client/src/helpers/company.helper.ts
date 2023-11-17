@@ -30,9 +30,9 @@ export const CompanyInfo: ICompanyForm[] = [
   },
   {
     name: "address",
-    label: "ที่อยู่",
+    label: "เลขที่",
     type: "textarea",
-    placeholder: "กรอกที่อยู่",
+    placeholder: "กรอกเลขที่",
     required: true,
   },
   {
@@ -109,9 +109,9 @@ export const CompanyInfo: ICompanyForm[] = [
   },
   {
     name: "nature_of_business",
-    label: "ประเภทธุรกิจ",
-    type: "text",
-    placeholder: "กรอกประเภทธุรกิจ",
+    label: "ประเภทกิจตามใบอนุญาติตามใบประกอบการ",
+    type: "textarea",
+    placeholder: "กรอกประเภทกิจตามใบอนุญาติตามใบประกอบการ",
     required: true,
   },
 ];
