@@ -21,7 +21,7 @@ interface IInfo {
 
 interface ITableDBDProps {
   data: ITableDBD[];
-  header: string;
+  header?: string;
   description?: string;
   className?: string;
 }
@@ -77,10 +77,10 @@ const TableDBD: FC<ITableDBDProps> = ({
 }) => {
   return (
     <div className={className}>
-      <h2 className="text-base font-bold">
-        {header ?? "Statement of Financial Position"}
-      </h2>
-      <p className="text-sm text-muted-foreground">{description ?? ""}</p>
+      {header ? <h2 className="text-base font-bold">{header}</h2> : null}
+      {description ? (
+        <p className="text-xs text-muted-foreground">{description ?? ""}</p>
+      ) : null}
       <Table className="w-full border-collapse border-spacing-0 border">
         <TableHeader className="bg-primary-foreground">
           <TableRow className="text-xs">

@@ -25,16 +25,9 @@ const TableFinancialRatio: FC = () => {
   const data: TFinancialRatioAnalytics[] = MockData;
 
   return (
-    <div>
-      <h1 className="text-base font-bold">
-        อัตราส่วนการเงิน (Financial Ratio)
-      </h1>
-      <p className="text-sm text-muted-foreground">
-        อัตราส่วนการเงิน คือ
-        ค่าที่ได้จากการนำข้อมูลทางการเงินที่เกี่ยวข้องกันมาคำนวณเป็นสัดส่วนเพื่อใช้วิเคราะห์และประเมินผลการดำเนินงานขององค์กร
-      </p>
-      <Table className="w-full">
-        <TableHeader className="bg-primary-foreground">
+    <div className="w-full overflow-auto">
+      <Table className="relative h-full w-full ">
+        <TableHeader>
           <TableRow>
             {HEADER.map((item, index) => (
               <TableHead
