@@ -14,7 +14,7 @@ const R2Form: FC = () => {
   return (
     <div className="pb-4">
       <h3 className="text-lg font-bold">รายงานการวิเคราะห์ข้อมูลทางการเงิน</h3>
-      <Accordion type="multiple" defaultValue={["item-3"]}>
+      <Accordion type="multiple">
         <AccordionItem value="item-1">
           <AccordionTrigger className="p-1 text-xs font-bold">
             งบการเงิน / Statement of Financial Position
