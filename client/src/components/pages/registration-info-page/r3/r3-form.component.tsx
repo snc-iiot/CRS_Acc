@@ -37,40 +37,41 @@ const R3Form: FC = () => {
               Note
             </TableHead>
             <TableHead
-              colSpan={3}
+              colSpan={data[0]?.data[0]?.current.length}
               className="border-b-none border-l border-t text-center font-bold text-black"
             >
               งบการเงินกิจการ
             </TableHead>
           </TableRow>
           <TableRow className="text-xs">
-            <TableHead className="border text-center font-bold text-black">
-              2563
-            </TableHead>
-            <TableHead className="border text-center font-bold text-black">
-              2564
-            </TableHead>
-            <TableHead className="border text-center font-bold text-black">
-              2565 (ปีล่าสุด)
-            </TableHead>
+            {data[0]?.data[0]?.current.map((data) => (
+              <TableHead
+                key={data?.year}
+                className="border text-center font-bold text-black"
+              >
+                {data?.year}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
-        {data.map((item) => (
-          <TableBody>
+        {data.map((item, index) => (
+          <TableBody key={index}>
             <TableRow className="bg-primary-foreground text-xs">
               <TableCell className="border font-bold" colSpan={6}>
                 {item.name}
               </TableCell>
             </TableRow>
-            {item.data.map((data) => (
-              <TableRow className="text-xs">
+            {item.data.map((data, j) => (
+              <TableRow className="text-xs" key={j}>
                 <TableCell className="border">{data.list_name}</TableCell>
                 <TableCell className="border text-center">
                   {data.note}
                 </TableCell>
-                <TableCell className="text-end">{data.current}</TableCell>
-                <TableCell className="text-end">{data.current}</TableCell>
-                <TableCell className="text-end">{data.current}</TableCell>
+                {data.current.map((data, i) => (
+                  <TableCell key={i} className="border text-end">
+                    {data?.value ?? "-"}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
