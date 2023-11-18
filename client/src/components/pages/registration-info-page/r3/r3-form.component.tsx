@@ -19,40 +19,58 @@ const R3Form: FC = () => {
           อัตราส่วนทางการเงิน (Financial Ratio)
         </h3>
       </div>
-      <Table className="w-full border-separate border-spacing-0">
+      <Table className="w-full border-collapse border-spacing-0 border">
         <TableHeader
           className={cn("top-0 z-10 bg-primary-foreground", "sticky")}
         >
-          <TableRow className="text-xs">
-            <TableHead rowSpan={2} className="border text-center">
+          <TableRow className="text-xs ">
+            <TableHead
+              rowSpan={2}
+              className="border text-start font-bold text-black"
+            >
               รายการ
             </TableHead>
             <TableHead
               rowSpan={2}
-              className="border-x-none border-y text-center"
+              className="border-x-none border-y text-center font-bold text-black"
             >
               Note
             </TableHead>
-            <TableHead className="border-b-none border-l border-t text-end">
+            <TableHead
+              colSpan={3}
+              className="border-b-none border-l border-t text-center font-bold text-black"
+            >
               งบการเงินกิจการ
             </TableHead>
           </TableRow>
           <TableRow className="text-xs">
-            <TableHead className="border text-end">2565 (ปีล่าสุด)</TableHead>
+            <TableHead className="border text-center font-bold text-black">
+              2563
+            </TableHead>
+            <TableHead className="border text-center font-bold text-black">
+              2564
+            </TableHead>
+            <TableHead className="border text-center font-bold text-black">
+              2565 (ปีล่าสุด)
+            </TableHead>
           </TableRow>
         </TableHeader>
         {data.map((item) => (
           <TableBody>
             <TableRow className="bg-primary-foreground text-xs">
-              <TableCell className="font-bold" colSpan={3}>
+              <TableCell className="border font-bold" colSpan={6}>
                 {item.name}
               </TableCell>
             </TableRow>
             {item.data.map((data) => (
               <TableRow className="text-xs">
-                <TableCell className="">{data.list_name}</TableCell>
-                <TableCell className="">{data.note}</TableCell>
-                <TableCell className=" text-end">{data.current}</TableCell>
+                <TableCell className="border">{data.list_name}</TableCell>
+                <TableCell className="border text-center">
+                  {data.note}
+                </TableCell>
+                <TableCell className="text-end">{data.current}</TableCell>
+                <TableCell className="text-end">{data.current}</TableCell>
+                <TableCell className="text-end">{data.current}</TableCell>
               </TableRow>
             ))}
           </TableBody>

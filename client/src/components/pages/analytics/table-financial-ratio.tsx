@@ -25,14 +25,17 @@ const TableFinancialRatio: FC = () => {
   const data: TFinancialRatioAnalytics[] = MockData;
 
   return (
-    <div className="w-full overflow-auto">
-      <Table className="relative h-full w-full ">
-        <TableHeader>
+    <div className="h-full w-full">
+      <Table className="relative h-full w-full">
+        <TableHeader className="bg-primary-foreground">
           <TableRow>
             {HEADER.map((item, index) => (
               <TableHead
                 key={index}
-                className="border text-start text-xs font-bold text-foreground"
+                className={cn(
+                  "whitespace-nowrap border  text-xs font-bold text-foreground",
+                  index === 0 ? "text-start" : "text-center",
+                )}
               >
                 {item}
               </TableHead>
@@ -41,16 +44,16 @@ const TableFinancialRatio: FC = () => {
         </TableHeader>
         {data.map((table) => (
           <TableBody key={table?.Topic ?? "-"}>
-            <TableRow className="text-xs">
-              <TableCell
-                colSpan={HEADER?.length}
-                className="border bg-primary-foreground font-bold"
-              >
+            <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
+              <TableCell colSpan={HEADER?.length} className="border font-bold">
                 {table?.Topic}
               </TableCell>
             </TableRow>
             {table?.info?.map((info) => (
-              <TableRow key={info?.FinancialRatio ?? "-"} className="text-xs">
+              <TableRow
+                key={info?.FinancialRatio ?? "-"}
+                className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground"
+              >
                 <TableCell className="whitespace-nowrap border">
                   {info?.FinancialRatio}
                 </TableCell>
@@ -63,18 +66,22 @@ const TableFinancialRatio: FC = () => {
                       key={formula}
                       className={cn(
                         i === 0 ? "border-b text-center" : "text-center",
-                        "whitespace-nowrap",
+                        "w-full whitespace-nowrap border-foreground",
                       )}
                     >
                       {formula}
                     </div>
                   ))}
                 </TableCell>
-                <TableCell className="border">{info?.Target}</TableCell>
+                <TableCell className="whitespace-nowrap border">
+                  {info?.Target}
+                </TableCell>
                 <TableCell className="border text-end">
                   {info?.Result}
                 </TableCell>
-                <TableCell className="border">{info?.Unit}</TableCell>
+                <TableCell className="border text-center">
+                  {info?.Unit}
+                </TableCell>
                 <TableCell className="whitespace-nowrap border">
                   {info?.Reference}
                 </TableCell>

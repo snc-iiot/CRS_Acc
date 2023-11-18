@@ -13,11 +13,11 @@ const R2Form: FC = () => {
   const data: ITableDBD[] = MockDBDData;
   return (
     <div className="pb-4">
-      <h3 className="text-4xl font-bold">R2</h3>
-      <Accordion type="multiple">
+      <h3 className="text-lg font-bold">รายงานการวิเคราะห์ข้อมูลทางการเงิน</h3>
+      <Accordion type="multiple" defaultValue={["item-3"]}>
         <AccordionItem value="item-1">
           <AccordionTrigger className="p-1 text-xs font-bold">
-            Statement of Financial Position
+            งบการเงิน / Statement of Financial Position
           </AccordionTrigger>
           <AccordionContent>
             <TableDBD className="w-full" data={data} />
@@ -25,7 +25,7 @@ const R2Form: FC = () => {
         </AccordionItem>
         <AccordionItem value="item-2">
           <AccordionTrigger className="p-1 text-xs font-bold">
-            Income Statement
+            งบกำไรขาดทุน / Income Statement
           </AccordionTrigger>
           <AccordionContent>
             <TableDBD className="w-full" data={data} />
@@ -33,7 +33,7 @@ const R2Form: FC = () => {
         </AccordionItem>
         <AccordionItem value="item-3">
           <AccordionTrigger className="p-1 text-xs font-bold">
-            อัตราส่วนการเงิน (Financial Ratio)
+            อัตราส่วนทางการเงิน / Financial Ratio
           </AccordionTrigger>
           <AccordionContent>
             <TableFinancialRatio />

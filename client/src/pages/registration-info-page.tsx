@@ -275,17 +275,17 @@ const RegistrationInfo: FC = () => {
               </div>
 
               {/* //! Comments & Other */}
-              <div className="grid h-[25%] grid-cols-2 border border-blue-500">
-                <div className="h-full border">
-                  <h3 className="text-sm font-semibold underline">
+              <div className="grid h-[25%] grid-cols-2">
+                <div className="h-full border border-r-0">
+                  <h3 className="px-2 py-1 text-sm font-semibold underline">
                     ข้อเสนอแนะ / Comments
                   </h3>
                 </div>
-                <div className="h-full border border-green-500"></div>
+                <div className="h-full border"></div>
               </div>
 
               {/* //! Right Footer */}
-              <div className="h-[5%] border border-red-500"></div>
+              <div className="h-[5%] border border-t-0"></div>
             </div>
           </div>
         </main>
