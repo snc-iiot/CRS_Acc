@@ -394,14 +394,24 @@ const StandardsCertifications: FC = () => {
 
         {/* //! 4.3.6 */}
         <h5>3.6 เงื่อนไขการขนส่งสินค้า</h5>
-        <div className="grid grid-cols-4 items-center pl-1">
+        <div className="grid grid-cols-2 items-center pl-1">
           <div className="flex items-center gap-x-1">
             <Icons.checkSquare className="h-3 w-3 text-primary" />
-            <p className="text-primary">บริษัทขนส่งสินค้าเอง</p>
+            <p className="whitespace-nowrap text-primary">
+              SNC เป็นผู้ขนส่งสินค้า
+            </p>
           </div>
           <div className="flex items-center gap-x-1">
             <Icons.checkSquare className="h-3 w-3 text-primary" />
-            <p className="text-primary">ลูกค้ามารับสินค้าเอง</p>
+            <p className="whitespace-nowrap text-primary">
+              ผู้รับ (Customer) เป็นผู้ขนส่งสินค้า
+            </p>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <Icons.checkSquare className="h-3 w-3 text-primary" />
+            <p className="whitespace-nowrap text-primary">
+              ผู้รับ (Customer) จ้างขนส่งภายนอก
+            </p>
           </div>
         </div>
 

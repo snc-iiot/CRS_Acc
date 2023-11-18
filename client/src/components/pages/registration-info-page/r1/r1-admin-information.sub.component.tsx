@@ -550,7 +550,7 @@ export const R1AdminInformation: FC = () => {
             return (
               <div key={i} className="mb-2">
                 <div className="mb-1 flex items-center gap-x-1">
-                  <p className="w-[7rem] whitespace-nowrap">
+                  <p className="w-[10rem] whitespace-nowrap">
                     {i + 1}. ชื่อซัพพลายเออร์
                   </p>
                   <input
@@ -560,8 +560,8 @@ export const R1AdminInformation: FC = () => {
                   />
                 </div>
                 <div className="mb-1 flex items-center gap-x-1">
-                  <p className="w-[7rem] whitespace-nowrap">
-                    &nbsp;&nbsp;&nbsp;&nbsp;สัดส่วนการใช้
+                  <p className="w-[10rem] whitespace-nowrap">
+                    &nbsp;&nbsp;&nbsp;&nbsp;สัดส่วนการใช้วัตถุดิบ (BOM)
                   </p>
                   <input
                     type="number"
@@ -571,7 +571,7 @@ export const R1AdminInformation: FC = () => {
                   <span>%</span>
                 </div>
                 <div className="mb-1 flex items-center gap-x-1">
-                  <p className="w-[7rem] whitespace-nowrap">
+                  <p className="w-[10rem] whitespace-nowrap">
                     &nbsp;&nbsp;&nbsp;&nbsp;เครดิตเทอม
                   </p>
                   <input
@@ -720,7 +720,7 @@ export const R1AdminInformation: FC = () => {
           </div>
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">
-              ระยะเวลาในการผลิต (PRD.)
+              ระยะเวลาในการผลิต (WIP.)
             </p>
             <input
               type="number"

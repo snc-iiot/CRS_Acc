@@ -1,0 +1,102 @@
+[
+  {
+    "Topic": "Revenue from Sales&Services",
+    "Info": [
+      { "Year": 2018, "Amount": 1631956517, "Change": -33.57 },
+      { "Year": 2019, "Amount": 2348786042, "Change": 43.92 },
+      { "Year": 2020, "Amount": 5882067285, "Change": 150.43 },
+      { "Year": 2021, "Amount": 11469771641, "Change": 94.99 },
+      { "Year": 2022, "Amount": 14492062173, "Change": 26.35 }
+    ]
+  },
+  {
+    "Topic": "Total Revenue",
+    "Info": [
+      { "Year": 2018, "Amount": 1654215463, "Change": -33.14 },
+      { "Year": 2019, "Amount": 2378428108, "Change": 43.77 },
+      { "Year": 2020, "Amount": 5930565380, "Change": 149.34 },
+      { "Year": 2021, "Amount": 11592280411, "Change": 95.46 },
+      { "Year": 2022, "Amount": 14699775358, "Change": 26.8 }
+    ]
+  },
+  {
+    "Topic": "Cost of Goods Sold",
+    "Info": [
+      { "Year": 2018, "Amount": 1577732276, "Change": -34.38 },
+      { "Year": 2019, "Amount": 2285881159, "Change": 44.88 },
+      { "Year": 2020, "Amount": 5639891931, "Change": 146.72 },
+      { "Year": 2021, "Amount": 10956330382, "Change": 94.26 },
+      { "Year": 2022, "Amount": 13978768932, "Change": 27.58 }
+    ]
+  },
+  {
+    "Topic": "Gross Profit (Loss)",
+    "Info": [
+      { "Year": 2018, "Amount": 76483187, "Change": 45.6 },
+      { "Year": 2019, "Amount": 62904883, "Change": -17.75 },
+      { "Year": 2020, "Amount": 242175354, "Change": 284.98 },
+      { "Year": 2021, "Amount": 513441259, "Change": 112.01 },
+      { "Year": 2022, "Amount": 513293241, "Change": -0.02 }
+    ]
+  },
+  {
+    "Topic": "Selling&Admin Expenses",
+    "Info": [
+      { "Year": 2018, "Amount": 46296197, "Change": -50.6 },
+      { "Year": 2019, "Amount": 88409728, "Change": 90.96 },
+      { "Year": 2020, "Amount": 164090816, "Change": 85.6 },
+      { "Year": 2021, "Amount": 261833606, "Change": 59.56 },
+      { "Year": 2022, "Amount": 284469676, "Change": 8.64 }
+    ]
+  },
+  {
+    "Topic": "Total Expenses",
+    "Info": [
+      { "Year": 2018, "Amount": 1624028473, "Change": -34.99 },
+      { "Year": 2019, "Amount": 2374290887, "Change": 46.19 },
+      { "Year": 2020, "Amount": 5803982747, "Change": 144.45 },
+      { "Year": 2021, "Amount": 11218163988, "Change": 93.28 },
+      { "Year": 2022, "Amount": 14263238608, "Change": 27.14 }
+    ]
+  },
+  {
+    "Topic": "Interest Expenses",
+    "Info": [
+      { "Year": 2018, "Amount": 19730139, "Change": -39 },
+      { "Year": 2019, "Amount": 15477642, "Change": -21.55 },
+      { "Year": 2020, "Amount": 47232145, "Change": 205.16 },
+      { "Year": 2021, "Amount": 41855294, "Change": -11.38 },
+      { "Year": 2022, "Amount": 64989968, "Change": 55.27 }
+    ]
+  },
+  {
+    "Topic": "Profit(Loss) before Income Tax",
+    "Info": [
+      { "Year": 2018, "Amount": 10456851, "Change": 118.66 },
+      { "Year": 2019, "Amount": -11340421, "Change": -208.44 },
+      { "Year": 2020, "Amount": 79350488, "Change": 799.71 },
+      { "Year": 2021, "Amount": 332261129, "Change": 318.72 },
+      { "Year": 2022, "Amount": 371546782, "Change": 11.82 }
+    ]
+  },
+  {
+    "Topic": "Income Tax Expense",
+    "Info": [
+      { "Year": 2018, "Amount": 0, "Change": 0 },
+      { "Year": 2019, "Amount": 0, "Change": 0 },
+      { "Year": 2020, "Amount": 0, "Change": 0 },
+      { "Year": 2021, "Amount": 11363203, "Change": 0 },
+      { "Year": 2022, "Amount": 34155181, "Change": 200.57 }
+    ]
+  },
+  {
+    "Topic": "Net Profit (Loss)",
+    "Info": [
+      { "Year": 2018, "Amount": 10456851, "Change": 118.66 },
+      { "Year": 2019, "Amount": -11340421, "Change": -208.44 },
+      { "Year": 2020, "Amount": 79350488, "Change": 799.71 },
+      { "Year": 2021, "Amount": 320897926, "Change": 304.4 },
+      { "Year": 2022, "Amount": 337391601, "Change": 5.13 }
+    ]
+  }
+]

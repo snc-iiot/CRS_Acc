@@ -1,0 +1,167 @@
+[
+  {
+    "No": 1,
+    "Topic": "Return on Assets (%)",
+    "Info": [
+      { "Year": 2018, "Raio": 1.03 },
+      { "Year": 2019, "Raio": -0.82 },
+      { "Year": 2020, "Raio": 2.97 },
+      { "Year": 2021, "Raio": 5.31 },
+      { "Year": 2022, "Raio": 4.14 }
+    ]
+  },
+  {
+    "No": 2,
+    "Topic": "Return on Equity (%)",
+    "Info": [
+      { "Year": 2018, "Raio": 5.02 },
+      { "Year": 2019, "Raio": -3.17 },
+      { "Year": 2020, "Raio": 13.5 },
+      { "Year": 2021, "Raio": 20.92 },
+      { "Year": 2022, "Raio": 14.74 }
+    ]
+  },
+  {
+    "No": 3,
+    "Topic": "Gross Profit Margin (%)",
+    "Info": [
+      { "Year": 2018, "Raio": 4.62 },
+      { "Year": 2019, "Raio": 2.64 },
+      { "Year": 2020, "Raio": 4.08 },
+      { "Year": 2021, "Raio": 4.43 },
+      { "Year": 2022, "Raio": 3.49 }
+    ]
+  },
+  {
+    "No": 4,
+    "Topic": "Operating Income on Revenue Ratio (%)",
+    "Info": [
+      { "Year": 2018, "Raio": 0.63 },
+      { "Year": 2019, "Raio": -0.48 },
+      { "Year": 2020, "Raio": 1.34 },
+      { "Year": 2021, "Raio": 2.87 },
+      { "Year": 2022, "Raio": 2.53 }
+    ]
+  },
+  {
+    "No": 5,
+    "Topic": "Net Profit Margin (%)",
+    "Info": [
+      { "Year": 2018, "Raio": 0.63 },
+      { "Year": 2019, "Raio": -0.48 },
+      { "Year": 2020, "Raio": 1.34 },
+      { "Year": 2021, "Raio": 2.77 },
+      { "Year": 2022, "Raio": 2.3 }
+    ]
+  },
+  {
+    "No": 6,
+    "Topic": "Current Ratio (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 0.83 },
+      { "Year": 2019, "Raio": 0.55 },
+      { "Year": 2020, "Raio": 0.93 },
+      { "Year": 2021, "Raio": 1.1 },
+      { "Year": 2022, "Raio": 1.2 }
+    ]
+  },
+  {
+    "No": 7,
+    "Topic": "Accounts Receivable Turnover (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 6.53 },
+      { "Year": 2019, "Raio": 10.24 },
+      { "Year": 2020, "Raio": 15.12 },
+      { "Year": 2021, "Raio": 9.2 },
+      { "Year": 2022, "Raio": 6.84 }
+    ]
+  },
+  {
+    "No": 8,
+    "Topic": "Inventory Turnover (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 23.01 },
+      { "Year": 2019, "Raio": 12.15 },
+      { "Year": 2020, "Raio": 7.89 },
+      { "Year": 2021, "Raio": 5.74 },
+      { "Year": 2022, "Raio": 7.07 }
+    ]
+  },
+  {
+    "No": 9,
+    "Topic": "Accounts Payable Turnover (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 5.44 },
+      { "Year": 2019, "Raio": 4.63 },
+      { "Year": 2020, "Raio": 4.86 },
+      { "Year": 2021, "Raio": 3.69 },
+      { "Year": 2022, "Raio": 3.7 }
+    ]
+  },
+  {
+    "No": 10,
+    "Topic": "Total Assets Turnover (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 1.63 },
+      { "Year": 2019, "Raio": 1.72 },
+      { "Year": 2020, "Raio": 2.22 },
+      { "Year": 2021, "Raio": 1.92 },
+      { "Year": 2022, "Raio": 1.8 }
+    ]
+  },
+  {
+    "No": 11,
+    "Topic": "Operation Expense to Total Revenue Ratio (%)",
+    "Info": [
+      { "Year": 2018, "Raio": 98.18 },
+      { "Year": 2019, "Raio": 99.83 },
+      { "Year": 2020, "Raio": 97.87 },
+      { "Year": 2021, "Raio": 96.77 },
+      { "Year": 2022, "Raio": 97.03 }
+    ]
+  },
+  {
+    "No": 12,
+    "Topic": "Asset to Equity Ratio or Financial Leverage (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 2.61 },
+      { "Year": 2019, "Raio": 5.16 },
+      { "Year": 2020, "Raio": 4.27 },
+      { "Year": 2021, "Raio": 3.82 },
+      { "Year": 2022, "Raio": 3.31 }
+    ]
+  },
+  {
+    "No": 13,
+    "Topic": "Debt to Asset Ratio (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 0.62 },
+      { "Year": 2019, "Raio": 0.81 },
+      { "Year": 2020, "Raio": 0.77 },
+      { "Year": 2021, "Raio": 0.74 },
+      { "Year": 2022, "Raio": 0.7 }
+    ]
+  },
+  {
+    "No": 14,
+    "Topic": "Debt to Equity Ratio (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 1.61 },
+      { "Year": 2019, "Raio": 4.16 },
+      { "Year": 2020, "Raio": 3.27 },
+      { "Year": 2021, "Raio": 2.82 },
+      { "Year": 2022, "Raio": 2.31 }
+    ]
+  },
+  {
+    "No": 15,
+    "Topic": "Debt to Capital Ratio (times)",
+    "Info": [
+      { "Year": 2018, "Raio": 0.62 },
+      { "Year": 2019, "Raio": 0.81 },
+      { "Year": 2020, "Raio": 0.77 },
+      { "Year": 2021, "Raio": 0.74 },
+      { "Year": 2022, "Raio": 0.7 }
+    ]
+  }
+]

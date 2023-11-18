@@ -1,0 +1,112 @@
+[
+  {
+    "Topic": "Accounts Receivable",
+    "Info": [
+      { "Year": 2018, "Amount": 208478020, "Change": -29.99 },
+      { "Year": 2019, "Amount": 256089702, "Change": 22.83 },
+      { "Year": 2020, "Amount": 528451383, "Change": 106.35 },
+      { "Year": 2021, "Amount": 1992830299, "Change": 277.1 },
+      { "Year": 2022, "Amount": 2305458612, "Change": 15.68 }
+    ]
+  },
+  {
+    "Topic": "Inventories",
+    "Info": [
+      { "Year": 2018, "Amount": 68376559, "Change": -0.58 },
+      { "Year": 2019, "Amount": 307833320, "Change": 350.2 },
+      { "Year": 2020, "Amount": 1121780659, "Change": 264.41 },
+      { "Year": 2021, "Amount": 2697239203, "Change": 140.44 },
+      { "Year": 2022, "Amount": 1257382462, "Change": -53.38 }
+    ]
+  },
+  {
+    "Topic": "Total Current Assets",
+    "Info": [
+      { "Year": 2018, "Amount": 424091846, "Change": -15.5 },
+      { "Year": 2019, "Amount": 797288819, "Change": 87.99 },
+      { "Year": 2020, "Amount": 2070663850, "Change": 159.71 },
+      { "Year": 2021, "Amount": 5990990177, "Change": 189.32 },
+      { "Year": 2022, "Amount": 4785992215, "Change": -20.11 }
+    ]
+  },
+  {
+    "Topic": "Property, Plant and Equipment",
+    "Info": [
+      { "Year": 2018, "Amount": 505459890, "Change": -9.98 },
+      { "Year": 2019, "Amount": 994851399, "Change": 96.82 },
+      { "Year": 2020, "Amount": 1429320398, "Change": 43.67 },
+      { "Year": 2021, "Amount": 2565921487, "Change": 79.52 },
+      { "Year": 2022, "Amount": 2758068135, "Change": 7.48 }
+    ]
+  },
+  {
+    "Topic": "Total Non-current Assets",
+    "Info": [
+      { "Year": 2018, "Amount": 524215678, "Change": -9.68 },
+      { "Year": 2019, "Amount": 1020096452, "Change": 94.59 },
+      { "Year": 2020, "Amount": 1450229705, "Change": 42.16 },
+      { "Year": 2021, "Amount": 2574207432, "Change": 77.5 },
+      { "Year": 2022, "Amount": 2939165438, "Change": 14.17 }
+    ]
+  },
+  {
+    "Topic": "Total Assets",
+    "Info": [
+      { "Year": 2018, "Amount": 948307524, "Change": -12.38 },
+      { "Year": 2019, "Amount": 1817385271, "Change": 91.64 },
+      { "Year": 2020, "Amount": 3520893555, "Change": 93.73 },
+      { "Year": 2021, "Amount": 8565197609, "Change": 143.26 },
+      { "Year": 2022, "Amount": 7725157653, "Change": -9.8 }
+    ]
+  },
+  {
+    "Topic": "Total Current Liabilities",
+    "Info": [
+      { "Year": 2018, "Amount": 511384260, "Change": -43.91 },
+      { "Year": 2019, "Amount": 1439389995, "Change": 181.46 },
+      { "Year": 2020, "Amount": 2217697236, "Change": 54.07 },
+      { "Year": 2021, "Amount": 5431920549, "Change": 144.93 },
+      { "Year": 2022, "Amount": 3972216987, "Change": -26.87 }
+    ]
+  },
+  {
+    "Topic": "Total Non-current Liabilities",
+    "Info": [
+      { "Year": 2018, "Amount": 73261472, "Change": -37.59 },
+      { "Year": 2019, "Amount": 25673905, "Change": -64.95 },
+      { "Year": 2020, "Amount": 479518460, "Change": 1767.72 },
+      { "Year": 2021, "Amount": 888699775, "Change": 85.33 },
+      { "Year": 2022, "Amount": 1418068316, "Change": 59.56 }
+    ]
+  },
+  {
+    "Topic": "Total Liabilities",
+    "Info": [
+      { "Year": 2018, "Amount": 584645732, "Change": -43.19 },
+      { "Year": 2019, "Amount": 1465063900, "Change": 150.59 },
+      { "Year": 2020, "Amount": 2697215696, "Change": 84.1 },
+      { "Year": 2021, "Amount": 6320620324, "Change": 134.33 },
+      { "Year": 2022, "Amount": 5390285303, "Change": -14.71 }
+    ]
+  },
+  {
+    "Topic": "Equity",
+    "Info": [
+      { "Year": 2018, "Amount": 363661792, "Change": 583.51 },
+      { "Year": 2019, "Amount": 352321371, "Change": -3.11 },
+      { "Year": 2020, "Amount": 823677859, "Change": 133.78 },
+      { "Year": 2021, "Amount": 2244577285, "Change": 172.5 },
+      { "Year": 2022, "Amount": 2334872350, "Change": 4.02 }
+    ]
+  },
+  {
+    "Topic": "Total Liabilities and Equity",
+    "Info": [
+      { "Year": 2018, "Amount": 948307524, "Change": -12.38 },
+      { "Year": 2019, "Amount": 1817385271, "Change": 91.64 },
+      { "Year": 2020, "Amount": 3520893555, "Change": 93.73 },
+      { "Year": 2021, "Amount": 8565197609, "Change": 143.26 },
+      { "Year": 2022, "Amount": 7725157653, "Change": -9.8 }
+    ]
+  }
+]
