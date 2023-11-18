@@ -33,7 +33,7 @@ const TableFinancialRatio: FC = () => {
         อัตราส่วนการเงิน คือ
         ค่าที่ได้จากการนำข้อมูลทางการเงินที่เกี่ยวข้องกันมาคำนวณเป็นสัดส่วนเพื่อใช้วิเคราะห์และประเมินผลการดำเนินงานขององค์กร
       </p>
-      <Table className="w-full border-collapse border-spacing-0 border">
+      <Table className="w-full">
         <TableHeader className="bg-primary-foreground">
           <TableRow>
             {HEADER.map((item, index) => (
@@ -61,13 +61,16 @@ const TableFinancialRatio: FC = () => {
                 <TableCell className="whitespace-nowrap border">
                   {info?.FinancialRatio}
                 </TableCell>
-                <TableCell className="border">{info?.Meaning}</TableCell>
+                <TableCell className="whitespace-nowrap border">
+                  {info?.Meaning}
+                </TableCell>
                 <TableCell className="border">
                   {info?.Formula?.map((formula, i) => (
                     <div
                       key={formula}
                       className={cn(
                         i === 0 ? "border-b text-center" : "text-center",
+                        "whitespace-nowrap",
                       )}
                     >
                       {formula}
@@ -79,7 +82,9 @@ const TableFinancialRatio: FC = () => {
                   {info?.Result}
                 </TableCell>
                 <TableCell className="border">{info?.Unit}</TableCell>
-                <TableCell className="border">{info?.Reference}</TableCell>
+                <TableCell className="whitespace-nowrap border">
+                  {info?.Reference}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -13,10 +13,13 @@
       },
       {
         "FinancialRatio": "อัตราส่วนทุนหมุนเวียนเร็ว (Quick Ratio)",
-        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
-        "Formula": ["Total Current Assets", "Total Current Liabilities"],
-        "Target": "> 1.5 หรือ 150%",
-        "Result": 1.2,
+        "Meaning": "สินทรัพย์หมุนเวียนที่มีสภาพคล่องมากตัดสินค้าคงเหลือออกไป",
+        "Formula": [
+          "Total Current Assets - Inventories",
+          "Total Current Liabilities"
+        ],
+        "Target": "> 1.0",
+        "Result": 0.8,
         "Unit": "เท่า",
         "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
       }
@@ -26,13 +29,43 @@
     "Topic": "อัตราส่วนโครงสร้างทางการเงิน (Leverage Ratios)",
     "info": [
       {
-        "FinancialRatio": "อัตราส่วนทุนหมุนเวียน (Current ratio)",
-        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
-        "Formula": ["Total Current Assets", "Total Current Liabilities"],
-        "Target": "> 1.5 หรือ 150%",
-        "Result": 1.2,
+        "FinancialRatio": "อัตราส่วนหนี้สินต่อส่วนของผู้ถือหุ้น (Debt to Equity ratio : D/E)",
+        "Meaning": "สัดส่วนของเงินทุนจากการกู้ยืม (หนี้สิน)ต่อส่วนทุน",
+        "Formula": ["Total Liabilities", "Equity"],
+        "Target": "< 1.4",
+        "Result": 2.31,
         "Unit": "เท่า",
-        "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+        "Reference": "สูตร D/E"
+      },
+      {
+        "FinancialRatio": "อัตราส่วนหนี้สินรวมต่อสินทรัพย์รวม (Debt to Ratio)",
+        "Meaning": "สัดส่วนระหว่างหนี้สินกับสินทรัพย์รวมของกิจการ",
+        "Formula": ["Total Liabilities", "Assets"],
+        "Target": "< 0.6",
+        "Result": 0.8,
+        "Unit": "เท่า",
+        "Reference": "ข้อมูล DBD"
+      },
+      {
+        "FinancialRatio": "อัตราส่วนความสามารถในการจ่ายดอกเบี้ย (Interst Converage Ratio)",
+        "Meaning": "ความสามารถในการชำระดอกเบี้ยเงินกู้ของกิจการ",
+        "Formula": ["Profit(Loss) before Income Tax", "Interest Expenses"],
+        "Target": "< 0.6",
+        "Result": 0.8,
+        "Unit": "เท่า",
+        "Reference": "ข้อมูล DBD"
+      },
+      {
+        "FinancialRatio": "อัตราส่วนความสามารถในการจ่ายชำระหนี้ (Debt-Service Coverage Ratio : DSCR)",
+        "Meaning": "ความสามารถในการจ่ายชำระหนี้กู้ยืมภายใน 1 ปี ของกิจการ",
+        "Formula": [
+          "EBITDA",
+          "Current Portion of Long-term Loans + Interest Expenses"
+        ],
+        "Target": "> 1.5",
+        "Result": 0.93,
+        "Unit": "เท่า",
+        "Reference": "RPA ปี 2563"
       }
     ]
   },
@@ -40,13 +73,40 @@
     "Topic": "อัตราส่วนวัดความสามารถในการทำกำไร (Profitability Ratios)",
     "info": [
       {
-        "FinancialRatio": "อัตราส่วนทุนหมุนเวียน (Current ratio)",
-        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
-        "Formula": ["Total Current Assets", "Total Current Liabilities"],
-        "Target": "> 1.5 หรือ 150%",
-        "Result": 1.2,
-        "Unit": "เท่า",
+        "FinancialRatio": "อัตรากำไรขั้นต้น  (Gross  Profit  Margin)",
+        "Meaning": "ความสามารถในการทำกำไรขั้นต้นเปรียนเทียบกับยอดขาย",
+        "Formula": ["Gross Profit (Loss)x100", "Total Revenue"],
+        "Target": "18%",
+        "Result": 3.49,
+        "Unit": "%",
         "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+      },
+      {
+        "FinancialRatio": "อัตรากำไรสุทธิ (Net Profit Margin)",
+        "Meaning": "ความสามารถในการทำกำไรสุทธิเปรียบเทียบยอดขาย",
+        "Formula": ["Net Profit (Loss)x100", "Total Revenue"],
+        "Target": "13%",
+        "Result": 2.3,
+        "Unit": "%",
+        "Reference": "สูตร EAT"
+      },
+      {
+        "FinancialRatio": "อัตราผลตอบแทนจากสินทรัพย์ Return On Asset (ROA)",
+        "Meaning": "ความสัมพันธ์ระหว่างผลกำไรของกิจการเทียบสินทรัพย์ทั้งหมด",
+        "Formula": ["Net Profit (Loss)x100", "Assets"],
+        "Target": "> 30%",
+        "Result": 4.14,
+        "Unit": "%",
+        "Reference": "สูตร ROA"
+      },
+      {
+        "FinancialRatio": "อัตราผลตอบแทนจากส่วนของผู้ถือหุ้น Return On Equity (ROE)",
+        "Meaning": "ความสัมพันธ์ระหว่างผลกำไรของกิจการเทียบกับส่วนของผู้ถือหุ้น",
+        "Formula": ["Net Profit (Loss)x100", "Equity"],
+        "Target": "> 45%",
+        "Result": 17.74,
+        "Unit": "%",
+        "Reference": "สูตร ROA"
       }
     ]
   },
@@ -54,13 +114,40 @@
     "Topic": "อัตราส่วนรประสิทธิภาพในการบริหารสินทรัพย์",
     "info": [
       {
-        "FinancialRatio": "อัตราส่วนทุนหมุนเวียน (Current ratio)",
-        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
-        "Formula": ["Total Current Assets", "Total Current Liabilities"],
-        "Target": "> 1.5 หรือ 150%",
-        "Result": 1.2,
+        "FinancialRatio": "อัตราส่วนหมุนเวียนของสินทรัพย์รวม (Total Assets Turnover Ratio)",
+        "Meaning": "ความสามารถในการใช้ประโยชน์จากสินทรัพย์ที่หมดที่มีกิจการ",
+        "Formula": ["Total Revenue", "Assets"],
+        "Target": "> 2",
+        "Result": 1.9,
         "Unit": "เท่า",
         "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+      },
+      {
+        "FinancialRatio": "ระยะเก็บหนี้เฉลี่ย (วัน)",
+        "Meaning": "จำนวนวันที่กิจการต้องรอเพื่อเพิ่มการเก็บลูกหนี้",
+        "Formula": ["365", "Receivables Turnover Ratio"],
+        "Target": "45",
+        "Result": 53.36,
+        "Unit": "วัน",
+        "Reference": "-"
+      },
+      {
+        "FinancialRatio": "ระยะขายสินค้าเฉลี่ย (วัน)",
+        "Meaning": "จำนวนวันที่กิจการเก็บหรือมีสินค้าคงเหลือเพื่อรอการค้า",
+        "Formula": ["365", "Inventory Turnover"],
+        "Target": "7",
+        "Result": 65.31,
+        "Unit": "วัน",
+        "Reference": "-"
+      },
+      {
+        "FinancialRatio": "ระยะเวลาชำระหนี้เจ้าหนี้เฉลี่ย (วัน)",
+        "Meaning": "จำนวนวันที่กิจการต้องชำระหนี้ทางการค้า",
+        "Formula": ["365", "Account Payable Turnover Ratio"],
+        "Target": "90",
+        "Result": 130.72,
+        "Unit": "วัน",
+        "Reference": "-"
       }
     ]
   }
