@@ -1,6 +1,7 @@
 import TableDBD, { ITableDBD } from "@/components/common/table-dbd";
 import MockDBDData from "@/mock/dbd.mock.json";
 import { FC } from "react";
+import { TableFinancialRatio } from "../../analytics";
 
 const R2Form: FC = () => {
   const data: ITableDBD[] = MockDBDData;
@@ -22,6 +23,9 @@ const R2Form: FC = () => {
             data={data}
             header="Income Statement SNC CREATIVITY ANTHOLOGY COMPANY LIMITED"
           />
+        </div>
+        <div>
+          <TableFinancialRatio />
         </div>
       </div>
     </div>

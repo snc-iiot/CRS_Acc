@@ -1,0 +1,67 @@
+[
+  {
+    "Topic": "อัตราส่วนสภาพคล่อง (Liquidity Ratios)",
+    "info": [
+      {
+        "FinancialRatio": "อัตราส่วนทุนหมุนเวียน (Current ratio)",
+        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
+        "Formula": ["Total Current Assets", "Total Current Liabilities"],
+        "Target": "> 1.5 หรือ 150%",
+        "Result": 1.2,
+        "Unit": "เท่า",
+        "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+      },
+      {
+        "FinancialRatio": "อัตราส่วนทุนหมุนเวียนเร็ว (Quick Ratio)",
+        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
+        "Formula": ["Total Current Assets", "Total Current Liabilities"],
+        "Target": "> 1.5 หรือ 150%",
+        "Result": 1.2,
+        "Unit": "เท่า",
+        "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+      }
+    ]
+  },
+  {
+    "Topic": "อัตราส่วนโครงสร้างทางการเงิน (Leverage Ratios)",
+    "info": [
+      {
+        "FinancialRatio": "อัตราส่วนทุนหมุนเวียน (Current ratio)",
+        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
+        "Formula": ["Total Current Assets", "Total Current Liabilities"],
+        "Target": "> 1.5 หรือ 150%",
+        "Result": 1.2,
+        "Unit": "เท่า",
+        "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+      }
+    ]
+  },
+  {
+    "Topic": "อัตราส่วนวัดความสามารถในการทำกำไร (Profitability Ratios)",
+    "info": [
+      {
+        "FinancialRatio": "อัตราส่วนทุนหมุนเวียน (Current ratio)",
+        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
+        "Formula": ["Total Current Assets", "Total Current Liabilities"],
+        "Target": "> 1.5 หรือ 150%",
+        "Result": 1.2,
+        "Unit": "เท่า",
+        "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+      }
+    ]
+  },
+  {
+    "Topic": "อัตราส่วนรประสิทธิภาพในการบริหารสินทรัพย์",
+    "info": [
+      {
+        "FinancialRatio": "อัตราส่วนทุนหมุนเวียน (Current ratio)",
+        "Meaning": "เป็นการวัดอัตรส่วนระหว่างสินทรัพย์หมุนเวียน กับหนี้สินหมุนเวียน",
+        "Formula": ["Total Current Assets", "Total Current Liabilities"],
+        "Target": "> 1.5 หรือ 150%",
+        "Result": 1.2,
+        "Unit": "เท่า",
+        "Reference": "ฐานข้อมูล งบการเงิน ปี 2563"
+      }
+    ]
+  }
+]

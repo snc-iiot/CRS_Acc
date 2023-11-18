@@ -1,0 +1,92 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import MockData from "@/mock/financial-ratio-analytics.mock.json";
+import { TFinancialRatioAnalytics } from "@/models/types";
+import { FC } from "react";
+
+const TableFinancialRatio: FC = () => {
+  const HEADER: string[] = [
+    "Financial ratio",
+    "ความหมาย",
+    "สูตรคำนวณ (Eng)",
+    "Target",
+    "ผลการวิเคราะห์งบ",
+    "หน่วย",
+    "อ้างอิง ฐานข้อมูล",
+  ];
+
+  const data: TFinancialRatioAnalytics[] = MockData;
+
+  return (
+    <div>
+      <h1 className="text-base font-bold">
+        อัตราส่วนการเงิน (Financial Ratio)
+      </h1>
+      <p className="text-sm text-muted-foreground">
+        อัตราส่วนการเงิน คือ
+        ค่าที่ได้จากการนำข้อมูลทางการเงินที่เกี่ยวข้องกันมาคำนวณเป็นสัดส่วนเพื่อใช้วิเคราะห์และประเมินผลการดำเนินงานขององค์กร
+      </p>
+      <Table className="w-full border-collapse border-spacing-0 border">
+        <TableHeader className="bg-primary-foreground">
+          <TableRow>
+            {HEADER.map((item, index) => (
+              <TableHead
+                key={index}
+                className="border text-start text-xs font-bold text-foreground"
+              >
+                {item}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        {data.map((table) => (
+          <TableBody key={table?.Topic ?? "-"}>
+            <TableRow className="text-xs">
+              <TableCell
+                colSpan={HEADER?.length}
+                className="border bg-primary-foreground font-bold"
+              >
+                {table?.Topic}
+              </TableCell>
+            </TableRow>
+            {table?.info?.map((info) => (
+              <TableRow key={info?.FinancialRatio ?? "-"} className="text-xs">
+                <TableCell className="whitespace-nowrap border">
+                  {info?.FinancialRatio}
+                </TableCell>
+                <TableCell className="border">{info?.Meaning}</TableCell>
+                <TableCell className="border">
+                  {info?.Formula?.map((formula, i) => (
+                    <div
+                      key={formula}
+                      className={cn(
+                        i === 0 ? "border-b text-center" : "text-center",
+                      )}
+                    >
+                      {formula}
+                    </div>
+                  ))}
+                </TableCell>
+                <TableCell className="border">{info?.Target}</TableCell>
+                <TableCell className="border text-end">
+                  {info?.Result}
+                </TableCell>
+                <TableCell className="border">{info?.Unit}</TableCell>
+                <TableCell className="border">{info?.Reference}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        ))}
+      </Table>
+    </div>
+  );
+};
+
+export default TableFinancialRatio;

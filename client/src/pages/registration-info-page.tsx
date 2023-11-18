@@ -64,7 +64,7 @@ const RegistrationInfo: FC = () => {
   }[] = [
     {
       topic: "topic-1",
-      title: "มูลบริษัท / Company Information",
+      title: "ข้อมูลบริษัท / Company Information",
       content: <CustomerCompanyInformation />,
     },
     {
@@ -93,7 +93,6 @@ const RegistrationInfo: FC = () => {
   useEffect(() => {
     const initPage = setTimeout(() => {
       if (isNaN(RegisID)) {
-        // console.log("Bloked!! Page");
         navigate("/");
       }
     }, 0);
