@@ -48,7 +48,7 @@ export const registrationAtom = atom<TRegistrationForm>({
   },
   certificate: [],
   benefits: [],
-} as TRegistrationForm);
+});
 if (process.env.NODE_ENV !== "production") {
   registrationAtom.debugLabel = "registrationAtom";
 }

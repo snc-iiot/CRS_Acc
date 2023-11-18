@@ -11,10 +11,13 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { HeaderConditions, Sections } from "@/helpers/register.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { FC, useEffect, useState } from "react";
 
 const RegistrationPage: FC = () => {
+  const { registration } = useAtomStore();
+  console.log(JSON.stringify(registration));
   const MODE = "register";
 
   const onSubmit = () => {
