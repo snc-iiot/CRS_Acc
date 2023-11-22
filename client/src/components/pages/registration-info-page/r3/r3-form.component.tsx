@@ -19,7 +19,7 @@ const R3Form: FC = () => {
           อัตราส่วนทางการเงิน (Financial Ratio)
         </h3>
       </div>
-      <Table className="w-full border-collapse border-spacing-0 border">
+      <Table className="w-max border-collapse border-spacing-0 border">
         <TableHeader
           className={cn("top-0 z-10 bg-primary-foreground", "sticky")}
         >
@@ -56,13 +56,16 @@ const R3Form: FC = () => {
         </TableHeader>
         {data.map((item, index) => (
           <TableBody key={index}>
-            <TableRow className="bg-primary-foreground text-xs">
+            <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
               <TableCell className="border font-bold" colSpan={6}>
                 {item.name}
               </TableCell>
             </TableRow>
             {item.data.map((data, j) => (
-              <TableRow className="text-xs" key={j}>
+              <TableRow
+                className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                key={j}
+              >
                 <TableCell className="border">{data.list_name}</TableCell>
                 <TableCell className="border text-center">
                   {data.note}

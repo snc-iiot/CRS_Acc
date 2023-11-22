@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { FC } from "react";
 
 interface TableSummaryProps {
@@ -16,15 +17,17 @@ interface TableSummaryProps {
     Note: string;
   }[];
   Header?: string;
+  className?: string;
 }
 
 const TableSummary: FC<TableSummaryProps> = ({
   TableHeaderText,
   Data,
   Header,
+  className,
 }) => {
   return (
-    <div className="flex w-full flex-col gap-1">
+    <div className={cn("flex w-max flex-col gap-1", className)}>
       <h3 className="text-sm font-bold">{Header}</h3>
       <Table className="border-collapse border-spacing-0">
         <TableHeader className="bg-primary-foreground">

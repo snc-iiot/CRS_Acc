@@ -7,6 +7,7 @@
 // } from "@/components/ui/input-custom";
 // import { Input } from "@/components/ui/input";
 // import { Select } from "@/components/ui/select-custom";
+import CalculatePlayback from "@/components/common/calculate-playback";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -206,7 +207,9 @@ export const R1AdminInformation: FC = () => {
           </div>
           <div className={mcAddInvert ? "pl-4" : "hidden"}>
             <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">จำนวนเงินลงทุน</p>
+              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
+                <p className="whitespace-nowrap">จำนวนเงินลงทุน</p>
+              </div>
               <input
                 type="number"
                 placeholder="โปรดระบุ"
@@ -215,7 +218,7 @@ export const R1AdminInformation: FC = () => {
               <span>MB</span>
             </div>
             <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">ROI</p>
+              <p className="w-[10rem] whitespace-nowrap">ROI</p>
               <input
                 type="number"
                 placeholder="โปรดระบุ"
@@ -224,7 +227,7 @@ export const R1AdminInformation: FC = () => {
               <span>%</span>
             </div>
             <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">ROA</p>
+              <p className="w-[10rem] whitespace-nowrap">ROA</p>
               <input
                 type="number"
                 placeholder="โปรดระบุ"
@@ -233,7 +236,11 @@ export const R1AdminInformation: FC = () => {
               <span>%</span>
             </div>
             <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">Payback</p>
+              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
+                <p className="whitespace-nowrap">Payback</p>
+                <CalculatePlayback />
+                <CalculatePlayback />
+              </div>
               <input
                 type="number"
                 placeholder="โปรดระบุ"

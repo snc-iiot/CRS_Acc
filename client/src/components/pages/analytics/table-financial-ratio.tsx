@@ -54,19 +54,19 @@ const TableFinancialRatio: FC = () => {
                 key={info?.FinancialRatio ?? "-"}
                 className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground"
               >
-                <TableCell className="whitespace-nowrap border">
+                <TableCell className="w-[20rem] border">
                   {info?.FinancialRatio}
                 </TableCell>
-                <TableCell className="whitespace-nowrap border">
+                <TableCell className="w-[20rem] border">
                   {info?.Meaning}
                 </TableCell>
-                <TableCell className="border">
+                <TableCell className="w-[22rem] border">
                   {info?.Formula?.map((formula, i) => (
                     <div
                       key={formula}
                       className={cn(
                         i === 0 ? "border-b text-center" : "text-center",
-                        "w-full whitespace-nowrap border-foreground",
+                        "border-foreground",
                       )}
                     >
                       {formula}
