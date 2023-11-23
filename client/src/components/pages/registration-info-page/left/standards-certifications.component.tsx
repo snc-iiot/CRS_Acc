@@ -27,76 +27,83 @@ const StandardsCertifications: FC = () => {
     },
     {
       topic: "v-cer3",
-      label: "IATF 16949:2016",
+      label: "CBAM Certificate",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer4",
-      label: "TIS 18001:1999",
+      label: "IATF 16949:2016",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer5",
-      label: "OHSAS 18001:2007",
+      label: "TIS 18001:1999",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer6",
-      label: "มรท. 8001-2546",
+      label: "OHSAS 18001:2007",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer7",
-      label: "ISO/IEC 17025:2017",
+      label: "มรท. 8001-2546",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer8",
-      label: "ฉลากประหยัดไฟ เบอร์ 5",
+      label: "ISO/IEC 17025:2017",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer9",
-      label: "สัญลักษณ์ FSC",
+      label: "ฉลากประหยัดไฟ เบอร์ 5",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer10",
-      label: "ฉลากเขียว",
+      label: "สัญลักษณ์ FSC",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer11",
-      label: "ฉลาก Carbon Reduction",
+      label: "ฉลากเขียว",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer12",
-      label: "สัญลักษณ์ Green Industry",
+      label: "ฉลาก Carbon Reduction",
       isChecked: false,
       value: "",
       exp: "",
     },
     {
       topic: "v-cer13",
+      label: "สัญลักษณ์ Green Industry",
+      isChecked: false,
+      value: "",
+      exp: "",
+    },
+    {
+      topic: "v-cer14",
       label: "การรับรองอุตสาหกรรมสีเขียว (GI) (ระดับ 3)",
       isChecked: false,
       value: "",
@@ -322,7 +329,7 @@ const StandardsCertifications: FC = () => {
       </h4>
       <div className="mb-1 pl-1">
         {/* //! 4.3.1 */}
-        <h5>3.1 เครดิตเทอมการจ่ายเงินของลูกค้า {/*/ Customer Credit Term*/}</h5>
+        <h5>3.1 เครดิตเทอมการจ่ายเงิน {/*/ Customer Credit Term*/}</h5>
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
             <Icons.circle className="h-3 w-3" />
@@ -369,7 +376,7 @@ const StandardsCertifications: FC = () => {
 
         {/* //! 4.3.3 */}
         <div className="grid grid-cols-4 items-center">
-          <h5>3.3 ระเบียบการวางบิล</h5>
+          <h5>3.3 สกุลเงิน</h5>
           <div className="border-b pl-1 text-primary">THB</div>
         </div>
 
@@ -395,13 +402,17 @@ const StandardsCertifications: FC = () => {
         {/* //! 4.3.6 */}
         <h5>3.6 เงื่อนไขการขนส่งสินค้า</h5>
         <div className="grid grid-cols-4 items-center pl-1">
-          <div className="flex items-center gap-x-1">
+          <div className="col-span-2 flex items-center gap-x-1">
             <Icons.checkSquare className="h-3 w-3 text-primary" />
-            <p className="text-primary">บริษัทขนส่งสินค้าเอง</p>
+            <p className="text-primary">SNC เป็นผู้ขนส่งสินค้า</p>
           </div>
-          <div className="flex items-center gap-x-1">
+          <div className="col-span-2 flex items-center gap-x-1">
             <Icons.checkSquare className="h-3 w-3 text-primary" />
-            <p className="text-primary">ลูกค้ามารับสินค้าเอง</p>
+            <p className="text-primary">ผู้รับ (Customer) เป็นผู้ขนส่งสินค้า</p>
+          </div>
+          <div className="col-span-2 flex items-center gap-x-1">
+            <Icons.square className="h-3 w-3" />
+            <p>ผู้รับ (Customer) จ้างขนส่งภายนอก</p>
           </div>
         </div>
 
@@ -432,18 +443,16 @@ const StandardsCertifications: FC = () => {
         </div>
 
         {/* //! 4.3.8 */}
-        <h5>3.8 รับประกันสินค้า</h5>
+        <h5>3.8 เงื่อนไขการประกันสินค้า</h5>
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
             <Icons.checkCircle className="h-3 w-3 text-primary" />
-            <p className="text-primary">มี</p>
+            <p className="text-primary">ต้องการ</p>
           </div>
-
           <div className="h-full w-[80%] border-b pl-1 text-primary">3 ปี</div>
-
           <div className="col-span-4 flex items-center gap-x-1">
             <Icons.circle className="h-3 w-3" />
-            <p>ไม่มี</p>
+            <p>ไม่ต้องการ</p>
           </div>
         </div>
       </div>

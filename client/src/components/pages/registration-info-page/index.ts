@@ -4,6 +4,7 @@ export { default as ShareholderProportion } from "./left/shareholder-proportion.
 export { default as ContactPerson } from "./left/contact-person.component";
 export { default as StandardsCertifications } from "./left/standards-certifications.component";
 export { default as UploadDocuments } from "./left/upload-documents.component";
+export { default as Relationship } from "./left/relationship.component";
 
 //! Right form
 export { default as R1Form } from "./r1/r1-form.component";

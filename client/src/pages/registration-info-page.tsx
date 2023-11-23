@@ -13,6 +13,7 @@ import {
   R8Form,
   R9Form,
   R10Form,
+  Relationship,
   ShareholderProportion,
   StandardsCertifications,
   UploadDocuments,
@@ -79,12 +80,17 @@ const RegistrationInfo: FC = () => {
     },
     {
       topic: "topic-4",
+      title: "ความสัมพันธ์กับบริษัท / Relationship with Company",
+      content: <Relationship />,
+    },
+    {
+      topic: "topic-5",
       title:
         "มาตรฐานและการรับรองที่ได้รับในปัจจุบัน / Standards and Certifications",
       content: <StandardsCertifications />,
     },
     {
-      topic: "topic-5",
+      topic: "topic-6",
       title: "เอกสารอัพโหลด / Upload Documents",
       content: <UploadDocuments />,
     },
