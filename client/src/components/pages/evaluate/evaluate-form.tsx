@@ -359,8 +359,13 @@ const EvaluateForm: FC = () => {
       <div className="flex flex-col gap-2 text-xs">
         {evaluates?.map((evaluate, i) => (
           <div key={i}>
-            <h5>{evaluate?.Name}</h5>
-            <RadioGroup defaultValue="option-one" className="gap-1">
+            <h5>
+              {i + 1}. {evaluate?.Name}
+            </h5>
+            <RadioGroup
+              defaultValue="option-one"
+              className="flex flex-col gap-2"
+            >
               {evaluate?.RadioOptions?.map((option, j) => (
                 <div className="flex items-center space-x-2 text-xs" key={j}>
                   <RadioGroupItem

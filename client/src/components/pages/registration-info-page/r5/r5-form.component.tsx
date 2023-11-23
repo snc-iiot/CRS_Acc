@@ -38,12 +38,12 @@ const R5Form: FC = () => {
     "Sales",
     "Order/Year",
     "Mat' l Ratio",
-    "Cerdit Terms (Customer)",
-    "Cerdit term Vendor",
+    "Credit Terms (Customer)",
+    "Credit term Vendor",
     "Inventory",
     "CCC (Project)",
     "Financial Ratio",
-    "ผลสรุป",
+    "Grand Total Score",
   ];
 
   useEffect(() => {
@@ -131,7 +131,7 @@ const R5Form: FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow className="hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
+              <TableRow className="cursor-pointer bg-primary text-primary-foreground hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
                 <TableCell className="border text-center">Customer 1</TableCell>
                 <TableCell className="border text-center">Product 1</TableCell>
                 <TableCell className="border text-center">10</TableCell>

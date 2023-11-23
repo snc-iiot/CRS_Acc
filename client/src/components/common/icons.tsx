@@ -54,6 +54,9 @@ import {
   Printer,
   QrCode,
   RefreshCcw,
+  // refresh-ccw
+  RefreshCcwIcon,
+  Save,
   ScanLine,
   Scroll,
   Settings,
@@ -152,6 +155,8 @@ export const Icons = {
   uploadCloudIcon: UploadCloudIcon,
   checkSquare: CheckSquare,
   square: Square,
+  refreshCcwIcon: RefreshCcwIcon,
+  save: Save,
   logo: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path

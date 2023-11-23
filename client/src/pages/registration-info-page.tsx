@@ -1,5 +1,7 @@
+import ActionTab from "@/components/common/actions-tab";
 import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
+import MainActions from "@/components/common/main-actions";
 import {
   ContactPerson,
   CustomerCompanyInformation,
@@ -40,14 +42,22 @@ const RegistrationInfo: FC = () => {
   const [searchParams] = useSearchParams();
   const RegisID = Number(searchParams.get("RegisID"));
   const navigate = useNavigate();
-
   const [viewPage, setViewPage] = useState<string>("2");
+  const [activeTab, setActiveTab] = useState<string>("R1");
 
-  // console.log(typeof RegisID, RegisID);
-  // if (isNaN(RegisID)) {
-  //   setTimeout(() => navigate("/"), 500);
-  //   return <div />;
-  // }
+  const actionsTab = ["R1", "R2", "R4"];
+  const mainActions = [
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9",
+    "R10",
+  ];
 
   const showSplitScreen: {
     tooltip: string;
@@ -155,9 +165,7 @@ const RegistrationInfo: FC = () => {
                       />
                     )}
                   </TooltipTrigger>
-                  <TooltipContent
-                  // side="right"
-                  >
+                  <TooltipContent>
                     <span>{item?.tooltip}</span>
                   </TooltipContent>
                 </Tooltip>
@@ -214,8 +222,18 @@ const RegistrationInfo: FC = () => {
                 viewPage == "L" ? "hidden delay-500" : "col-span-2 block",
               )}
             >
-              <div className="h-[calc(70%-.5rem)]">
-                <Tabs defaultValue="R1" className="h-full">
+              <div
+                className={cn(
+                  actionsTab.includes(activeTab)
+                    ? "h-[calc(66%-.5rem)]"
+                    : "h-[calc(73%-.5rem)]",
+                )}
+              >
+                <Tabs
+                  value={activeTab}
+                  onValueChange={(value) => setActiveTab(value)}
+                  className="h-full"
+                >
                   <nav className="fixed right-1 top-2">
                     <TabsList>
                       {Array(10)
@@ -279,19 +297,121 @@ const RegistrationInfo: FC = () => {
                   </TabsContent>
                 </Tabs>
               </div>
-
-              {/* //! Comments & Other */}
-              <div className="grid h-[25%] grid-cols-2">
-                <div className="h-full border border-r-0">
-                  <h3 className="px-2 py-1 text-sm font-semibold underline">
-                    ข้อเสนอแนะ / Comments
-                  </h3>
+              {/* //! Action by user */}
+              {actionsTab.includes(activeTab) ? (
+                <div className="flex h-[7%] items-center justify-between border border-b-0 px-2">
+                  <ActionTab
+                    activeTab={activeTab as "R1" | "R2" | "R3" | "R4" | "R5"}
+                  />
                 </div>
-                <div className="h-full border"></div>
+              ) : null}
+              {/* //! Comments & Other */}
+              <div className="grid h-[20%] grid-cols-2">
+                <div className="h-full border border-r-0">
+                  <main className="flex h-full w-full flex-col overflow-hidden">
+                    <section>
+                      <h2 className="px-2 py-1 text-sm font-semibold underline">
+                        ข้อเสนอแนะ / Comments
+                      </h2>
+                    </section>
+                    <section className="flex h-full w-full flex-col">
+                      <div className="flex h-0 flex-grow flex-col overflow-y-auto px-2 text-xs">
+                        {new Array(10).fill(0).map((_, i) => (
+                          <div className="grid grid-cols-6 gap-2" key={i}>
+                            <input
+                              type="text"
+                              defaultValue=""
+                              placeholder="ข้อเสนอแนะ"
+                              className="col-span-4 w-full border-0 border-b bg-primary-foreground p-0.5 px-2 text-secondary-foreground outline-0"
+                            />
+                            <input
+                              type="text"
+                              defaultValue="นาย อนุวัฒน์ ทีสุกะ"
+                              placeholder="ผู้ให้ข้อเสนอแนะ"
+                              className="col-span-2 w-full border-0 border-b bg-primary-foreground p-0.5 px-2 text-secondary-foreground outline-0"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                    <section className="px-2 py-1">
+                      <div className="grid grid-cols-6">
+                        <div className="col-span-2 flex items-center justify-start gap-x-1">
+                          <input
+                            type="checkbox"
+                            className="mr-1"
+                            id="add-comment"
+                          />
+                          <label htmlFor="add-comment" className="text-xs">
+                            เพิ่มข้อเสนอแนะ
+                          </label>
+                        </div>
+                        <div className="col-span-4 flex w-full items-center justify-end gap-x-1 text-xs">
+                          <input
+                            type="text"
+                            placeholder="โปรดระบุ"
+                            className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                          />
+                        </div>
+                      </div>
+                    </section>
+                  </main>
+                </div>
+                <div className="h-full border">
+                  <main className="flex h-full w-full flex-col overflow-hidden">
+                    <section>
+                      <h2 className="px-2 py-1 text-sm font-semibold underline">
+                        ภาพรวม / Overview
+                      </h2>
+                    </section>
+                    <section className="flex h-full w-full flex-col">
+                      <div className="h-0 flex-grow overflow-y-auto px-2">
+                        <p className="text-xs">
+                          Lorem ipsum, dolor sit amet consectetur adipisicing
+                          elit. Provident quisquam qui molestiae eaque natus
+                          itaque minus fugit vel exercitationem hic rem, numquam
+                          porro obcaecati temporibus, nihil ad, dicta explicabo
+                          suscipit. Lorem ipsum dolor sit amet consectetur
+                          adipisicing elit. Voluptatem et ab amet optio numquam
+                          eos reprehenderit. Error tenetur aliquid ducimus cum
+                          aspernatur voluptatum dolore expedita nisi labore,
+                          itaque natus tempore! Lorem ipsum, dolor sit amet
+                          consectetur adipisicing elit. Provident quisquam qui
+                          molestiae eaque natus itaque minus fugit vel
+                          exercitationem hic rem, numquam porro obcaecati
+                          temporibus, nihil ad, dicta explicabo suscipit. Lorem
+                          ipsum dolor sit amet consectetur adipisicing elit.
+                          Voluptatem et ab amet optio numquam eos reprehenderit.
+                          Error tenetur aliquid ducimus cum aspernatur
+                          voluptatum dolore expedita nisi labore, itaque natus
+                          tempore!
+                        </p>
+                      </div>
+                    </section>
+                  </main>
+                </div>
               </div>
 
               {/* //! Right Footer */}
-              <div className="h-[5%] border border-t-0"></div>
+              <div className="h-[7%] border border-t-0">
+                {mainActions.includes(activeTab) ? (
+                  <MainActions
+                    activeTab={
+                      activeTab as
+                        | "R1"
+                        | "R2"
+                        | "R3"
+                        | "R4"
+                        | "R5"
+                        | "R6"
+                        | "R7"
+                        | "R8"
+                        | "R9"
+                        | "R10"
+                    }
+                  />
+                ) : null}
+              </div>
             </div>
           </div>
         </main>

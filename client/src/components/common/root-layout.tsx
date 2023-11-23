@@ -29,14 +29,10 @@ const RootLayout: FC = () => {
 
   return (
     <div className="relative flex h-screen w-full overflow-hidden">
-      {/* <Sidebar /> */}
       <main className="relative flex h-full w-full flex-col overflow-hidden">
         <Header
           left={
-            <div
-              className="flex items-center"
-              // onClick={() => navigate("/")}
-            >
+            <div className="flex items-center">
               <div
                 className="grid h-[40px] w-[45px] cursor-pointer place-items-center delay-200 hover:rounded-full hover:bg-primary-foreground"
                 onClick={() => setCollapsed(!collapsed)}
@@ -75,14 +71,8 @@ const RootLayout: FC = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div
-                      // variant="link"
-                      // size="sm"
                       className={cn(
                         "group flex cursor-pointer items-center justify-start gap-2.5",
-
-                        // collapsed
-                        //   ? "w-[250px] justify-start"
-                        //   : "w-full justify-center",
                       )}
                     >
                       <Avatar className="h-6 w-6 cursor-pointer">
@@ -143,7 +133,6 @@ const RootLayout: FC = () => {
         />
         <div className="flex h-full">
           <Sidebar />
-
           <div className="w-full p-2">
             <Outlet />
           </div>
