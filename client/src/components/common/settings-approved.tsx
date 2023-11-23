@@ -46,9 +46,9 @@ const SettingsApproved: FC = () => {
         </Button>
       </section>
       <section className="flex h-full w-full flex-col border">
-        <div className="flex h-0 flex-grow flex-col overflow-y-auto">
+        <div className="relative flex h-0 flex-grow flex-col overflow-y-auto">
           <Table>
-            <TableHeader className="bg-secondary">
+            <TableHeader className="sticky top-0 z-10 bg-secondary">
               <TableRow>
                 {Header?.map((info, i) => (
                   <TableHead className="text-secondary-foreground" key={i}>
@@ -58,6 +58,13 @@ const SettingsApproved: FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
+              {new Array(count).fill(0).length === 0 && (
+                <TableRow className="p-0">
+                  <TableCell colSpan={Header.length} className="text-center">
+                    ไม่มีข้อมูล
+                  </TableCell>
+                </TableRow>
+              )}
               {new Array(count).fill(0).map((_, i) => (
                 <TableRow className="p-0" key={i}>
                   <TableCell className="w-10 text-center">{i + 1}</TableCell>
