@@ -4,7 +4,7 @@ import { NotFoundPage, RegistationPage } from "./pages";
 
 const App = () => {
   return (
-    <BrowserRouter basename={import.meta.env.VITE_BASE_NAME}>
+    <BrowserRouter basename={"/icrs/customer"}>
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<RegistationPage />} />
