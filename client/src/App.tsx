@@ -13,7 +13,7 @@ import {
 function App() {
   return (
     <>
-      <BrowserRouter basename={import.meta.env.VITE_BASE_NAME}>
+      <BrowserRouter basename={"/icrs/admin"}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<RootLayout />}>
