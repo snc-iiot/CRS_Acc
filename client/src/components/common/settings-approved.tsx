@@ -60,10 +60,10 @@ const SettingsApproved: FC = () => {
           <Icons.plus className="mr-2 h-5 w-5" />
           เพิ่มผู้อนุมัติ
         </Button>
-        <Button variant="link" className="text-secondary-foreground">
+        {/* <Button variant="link" className="text-secondary-foreground">
           <Icons.fileEdit className="mr-2 h-5 w-5" />
           แก้ไขผู้อนุมัติ
-        </Button>
+        </Button> */}
       </section>
       <section className="flex h-full w-full flex-col border">
         <div className="relative flex h-0 flex-grow flex-col overflow-y-auto">
