@@ -148,28 +148,22 @@ const SettingsApproved: FC = () => {
                                       "cursor-pointer p-2 text-sm",
                                       selected?.find(
                                         (item) => item?.index === j,
-                                      )?.id === info?.name_th
+                                      )?.id == info?.name_th
                                         ? "bg-primary p-2 text-primary-foreground"
                                         : "p-2 text-sm hover:bg-primary-foreground",
                                     )}
                                     onClick={() => {
-                                      if (
-                                        selected?.find(
-                                          (item) => item?.index === j,
-                                        )
-                                      ) {
-                                        setSelected([
-                                          ...selected.filter(
-                                            (item) => item?.index !== j,
-                                          ),
-                                          {
-                                            index: j,
-                                            id: info?.name_th,
-                                            value: info?.name_th,
-                                          },
-                                        ]);
-                                        return;
-                                      }
+                                      console.log(info?.name_th);
+                                      setSelected([
+                                        ...selected.filter(
+                                          (item) => item?.index !== j,
+                                        ),
+                                        {
+                                          index: j,
+                                          id: info?.name_th,
+                                          value: info?.name_th,
+                                        },
+                                      ]);
                                     }}
                                     key={i}
                                   >
