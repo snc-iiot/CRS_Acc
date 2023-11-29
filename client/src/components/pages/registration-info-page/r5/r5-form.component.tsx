@@ -72,66 +72,66 @@ const R5Form: FC = () => {
           </div>
         ))}
       </div>
-      <div className="mt-2">
-        <h1 className="text-base font-bold text-primary">Summary Report</h1>
+      <div className="my-4">
+        <h1 className="text-xl font-bold text-[#211d62ee]">Summary Report</h1>
         <div>
           <Table>
-            <TableHeader className="border bg-primary-foreground">
-              <TableRow className="text-xs font-bold">
+            <TableHeader className="border bg-[#211d62ee] text-foreground">
+              <TableRow className="text-xs font-bold text-foreground">
                 <TableHead
-                  className="border text-center font-bold  text-black"
+                  className="border text-center font-bold  text-primary-foreground"
                   rowSpan={2}
                 >
                   Customer Name
                 </TableHead>
                 <TableHead
-                  className="border text-center font-bold  text-black"
+                  className="border text-center font-bold   text-primary-foreground"
                   rowSpan={2}
                 >
                   Product Type
                 </TableHead>
                 <TableHead
-                  className="border text-center font-bold text-black"
+                  className="border text-center font-bold text-primary-foreground"
                   colSpan={4}
                 >
                   Evaluation
                 </TableHead>
                 <TableHead
-                  className="border text-center font-bold  text-black"
+                  className="border text-center font-bold  text-primary-foreground"
                   rowSpan={2}
                 >
                   Grand total score
                 </TableHead>
                 <TableHead
-                  className="border text-center font-bold  text-black"
+                  className="border text-center font-bold  text-primary-foreground"
                   rowSpan={2}
                 >
                   Grade
                 </TableHead>
                 <TableHead
-                  className="border text-center font-bold  text-black"
+                  className="border text-center font-bold  text-primary-foreground"
                   rowSpan={2}
                 >
                   Remark
                 </TableHead>
               </TableRow>
               <TableRow className="text-xs font-bold">
-                <TableHead className="border text-center font-bold text-black">
+                <TableHead className="border text-center font-bold text-primary-foreground">
                   Sales
                 </TableHead>
-                <TableHead className="border text-center font-bold text-black">
+                <TableHead className="border text-center font-bold text-primary-foreground">
                   Mat'l Ratio
                 </TableHead>
-                <TableHead className="border text-center font-bold text-black">
+                <TableHead className="border text-center font-bold text-primary-foreground">
                   CCC (Project)
                 </TableHead>
-                <TableHead className="border text-center font-bold text-black">
+                <TableHead className="border text-center font-bold text-primary-foreground">
                   Financial
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow className="cursor-pointer bg-primary text-primary-foreground hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
+              <TableRow className="cursor-pointer text-black hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
                 <TableCell className="border text-center">Customer 1</TableCell>
                 <TableCell className="border text-center">Product 1</TableCell>
                 <TableCell className="border text-center">10</TableCell>

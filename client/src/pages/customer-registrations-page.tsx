@@ -14,22 +14,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import registrationsMock from "@/mock/registrations.mock.json";
 import { RegistrationInterface } from "@/models";
-import {
-  FontBoldIcon,
-  FontItalicIcon,
-  StrikethroughIcon,
-  TextAlignCenterIcon,
-  TextAlignLeftIcon,
-  TextAlignRightIcon,
-} from "@radix-ui/react-icons";
-import * as Toolbar from "@radix-ui/react-toolbar";
 import { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomerRegistrations: FC = () => {
   const registrations: RegistrationInterface[] = registrationsMock;
   const navigate = useNavigate();
-  //   console.log(registrations);
 
   return (
     <FadeIn>
@@ -51,7 +41,7 @@ const CustomerRegistrations: FC = () => {
                 <Icons.plus className="h-8 w-8 font-bold" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="flex w-[70vw] max-w-[70vw] flex-col gap-y-2">
+            <DialogContent className="flex w-[50vw] max-w-[70vw] flex-col gap-y-2">
               <section className="flex flex-col gap-y-1">
                 <article className="flex items-center gap-x-1">
                   <h2 className="text-md font-semibold">
@@ -65,32 +55,32 @@ const CustomerRegistrations: FC = () => {
                     </p>
                   </section>
                   <section className="flex flex-col gap-2">
-                    <div className="grid grid-cols-10 gap-x-2">
-                      {/* <div className="col-span-1 flex items-center justify-end">
-                        <h3 className="text-sm font-semibold">ผู้ส่ง</h3>
-                      </div> */}
+                    <div className="flex gap-x-2">
+                      <div className="flex w-[3.5rem] items-center justify-start">
+                        <h3 className="text-sm font-semibold">ผู้รับเมล</h3>
+                      </div>
                       <Input
-                        className="col-span-10 w-full px-4"
+                        className="w-full px-0"
                         type="email"
                         variant="flushed"
-                        placeholder="ผู้ส่ง"
+                        placeholder="ผู้รับเมล"
                         defaultValue="Anuwat_Thisuka@gmail.com"
                       />
                     </div>
-                    <div className="grid grid-cols-10 gap-x-2">
-                      {/* <div className="col-span-1 flex items-center justify-end">
+                    <div className="flex gap-x-2">
+                      <div className="flex w-[3.5rem] items-center justify-start">
                         <h3 className="text-sm font-semibold">เรื่อง</h3>
-                      </div> */}
+                      </div>
                       <Input
-                        className="col-span-10 w-full px-4"
+                        className=" w-full px-0"
                         type="email"
                         variant="flushed"
                         placeholder="เรื่อง"
-                        defaultValue="ขอข้อมูลการลงทะเบียน"
+                        defaultValue="ขึ้นทะเบียนผู้ขาย บมจ. เอสเอ็นซี ฟอร์เมอร์ (Customer Registration)"
                       />
                     </div>
                   </section>
-                  <section>
+                  {/* <section>
                     <Toolbar.Root
                       className="flex w-full min-w-max rounded-none border-b bg-white p-[10px]"
                       aria-label="Formatting options"
@@ -151,16 +141,23 @@ const CustomerRegistrations: FC = () => {
                       </Toolbar.ToggleGroup>
                       <Toolbar.Separator className="bg-mauve6 mx-[10px] w-[1px]" />
                     </Toolbar.Root>
-                  </section>
+                  </section> */}
                   <section>
                     <Textarea
-                      className="h-[30rem] max-h-[30rem] w-full border-none shadow-none focus-visible:ring-0"
+                      className="h-[25rem] max-h-[30rem] min-h-[15rem] w-full border border-none p-0 shadow-none focus-visible:ring-0"
                       placeholder="เนื้อหา"
-                      defaultValue={`เรียน คุณ สมชาย ใจดี\nผู้จัดการบริษัท จูลิสติกส์ จำกัด \nที่อยู่ 123 ถนน สุขุมวิท แขวง คลองเตย เขต คลองเตย กรุงเทพมหานคร 10110\nโทรศัพท์ 02-123-4567\nโทรสาร 02-123-4567\nมือถือ 081-123-4567 อีเมล์ `}
+                      defaultValue={
+                        "เรียน: (กรุณาระบุชื่อผู้ติดต่อ)\nบริษัท: (กรุณาระบุชื่อบริษัทลูกค้า) \n\nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ ขอแจ้งรายละเอียดการขึ้นทะเบียนผู้ขาย (Customer Registration) ตามนโยบายของบริษัทฯ โดยมีขั้นตอนการดำเนินการ ดังนี้\n1. เข้าสู่เว็บไซต์ (SNC-iCRS) เพื่อขึ้นทะเบียน\n2. กรอกข้อมูลในระบบให้ครบถ้วน\n3. แนบเอกสารที่เกี่ยวข้อง พร้อมลงนามรับรองเอกสาร\n4. ศึกษา และยอมรับนโยบายการคุ้มครองข้อมูลส่วนบุคคล และนโยบายอื่นๆ ก่อนกดส่งข้อมูล\n5. ติดตามสถานะการขึ้นทะเบียน ผ่าน Email ที่ท่านใช้ในการขึ้นทะเบียน  \n\nขอแสดงความนับถือ\nLogo \nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ\n---------------------------------------------------------------------------------\nDear: \nCompany: \n\nSNC Former Co., Ltd. (Public Company) and affiliated companies, We hereby inform you of the details regarding the Customer Registration in accordance with our company's policy. The registration process is as follows:\n1. Access the website (SNC-iCRS) for registration.\n2. Complete the information in the system accurately.\n3. Attach relevant documents, duly signed and certified.\n4. Review and accept the Personal Data Protection Policy and other relevant policies before submitting the information.\n5. Monitor the registration status through the email you provided during the registration process.\n\nYours sincerely,\n[Your Company's Logo]\nSNC Former Co., Ltd. (Public Company) and affiliated companies"
+                      }
                     />
                   </section>
                   <section className="flex items-center justify-end gap-x-2">
-                    <Button className="w-1/12">ส่งเมล</Button>
+                    <Button className="w-max">
+                      <Icons.send className="mr-1 h-4 w-4" />
+                      <span className="whitespace-nowrap">
+                        ส่งเมลไปยังลูกค้า
+                      </span>
+                    </Button>
                   </section>
                 </article>
               </section>
