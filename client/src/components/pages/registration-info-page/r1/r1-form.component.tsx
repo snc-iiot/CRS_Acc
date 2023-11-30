@@ -29,7 +29,8 @@ const R1Form: FC = () => {
   return (
     <div className="pb-4">
       <h3 className="text-md font-bold">
-        แบบฟอร์มคัดเลือกลูกค้า / Customer Evaluation Form
+        {/* แบบฟอร์มคัดเลือกลูกค้า / Customer Evaluation Form */}
+        แบฟอร์มประเมินลูกค้า / Customer Assessemnt Form
       </h3>
       {/* <Accordion
         type="multiple"

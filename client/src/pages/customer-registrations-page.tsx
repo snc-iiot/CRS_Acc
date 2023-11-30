@@ -2,6 +2,12 @@ import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  ClearButton,
+  FilterBar,
+  FilterBarInput,
+  FilterSelect,
+} from "@/components/ui/filter-bar";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -21,12 +27,23 @@ const CustomerRegistrations: FC = () => {
   const registrations: RegistrationInterface[] = registrationsMock;
   const navigate = useNavigate();
 
+  const Status = [
+    { value: "ทั้งหมด", label: "ทั้งหมด" },
+    { value: "สถานะ1", label: "สถานะ1" },
+    { value: "สถานะ2", label: "สถานะ2" },
+  ];
+
+  const Company = [
+    { value: "ทั้งหมด", label: "ทั้งหมด" },
+    { value: "บริษัท1", label: "บริษัท1" },
+    { value: "บริษัท2", label: "บริษัท2" },
+  ];
+
   return (
     <FadeIn>
-      <main className="flex h-[90dvh] flex-col">
+      <main className="flex h-[90dvh] flex-col gap-2">
         <h2 className="text-xl font-bold">รายการลงทะเบียนลูกค้า</h2>
-
-        <div className="mt-3 flex items-center gap-x-1">
+        <div className="flex items-center gap-x-1">
           <Button
             className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]"
             onClick={() => navigate("/registration")}
@@ -80,68 +97,6 @@ const CustomerRegistrations: FC = () => {
                       />
                     </div>
                   </section>
-                  {/* <section>
-                    <Toolbar.Root
-                      className="flex w-full min-w-max rounded-none border-b bg-white p-[10px]"
-                      aria-label="Formatting options"
-                    >
-                      <Toolbar.ToggleGroup
-                        type="multiple"
-                        aria-label="Text formatting"
-                      >
-                        <Toolbar.ToggleItem
-                          className="text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-white px-[5px] text-[13px] leading-none outline-none first:ml-0 focus:relative focus:shadow-[0_0_0_2px]"
-                          value="bold"
-                          aria-label="Bold"
-                        >
-                          <FontBoldIcon />
-                        </Toolbar.ToggleItem>
-                        <Toolbar.ToggleItem
-                          className="text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-white px-[5px] text-[13px] leading-none outline-none first:ml-0 focus:relative focus:shadow-[0_0_0_2px]"
-                          value="italic"
-                          aria-label="Italic"
-                        >
-                          <FontItalicIcon />
-                        </Toolbar.ToggleItem>
-                        <Toolbar.ToggleItem
-                          className="text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-white px-[5px] text-[13px] leading-none outline-none first:ml-0 focus:relative focus:shadow-[0_0_0_2px]"
-                          value="strikethrough"
-                          aria-label="Strike through"
-                        >
-                          <StrikethroughIcon />
-                        </Toolbar.ToggleItem>
-                      </Toolbar.ToggleGroup>
-                      <Toolbar.Separator className="bg-mauve6 mx-[10px] w-[1px]" />
-                      <Toolbar.ToggleGroup
-                        type="single"
-                        defaultValue="center"
-                        aria-label="Text alignment"
-                      >
-                        <Toolbar.ToggleItem
-                          className="text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-white px-[5px] text-[13px] leading-none outline-none first:ml-0 focus:relative focus:shadow-[0_0_0_2px]"
-                          value="left"
-                          aria-label="Left aligned"
-                        >
-                          <TextAlignLeftIcon />
-                        </Toolbar.ToggleItem>
-                        <Toolbar.ToggleItem
-                          className="text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-white px-[5px] text-[13px] leading-none outline-none first:ml-0 focus:relative focus:shadow-[0_0_0_2px]"
-                          value="center"
-                          aria-label="Center aligned"
-                        >
-                          <TextAlignCenterIcon />
-                        </Toolbar.ToggleItem>
-                        <Toolbar.ToggleItem
-                          className="text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-white px-[5px] text-[13px] leading-none outline-none first:ml-0 focus:relative focus:shadow-[0_0_0_2px]"
-                          value="right"
-                          aria-label="Right aligned"
-                        >
-                          <TextAlignRightIcon />
-                        </Toolbar.ToggleItem>
-                      </Toolbar.ToggleGroup>
-                      <Toolbar.Separator className="bg-mauve6 mx-[10px] w-[1px]" />
-                    </Toolbar.Root>
-                  </section> */}
                   <section>
                     <Textarea
                       className="h-[25rem] max-h-[30rem] min-h-[15rem] w-full border border-none p-0 shadow-none focus-visible:ring-0"
@@ -164,15 +119,29 @@ const CustomerRegistrations: FC = () => {
             </DialogContent>
           </Dialog>
         </div>
-
-        <div className="mt-5 w-full flex-grow overflow-x-auto overflow-y-auto rounded border">
+        <div>
+          <FilterBar>
+            <FilterBarInput placeholder="ค้นหา" />
+            <FilterSelect triggerText="สถานะ" options={Status} />
+            <FilterSelect triggerText="บริษัท" options={Company} />
+            <ClearButton className="text-red-600 hover:text-red-600">
+              ล้าง
+            </ClearButton>
+          </FilterBar>
+        </div>
+        <div className="w-full flex-grow overflow-x-auto overflow-y-auto rounded border">
           <Table className="relative w-full">
             <THead className="sticky top-0 z-10 whitespace-nowrap bg-primary-foreground text-sm">
               <Tr>
                 <Th className="w-[100px]">ลำดับ</Th>
                 <Th className="w-[10rem]">หมายเลขนิติบุคคล</Th>
                 <Th>บริษัทลูกค้า</Th>
-                <Th className="w-[200px]">ขึ้นทะเบียนกับบริษัท</Th>
+                <Th className="w-[200px]">
+                  <span className="flex cursor-pointer items-center gap-x-1">
+                    ขึ้นทะเบียนกับบริษัท
+                    <Icons.arrowLeft className="h-4 w-4" />
+                  </span>
+                </Th>
                 <Th className="w-[10rem]">เวลาขึ้นทะเบียน</Th>
                 <Th className="w-[10rem]">สถานะ</Th>
                 <Th className="w-[150px]"></Th>

@@ -28,7 +28,7 @@ const R4Form: FC = () => {
   return (
     <div className="relative flex w-full flex-col gap-2">
       <h3 className="text-base font-bold">
-        ประเมินผลต่อการผลิตสินค้า (Productivity)
+        ภาพรวมผลการประเมิน / Overall Assessment
       </h3>
       <div className="grid grid-cols-3 gap-2">
         <div>

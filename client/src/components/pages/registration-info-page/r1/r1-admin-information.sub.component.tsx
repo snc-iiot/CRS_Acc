@@ -8,6 +8,8 @@
 // import { Input } from "@/components/ui/input";
 // import { Select } from "@/components/ui/select-custom";
 import CalculatePlayback from "@/components/common/calculate-playback";
+import CalculateRoa from "@/components/common/calculate-roa";
+import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -129,7 +131,9 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">3. Lead Time การสั่งซื้อ (วัน)</h4>
+        <h4 className="whitespace-nowrap">
+          3. ระยะเวลา (Lead Time) การสั่งซื้อ
+        </h4>
         <div className="col-span-3">
           <div className="flex items-center gap-x-1">
             <input
@@ -218,7 +222,10 @@ export const R1AdminInformation: FC = () => {
               <span>MB</span>
             </div>
             <div className="flex items-center gap-x-1">
-              <p className="w-[10rem] whitespace-nowrap">ROI</p>
+              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
+                <p className="whitespace-nowrap">ROI</p>
+                <CalculateRoi />
+              </div>
               <input
                 type="number"
                 placeholder="โปรดระบุ"
@@ -227,7 +234,10 @@ export const R1AdminInformation: FC = () => {
               <span>%</span>
             </div>
             <div className="flex items-center gap-x-1">
-              <p className="w-[10rem] whitespace-nowrap">ROA</p>
+              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
+                <p className="whitespace-nowrap">ROA</p>
+                <CalculateRoa />
+              </div>
               <input
                 type="number"
                 placeholder="โปรดระบุ"
@@ -691,7 +701,7 @@ export const R1AdminInformation: FC = () => {
             <span>%</span>
           </div>
           <div className="flex items-center gap-x-1">
-            <p className="w-[12rem] whitespace-nowrap">Cost</p>
+            <p className="w-[12rem] whitespace-nowrap">COGs - RM</p>
             <input
               type="number"
               placeholder="โปรดระบุ"

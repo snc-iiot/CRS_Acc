@@ -1,4 +1,5 @@
 import ActionTab from "@/components/common/actions-tab";
+import BarChartHorizontal from "@/components/common/chart/bar-chart-horizontal";
 import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import MainActions from "@/components/common/main-actions";
@@ -27,14 +28,22 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Select } from "@/components/ui/select-custom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn, COLORS_SERIES } from "@/lib/utils";
+import MockCompany from "@/mock/company.json";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -57,6 +66,29 @@ const RegistrationInfo: FC = () => {
     "R8",
     "R9",
     "R10",
+  ];
+
+  const TabList = [
+    {
+      label: "General Assessment",
+      value: "R1",
+    },
+    {
+      label: "Financial Report",
+      value: "R2",
+    },
+    {
+      label: "Financial Ratio Assessment",
+      value: "R3",
+    },
+    {
+      label: "Overall Assessment",
+      value: "R4",
+    },
+    {
+      label: "Assessment Result",
+      value: "R5",
+    },
   ];
 
   const showSplitScreen: {
@@ -143,7 +175,7 @@ const RegistrationInfo: FC = () => {
           </TooltipProvider>
         </div>
         <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2 py-2">
-          <div className="absolute left-[50%] top-3 flex translate-x-[-50%] gap-x-3">
+          <div className="flex items-center justify-start px-4">
             {showSplitScreen?.map((item, i) => (
               <TooltipProvider key={i}>
                 <Tooltip>
@@ -236,13 +268,11 @@ const RegistrationInfo: FC = () => {
                 >
                   <nav className="fixed right-1 top-2">
                     <TabsList>
-                      {Array(10)
-                        .fill(0)
-                        .map((_, i) => (
-                          <TabsTrigger key={i} value={"R" + (i + 1)}>
-                            R{i + 1}
-                          </TabsTrigger>
-                        ))}
+                      {TabList.map((info, i) => (
+                        <TabsTrigger key={i} value={info?.value}>
+                          {info.label}
+                        </TabsTrigger>
+                      ))}
                     </TabsList>
                   </nav>
                   <TabsContent value="R1" className="h-full overflow-auto">
@@ -335,63 +365,91 @@ const RegistrationInfo: FC = () => {
                       </div>
                     </section>
                     <section className="px-2 py-1">
-                      <div className="grid grid-cols-6">
-                        <div className="col-span-2 flex items-center justify-start gap-x-1">
-                          <input
-                            type="checkbox"
-                            className="mr-1"
-                            id="add-comment"
-                          />
-                          <label htmlFor="add-comment" className="text-xs">
-                            เพิ่มข้อเสนอแนะ
-                          </label>
-                        </div>
-                        <div className="col-span-4 flex w-full items-center justify-end gap-x-1 text-xs">
-                          <input
-                            type="text"
-                            placeholder="โปรดระบุ"
-                            className="w-full border-0 border-b p-0.5 text-primary outline-0"
-                          />
-                        </div>
-                      </div>
+                      <Popover>
+                        <PopoverTrigger className="text-xs text-primary">
+                          เพิ่มข้อเสนอแนะ
+                        </PopoverTrigger>
+                        <PopoverContent
+                          align="start"
+                          className="h-60 w-72 p-1 shadow-sm"
+                        >
+                          <main className="flex h-full w-full flex-col gap-2 overflow-hidden p-1">
+                            <h2 className="px-2 py-1 text-sm font-semibold underline">
+                              เพิ่มข้อเสนอแนะ / Add Comments
+                            </h2>
+                            <Textarea className="h-full w-full" />
+                            <div className="text-end">
+                              <Button size="sm">บันทึก</Button>
+                            </div>
+                          </main>
+                        </PopoverContent>
+                      </Popover>
                     </section>
                   </main>
                 </div>
-                <div className="h-full border">
-                  <main className="flex h-full w-full flex-col overflow-hidden">
+                <div className="relative h-full border">
+                  <Popover>
+                    <PopoverTrigger className="absolute right-2 top-2">
+                      <Icons.filter className="h-5 w-5 text-primary" />
+                    </PopoverTrigger>
+                    <PopoverContent
+                      align="end"
+                      className="h-60 w-72 p-0 shadow-sm"
+                    >
+                      <section className="flex h-full w-full flex-col gap-2 overflow-hidden p-1">
+                        <h2 className="px-2 py-1 text-sm font-semibold underline">
+                          ตัวกรอง
+                        </h2>
+                        <div>
+                          <p className="px-2 py-1 text-xs font-semibold">
+                            เลือกปี
+                          </p>
+                          <Select placeholder="เลือกปี" className="text-xs">
+                            <option value="2023">Y2023</option>
+                          </Select>
+                        </div>
+                      </section>
+                    </PopoverContent>
+                  </Popover>
+                  <main className="flex h-full w-full flex-col gap-2 overflow-hidden">
                     <section>
                       <h2 className="px-2 py-1 text-sm font-semibold underline">
                         ภาพรวม / Overview
                       </h2>
                     </section>
-                    <section className="flex h-full w-full flex-col">
-                      <div className="h-0 flex-grow overflow-y-auto px-2">
-                        <p className="text-xs">
-                          Lorem ipsum, dolor sit amet consectetur adipisicing
-                          elit. Provident quisquam qui molestiae eaque natus
-                          itaque minus fugit vel exercitationem hic rem, numquam
-                          porro obcaecati temporibus, nihil ad, dicta explicabo
-                          suscipit. Lorem ipsum dolor sit amet consectetur
-                          adipisicing elit. Voluptatem et ab amet optio numquam
-                          eos reprehenderit. Error tenetur aliquid ducimus cum
-                          aspernatur voluptatum dolore expedita nisi labore,
-                          itaque natus tempore! Lorem ipsum, dolor sit amet
-                          consectetur adipisicing elit. Provident quisquam qui
-                          molestiae eaque natus itaque minus fugit vel
-                          exercitationem hic rem, numquam porro obcaecati
-                          temporibus, nihil ad, dicta explicabo suscipit. Lorem
-                          ipsum dolor sit amet consectetur adipisicing elit.
-                          Voluptatem et ab amet optio numquam eos reprehenderit.
-                          Error tenetur aliquid ducimus cum aspernatur
-                          voluptatum dolore expedita nisi labore, itaque natus
-                          tempore!
-                        </p>
+                    <section className="grid h-full w-full grid-cols-3">
+                      <div className="col-span-2 h-full flex-grow overflow-y-auto px-2">
+                        <BarChartHorizontal
+                          data={MockCompany?.slice(0, 6)?.map((item, i) => ({
+                            name: item?.Company,
+                            value: 89,
+                            color: COLORS_SERIES[9 + i],
+                          }))}
+                          keyMap={["value", "name"]}
+                          label="รายการ"
+                          keyXAxis="name"
+                          keyYAxis="value"
+                          isLabelInside={true}
+                        />
+                      </div>
+                      <div className="flex h-full w-full flex-col">
+                        <div className="flex h-0 flex-grow flex-col overflow-y-auto px-2 text-xs">
+                          {MockCompany?.map((item, i) => (
+                            <div key={i} className="flex justify-between">
+                              <p className="text-xs">
+                                {i + 1}. {item?.Company}
+                              </p>
+                              <p className="text-xs">
+                                {~~(Math.random() * 100)} รายการ
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </section>
                   </main>
                 </div>
               </div>
-
               {/* //! Right Footer */}
               <div className="h-[7%] border border-t-0">
                 {mainActions.includes(activeTab) ? (

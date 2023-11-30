@@ -26,7 +26,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R1" }) => {
             Sync ข้อมูล DBD
           </Button>
           <Button variant="secondary">
-            <Icons.downloadCloud className="mr-2" />
+            <Icons.uploadCloudIcon className="mr-2" />
             อัพโหลดข้อมูลโดย Excel{" "}
           </Button>
         </div>

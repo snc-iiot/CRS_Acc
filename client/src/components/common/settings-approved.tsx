@@ -34,9 +34,8 @@ const SettingsApproved: FC = () => {
     "ลำดับ",
     "ชื่อ-นามสกุล",
     "ตำแหน่ง",
-    "สถานะ",
-    "วันที่อนุมัติ",
-    "หมายเหตุ",
+    "Email",
+    "เบอร์โทรศัพท์",
     "จัดการ",
   ];
 
@@ -49,7 +48,7 @@ const SettingsApproved: FC = () => {
         </p>
         <Separator className="my-2" />
       </section>
-      <section>
+      <section className="flex items-center gap-2">
         <Button
           variant="link"
           className="text-green-600"
@@ -60,10 +59,10 @@ const SettingsApproved: FC = () => {
           <Icons.plus className="mr-2 h-5 w-5" />
           เพิ่มผู้อนุมัติ
         </Button>
-        {/* <Button variant="link" className="text-secondary-foreground">
-          <Icons.fileEdit className="mr-2 h-5 w-5" />
-          แก้ไขผู้อนุมัติ
-        </Button> */}
+        <Button variant="link" className="text-muted-foreground">
+          <Icons.helpCircle className="mr-2 h-5 w-5" />
+          วิธีการตั้งค่าสายอนุมัติ
+        </Button>
       </section>
       <section className="flex h-full w-full flex-col border">
         <div className="relative flex h-0 flex-grow flex-col overflow-y-auto">
@@ -177,9 +176,8 @@ const SettingsApproved: FC = () => {
                     </Popover>
                   </TableCell>
                   <TableCell>ผู้จัดการ</TableCell>
-                  <TableCell className="text-green-600">อนุมัติ</TableCell>
-                  <TableCell>01/01/2564</TableCell>
-                  <TableCell>อนุมัติเอกสาร</TableCell>
+                  <TableCell>Anuwat57766@gmail.com</TableCell>
+                  <TableCell>098-765-4321</TableCell>
                   <TableCell className="text-start text-red-600">
                     <p
                       className="text-sm hover:cursor-pointer"

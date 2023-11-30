@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -16,70 +17,90 @@ const R3Form: FC = () => {
     <div className="relative flex w-full flex-col gap-2">
       <div>
         <h3 className="text-base font-bold">
-          อัตราส่วนทางการเงิน (Financial Ratio)
+          ผลประเมินอัตราส่วนทางการเงิน / Financial Ratio Assessment Report
         </h3>
       </div>
-      <Table className="w-max border-collapse border-spacing-0 border">
-        <TableHeader
-          className={cn("top-0 z-10 bg-primary-foreground", "sticky")}
-        >
-          <TableRow className="text-xs ">
-            <TableHead
-              rowSpan={2}
-              className="border text-start font-bold text-black"
-            >
-              รายการ
-            </TableHead>
-            <TableHead
-              rowSpan={2}
-              className="border-x-none border-y text-center font-bold text-black"
-            >
-              Note
-            </TableHead>
-            <TableHead
-              colSpan={data[0]?.data[0]?.current.length}
-              className="border-b-none border-l border-t text-center font-bold text-black"
-            >
-              งบการเงินกิจการ
-            </TableHead>
-          </TableRow>
-          <TableRow className="text-xs">
-            {data[0]?.data[0]?.current.map((data) => (
+      <div className="grid grid-cols-2 gap-2">
+        <Table className="w-full border-collapse border-spacing-0 border">
+          <TableHeader
+            className={cn("top-0 z-10 bg-primary-foreground", "sticky")}
+          >
+            <TableRow className="text-xs ">
               <TableHead
-                key={data?.year}
-                className="border text-center font-bold text-black"
+                rowSpan={2}
+                className="border text-start font-bold text-black"
               >
-                {data?.year}
+                รายการ
               </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        {data.map((item, index) => (
-          <TableBody key={index}>
-            <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
-              <TableCell className="border font-bold" colSpan={6}>
-                {item.name}
-              </TableCell>
-            </TableRow>
-            {item.data.map((data, j) => (
-              <TableRow
-                className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground"
-                key={j}
+              <TableHead
+                rowSpan={2}
+                className="border-x-none border-y text-center font-bold text-black"
               >
-                <TableCell className="border">{data.list_name}</TableCell>
-                <TableCell className="border text-center">
-                  {data.note}
+                Note
+              </TableHead>
+              <TableHead
+                colSpan={data[0]?.data[0]?.current.length}
+                className="border-b-none border-l border-t text-center font-bold text-black"
+              >
+                งบการเงินกิจการ
+              </TableHead>
+            </TableRow>
+            <TableRow className="text-xs">
+              {data[0]?.data[0]?.current.map((data) => (
+                <TableHead
+                  key={data?.year}
+                  className="border text-center font-bold text-black"
+                >
+                  {data?.year}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          {data.map((item, index) => (
+            <TableBody key={index}>
+              <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
+                <TableCell className="border font-bold" colSpan={6}>
+                  {item.name}
                 </TableCell>
-                {data.current.map((data, i) => (
-                  <TableCell key={i} className="border text-end">
-                    {data?.value ?? "-"}
-                  </TableCell>
-                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        ))}
-      </Table>
+              {item.data.map((data, j) => (
+                <TableRow
+                  className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                  key={j}
+                >
+                  <TableCell className="border">{data.list_name}</TableCell>
+                  <TableCell className="border text-center">
+                    {data.note}
+                  </TableCell>
+                  {data.current.map((data, i) => (
+                    <TableCell key={i} className="border text-end">
+                      {data?.value ?? "-"}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          ))}
+        </Table>
+        <div className="flex h-96 max-h-96 w-full flex-col gap-2">
+          <h2 className="text-base font-bold">ความคิดเห็น</h2>
+          <div className="flex h-full w-full flex-col rounded-md border border-dashed border-primary p-2">
+            <div className="flex h-0 flex-grow flex-col gap-2 overflow-auto">
+              {new Array(20).fill(0).map((_, i) => (
+                <div className="grid grid-cols-10" key={i}>
+                  <p className="col-span-6 text-xs text-black">
+                    งบการเงินน้อยเกินไป ควรปรับปรุง และปรับปรุงการบริหาร
+                  </p>
+                  <p className="col-span-4 text-xs text-black">
+                    : นาย อนุวัฒน์ ทีสุกะ {new Date().toLocaleDateString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Button>บันทึกความคิดเห็น</Button>
+        </div>
+      </div>
     </div>
   );
 };

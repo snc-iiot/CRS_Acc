@@ -16,23 +16,70 @@ const CalculatePlayback: FC = () => {
   const [totalProfit, setTotalProfit] = useState<number>(0);
   const [growthRate, setGrowthRate] = useState<number>(0);
   const [numberOfPeriods, setNumberOfPeriods] = useState<number>(0);
+  const [newPayback, setNewPayback] = useState<
+    {
+      label: string;
+      value: number;
+      label_2: string;
+      value_2: number;
+    }[]
+  >([
+    {
+      label: "งวดที่ 1",
+      value: totalProfit,
+      label_2: "งวดที่ 1",
+      value_2: totalProfit,
+    },
+  ]);
 
   const payback = useMemo(() => {
     if (isInvestment) {
       if (totalInvestment === 0 || totalProfit === 0) return 0;
       return totalInvestment / totalProfit;
-    } else {
-      return new Array(numberOfPeriods).fill(0).reduce((acc, _, i) => {
-        let result = acc;
-        if (i === 0) {
-          result = totalProfit;
-        } else {
-          result = result + (result * growthRate) / 100;
-        }
-        return result;
-      }, 0);
     }
-  }, [totalInvestment, totalProfit, isInvestment, growthRate, numberOfPeriods]);
+  }, [isInvestment, totalInvestment, totalProfit]);
+
+  useMemo(() => {
+    if (numberOfPeriods === 0) return;
+    setNewPayback(
+      new Array(numberOfPeriods).fill(0).map((_, i) => ({
+        label: `งวดที่ ${i + 1}`,
+        value: Number(
+          new Array(i + 1)
+            .fill(0)
+            .reduce((acc, _, i) => {
+              let result = acc;
+              if (i === 0) {
+                result = totalProfit;
+              } else {
+                result = result + (result * growthRate) / 100;
+              }
+              return result;
+            }, 0)
+            .toFixed(2),
+        ),
+        label_2: `งวดที่ ${i + 1}`,
+        value_2: Number(
+          new Array(i + 1)
+            .fill(0)
+            .reduce((acc, _, i) => {
+              let result = acc;
+              let result_2 = acc;
+              if (i === 0) {
+                result = totalProfit;
+                result_2 = totalInvestment - totalProfit;
+              } else {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                result = result + (result * growthRate) / 100;
+                result_2 = result_2 + (result_2 * growthRate) / 100;
+              }
+              return result_2;
+            }, 0)
+            .toFixed(2),
+        ),
+      })),
+    );
+  }, [numberOfPeriods, totalProfit, growthRate, totalInvestment]);
 
   useEffect(() => {
     setIsInvestment(true);
@@ -105,7 +152,7 @@ const CalculatePlayback: FC = () => {
                             {payback} เดือน
                           </h3>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
-                            {(payback / 12).toFixed(1)} ปี
+                            ปี
                           </h3>
                         </div>
                       </div>
@@ -180,47 +227,19 @@ const CalculatePlayback: FC = () => {
                     <section className="h-full rounded-md border border-dashed">
                       <article className="flex h-full flex-col gap-1">
                         <article className="flex h-0 w-full flex-grow flex-col gap-1 overflow-y-auto p-1">
-                          {new Array(numberOfPeriods).fill(0).map((_, i) => (
+                          {newPayback.map((info, i) => (
                             <div
                               key={i}
-                              className="grid grid-cols-4 gap-1 border-b border-dashed text-xs"
+                              className="grid grid-cols-5 gap-1 border-b border-dashed text-xs"
                             >
-                              <p className="col-span-2">
-                                งวดที่ {i + 1} ได้รับผลตอบแทน (กำไร) ประมาณ
+                              <p className="col-span-1 truncate">
+                                {info?.label}
                               </p>
-                              <p>
-                                {Number(
-                                  new Array(i + 1)
-                                    .fill(0)
-                                    .reduce((acc, _, i) => {
-                                      let result = acc;
-                                      if (i === 0) {
-                                        result = totalProfit;
-                                      } else {
-                                        result =
-                                          result + (result * growthRate) / 100;
-                                      }
-                                      return result;
-                                    }, 0)
-                                    .toFixed(2),
-                                )?.toLocaleString()}
+                              <p className="col-span-2 text-right">
+                                {info?.value?.toLocaleString()} บาท
                               </p>
-                              <p className="text-right">
-                                {Number(
-                                  new Array(i + 1)
-                                    .fill(0)
-                                    .reduce((acc, _, i) => {
-                                      let result = totalInvestment - acc;
-                                      if (i === 0) {
-                                        result = totalProfit;
-                                      } else {
-                                        result =
-                                          result + (result * growthRate) / 100;
-                                      }
-                                      return result;
-                                    }, 0)
-                                    .toFixed(2),
-                                )?.toLocaleString()}
+                              <p className="col-span-2 text-right">
+                                {info?.value_2?.toLocaleString()} บาท
                               </p>
                             </div>
                           ))}

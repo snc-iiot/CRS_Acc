@@ -40,7 +40,9 @@ const R2Form: FC = () => {
 
   return (
     <div className="pb-4">
-      <h3 className="text-lg font-bold">รายงานการวิเคราะห์ข้อมูลทางการเงิน</h3>
+      <h3 className="text-lg font-bold">
+        รายงานข้อมูลทางการเงิน / Financial Report by DBD
+      </h3>
       <Accordion type="multiple" defaultValue={["item-1", "item-2", "item-3"]}>
         <AccordionItem value="item-1">
           <AccordionTrigger className="p-1 text-xs font-bold">

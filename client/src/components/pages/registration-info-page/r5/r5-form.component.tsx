@@ -53,7 +53,7 @@ const R5Form: FC = () => {
   return (
     <div className="pb-4">
       <h3 className="text-base font-bold">
-        ผลการประเมิน / Summary of Assessment
+        สรุปผลการประเมิน / Assessment Result
       </h3>
       <div className="grid grid-cols-3 gap-2">
         {Mock?.map((info, i) => (

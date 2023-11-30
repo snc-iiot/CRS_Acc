@@ -51,13 +51,13 @@ const Stepper = React.forwardRef<HTMLDivElement, StepperProps>(
       <div
         ref={ref}
         className={cn(
-          "relative z-10 flex w-full flex-row items-center justify-between",
+          "relative z-10 flex h-full w-full flex-row items-center justify-between overflow-auto",
           className,
         )}
         {...props}
       >
-        <ol className="relative flex w-full flex-row items-center justify-between ">
-          <div className="absolute z-0 mt-5 h-[2px] w-full border border-dashed transition-all duration-500 ease-in-out"></div>
+        <ol className="relative flex w-full flex-col items-start justify-between ">
+          {/* <div className="absolute z-0 mt-5 h-[2px] w-full border border-dashed transition-all duration-500 ease-in-out"></div> */}
           {React.Children.map(props?.children, (child) => {
             return React.cloneElement(child as React.ReactElement, {
               activeStep,
@@ -117,16 +117,15 @@ const Steps = ({
   };
 
   return (
-    <li
-      className={cn(
-        "relative z-10 flex flex-col items-center justify-center bg-white",
-        className,
-      )}
-      {...props}
-    >
-      <span>{label}</span>
-      {active(keyStep?.toString()) ? icons.active : icons.inactive}
-    </li>
+    <div className="w-full">
+      <span>{active(keyStep?.toString()) ? icons.active : icons.inactive}</span>
+      <li
+        className={cn("w-full whitespace-nowrap text-xs", className)}
+        {...props}
+      >
+        <span className={cn("text-xs")}>{label}</span>
+      </li>
+    </div>
   );
 };
 
