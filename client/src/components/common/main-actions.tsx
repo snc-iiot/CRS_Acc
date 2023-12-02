@@ -5,6 +5,7 @@ import { FC } from "react";
 import { Button } from "../ui/button";
 import { Icons } from "./icons";
 import SettingsApproved from "./settings-approved";
+import StatusForm from "./status-form";
 
 interface Props {
   activeTab:
@@ -87,7 +88,8 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     ),
     ["R2"]: (
       <>
-        <div className="flex h-full w-full items-center justify-end gap-x-2 px-2 text-sm">
+        <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
+          <StatusForm />
           <div className="flex items-center gap-2">
             <Confirm
               button={
@@ -151,7 +153,8 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     ),
     ["R3"]: (
       <>
-        <div className="flex h-full w-full items-center justify-end gap-x-2 px-2 text-sm">
+        <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
+          <StatusForm />
           <div className="flex items-center gap-2">
             <Confirm
               button={
@@ -215,7 +218,8 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     ),
     ["R4"]: (
       <>
-        <div className="flex h-full w-full items-center justify-end gap-x-2 px-2 text-sm">
+        <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
+          <StatusForm />
           <div className="flex items-center gap-2">
             <Confirm
               button={
@@ -279,7 +283,8 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     ),
     ["R5"]: (
       <>
-        <div className="flex h-full w-full items-center justify-end gap-x-2 px-2 text-sm">
+        <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
+          <StatusForm />
           <div className="flex items-center gap-2">
             <Confirm
               button={

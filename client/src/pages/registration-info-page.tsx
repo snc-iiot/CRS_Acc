@@ -390,7 +390,7 @@ const RegistrationInfo: FC = () => {
                 <div className="relative h-full border">
                   <Popover>
                     <PopoverTrigger className="absolute right-2 top-2">
-                      <Icons.filter className="h-5 w-5 text-primary" />
+                      <Icons.filter className="h-4 w-4 text-primary" />
                     </PopoverTrigger>
                     <PopoverContent
                       align="end"
@@ -404,17 +404,37 @@ const RegistrationInfo: FC = () => {
                           <p className="px-2 py-1 text-xs font-semibold">
                             เลือกปี
                           </p>
-                          <Select placeholder="เลือกปี" className="text-xs">
+                          <Select
+                            placeholder="เลือกปี"
+                            className="text-xs shadow-none"
+                          >
                             <option value="2023">Y2023</option>
+                          </Select>
+                        </div>
+                        <div>
+                          <p className="px-2 py-1 text-xs font-semibold">
+                            รูปแบบการแสดงผล
+                          </p>
+                          <Select
+                            placeholder="รูปแบบการแสดงผล"
+                            className="text-xs shadow-none"
+                          >
+                            <option value="1">ไตรมาส 1</option>
+                            <option value="2">ไตรมาส 2</option>
+                            <option value="3">ไตรมาส 3</option>
+                            <option value="4">ไตรมาส 4</option>
                           </Select>
                         </div>
                       </section>
                     </PopoverContent>
                   </Popover>
-                  <main className="flex h-full w-full flex-col gap-2 overflow-hidden">
+                  <main className="flex h-full w-full flex-col gap-1 overflow-hidden">
                     <section>
                       <h2 className="px-2 py-1 text-sm font-semibold underline">
-                        ภาพรวม / Overview
+                        ประวัติขึ้นทะเบียนผู้ซื้อ{" "}
+                        <span className="text-xs text-red-600">
+                          **ไม่รวมรายการนี้ / Exclude this
+                        </span>
                       </h2>
                     </section>
                     <section className="grid h-full w-full grid-cols-3">
@@ -432,18 +452,140 @@ const RegistrationInfo: FC = () => {
                           isLabelInside={true}
                         />
                       </div>
-                      <div className="flex h-full w-full flex-col">
-                        <div className="flex h-0 flex-grow flex-col overflow-y-auto px-2 text-xs">
-                          {MockCompany?.map((item, i) => (
-                            <div key={i} className="flex justify-between">
-                              <p className="text-xs">
-                                {i + 1}. {item?.Company}
-                              </p>
-                              <p className="text-xs">
-                                {~~(Math.random() * 100)} รายการ
-                              </p>
-                            </div>
-                          ))}
+                      <div className="relative flex h-full w-full flex-col">
+                        <h2 className="px-2 text-sm font-semibold underline">
+                          รายละเอียด
+                        </h2>
+
+                        <div className="flex w-full flex-col rounded-sm border border-dashed border-border">
+                          <div className="flex justify-between border-primary-foreground">
+                            <h3 className="px-2 py-1 text-xs font-semibold">
+                              Total (East)
+                            </h3>
+                            <h3 className="px-2 py-1 text-xs font-semibold">
+                              12 รายการ
+                            </h3>
+                          </div>
+                          <div className="flex justify-between border-primary-foreground">
+                            <h3 className="px-2 py-1 text-xs font-semibold">
+                              Total (West)
+                            </h3>
+                            <h3 className="px-2 py-1 text-xs font-semibold">
+                              12 รายการ
+                            </h3>
+                          </div>
+                          <div className="flex justify-between border-primary-foreground">
+                            <h3 className="px-2 py-1 text-xs font-semibold">
+                              Total
+                            </h3>
+                            <h3 className="px-2 py-1 text-xs font-semibold">
+                              24 รายการ
+                            </h3>
+                          </div>
+                        </div>
+                        <div className="flex justify-end border-primary-foreground">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <h3 className="cursor-pointer px-2 py-1 text-xs font-semibold text-primary hover:underline">
+                                คลิกดูรายละเอียด
+                              </h3>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              align="start"
+                              className="h-72 w-96 overflow-hidden p-1 shadow-sm"
+                            >
+                              <article className="flex h-full w-full flex-col gap-2 overflow-hidden p-1">
+                                <h2 className="px-2 py-1 text-sm font-semibold underline">
+                                  รายละเอียด
+                                </h2>
+                                <div className="flex h-full w-full flex-col gap-1 overflow-hidden">
+                                  <div className="flex flex-grow flex-col overflow-y-auto text-xs">
+                                    <Accordion
+                                      type="multiple"
+                                      defaultValue={["east", "west"]}
+                                    >
+                                      <AccordionItem value="east">
+                                        <AccordionTrigger className="py-1 text-xs font-bold">
+                                          Total (East)
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                          <div className="flex flex-grow flex-col overflow-y-auto px-2 text-xs">
+                                            {MockCompany?.slice(0, 6)?.map(
+                                              (item, i) => (
+                                                <div
+                                                  key={i}
+                                                  className="flex justify-between"
+                                                >
+                                                  <p className="text-xs">
+                                                    {i + 1}. {item?.Company}
+                                                  </p>
+                                                  <p className="text-xs">
+                                                    {~~(Math.random() * 100)}{" "}
+                                                    รายการ
+                                                  </p>
+                                                </div>
+                                              ),
+                                            )}
+                                            <div className="flex justify-between  font-bold text-primary">
+                                              <p className="text-xs">รวม</p>
+                                              <p className="overflow-hidden text-xs">
+                                                {new Array(100)
+                                                  .fill(0)
+                                                  .map((_, i) => (
+                                                    <span key={i}>.</span>
+                                                  ))}
+                                              </p>
+                                              <p className="whitespace-nowrap text-xs">
+                                                20 รายการ
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </AccordionContent>
+                                      </AccordionItem>
+                                      <AccordionItem value="west">
+                                        <AccordionTrigger className="py-1 text-xs font-bold">
+                                          Total (West)
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                          <div className="flex flex-grow flex-col overflow-y-auto px-2 text-xs">
+                                            {MockCompany?.slice(6)?.map(
+                                              (item, i) => (
+                                                <div
+                                                  key={i}
+                                                  className="flex justify-between"
+                                                >
+                                                  <p className="text-xs">
+                                                    {i + 1}. {item?.Company}
+                                                  </p>
+                                                  <p className="text-xs">
+                                                    {~~(Math.random() * 100)}{" "}
+                                                    รายการ
+                                                  </p>
+                                                </div>
+                                              ),
+                                            )}
+                                            <div className="flex justify-between  font-bold text-primary">
+                                              <p className="text-xs">รวม</p>
+                                              <p className="overflow-hidden text-xs">
+                                                {new Array(100)
+                                                  .fill(0)
+                                                  .map((_, i) => (
+                                                    <span key={i}>.</span>
+                                                  ))}
+                                              </p>
+                                              <p className="whitespace-nowrap text-xs">
+                                                20 รายการ
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </AccordionContent>
+                                      </AccordionItem>
+                                    </Accordion>
+                                  </div>
+                                </div>
+                              </article>
+                            </PopoverContent>
+                          </Popover>
                         </div>
                       </div>
                     </section>

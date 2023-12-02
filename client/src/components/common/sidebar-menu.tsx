@@ -68,16 +68,16 @@ export const WorkspaceSidebarMenu: React.FC<WorkspaceSidebarMenuProps> = ({
       href: `/`,
       disabled: false,
     },
-    // {
-    //   Icon: <Icons.fileText className="h-5 w-5" />,
-    //   name: "รายการลงทะเบียน",
-    //   href: `/registrations`,
-    //   disabled: false,
-    // },
     {
       Icon: <Icons.fileText className="h-5 w-5" />,
       name: "รายการลงทะเบียนลูกค้า",
       href: `/customer-registrations`,
+      disabled: false,
+    },
+    {
+      Icon: <Icons.settings className="h-5 w-5" />,
+      name: "ตั้งค่า",
+      href: `/settings`,
       disabled: false,
     },
   ];
@@ -86,11 +86,7 @@ export const WorkspaceSidebarMenu: React.FC<WorkspaceSidebarMenuProps> = ({
     <div className="mt-5 w-full cursor-pointer space-y-2 px-2">
       {workspaceLinks.map((link, index) => {
         const isActive =
-          link.name === "Quotations" ||
-          link.name === "Customers" ||
-          link.name === "Products" ||
-          link.name === "Authorized" ||
-          link.name === "Settings"
+          link.href === "/settings"
             ? pathname.includes(link.href)
             : pathname === link.href;
 

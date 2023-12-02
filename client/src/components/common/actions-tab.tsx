@@ -11,7 +11,11 @@ const ActionTab: FC<Props> = ({ activeTab = "R1" }) => {
   const { Confirm } = useConfirm();
   const renderElement = {
     ["R1"]: (
-      <div className="flex w-full items-center justify-end">
+      <div className="flex w-full items-center justify-end gap-2">
+        <Button className="bg-yellow-500 hover:bg-yellow-500/80">
+          <Icons.fileEdit className="mr-2 h-5 w-5" />
+          แก้ไขข้อมูล
+        </Button>
         <Button className="bg-green-600 hover:bg-green-600/80">
           <Icons.save className="mr-2 h-5 w-5" />
           บันทึกข้อมูล

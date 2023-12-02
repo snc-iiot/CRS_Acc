@@ -3,7 +3,11 @@ import { FC } from "react";
 import { EvaluateFormComponent } from "../../evaluate";
 
 const R4Form: FC = () => {
-  const Data = [
+  const Data: {
+    Grade: "A" | "B" | "C" | "D" | "E" | "F";
+    Score: string;
+    Note: string;
+  }[] = [
     {
       Grade: "A",
       Score: "10",
@@ -36,7 +40,7 @@ const R4Form: FC = () => {
           <TableSummary
             className="w-full"
             TableHeaderText={["เกรด", "คะแนน", "Sales"]}
-            Data={Data}
+            data={Data}
           />
         </div>
         <div>
@@ -44,7 +48,7 @@ const R4Form: FC = () => {
           <TableSummary
             className="w-full"
             TableHeaderText={["เกรด", "คะแนน", "Mat' I Ratio"]}
-            Data={Data}
+            data={Data}
           />
         </div>
         <div>
@@ -52,7 +56,7 @@ const R4Form: FC = () => {
           <TableSummary
             className="w-full"
             TableHeaderText={["เกรด", "คะแนน", "Sales"]}
-            Data={Data}
+            data={Data}
           />
         </div>
         <div>
@@ -60,7 +64,7 @@ const R4Form: FC = () => {
           <TableSummary
             className="w-full"
             TableHeaderText={["เกรด", "คะแนน", "Credit Terms (Customer)"]}
-            Data={Data}
+            data={Data}
           />
         </div>
         <div>
@@ -68,7 +72,7 @@ const R4Form: FC = () => {
           <TableSummary
             className="w-full"
             TableHeaderText={["เกรด", "คะแนน", "Credit Terms (Vendor)"]}
-            Data={Data}
+            data={Data}
           />
         </div>
         <div>
@@ -78,7 +82,7 @@ const R4Form: FC = () => {
           <TableSummary
             className="w-full"
             TableHeaderText={["เกรด", "คะแนน", "Inventory"]}
-            Data={Data}
+            data={Data}
           />
         </div>
       </div>

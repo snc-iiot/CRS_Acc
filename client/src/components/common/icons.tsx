@@ -37,6 +37,7 @@ import {
   Key,
   LayoutGrid,
   List,
+  Loader,
   Lock,
   LogIn,
   LogOut,
@@ -85,6 +86,7 @@ import {
 export type IconType = LucideIcon;
 
 export const Icons = {
+  loader: Loader,
   arrowUpRight: ArrowUpRight,
   arrowLeftRight: ArrowLeftRight,
   sun: SunMedium,

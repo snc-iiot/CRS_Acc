@@ -11,7 +11,11 @@ import { cn } from "@/lib/utils";
 import { FC, useEffect } from "react";
 
 const R5Form: FC = () => {
-  const Data = [
+  const Data: {
+    Grade: "A" | "B" | "C" | "D" | "E" | "F";
+    Score: string;
+    Note: string;
+  }[] = [
     {
       Grade: "A",
       Score: "10",
@@ -39,7 +43,7 @@ const R5Form: FC = () => {
     "Order/Year",
     "Mat' l Ratio",
     "Credit Terms (Customer)",
-    "Credit term Vendor",
+    "Credit Term Vendor",
     "Inventory",
     "CCC (Project)",
     "Financial Ratio",
@@ -67,7 +71,28 @@ const R5Form: FC = () => {
               className="w-full"
               Header={info}
               TableHeaderText={["เกรด", "คะแนน", "Sales"]}
-              Data={Data}
+              data={Data}
+              activeGrade={
+                info === "Sales"
+                  ? "A"
+                  : info === "Order/Year"
+                  ? "B"
+                  : info === "Mat' l Ratio"
+                  ? "C"
+                  : info === "Credit Terms (Customer)"
+                  ? "D"
+                  : info === "Credit term Vendor"
+                  ? "E"
+                  : info === "Inventory"
+                  ? "D"
+                  : info === "CCC (Project)"
+                  ? "A"
+                  : info === "Financial Ratio"
+                  ? "B"
+                  : info === "Grand Total Score"
+                  ? "C"
+                  : "B"
+              }
             />
           </div>
         ))}
@@ -76,8 +101,8 @@ const R5Form: FC = () => {
         <h1 className="text-xl font-bold text-[#211d62ee]">Summary Report</h1>
         <div>
           <Table>
-            <TableHeader className="border bg-[#211d62ee] text-foreground">
-              <TableRow className="text-xs font-bold text-foreground">
+            <TableHeader className="border bg-[#211d62ee] text-foreground hover:bg-[#211d62ee]">
+              <TableRow className="text-xs font-bold text-foreground hover:bg-[#211d62ee]">
                 <TableHead
                   className="border text-center font-bold  text-primary-foreground"
                   rowSpan={2}
@@ -115,7 +140,7 @@ const R5Form: FC = () => {
                   Remark
                 </TableHead>
               </TableRow>
-              <TableRow className="text-xs font-bold">
+              <TableRow className="text-xs font-bold hover:bg-[#211d62ee]">
                 <TableHead className="border text-center font-bold text-primary-foreground">
                   Sales
                 </TableHead>

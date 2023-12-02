@@ -509,6 +509,26 @@ export const R1AdminInformation: FC = () => {
                 ))}
               </select>
             </div>
+            <div className="flex items-center gap-x-1">
+              <p className="w-[7rem] whitespace-nowrap">
+                ประเภทเชื่อเพลิงที่ใช้
+              </p>
+              <select
+                placeholder="เลือกประเภทเชื่อเพลิงที่ใช้"
+                className={cn(
+                  "w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black",
+                  // "[&_option:checked]:hidden",
+                )}
+                required
+              >
+                <option value="">เลือกประเภทเชื่อเพลิงที่ใช้</option>
+                {new Array(3).fill(0).map((_, i) => (
+                  <option key={i} value={"fuel-type-" + (i + 1)}>
+                    ประเภทเชื่อเพลิงที่ใช้ {i + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <div className="flex items-center gap-x-1">
               <p className="w-[7rem] whitespace-nowrap">ค่าขนส่ง</p>
@@ -518,6 +538,15 @@ export const R1AdminInformation: FC = () => {
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
               />
               <span>บาท/เที่ยว</span>
+            </div>
+            <div className="flex items-center gap-x-1">
+              <Icons.cloudy className="h-5 w-5" />
+              <p className="w-[7rem] truncate whitespace-nowrap">
+                Carbon Emission (CO2)
+              </p>
+              <p className="w-[15rem] whitespace-nowrap">
+                0.00 kgCO<sub>2</sub>e
+              </p>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import { Label } from "@/components/ui/label";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { FC } from "react";
 
 const EvaluateForm: FC = () => {
@@ -355,9 +355,36 @@ const EvaluateForm: FC = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="text-sm font-bold">ผลการประเมินคะแนน</h3>
+      <h3 className="text-sm font-bold underline">ผลการประเมินคะแนน</h3>
       <div className="flex flex-col gap-2 text-xs">
         {evaluates?.map((evaluate, i) => (
+          <div
+            key={i}
+            className="flex w-[75%] items-center justify-between gap-2"
+          >
+            <h2 className="whitespace-nowrap">
+              {i + 1}. {evaluate?.Name}
+            </h2>
+            <div className="overflow-hidden">
+              {new Array(400).fill(0).map((_, i) => (
+                <span key={i}>.</span>
+              ))}
+            </div>
+            <div className={`flex items-center gap-2`}>
+              <strong className="text-xs">มี</strong>
+              <div className="flex items-center gap-2">
+                {/* <input
+                  className="flex w-[5rem] flex-shrink-0 items-center justify-center border border-border"
+                  defaultValue={10}
+                  type="number"
+                /> */}
+                <strong className="text-xs">10</strong>
+                <p className="whitespace-nowrap text-xs">คะแนน จาก 10 คะแนน</p>
+              </div>
+            </div>
+          </div>
+        ))}
+        {/* {evaluates?.map((evaluate, i) => (
           <div key={i}>
             <h5>
               {i + 1}. {evaluate?.Name}
@@ -391,7 +418,7 @@ const EvaluateForm: FC = () => {
               ))}
             </RadioGroup>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           className={cn(
             buttonVariants({ variant: "outline" }),
-            "h-full w-full appearance-none bg-transparent font-normal",
+            "h-full w-full appearance-none bg-transparent font-normal shadow-none",
             className,
           )}
         >
