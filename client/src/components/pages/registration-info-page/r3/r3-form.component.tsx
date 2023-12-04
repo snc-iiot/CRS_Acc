@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Table,
   TableBody,
   TableCell,
@@ -7,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import MockData from "@/mock/r4.mock.json";
 import { FC } from "react";
@@ -59,7 +65,10 @@ const R3Form: FC = () => {
           {data.map((item, index) => (
             <TableBody key={index}>
               <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
-                <TableCell className="border font-bold" colSpan={6}>
+                <TableCell
+                  className="border font-bold"
+                  colSpan={item?.data[0]?.current.length + 2}
+                >
                   {item.name}
                 </TableCell>
               </TableRow>
@@ -73,7 +82,15 @@ const R3Form: FC = () => {
                     {data.note}
                   </TableCell>
                   {data.current.map((data, i) => (
-                    <TableCell key={i} className="border text-end">
+                    <TableCell
+                      key={i}
+                      className={cn(
+                        "border text-end",
+                        data?.year === new Date().getFullYear()
+                          ? "bg-primary text-primary-foreground"
+                          : "",
+                      )}
+                    >
                       {data?.value ?? "-"}
                     </TableCell>
                   ))}
@@ -98,7 +115,23 @@ const R3Form: FC = () => {
               ))}
             </div>
           </div>
-          <Button>บันทึกความคิดเห็น</Button>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button>เพิ่มความคิดเห็น</Button>
+            </PopoverTrigger>
+            <PopoverContent align="start" side="top" className="h-60 w-72 p-1">
+              <main className="flex h-full w-full flex-col gap-2 overflow-hidden p-1">
+                <h2 className="px-2 py-1 text-sm font-semibold underline">
+                  เพิ่มข้อเสนอแนะ / Add Comments
+                </h2>
+                <Textarea className="h-full w-full" />
+                <div className="text-end">
+                  <Button size="sm">บันทึก</Button>
+                </div>
+              </main>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </div>

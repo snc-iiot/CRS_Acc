@@ -170,7 +170,7 @@ const CustomerRegistrations: FC = () => {
                 ?.map((item, i) => (
                   <Tr key={i} className="whitespace-nowrap border-b text-xs">
                     <Td>{i + 1}</Td>
-                    <Td>{item?.JulisticID}</Td>
+                    <Td>{item?.JuristicID}</Td>
                     <Td>{item?.Company}</Td>
                     <Td>{item?.RegisWithCompany}</Td>
                     <Td>{item?.RegisDT}</Td>

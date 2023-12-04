@@ -1,21 +1,21 @@
 [
   {
     "RegisID": 1,
-    "JulisticID": "1111111111111",
+    "JuristicID": "1111111111111",
     "Company": "Company1",
     "RegisWithCompany": "SCAN",
     "RegisDT": "2023-10-01"
   },
   {
     "RegisID": 2,
-    "JulisticID": "2222222222222",
+    "JuristicID": "2222222222222",
     "Company": "Company2",
     "RegisWithCompany": "SEREN",
     "RegisDT": "2023-10-01"
   },
   {
     "RegisID": 3,
-    "JulisticID": "3333333333333",
+    "JuristicID": "3333333333333",
     "Company": "Company3",
     "RegisWithCompany": "SCAN",
     "RegisDT": "2023-10-01"

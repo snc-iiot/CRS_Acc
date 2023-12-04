@@ -140,7 +140,6 @@ active section based on the intersection. */
             </article>
           </section>
           <Separator />
-
           <section className="flex w-full items-center justify-end gap-2">
             <Button
               type="button"

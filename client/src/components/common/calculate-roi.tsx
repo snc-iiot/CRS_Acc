@@ -29,7 +29,7 @@ const CalculateRoi: FC<CalculateRoiProps> = ({
 
   return (
     <Sheet>
-      <SheetTrigger className="text-primary">Auto</SheetTrigger>
+      <SheetTrigger>Auto</SheetTrigger>
       <SheetContent className="w-[30vw] sm:max-w-none" side="right">
         <main className="flex h-full w-full flex-col gap-2">
           <section>

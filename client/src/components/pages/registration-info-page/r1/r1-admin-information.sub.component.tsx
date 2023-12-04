@@ -7,8 +7,8 @@
 // } from "@/components/ui/input-custom";
 // import { Input } from "@/components/ui/input";
 // import { Select } from "@/components/ui/select-custom";
-import CalculatePlayback from "@/components/common/calculate-playback";
-import CalculateRoa from "@/components/common/calculate-roa";
+// import CalculatePlayback from "@/components/common/calculate-playback";
+// import CalculateRoa from "@/components/common/calculate-roa";
 import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
@@ -85,16 +85,6 @@ export const R1AdminInformation: FC = () => {
 
   return (
     <div className="pl-1 text-xs">
-      {/* <div className="flex items-center gap-x-3 pr-4">
-        <h4 className="whitespace-nowrap">
-          1. สินค้าที่ผลิต (Part, OEM, Tooling ,Other)
-        </h4>
-        <input
-          type="text"
-          placeholder="โปรดระบุสินค้าที่ผลิต"
-          className="w-[30rem] border-0 border-b  p-0.5 outline-0 focus:text-primary"
-        />
-      </div> */}
       <div className="grid grid-cols-4 items-center gap-y-1">
         <h4 className="whitespace-nowrap">
           1. สินค้าที่ผลิต (Part, OEM, Tooling ,Other)
@@ -147,7 +137,7 @@ export const R1AdminInformation: FC = () => {
 
         <h4 className="whitespace-nowrap">4. เงื่อนไขการปรับราคา</h4>
         <div className="col-span-3">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
             <select
               placeholder="เลือกเงื่อนไขการปรับราคา"
               className={cn(
@@ -163,6 +153,11 @@ export const R1AdminInformation: FC = () => {
                 </option>
               ))}
             </select>
+            <input
+              type="number"
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
+            />
           </div>
         </div>
 
@@ -210,53 +205,82 @@ export const R1AdminInformation: FC = () => {
             </label>
           </div>
           <div className={mcAddInvert ? "pl-4" : "hidden"}>
-            <div className="flex items-center gap-x-1">
-              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
-                <p className="whitespace-nowrap">จำนวนเงินลงทุน</p>
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">จำนวนเงินลงทุน</p>
+              <div className="col-span-3 flex items-center gap-2" />
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>MB</span>
               </div>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>MB</span>
             </div>
-            <div className="flex items-center gap-x-1">
-              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
-                <p className="whitespace-nowrap">ROI</p>
-                <CalculateRoi />
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">ROI</p>
+              <div className="col-span-3 flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roi" id="auto-roi" />
+                  <label htmlFor="auto-roi">
+                    <CalculateRoi />
+                  </label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roi" id="manual-roi" />
+                  <label htmlFor="manual-roi">manual</label>
+                </div>
               </div>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>%</span>
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>%</span>
+              </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
-                <p className="whitespace-nowrap">ROA</p>
-                <CalculateRoa />
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">ROA</p>
+              <div className="col-span-3 flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roa" id="auto-roa" />
+                  <label htmlFor="auto-roa">Auto</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roa" id="manual-roa" />
+                  <label htmlFor="manual-roa">manual</label>
+                </div>
               </div>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>%</span>
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>%</span>
+              </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <div className="flex w-[10rem] cursor-pointer items-center gap-x-2">
-                <p className="whitespace-nowrap">Payback</p>
-                <CalculatePlayback />
-                <CalculatePlayback />
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">Payback</p>
+              <div className="col-span-3 flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="payback" id="auto-payback" />
+                  <label htmlFor="auto-payback">Auto</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="payback" id="manual-payback" />
+                  <label htmlFor="manual-payback">manual</label>
+                </div>
               </div>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>ปี</span>
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>ปี</span>
+              </div>
             </div>
           </div>
         </div>
@@ -318,41 +342,80 @@ export const R1AdminInformation: FC = () => {
           </div>
 
           <div className={moldAddInvert ? "pl-4" : "hidden"}>
-            <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">จำนวนเงินลงทุน</p>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>MB</span>
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">จำนวนเงินลงทุน</p>
+              <div className="col-span-3 flex items-center gap-2" />
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>MB</span>
+              </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">ROI</p>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>%</span>
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">ROI</p>
+              <div className="col-span-3 flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roi" id="auto-roi" />
+                  <label htmlFor="auto-roi">Auto</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roi" id="manual-roi" />
+                  <label htmlFor="manual-roi">manual</label>
+                </div>
+              </div>
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>%</span>
+              </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">ROA</p>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>%</span>
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">ROA</p>
+              <div className="col-span-3 flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roa" id="auto-roa" />
+                  <label htmlFor="auto-roa">Auto</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="roa" id="manual-roa" />
+                  <label htmlFor="manual-roa">manual</label>
+                </div>
+              </div>
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>%</span>
+              </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <p className="w-[7rem] whitespace-nowrap">Payback</p>
-              <input
-                type="number"
-                placeholder="โปรดระบุ"
-                className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              />
-              <span>ปี</span>
+            <div className="grid w-[30rem] grid-cols-10 gap-x-1">
+              <p className="col-span-2 whitespace-nowrap">Payback</p>
+              <div className="col-span-3 flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="payback" id="auto-payback" />
+                  <label htmlFor="auto-payback">Auto</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="radio" name="payback" id="manual-payback" />
+                  <label htmlFor="manual-payback">manual</label>
+                </div>
+              </div>
+              <div className="col-span-5 flex items-center gap-x-1">
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ"
+                  className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                />
+                <span>ปี</span>
+              </div>
             </div>
           </div>
         </div>

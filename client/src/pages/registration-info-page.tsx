@@ -345,21 +345,29 @@ const RegistrationInfo: FC = () => {
                       </h2>
                     </section>
                     <section className="flex h-full w-full flex-col">
-                      <div className="flex h-0 flex-grow flex-col overflow-y-auto px-2 text-xs">
+                      <div className="flex h-0 flex-grow flex-col gap-1 overflow-y-auto px-2 text-xs">
                         {new Array(10).fill(0).map((_, i) => (
-                          <div className="grid grid-cols-6 gap-2" key={i}>
-                            <input
-                              type="text"
-                              defaultValue=""
-                              placeholder="ข้อเสนอแนะ"
-                              className="col-span-4 w-full border-0 border-b bg-primary-foreground p-0.5 px-2 text-secondary-foreground outline-0"
-                            />
-                            <input
-                              type="text"
-                              defaultValue="นาย อนุวัฒน์ ทีสุกะ"
-                              placeholder="ผู้ให้ข้อเสนอแนะ"
-                              className="col-span-2 w-full border-0 border-b bg-primary-foreground p-0.5 px-2 text-secondary-foreground outline-0"
-                            />
+                          <div className="grid grid-cols-10 gap-2" key={i}>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <p className="col-span-5 w-full text-xs">
+                                    ข้อเสนอแนะที่ {i + 1}
+                                  </p>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>
+                                    ข้อเสนอแนะที่ {i + 1} ข้อเสนอแนะที่ {i + 1}
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                            <p className="col-span-5 text-right text-xs">
+                              ผู้ให้ข้อเสนอแนะ{" "}
+                              {new Date().toLocaleDateString() +
+                                " " +
+                                new Date().toLocaleTimeString()}
+                            </p>
                           </div>
                         ))}
                       </div>
