@@ -407,6 +407,7 @@ const RegistrationInfo: FC = () => {
                           <Select
                             placeholder="เลือกปี"
                             className="text-xs shadow-none"
+                            defaultValue="2023"
                           >
                             <option value="2023">Y2023</option>
                           </Select>
@@ -416,13 +417,25 @@ const RegistrationInfo: FC = () => {
                             รูปแบบการแสดงผล
                           </p>
                           <Select
+                            defaultValue="quarter"
                             placeholder="รูปแบบการแสดงผล"
                             className="text-xs shadow-none"
                           >
-                            <option value="1">ไตรมาส 1</option>
-                            <option value="2">ไตรมาส 2</option>
-                            <option value="3">ไตรมาส 3</option>
-                            <option value="4">ไตรมาส 4</option>
+                            <option value="quarter">ไตรมาส</option>
+                            <option value="month">เดือน</option>
+                            <option value="year">ปี</option>
+                          </Select>
+                        </div>
+                        <div>
+                          <p className="px-2 py-1 text-xs font-semibold">
+                            รูปแบบการแสดงผล
+                          </p>
+                          <Select
+                            defaultValue="quarter-1"
+                            placeholder="รูปแบบการแสดงผล"
+                            className="text-xs shadow-none"
+                          >
+                            <option value="quarter-1">ไตรมาส 1</option>
                           </Select>
                         </div>
                       </section>

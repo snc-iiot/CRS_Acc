@@ -139,10 +139,15 @@ const CustomerRegistrations: FC = () => {
                 <Th className="w-[200px]">
                   <span className="flex cursor-pointer items-center gap-x-1">
                     ขึ้นทะเบียนกับบริษัท
-                    <Icons.arrowLeft className="h-4 w-4" />
+                    <Icons.arrowUpWideNarrow className="h-4 w-4" />
                   </span>
                 </Th>
-                <Th className="w-[10rem]">เวลาขึ้นทะเบียน</Th>
+                <Th className="w-[10rem]">
+                  <span className="flex cursor-pointer items-center gap-x-1">
+                    เวลาขึ้นทะเบียน
+                    <Icons.arrowUpWideNarrow className="h-4 w-4" />
+                  </span>
+                </Th>
                 <Th className="w-[10rem]">สถานะ</Th>
                 <Th className="w-[150px]"></Th>
               </Tr>

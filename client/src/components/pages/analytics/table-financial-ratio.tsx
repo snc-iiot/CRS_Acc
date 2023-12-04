@@ -52,7 +52,7 @@ const TableFinancialRatio: FC = () => {
             {table?.info?.map((info) => (
               <TableRow
                 key={info?.FinancialRatio ?? "-"}
-                className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                className="text-xs hover:cursor-pointer hover:bg-secondary hover:text-secondary-foreground"
               >
                 <TableCell className="w-[20rem] border">
                   {info?.FinancialRatio}

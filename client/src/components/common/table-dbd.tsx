@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { FC, Fragment } from "react";
 
 export interface ITableDBD {
@@ -124,18 +125,28 @@ const TableDBD: FC<ITableDBDProps> = ({
           ) : (
             data?.map((table) => (
               <Fragment key={table?.Topic ?? "-"}>
-                <TableRow className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
+                <TableRow className="text-xs hover:cursor-pointer hover:bg-secondary hover:text-secondary-foreground">
                   <TableCell className="whitespace-nowrap border font-medium">
                     {table?.Topic ?? "-"}
                   </TableCell>
                   {table.Info?.map((info) => (
                     <Fragment key={info.Year}>
-                      <TableCell className="border text-end">
+                      <TableCell
+                        className={cn(
+                          "border text-end",
+                          info.Amount < 0 ? "text-red-600" : "",
+                        )}
+                      >
                         {isNaN(info.Amount)
                           ? "-"
-                          : info.Amount?.toLocaleString() ?? "-"}
+                          : info.Amount?.toLocaleString() ?? "-"}{" "}
                       </TableCell>
-                      <TableCell className="whitespace-nowrap border text-end">
+                      <TableCell
+                        className={cn(
+                          "whitespace-nowrap border text-end",
+                          info.Change < 0 ? "text-red-600" : "",
+                        )}
+                      >
                         {info.Change ?? "-"}
                       </TableCell>
                     </Fragment>

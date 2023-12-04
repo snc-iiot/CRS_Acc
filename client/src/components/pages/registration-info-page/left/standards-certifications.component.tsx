@@ -12,6 +12,13 @@ const StandardsCertifications: FC = () => {
     exp: string;
   }[] = [
     {
+      topic: "v-cer0",
+      label: "ISO 14064-1:2018",
+      isChecked: false,
+      value: "",
+      exp: "",
+    },
+    {
       topic: "v-cer1",
       label: "ISO 9001:2015",
       isChecked: true,
