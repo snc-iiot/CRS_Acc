@@ -143,7 +143,7 @@ const HomePage: FC = () => {
                 label="รายการ"
                 keyXAxis="name"
                 keyYAxis="value"
-                // isLabelInside={true}
+                isLabelInside={true}
               />
             </article>
           </section>
