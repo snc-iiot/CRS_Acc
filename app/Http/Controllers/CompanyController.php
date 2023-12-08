@@ -93,6 +93,7 @@ class CompanyController extends Controller
                 $contact_person = $request->contact_person;
                 $standard = $request->standard;
                 $relationship = $request->relationship;
+                $payment_term = $request->payment_term;
 
                 $result = Company::insert([
                     "company_information" => $company_information,
@@ -100,7 +101,7 @@ class CompanyController extends Controller
                     "contact_person" => $contact_person,
                     "standard" => $standard,
                     "relationship" => $relationship,
-                    "timestamp" => $now,
+                    "payment_term" => $payment_term,
                 ]);
 
                 return response()->json([
@@ -198,6 +199,17 @@ class CompanyController extends Controller
                     'is_active' => $is_active
                 ]);
             }
+
+
+
+
+
+
+
+
+
+
+
             return response()->json([
                 "status" => 'success',
                 "message" => "Edited device successfully",
