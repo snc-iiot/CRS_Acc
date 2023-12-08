@@ -14,7 +14,7 @@ class Company extends Model
      *
      * @var string
      */
-    protected $table = 'CompanyInformation';
+    protected $table = 'dev_company_informations';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -37,17 +37,13 @@ class Company extends Model
      */
     protected $primaryKey = 'company_id';
     protected $fillable = [
-        "company_admin",
-        "company_name",
-        "number",
-        "country",
-        "province",
-        "district",
-        "sub_district",
-        "post_code",
-        "tel",
-        "tax_payer",
-        "website",
-        "type_of_business",
+        "company_information",
+        "share_holder",
+        "contact_person",
+        "standard",
+        "relationship",
+        "payment_term",
+        "create_at",
+        "update_at",
     ];
 }
