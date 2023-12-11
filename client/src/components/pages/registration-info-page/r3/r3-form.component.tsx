@@ -87,7 +87,7 @@ const R3Form: FC = () => {
                       className={cn(
                         "border text-end",
                         data?.year === new Date().getFullYear()
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-secondary font-bold text-secondary-foreground"
                           : "",
                       )}
                     >

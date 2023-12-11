@@ -72,6 +72,7 @@ const R5Form: FC = () => {
               Header={info}
               TableHeaderText={["เกรด", "คะแนน", "Sales"]}
               data={Data}
+              activeOnly
               activeGrade={
                 info === "Sales"
                   ? "A"
@@ -98,11 +99,11 @@ const R5Form: FC = () => {
         ))}
       </div>
       <div className="my-4">
-        <h1 className="text-xl font-bold text-[#211d62ee]">Summary Report</h1>
+        <h1 className="text-xl font-bold text-[#1F2C57]">Summary Report</h1>
         <div>
           <Table>
-            <TableHeader className="border bg-[#211d62ee] text-foreground hover:bg-[#211d62ee]">
-              <TableRow className="text-xs font-bold text-foreground hover:bg-[#211d62ee]">
+            <TableHeader className="border bg-[#1F2C57] text-foreground hover:bg-[#1F2C57]">
+              <TableRow className="text-xs font-bold text-foreground hover:bg-[#1F2C57]">
                 <TableHead
                   className="border text-center font-bold  text-primary-foreground"
                   rowSpan={2}
@@ -140,7 +141,7 @@ const R5Form: FC = () => {
                   Remark
                 </TableHead>
               </TableRow>
-              <TableRow className="text-xs font-bold hover:bg-[#211d62ee]">
+              <TableRow className="text-xs font-bold hover:bg-[#1F2C57]">
                 <TableHead className="border text-center font-bold text-primary-foreground">
                   Sales
                 </TableHead>

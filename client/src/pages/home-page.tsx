@@ -51,7 +51,7 @@ const HomePage: FC = () => {
           <section className="flex h-full w-full flex-col gap-2">
             <article>
               <h3 className="text-md font-bold">
-                สัดส่วน สัญชาติของบริษัทที่ขึ้นทะเบียน
+                สัดส่วนลูกค้า แบ่งตามสัญชาติ
               </h3>
             </article>
             <article className="flex h-full w-full flex-col">
@@ -69,7 +69,7 @@ const HomePage: FC = () => {
         </article>
         <article className="col-span-2 row-span-1 rounded-md border p-2">
           <h3 className="text-md font-bold">
-            วัตถุประสงค์การซื้อสินค้าของบริษัทที่ขึ้นทะเบียน
+            ประเภทลูกค้าแบ่งตามวัตถุประสงค์การซื้อสินค้า
           </h3>
         </article>
         <article className="col-span-2 row-span-1 rounded-md border p-2">
@@ -129,7 +129,10 @@ const HomePage: FC = () => {
           <section className="flex h-full w-full flex-col gap-2 p-2">
             <article>
               <h3 className="text-md font-bold">
-                ประวัติขึ้นทะเบียนผู้ซื้อแบ่งตามบริษัท
+                ประวัติขึ้นทะเบียนผู้ซื้อแบ่งตามบริษัท{" "}
+                <span className="text-xs text-muted-foreground">
+                  (อัพเดทล่าสุด วันที่ 01/01/2021)
+                </span>
               </h3>
             </article>
             <article className="flex h-full w-full flex-col">

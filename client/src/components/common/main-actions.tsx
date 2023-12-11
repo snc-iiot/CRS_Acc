@@ -45,29 +45,28 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
 
   const renderElement = {
     ["R1"]: (
-      <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
-        <>
-          <Sheet>
-            <SheetTrigger asChild>
-              <div className="flex cursor-pointer items-center gap-2">
-                <Icons.settings className="h-5 w-5" />
-                <span>ตั้งค่าสายอนุมัติ</span>
-              </div>
-            </SheetTrigger>
-            <SheetContent
-              side="bottom"
-              onPointerDownOutside={(e) => {
-                if (e.target === e.currentTarget) {
-                  e.preventDefault();
-                }
-              }}
-            >
-              <div className="h-96">
-                <SettingsApproved />
-              </div>
-            </SheetContent>
-          </Sheet>
-        </>
+      <div className="flex h-full w-full items-center justify-between gap-x-2  px-2 text-sm">
+        <Sheet>
+          <SheetTrigger asChild>
+            <div className="flex cursor-pointer items-center gap-2">
+              <Icons.settings className="h-5 w-5" />
+              <span>ตั้งค่าสายอนุมัติ</span>
+            </div>
+          </SheetTrigger>
+          <SheetContent
+            side="bottom"
+            onPointerDownOutside={(e) => {
+              if (e.target === e.currentTarget) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <div className="h-96">
+              <SettingsApproved />
+            </div>
+          </SheetContent>
+        </Sheet>
+
         <div className="flex gap-2">
           <Confirm
             button={

@@ -19,6 +19,7 @@ interface TableSummaryProps {
   Header?: string;
   className?: string;
   activeGrade?: "A" | "B" | "C" | "D" | "E" | "F";
+  activeOnly?: boolean;
 }
 
 const TableSummary: FC<TableSummaryProps> = ({
@@ -27,21 +28,22 @@ const TableSummary: FC<TableSummaryProps> = ({
   Header,
   className,
   activeGrade = "A",
+  activeOnly = false,
 }) => {
   const getGradeColor = (
     activeGrade: "A" | "B" | "C" | "D" | "E" | "F",
     grade: "A" | "B" | "C" | "D" | "E" | "F" = "A",
   ) => {
     if (activeGrade === grade && grade === "A") {
-      return "bg-green-600 text-white hover:bg-green-700";
+      return "text-green-600 hover:text-green-700 font-bold";
     } else if (activeGrade === grade && grade === "B") {
-      return "bg-yellow-500 text-white hover:bg-yellow-500/80";
+      return "text-yellow-500 hover:text-yellow-500/80 font-bold";
     } else if (activeGrade === grade && grade === "C") {
-      return "bg-red-600 text-white hover:bg-red-700/80";
+      return "text-red-600  hover:text-red-700/80 font-bold";
     } else if (activeGrade === grade && grade === "D") {
-      return "bg-gray-500 text-white hover:bg-gray-500/80";
+      return "text-gray-500 hover:text-gray-500/80 font-bold";
     } else if (activeGrade === grade && grade === "E") {
-      return "bg-gray-600 text-white hover:bg-gray-700/80";
+      return "text-gray-600 hover:text-gray-700/80 font-bold";
     }
     return "";
   };
@@ -69,6 +71,7 @@ const TableSummary: FC<TableSummaryProps> = ({
               className={cn(
                 "text-xs hover:cursor-pointer hover:bg-transparent",
                 getGradeColor(activeGrade, data?.Grade),
+                activeOnly && data?.Grade !== activeGrade ? "hidden" : null,
               )}
             >
               <TableCell className="border">{data?.Grade ?? "-"}</TableCell>

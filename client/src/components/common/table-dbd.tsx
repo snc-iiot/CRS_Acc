@@ -147,7 +147,9 @@ const TableDBD: FC<ITableDBDProps> = ({
                           info.Change < 0 ? "text-red-600" : "",
                         )}
                       >
-                        {info.Change ?? "-"}
+                        {info.Change < 0
+                          ? `(${Math.abs(info.Change).toFixed(2)})%`
+                          : `${info.Change}%`}
                       </TableCell>
                     </Fragment>
                   ))}

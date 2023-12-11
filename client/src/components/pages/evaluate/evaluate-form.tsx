@@ -372,14 +372,14 @@ const EvaluateForm: FC = () => {
             </div>
             <div className={`flex items-center gap-2`}>
               <strong className="text-xs">มี</strong>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center">
                 {/* <input
                   className="flex w-[5rem] flex-shrink-0 items-center justify-center border border-border"
                   defaultValue={10}
                   type="number"
                 /> */}
                 <strong className="text-xs">10</strong>
-                <p className="whitespace-nowrap text-xs">คะแนน จาก 10 คะแนน</p>
+                <p className="whitespace-nowrap text-xs">/10 คะแนน</p>
               </div>
             </div>
           </div>

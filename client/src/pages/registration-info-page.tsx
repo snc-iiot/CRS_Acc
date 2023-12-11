@@ -257,8 +257,8 @@ const RegistrationInfo: FC = () => {
               <div
                 className={cn(
                   actionsTab.includes(activeTab)
-                    ? "h-[calc(66%-.5rem)]"
-                    : "h-[calc(73%-.5rem)]",
+                    ? "h-[calc(66%-0.5rem)]"
+                    : "h-[calc(73%-0.5rem)]",
                 )}
               >
                 <Tabs
@@ -449,12 +449,12 @@ const RegistrationInfo: FC = () => {
                       </section>
                     </PopoverContent>
                   </Popover>
-                  <main className="flex h-full w-full flex-col gap-1 overflow-hidden">
+                  <main className="flex h-full w-full flex-col overflow-hidden ">
                     <section>
                       <h2 className="px-2 py-1 text-sm font-semibold underline">
                         ประวัติขึ้นทะเบียนผู้ซื้อ{" "}
                         <span className="text-xs text-red-600">
-                          **ไม่รวมรายการนี้ / Exclude this
+                          **ไม่รวมรายการนี้ / Exclude this form
                         </span>
                       </h2>
                     </section>
@@ -474,10 +474,9 @@ const RegistrationInfo: FC = () => {
                         />
                       </div>
                       <div className="relative flex h-full w-full flex-col">
-                        <h2 className="px-2 text-sm font-semibold underline">
-                          รายละเอียด
-                        </h2>
-
+                        <h5 className="px-2 text-xs font-semibold underline">
+                          รวมลูกค้าทั้งหมด
+                        </h5>
                         <div className="flex w-full flex-col rounded-sm border border-dashed border-border">
                           <div className="flex justify-between border-primary-foreground">
                             <h3 className="px-2 py-1 text-xs font-semibold">

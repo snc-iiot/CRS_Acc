@@ -602,14 +602,20 @@ export const R1AdminInformation: FC = () => {
               />
               <span>บาท/เที่ยว</span>
             </div>
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center gap-x-1 font-semibold text-primary">
               <Icons.cloudy className="h-5 w-5" />
-              <p className="w-[7rem] truncate whitespace-nowrap">
+              <p className="truncate whitespace-nowrap">
                 Carbon Emission (CO2)
               </p>
-              <p className="w-[15rem] whitespace-nowrap">
+              <p className="whitespace-nowrap">
                 0.00 kgCO<sub>2</sub>e
               </p>
+            </div>
+            <div className="flex items-center gap-x-1 font-semibold text-red-600">
+              <p className="w-[7rem] truncate whitespace-nowrap">
+                Scope 1 (Direct)
+              </p>
+              <p className="w-[15rem] whitespace-nowrap">(ของลูกค้า)</p>
             </div>
           </div>
         </div>
