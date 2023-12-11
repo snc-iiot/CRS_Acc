@@ -1,4 +1,10 @@
 {
   "nuxt.isNuxtApp": false,
-  "cSpell.words": ["icrs", "nivo", "งวดที", "มตัวกรอง"]
+  "cSpell.words": [
+    "icrs",
+    "nivo",
+    "tanstack",
+    "งวดที",
+    "มตัวกรอง"
+  ]
 }

@@ -100,7 +100,7 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
     value: number;
     name: string;
   }) => {
-    const { x, y, width, height, name } = props;
+    const { y, width, height, name } = props;
     const widthText = measureText14HelveticaNeue(name);
     return (
       <text
