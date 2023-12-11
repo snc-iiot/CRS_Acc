@@ -100,7 +100,7 @@ const R3Form: FC = () => {
           ))}
         </Table>
         <div className="flex h-96 max-h-96 w-full flex-col gap-2">
-          <h2 className="text-base font-bold">ความคิดเห็น</h2>
+          <h2 className="text-base font-bold">วิเคราะห์ข้อมูลการเงิน</h2>
           <div className="flex h-full w-full flex-col rounded-md border border-dashed border-primary p-2">
             <div className="flex h-0 flex-grow flex-col gap-2 overflow-auto">
               {new Array(20).fill(0).map((_, i) => (

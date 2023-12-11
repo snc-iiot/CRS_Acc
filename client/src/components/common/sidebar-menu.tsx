@@ -86,7 +86,9 @@ export const WorkspaceSidebarMenu: React.FC<WorkspaceSidebarMenuProps> = ({
     <div className="mt-5 w-full cursor-pointer space-y-2 px-2">
       {workspaceLinks.map((link, index) => {
         const isActive =
-          link.href === "/settings"
+          link.href === "/settings" ||
+          link.href === "/customer-registrations" ||
+          link.href === "/registration"
             ? pathname.includes(link.href)
             : pathname === link.href;
 

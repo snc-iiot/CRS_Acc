@@ -144,7 +144,9 @@ const TableDBD: FC<ITableDBDProps> = ({
                       <TableCell
                         className={cn(
                           "whitespace-nowrap border text-end",
-                          info.Change < 0 ? "text-red-600" : "",
+                          info.Change < 0
+                            ? "font-semibold text-red-600"
+                            : "font-semibold text-green-600",
                         )}
                       >
                         {info.Change < 0

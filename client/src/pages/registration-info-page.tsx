@@ -54,7 +54,7 @@ const RegistrationInfo: FC = () => {
   const [viewPage, setViewPage] = useState<string>("2");
   const [activeTab, setActiveTab] = useState<string>("R1");
 
-  const actionsTab = ["R1", "R2", "R4"];
+  const actionsTab = ["R1", "R2"];
   const mainActions = [
     "R1",
     "R2",
@@ -70,25 +70,25 @@ const RegistrationInfo: FC = () => {
 
   const TabList = [
     {
-      label: "General Assessment",
+      label: "General Assessment (R1)",
       value: "R1",
     },
     {
-      label: "Financial Report",
+      label: "Financial Report (R2)",
       value: "R2",
     },
     {
-      label: "Financial Ratio Assessment",
+      label: "Financial Ratio Assessment (R3)",
       value: "R3",
     },
     {
-      label: "Overall Assessment",
+      label: "Overall Assessment (R4)",
       value: "R4",
     },
-    {
-      label: "Assessment Result",
-      value: "R5",
-    },
+    // {
+    //   label: "Assessment Result",
+    //   value: "R5",
+    // },
   ];
 
   const showSplitScreen: {
@@ -225,7 +225,7 @@ const RegistrationInfo: FC = () => {
               <Accordion
                 type="multiple"
                 className="mb-[3rem]"
-                defaultValue={leftAccordionList?.map((item) => item?.topic)}
+                // defaultValue={leftAccordionList?.map((item) => item?.topic)}
               >
                 {leftAccordionList?.map((item, i) => (
                   <AccordionItem value={item?.topic} key={i}>

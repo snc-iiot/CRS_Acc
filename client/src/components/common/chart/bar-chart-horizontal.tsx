@@ -104,14 +104,15 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
     const widthText = measureText14HelveticaNeue(name);
     return (
       <text
-        x={
-          widthText > width
-            ? x + width + 10
-            : x + width - 10 - (width - widthText) / 2
-        }
+        // x={
+        //   widthText > width
+        //     ? x + width + 10
+        //     : x + width - 10 - (width - widthText) / 2
+        // }
+        x={15}
         y={y + height / 2}
         fill="#ffffff"
-        textAnchor="end"
+        textAnchor="start"
         dominantBaseline="middle"
         fontSize={12}
         display={widthText > width ? "none" : "block"}

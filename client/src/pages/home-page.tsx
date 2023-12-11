@@ -27,6 +27,12 @@ const HomePage: FC = () => {
     },
   ];
 
+  const data = MockCompany.map((item, i) => ({
+    name: item?.Company,
+    value: Math.floor(Math.random() * 100),
+    color: COLORS_SERIES[9 + i],
+  })).sort((a, b) => b.value - a.value);
+
   return (
     <main className="flex h-full w-full flex-col gap-2">
       <section className="flex items-center justify-between gap-2">
@@ -137,11 +143,7 @@ const HomePage: FC = () => {
             </article>
             <article className="flex h-full w-full flex-col">
               <BarChartHorizontal
-                data={MockCompany?.map((item, i) => ({
-                  name: item?.Company,
-                  value: Math.floor(Math.random() * 100),
-                  color: COLORS_SERIES[9 + i],
-                }))}
+                data={data}
                 keyMap={["value", "name"]}
                 label="รายการ"
                 keyXAxis="name"

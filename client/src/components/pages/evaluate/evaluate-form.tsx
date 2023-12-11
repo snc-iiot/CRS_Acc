@@ -355,7 +355,7 @@ const EvaluateForm: FC = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="text-sm font-bold underline">ผลการประเมินคะแนน</h3>
+      {/* <h3 className="text-sm font-bold underline">ผลการประเมินคะแนน</h3> */}
       <div className="flex flex-col gap-2 text-xs">
         {evaluates?.map((evaluate, i) => (
           <div
@@ -373,52 +373,12 @@ const EvaluateForm: FC = () => {
             <div className={`flex items-center gap-2`}>
               <strong className="text-xs">มี</strong>
               <div className="flex items-center">
-                {/* <input
-                  className="flex w-[5rem] flex-shrink-0 items-center justify-center border border-border"
-                  defaultValue={10}
-                  type="number"
-                /> */}
                 <strong className="text-xs">10</strong>
                 <p className="whitespace-nowrap text-xs">/10 คะแนน</p>
               </div>
             </div>
           </div>
         ))}
-        {/* {evaluates?.map((evaluate, i) => (
-          <div key={i}>
-            <h5>
-              {i + 1}. {evaluate?.Name}
-            </h5>
-            <RadioGroup
-              defaultValue="option-one"
-              className="flex flex-col gap-2"
-            >
-              {evaluate?.RadioOptions?.map((option, j) => (
-                <div className="flex items-center space-x-2 text-xs" key={j}>
-                  <RadioGroupItem
-                    value={`${option?.value}-option-${i}`}
-                    id={`${option?.value}-option-${i}`}
-                  />
-                  <Label
-                    htmlFor={`${option?.value}-option-${i}`}
-                    className="text-xs"
-                  >
-                    {option?.label}
-                  </Label>
-                  {option?.isSelect && (
-                    <select className="w-[13rem] rounded-sm border border-gray-300">
-                      {evaluate?.Options?.map((option, i) => (
-                        <option key={i} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </div>
-              ))}
-            </RadioGroup>
-          </div>
-        ))} */}
       </div>
     </div>
   );

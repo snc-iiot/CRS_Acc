@@ -50,7 +50,7 @@ const TableSummary: FC<TableSummaryProps> = ({
 
   return (
     <div className={cn("flex w-max flex-col gap-1", className)}>
-      <h3 className="text-sm font-bold">{Header}</h3>
+      <h3 className="text-xs font-bold">{Header}</h3>
       <Table className="border-collapse border-spacing-0">
         <TableHeader className="bg-primary-foreground">
           <TableRow>
