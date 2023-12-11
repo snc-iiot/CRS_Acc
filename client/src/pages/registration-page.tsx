@@ -1,6 +1,7 @@
 import { Icons } from "@/components/common/icons";
 import {
   CompanyInformationForm,
+  ConsentForm,
   ContractInformationForm,
   DocumentUploadForm,
   RelationshipInformationForm,
@@ -144,6 +145,7 @@ const RegistrationPage: FC = () => {
                     <RelationshipInformationForm />
                     <StandardInformationForm />
                     <DocumentUploadForm />
+                    <ConsentForm />
                     <ScrollBar />
                   </ScrollArea>
                 </section>

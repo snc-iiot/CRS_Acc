@@ -56,6 +56,11 @@ export const Sections: {
     title: "เอกสารอัพโหลด / Upload Documents",
     description: "กรุณากรอกข้อมูลให้ครบถ้วน",
   },
+  {
+    id: "consent-form",
+    title: "แบบฟอร์มยินยอม / Consent Form",
+    description: "กรุณากรอกข้อมูลให้ครบถ้วน",
+  },
 ];
 
 export const ConditionalInput = (

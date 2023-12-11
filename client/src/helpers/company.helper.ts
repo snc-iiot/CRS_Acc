@@ -110,8 +110,12 @@ export const CompanyInfo: ICompanyForm[] = [
   {
     name: "nature_of_business",
     label: "ประเภทกิจการตามใบอนุญาติประกอบการ",
-    type: "textarea",
+    type: "select",
     placeholder: "กรอกประเภทกิจการตามใบอนุญาติประกอบการ",
     required: true,
+    options: [
+      { value: "1", label: "ประเภทกิจการตามใบอนุญาติประกอบการ 1" },
+      { value: "2", label: "ประเภทกิจการตามใบอนุญาติประกอบการ 2" },
+    ],
   },
 ];
