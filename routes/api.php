@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::prefix('user')->controller(LoginController::class)->group(function () {
     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
     Route::post('/login', 'login');
-    // 
+    // Test
 });
 
 // Route::prefix('iCRS')->controller(HomePageController::class)->group(function () {
