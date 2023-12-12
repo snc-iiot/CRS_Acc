@@ -10,7 +10,7 @@ import { Label } from "../ui/label";
 const CompanyInformationForm: FC = () => {
   const { setRegistration, registration, thaiProvince } = useAtomStore();
   const { company_information } = registration;
-  const { country, province, sub_district } = company_information;
+  const { country } = company_information;
 
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -95,7 +95,7 @@ const CompanyInformationForm: FC = () => {
         },
       }));
     }
-  }, [country, province, sub_district]);
+  }, [country]);
 
   return (
     <section id="company-info" className="pr-4">

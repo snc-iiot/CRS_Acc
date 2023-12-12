@@ -24,6 +24,7 @@ export const ContactInfo: IContactForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",
@@ -51,6 +52,7 @@ export const ContactInfo: IContactForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",
@@ -78,6 +80,7 @@ export const ContactInfo: IContactForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",
@@ -105,6 +108,7 @@ export const ContactInfo: IContactForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",
@@ -132,6 +136,7 @@ export const ContactInfo: IContactForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",

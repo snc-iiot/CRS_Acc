@@ -17,5 +17,6 @@ export type IContactForm = {
       | "url";
     placeholder: string;
     required: boolean;
+    pattern?: string;
   }[];
 };

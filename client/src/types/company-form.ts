@@ -16,4 +16,5 @@ export type ICompanyForm = {
   options?: { value: string; label: string }[];
   required: boolean;
   disabled?: boolean;
+  pattern?: string;
 };

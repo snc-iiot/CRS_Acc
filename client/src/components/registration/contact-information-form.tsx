@@ -55,6 +55,7 @@ const ContractInformationForm: FC = () => {
                       type={field?.type}
                       placeholder={field?.placeholder}
                       className="text-sm"
+                      pattern={field?.pattern || undefined}
                       required={field?.required}
                       onChange={(e) => {
                         setRegistration((prev) => ({

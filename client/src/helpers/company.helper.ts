@@ -85,6 +85,7 @@ export const CompanyInfo: ICompanyForm[] = [
     label: "เบอร์โทรศัพท์",
     type: "tel",
     placeholder: "กรอกเบอร์โทรศัพท์",
+    pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}",
     required: true,
   },
   {

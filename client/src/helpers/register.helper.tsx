@@ -134,6 +134,7 @@ export const ConditionalInput = (
               | undefined
           }
           disabled={item?.disabled}
+          pattern={item?.pattern}
         />
       );
     }
