@@ -6,6 +6,7 @@ use App\Http\Libraries\JWT\JWTUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
+use App\Models\Documents;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
@@ -62,6 +63,8 @@ class CompanyController extends Controller
                 'company_information.juristic_id' => 'required|string',
                 'company_information.website' => 'required|string|url',
                 'company_information.nature_of_business' => 'required|string',
+                'company_information.company_registration.is_thai_registration' => 'required|boolean',
+                'company_information.company_registration.registration_country' => 'required|string',
 
                 'share_holder.hight_nationalities.nationalities' => 'required|string',
                 'share_holder.hight_nationalities.percentage' => 'required|integer|min:0|max:100',
@@ -93,8 +96,8 @@ class CompanyController extends Controller
                 'payment_term.billing_term.value' => 'required|string',
                 'payment_term.currency' => 'required|string',
                 'payment_term.incoterm' => 'required|string',
-                'payment_term.L/C_term.is_L/C' => 'required|boolean',
-                'payment_term.L/C_term.L/C_type' => 'required|string',
+                'payment_term.LC_term.is_LC' => 'required|boolean',
+                'payment_term.LC_term.LC_type' => 'required|string',
                 'payment_term.*.delivery_term.*.label_th' => 'required|string',
                 'payment_term.*.delivery_term.*.label_en' => 'required|string',
                 'payment_term.*.delivery_term.*.is_checked' => 'required|boolean',
@@ -123,6 +126,18 @@ class CompanyController extends Controller
                 $documents = json_encode($request->documents);
                 $document_id = $request-> document_id;
                 $anticorruptionpolicy = $request-> anticorruptionpolicy;
+                $vat_license = $request-> vat_license;
+                $business_registration = $request-> business_registration;
+                $fi_statement = $request-> fi_statement;
+                $invoice = $request-> invoice;
+                $organization_chart = $request-> organization_chart;
+                $sale_contract = $request-> sale_contract;
+                $factory_visit = $request-> factory_visit;
+                $machine_condition = $request-> machine_condition;
+                $company_map = $request-> company_map;
+                $other_document1 = $request-> other_document1;
+                $other_document2 = $request-> other_document2;
+                $other_document3 = $request-> other_document3;
 
             //     $chkData = DB::table('dev_company_informations')
             //     ->where('company_id', $company_id)
@@ -147,12 +162,107 @@ class CompanyController extends Controller
 
                 if (strlen($anticorruptionpolicy) > 200) {
                     $fileName = $token_file . "-anticorruption-policy.pdf";
-                    $filesData["STDPackingFileName"] = $fileName;
+                    $filesData["Documents"] = $fileName;
                     $genPath = $path . $folder_name . "\\" . $fileName;
                     $base64 = \trim($anticorruptionpolicy, "data:application/pdf;base64,");
                     file_put_contents($genPath, \base64_decode($base64));
                 }
 
+                if (strlen($vat_license) > 200) {
+                    $fileName = $token_file . "-vat-license.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($vat_license, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($business_registration) > 200) {
+                    $fileName = $token_file . "-business-registration.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($business_registration, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($fi_statement ) > 200) {
+                    $fileName = $token_file . "-fi-statement.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($fi_statement, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($invoice ) > 200) {
+                    $fileName = $token_file . "-invoice.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($invoice, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($organization_chart ) > 200) {
+                    $fileName = $token_file . "-organization-chart.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($organization_chart, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($sale_contract ) > 200) {
+                    $fileName = $token_file . "-sale-contract.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($sale_contract, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($factory_visit ) > 200) {
+                    $fileName = $token_file . "-factory-visit.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($factory_visit, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($machine_condition ) > 200) {
+                    $fileName = $token_file . "-machine-condition.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($machine_condition, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($company_map ) > 200) {
+                    $fileName = $token_file . "-company-map.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($company_map, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($other_document1 ) > 200) {
+                    $fileName = $token_file . "-other-document1.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($other_document1, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($other_document2 ) > 200) {
+                    $fileName = $token_file . "-other-document2.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($other_document2, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
+
+                if (strlen($other_document3 ) > 200) {
+                    $fileName = $token_file . "-other-document3.pdf";
+                    $filesData["Documents"] = $fileName;
+                    $genPath = $path . $folder_name . "\\" . $fileName;
+                    $base64 = \trim($other_document3, "data:application/pdf;base64,");
+                    file_put_contents($genPath, \base64_decode($base64));
+                }
 
                 $result = Company::insert([
                     "company_information" => $company_information,
