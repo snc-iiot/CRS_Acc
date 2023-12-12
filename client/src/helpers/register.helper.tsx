@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select-custom";
 import { Textarea } from "@/components/ui/textarea";
-import { ICompanyForm, TRegistrationForm } from "@/types";
+import { ICompanyForm, TCompanyInformation } from "@/types";
 import { ChangeEvent } from "react";
 
 export const HeaderConditions: {
@@ -68,7 +68,7 @@ export const ConditionalInput = (
   handleOnChange: (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => void,
-  value: TRegistrationForm,
+  value: TCompanyInformation,
 ) => {
   switch (item?.type) {
     case "select": {
@@ -80,12 +80,11 @@ export const ConditionalInput = (
             placeholder={item?.placeholder}
             className="text-sm"
             required={item?.required}
-            onChange={(e) => handleOnChange(e)}
-            value={
-              value?.[item?.name as keyof TRegistrationForm] as
-                | string
-                | undefined
-            }
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
+            value={value?.[item?.name as keyof TCompanyInformation]}
+            disabled={item?.disabled}
           >
             {item?.options?.map((option, index) => (
               <option value={option?.value} key={index}>
@@ -106,9 +105,8 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={(e) => handleOnChange(e)}
-          value={
-            value?.[item?.name as keyof TRegistrationForm] as string | undefined
-          }
+          value={value?.[item?.name as keyof TCompanyInformation]}
+          disabled={item?.disabled}
         />
       );
     }
@@ -122,9 +120,8 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={
-            value?.[item?.name as keyof TRegistrationForm] as string | undefined
-          }
+          value={value?.[item?.name as keyof TCompanyInformation]}
+          disabled={item?.disabled}
         />
       );
     }
@@ -138,9 +135,8 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={
-            value?.[item?.name as keyof TRegistrationForm] as string | undefined
-          }
+          value={value?.[item?.name as keyof TCompanyInformation]}
+          disabled={item?.disabled}
         />
       );
     }
@@ -154,9 +150,8 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={
-            value?.[item?.name as keyof TRegistrationForm] as string | undefined
-          }
+          value={value?.[item?.name as keyof TCompanyInformation]}
+          disabled={item?.disabled}
         />
       );
     }
@@ -169,9 +164,8 @@ export const ConditionalInput = (
           className="max-h-[100px] text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={
-            value?.[item?.name as keyof TRegistrationForm] as string | undefined
-          }
+          value={value?.[item?.name as keyof TCompanyInformation]}
+          disabled={item?.disabled}
         />
       );
     }

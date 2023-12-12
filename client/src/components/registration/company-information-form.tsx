@@ -2,11 +2,12 @@ import { CompanyInfo } from "@/helpers/company.helper";
 import { ConditionalInput, Sections } from "@/helpers/register.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
-import { TRegistrationForm } from "@/types";
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useMemo } from "react";
 
 const CompanyInformationForm: FC = () => {
-  const { setRegistration, registration } = useAtomStore();
+  const { setRegistration, registration, thaiProvince } = useAtomStore();
+  const { company_information } = registration;
+  const { country, province, sub_district } = company_information;
 
   const handleOnChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -14,9 +15,84 @@ const CompanyInformationForm: FC = () => {
     const { name, value } = e.target;
     setRegistration((prev) => ({
       ...prev,
-      [name as keyof TRegistrationForm]: value,
+      company_information: {
+        ...prev.company_information,
+        [name]: value,
+      },
     }));
   };
+
+  const newCompanyInfo = CompanyInfo?.map((item) => {
+    const { country, province, district } = registration?.company_information;
+    switch (item?.name) {
+      case "province":
+        return {
+          ...item,
+          disabled: !country,
+          type: country !== "TH" ? "text" : item?.type,
+          options:
+            country === "TH"
+              ? thaiProvince.map((item) => ({
+                  label: item?.name_th,
+                  value: item?.name_en,
+                }))
+              : [],
+        };
+      case "district":
+        return {
+          ...item,
+          disabled: !province || !country,
+          type: country !== "TH" ? "text" : item?.type,
+          options:
+            (province &&
+              thaiProvince
+                .find((item) => item?.name_en === province)
+                ?.amphure?.map((item) => ({
+                  label: item?.name_th,
+                  value: item?.name_en,
+                }))) ||
+            [],
+        };
+      case "sub_district":
+        return {
+          ...item,
+          type: country !== "TH" ? "text" : item?.type,
+          disabled: !district || !province,
+          options:
+            (district &&
+              thaiProvince
+                .find((item) => item?.name_en === province)
+                ?.amphure?.find((item) => item?.name_en === district)
+                ?.tambon?.map((item) => ({
+                  label: item?.name_th,
+                  value: item?.name_en,
+                }))) ||
+            [],
+        };
+      case "zip_code":
+        return {
+          ...item,
+          disabled: !district || !province,
+        };
+      default:
+        return item;
+    }
+  });
+
+  useMemo(() => {
+    if (country !== "TH") {
+      setRegistration((prev) => ({
+        ...prev,
+        company_information: {
+          ...prev.company_information,
+          province: "",
+          district: "",
+          sub_district: "",
+          zip_code: "",
+        },
+      }));
+    }
+  }, [country, province, sub_district]);
 
   return (
     <section id="company-info" className="pr-4">
@@ -27,7 +103,7 @@ const CompanyInformationForm: FC = () => {
           </h2>
         </section>
         <section className="flex h-full w-full flex-col gap-2">
-          {CompanyInfo?.map((item, index) => (
+          {newCompanyInfo?.map((item, index) => (
             <div
               className={cn(
                 "grid w-full grid-cols-10 gap-2",
@@ -41,7 +117,11 @@ const CompanyInformationForm: FC = () => {
                 </label>
               </div>
               <div className="col-span-4">
-                {ConditionalInput(item, handleOnChange, registration)}
+                {ConditionalInput(
+                  item,
+                  handleOnChange,
+                  registration.company_information,
+                )}
               </div>
               <div className="col-span-2 flex justify-end">
                 <p className="text-sm text-red-500">{item?.required && "*"}</p>

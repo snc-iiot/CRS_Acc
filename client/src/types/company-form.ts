@@ -15,4 +15,5 @@ export type ICompanyForm = {
   placeholder: string;
   options?: { value: string; label: string }[];
   required: boolean;
+  disabled?: boolean;
 };

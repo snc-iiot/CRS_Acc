@@ -1,0 +1,26 @@
+[
+  {
+    "business_id": "d62eb0c9-9175-4f0e-ac42-709c20f59ff2",
+    "business_type": "กิจการเจ้าของคนเดียว"
+  },
+  {
+    "business_id": "43915b3a-241a-4e7a-b109-da349e709131",
+    "business_type": "บริษัทจำกัด"
+  },
+  {
+    "business_id": "ddd14434-e247-4d1e-8875-b373e6e16818",
+    "business_type": "บริษัทมหาชนจำกัด"
+  },
+  {
+    "business_id": "b6695b15-71fd-420a-9439-8db49bd777fc",
+    "business_type": "ห้างหุ้นส่วนสามัญ"
+  },
+  {
+    "business_id": "3d70b7c1-4fa0-45cd-af13-f59af6fac05e",
+    "business_type": "ห้างหุ้นส่วนสามัญที่จะจดทะเบียนเเละห้างหุ้นส่วนจำกัด"
+  },
+  {
+    "business_id": "81656c7d-a4cf-4632-ac67-fc1c0a0cb530",
+    "business_type": "อื่นๆ (ไม่ระบุ)"
+  }
+]

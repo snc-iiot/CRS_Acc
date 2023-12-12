@@ -1,23 +1,12 @@
 import { DocumentUpload } from "@/helpers/document.helper";
 import { Sections } from "@/helpers/register.helper";
-import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC } from "react";
 import { Icons } from "../common/icons";
 import { UploadFile } from "../common/upload-file";
 import { Button } from "../ui/button";
 
 const DocumentUploadForm: FC = () => {
-  const { registration } = useAtomStore();
-
-  const certificate = registration?.certificate
-    ?.filter((item) => item?.cer_name !== "none-certification")
-    ?.map((item) => ({
-      id: item?.cer_name,
-      label: item?.label,
-      name: item?.cer_name,
-    }));
-
-  const data = [...DocumentUpload, ...certificate];
+  const data = [...DocumentUpload];
 
   return (
     <section id="upload-documents" className="pr-4">

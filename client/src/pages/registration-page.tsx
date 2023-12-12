@@ -18,7 +18,7 @@ import { FC, useEffect, useState } from "react";
 
 const RegistrationPage: FC = () => {
   const { registration } = useAtomStore();
-  console.log(JSON.stringify(registration));
+  console.table(registration.company_information);
   const MODE = "register";
 
   const onSubmit = () => {

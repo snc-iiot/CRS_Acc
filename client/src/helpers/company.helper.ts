@@ -1,3 +1,4 @@
+import BusinessTypeList from "@/mocks/business-type.json";
 import CompanyList from "@/mocks/company-list.json";
 import CountryList from "@/mocks/country-list-th.json";
 import { ICompanyForm, TCompanyList } from "@/types";
@@ -14,13 +15,6 @@ export const CompanyInfo: ICompanyForm[] = [
     })),
     required: true,
   },
-  // {
-  //   name: "to",
-  //   label: "เรียน",
-  //   type: "text",
-  //   placeholder: "กรอกชื่อผู้รับ",
-  //   required: true,
-  // },
   {
     name: "company_name",
     label: "ชื่อบริษัท",
@@ -41,7 +35,7 @@ export const CompanyInfo: ICompanyForm[] = [
     type: "select",
     placeholder: "กรอกประเทศ",
     options: CountryList?.map((country) => ({
-      value: country?.enName,
+      value: country?.alpha2,
       label: country?.name,
     })),
     required: true,
@@ -59,7 +53,7 @@ export const CompanyInfo: ICompanyForm[] = [
   },
   {
     name: "district",
-    label: "อำเภอ",
+    label: "อำเภอ/เขต",
     type: "select",
     placeholder: "กรอกอำเภอ",
     options: [
@@ -70,7 +64,7 @@ export const CompanyInfo: ICompanyForm[] = [
   },
   {
     name: "sub_district",
-    label: "ตำบล",
+    label: "ตำบล/แขวง",
     type: "select",
     placeholder: "กรอกตำบล",
     options: [
@@ -113,9 +107,9 @@ export const CompanyInfo: ICompanyForm[] = [
     type: "select",
     placeholder: "กรอกประเภทกิจการตามใบอนุญาติประกอบการ",
     required: true,
-    options: [
-      { value: "1", label: "ประเภทกิจการตามใบอนุญาติประกอบการ 1" },
-      { value: "2", label: "ประเภทกิจการตามใบอนุญาติประกอบการ 2" },
-    ],
+    options: BusinessTypeList?.map((business) => ({
+      value: business?.business_id,
+      label: business?.business_type,
+    })),
   },
 ];

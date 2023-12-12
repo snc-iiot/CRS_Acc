@@ -11,7 +11,7 @@ const ShareholderInformationForm: FC = () => {
   const { registration, setRegistration } = useAtomStore();
 
   const { hight_nationalities, thai_nationalities, other_nationalities } =
-    registration?.shareholder;
+    registration?.share_holder;
 
   const total =
     isNaN(hight_nationalities?.percentage) ||
@@ -50,16 +50,16 @@ const ShareholderInformationForm: FC = () => {
                   placeholder="เลือกสัญชาติผู้ถือหุ้นสูงสุด"
                   className="text-sm"
                   value={
-                    registration?.shareholder?.hight_nationalities
+                    registration?.share_holder?.hight_nationalities
                       ?.nationalities
                   }
                   onChange={(e) => {
                     setRegistration({
                       ...registration,
-                      shareholder: {
-                        ...registration.shareholder,
+                      share_holder: {
+                        ...registration.share_holder,
                         hight_nationalities: {
-                          ...registration.shareholder.hight_nationalities,
+                          ...registration.share_holder.hight_nationalities,
                           nationalities: e.target.value,
                         },
                         thai_nationalities:
@@ -85,7 +85,7 @@ const ShareholderInformationForm: FC = () => {
                   placeholder="กรอกสัดส่วนผู้ถือหุ้น"
                   className="text-sm"
                   value={
-                    registration?.shareholder?.hight_nationalities?.percentage
+                    registration?.share_holder?.hight_nationalities?.percentage
                   }
                   max={"100"}
                   min={"0"}
@@ -97,10 +97,10 @@ const ShareholderInformationForm: FC = () => {
                         (isNaN(other_nationalities) ? 0 : other_nationalities);
                       setRegistration({
                         ...registration,
-                        shareholder: {
-                          ...registration.shareholder,
+                        share_holder: {
+                          ...registration.share_holder,
                           hight_nationalities: {
-                            ...registration.shareholder.hight_nationalities,
+                            ...registration.share_holder.hight_nationalities,
                             percentage:
                               e.target.valueAsNumber > Max
                                 ? Max
@@ -114,10 +114,10 @@ const ShareholderInformationForm: FC = () => {
                         (isNaN(other_nationalities) ? 0 : other_nationalities);
                       setRegistration({
                         ...registration,
-                        shareholder: {
-                          ...registration.shareholder,
+                        share_holder: {
+                          ...registration.share_holder,
                           hight_nationalities: {
-                            ...registration.shareholder.hight_nationalities,
+                            ...registration.share_holder.hight_nationalities,
                             percentage:
                               e.target.valueAsNumber > Max
                                 ? Max
@@ -147,13 +147,13 @@ const ShareholderInformationForm: FC = () => {
                   className="text-sm"
                   value={thai_nationalities}
                   disabled={
-                    registration?.shareholder?.hight_nationalities
+                    registration?.share_holder?.hight_nationalities
                       ?.nationalities == "ไทย" ||
                     hight_nationalities?.percentage >= 100
                   }
                   onChange={(e) => {
                     if (
-                      registration?.shareholder?.hight_nationalities
+                      registration?.share_holder?.hight_nationalities
                         ?.nationalities != "ไทย"
                     ) {
                       const Max =
@@ -162,8 +162,8 @@ const ShareholderInformationForm: FC = () => {
                         (isNaN(other_nationalities) ? 0 : other_nationalities);
                       setRegistration({
                         ...registration,
-                        shareholder: {
-                          ...registration.shareholder,
+                        share_holder: {
+                          ...registration.share_holder,
                           thai_nationalities:
                             e.target.valueAsNumber > Max
                               ? Max
@@ -193,13 +193,13 @@ const ShareholderInformationForm: FC = () => {
                   value={other_nationalities}
                   onChange={(e) => {
                     if (
-                      registration?.shareholder?.hight_nationalities
+                      registration?.share_holder?.hight_nationalities
                         ?.nationalities != "ไทย"
                     ) {
                       setRegistration({
                         ...registration,
-                        shareholder: {
-                          ...registration.shareholder,
+                        share_holder: {
+                          ...registration.share_holder,
                           other_nationalities:
                             e.target.valueAsNumber >
                             100 -
@@ -219,8 +219,8 @@ const ShareholderInformationForm: FC = () => {
                           : hight_nationalities?.percentage);
                       setRegistration({
                         ...registration,
-                        shareholder: {
-                          ...registration.shareholder,
+                        share_holder: {
+                          ...registration.share_holder,
                           other_nationalities:
                             e.target.valueAsNumber > Max
                               ? Max
