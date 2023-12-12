@@ -83,20 +83,6 @@ class CompanyController extends Controller
             //     "data" => [],
             // ], 401);
             // $decoded = $jwt->decoded;
-            // $regisId = Str::uuid()->toString();
-
-            // DB::table("dev_run_regis_id")->insert([
-            //     "regis_id" => $regisId,
-            //     "creator_id" => $decoded->user_id,
-            // ]);
-
-            // return response()->json($request->all());
-
-            // return response()->json([
-            //     "status" => "error",
-            //     "message" => "Test",
-            //     "data" => [["request" => $request->all()]]
-            // ], 400);
 
             $docNames = [
                 'anti_corruption_policy',
