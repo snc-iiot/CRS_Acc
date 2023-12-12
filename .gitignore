@@ -21,3 +21,5 @@ yarn-error.log
 *.zip
 
 test.json
+test.php
+test.txt

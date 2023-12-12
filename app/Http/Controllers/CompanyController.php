@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Libraries\JWT\JWTUtils;
+use App\Rules\Base64;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Company;
-use App\Models\Documents;
+// use App\Models\Company;
+// use App\Models\Documents;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -15,6 +17,191 @@ class CompanyController extends Controller
     public function __construct()
     {
         $this->jwtUtils = new JWTUtils();
+    }
+
+    function createRegisId(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            $decoded = $jwt->decoded;
+            $regisId = Str::uuid()->toString();
+
+            DB::table("dev_run_regis_id")->insert([
+                "regis_id" => $regisId,
+                "creator_id" => $decoded->account_id,
+            ]);
+
+            DB::table("dev_documents")->insert([
+                "regis_id" => $regisId,
+                // "folder_name" => $regisId,
+                "documents" => '{"anti_corruption_policy":"","vat_license":"","business_registration":"","fi_statement":"","invoice":"","organization_chart":"","sale_contract":"","factory_visit":"","machine_condition":"","company_map":"","other_document1":"","other_document2":"","other_document3":""}',
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Created regis id successfully",
+                "data" => [
+                    ["regis_id" => $regisId]
+                ],
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    function testPost(Request $request)
+    {
+        $rules = [
+            'regis_id' => ["required", "string"],
+            'doc_name' => ["required", "string"],
+            // 'content' => ["required", new Base64],
+            'content' => ["required", "string"],
+        ];
+        $validator = Validator::make($request->all(), $rules);
+
+        return response()->json($request->all());
+    }
+
+    function uploadDocument(Request $request)
+    {
+        try {
+            // $header = $request->header('Authorization');
+            // $jwt = $this->jwtUtils->verifyToken($header);
+            // if (!$jwt->state) return response()->json([
+            //     "status" => "error",
+            //     "message" => "Unauthorized",
+            //     "data" => [],
+            // ], 401);
+            // $decoded = $jwt->decoded;
+            // $regisId = Str::uuid()->toString();
+
+            // DB::table("dev_run_regis_id")->insert([
+            //     "regis_id" => $regisId,
+            //     "creator_id" => $decoded->user_id,
+            // ]);
+
+            // return response()->json($request->all());
+
+            // return response()->json([
+            //     "status" => "error",
+            //     "message" => "Test",
+            //     "data" => [["request" => $request->all()]]
+            // ], 400);
+
+            $docNames = [
+                'anti_corruption_policy',
+                'vat_license',
+                'business_registration',
+                'fi_statement',
+                'invoice',
+                'organization_chart',
+                'sale_contract',
+                'factory_visit',
+                'machine_condition',
+                'company_map',
+                'other_document1',
+                'other_document2',
+                'other_document3'
+            ];
+
+
+            //! regis_id
+            //! doc_name
+            //! pdf file (base64)
+            $rules = [
+                'regis_id' => ["required", "string"],
+                'doc_name' => ["required", "string"],
+                'content' => ["required", "min:500", new Base64],
+                // 'content' => ["required", "string"],
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Bad request",
+                    "data" => [
+                        [
+                            "validator" => $validator->errors()
+                        ]
+                    ]
+                ], 400);
+            }
+
+
+            $regisId = $validator->validated()["regis_id"];
+            $docName = $validator->validated()["doc_name"];
+
+            if (!\in_array($docName, $docNames)) {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Bad request",
+                    "data" => [
+                        ["validator" => "doc_name ($docName) does not match."]
+                    ]
+                ], 400);
+            }
+
+            // return response()->json($request->all());
+
+            $fileName = "documents->>'" . $docName . "'";
+
+            $result = DB::table("dev_documents")->selectRaw("document_id, folder_name, $fileName as path_name")->where(["regis_id" => $regisId])->take(1)->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "regis_id does not exists",
+                "data" => []
+            ], 400);
+
+            //! "a880b888-bf4b-4b77-8c20-936804fc2750"
+
+            $path = \getcwd() . "\\..\\..\\docs\\pdf\\";
+            if (!\is_dir($path)) \mkdir($path, 0777, true);
+
+            // $genFilename = $this->randomName(5) . time() . ".txt";
+            $genFilename = $this->randomName(5) . time() . ".pdf";
+
+            $folderPath = $path . $regisId . "\\";
+            if (!\is_dir($folderPath)) \mkdir($folderPath, 0777, true);
+
+            $pathOfNewFile = $folderPath . $genFilename;
+            $pathOfOldFile = $folderPath . $result[0]->path_name;
+            if (\file_exists($pathOfOldFile) && \strlen($result[0]->path_name) != 0) \unlink($pathOfOldFile);
+
+            // \file_put_contents($pathOfNewFile, $validator->validated()["content"]);
+            $base64 = \trim($validator->validated()["content"], "data:application/pdf;base64,");
+            \file_put_contents($pathOfNewFile, \base64_decode($base64));
+
+            // $data = ["documents->$docName" => $genFilename];
+            // if (\is_null($result[0]->folder_name)) $data["folder_name"] = $regisId;
+
+            DB::table("dev_documents")->where(["document_id" => $result[0]->document_id])->update([
+                "folder_name" => $regisId,
+                "documents->$docName" => $genFilename,
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Upload file successfully",
+                "data" => [],
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
     }
 
 
@@ -51,6 +238,7 @@ class CompanyController extends Controller
 
 
             $rules = [
+                'regis_id' => 'required|string',
                 'company_information.company_admin' => 'required|string',
                 'company_information.company_name' => 'required|string',
                 'company_information.address' => 'required|string',
