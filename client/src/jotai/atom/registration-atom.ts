@@ -15,6 +15,10 @@ export const registrationAtom = atom<TRegistrationForm>({
     juristic_id: "",
     website: "",
     nature_of_business: "",
+    company_registration: {
+      is_thai: true,
+      country: "",
+    },
   },
   share_holder: {
     hight_nationalities: {
@@ -26,8 +30,36 @@ export const registrationAtom = atom<TRegistrationForm>({
   },
   contact_person: [
     {
-      position_th: "",
-      position_en: "",
+      position_th: "ฝ่ายจัดซื้อ",
+      position_en: "scm_officer",
+      name: "",
+      tel: "",
+      email: "",
+    },
+    {
+      position_th: "ผู้จัดการฝ่ายจัดซื้อ",
+      position_en: "scm_department_manager",
+      name: "",
+      tel: "",
+      email: "",
+    },
+    {
+      position_th: "ฝ่ายบัญชีและการเงิน",
+      position_en: "accounting_officer",
+      name: "",
+      tel: "",
+      email: "",
+    },
+    {
+      position_th: "ผู้จัดการฝ่ายบัญชีและการเงิน",
+      position_en: "accounting_department_manager",
+      name: "",
+      tel: "",
+      email: "",
+    },
+    {
+      position_th: "กรรมการผู้จัดการ",
+      position_en: "managing_director",
       name: "",
       tel: "",
       email: "",
@@ -38,26 +70,8 @@ export const registrationAtom = atom<TRegistrationForm>({
     relationship_name: "",
   },
   standard: {
-    certificate: [
-      {
-        cer_id: "",
-        label_th: "",
-        label_en: "",
-        is_checked: false,
-        value: "",
-        exp: "",
-      },
-    ],
-    benefit: [
-      {
-        cer_id: "",
-        label_th: "",
-        label_en: "",
-        is_checked: false,
-        value: "",
-        exp: "",
-      },
-    ],
+    certificate: [],
+    benefit: [],
   },
   payment_term: {
     credit_term: {
@@ -74,14 +88,7 @@ export const registrationAtom = atom<TRegistrationForm>({
       is_lc: false,
       lc_type: "",
     },
-    delivery_term: [
-      {
-        cer_id: "",
-        label_th: "",
-        label_en: "",
-        is_checked: true,
-      },
-    ],
+    delivery_term: [],
     deposit_term: {
       is_deposit: true,
       deposit_type: "",
@@ -90,14 +97,7 @@ export const registrationAtom = atom<TRegistrationForm>({
       is_warranty: true,
       value: "",
     },
-    company_policy: [
-      {
-        cer_id: "",
-        label_th: "",
-        label_en: "",
-        is_checked: true,
-      },
-    ],
+    company_policy: [],
     objective_purchasing: {
       name: "",
       value: "",

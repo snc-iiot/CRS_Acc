@@ -1,4 +1,4 @@
-import { IContractForm } from "@/types";
+import { IContactForm } from "@/types";
 
 // - ฝ่ายจัดซื้อ (SCM Officer)
 // - ผู้จัดการฝ่ายจัดซื้อ (SCM Department Manager)
@@ -6,7 +6,7 @@ import { IContractForm } from "@/types";
 // - ผู้จัดการฝ่ายบัญชีและการเงิน (Accounting & Financial Department Manager)
 // - กรรมการผู้จัดการ (Managing Director)
 
-export const ContractInfo: IContractForm[] = [
+export const ContactInfo: IContactForm[] = [
   {
     id: "scm_officer",
     group: "ฝ่ายจัดซื้อ",
@@ -19,7 +19,7 @@ export const ContractInfo: IContractForm[] = [
         required: true,
       },
       {
-        name: "phone_number",
+        name: "tel",
         label: "เบอร์โทรศัพท์",
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",

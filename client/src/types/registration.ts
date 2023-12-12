@@ -20,6 +20,10 @@ export type TCompanyInformation = {
   juristic_id: string;
   website: string;
   nature_of_business: string;
+  company_registration: {
+    is_thai: boolean;
+    country: string;
+  };
 };
 
 export type TShareHolder = {
@@ -57,7 +61,7 @@ export type TCertificate = {
   label_en: string;
   is_checked: boolean;
   value: string;
-  exp: string;
+  exp: string | null;
 };
 
 export type TBenefit = {
@@ -66,7 +70,7 @@ export type TBenefit = {
   label_en: string;
   is_checked: boolean;
   value: string;
-  exp: string;
+  exp: string | null;
 };
 
 export type TPaymentTerm = {

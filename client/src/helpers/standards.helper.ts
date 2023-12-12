@@ -138,7 +138,6 @@ export const CertificationStandards = [
     isOption: true,
     options: [{ id: 1, label: "ระดับที่ื 1" }],
   },
-
   {
     id: 17,
     name: "none-certification",
@@ -182,6 +181,8 @@ export const CompanyPolicies = [
   "มีนโยบายการเปิดเผยช่องทางให้ติดต่อร้องเรียน",
   "มีนโยบายประเมินความปลอดภัย อาชีวอนามัยและสภาพแวดล้อมในการทำงาน",
   "มีนโยบายสวัสดิการแรงงานตามกฎหมายกำหนด",
+  "มีนโยบายให้พนักงานต้องมีการตรวจประวัติอาชญากรรมก่อนเริ่มงาน",
+  "อื่นๆ",
 ];
 
 export const ObjectivePurchasing = [

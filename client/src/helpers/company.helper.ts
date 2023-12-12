@@ -55,7 +55,7 @@ export const CompanyInfo: ICompanyForm[] = [
     name: "district",
     label: "อำเภอ/เขต",
     type: "select",
-    placeholder: "กรอกอำเภอ",
+    placeholder: "กรอกอำเภอ/เขต",
     options: [
       { value: "1", label: "อำเภอ 1" },
       { value: "2", label: "อำเภอ 2" },
@@ -66,7 +66,7 @@ export const CompanyInfo: ICompanyForm[] = [
     name: "sub_district",
     label: "ตำบล/แขวง",
     type: "select",
-    placeholder: "กรอกตำบล",
+    placeholder: "กรอกตำบล/แขวง",
     options: [
       { value: "1", label: "ตำบล 1" },
       { value: "2", label: "ตำบล 2" },

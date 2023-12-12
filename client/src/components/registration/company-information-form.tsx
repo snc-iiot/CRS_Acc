@@ -1,8 +1,11 @@
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CompanyInfo } from "@/helpers/company.helper";
 import { ConditionalInput, Sections } from "@/helpers/register.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
+import CountryList from "@/mocks/country-list-th.json";
 import { ChangeEvent, FC, useMemo } from "react";
+import { Label } from "../ui/label";
 
 const CompanyInformationForm: FC = () => {
   const { setRegistration, registration, thaiProvince } = useAtomStore();
@@ -128,6 +131,85 @@ const CompanyInformationForm: FC = () => {
               </div>
             </div>
           ))}
+          <div className={cn("grid w-full grid-cols-10 gap-2", "items-start")}>
+            <div className="col-span-4 flex justify-end">
+              <label htmlFor="company_address" className="text-sm">
+                การจดทะเบียนบริษัท
+              </label>
+            </div>
+            <div className="col-span-4">
+              <RadioGroup
+                value={
+                  registration?.company_information?.company_registration
+                    .is_thai
+                    ? "thai-company"
+                    : "foreign-company"
+                }
+                onValueChange={(value) => {
+                  setRegistration((prev) => ({
+                    ...prev,
+                    company_information: {
+                      ...prev.company_information,
+                      company_registration: {
+                        ...prev.company_information.company_registration,
+                        is_thai: value === "thai-company",
+                        country: "",
+                      },
+                    },
+                  }));
+                }}
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="thai-company" id="thai-company" />
+                  <Label htmlFor="thai-company">จดทะเบียนในประเทศไทย</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem
+                    value="foreign-company"
+                    id="foreign-company"
+                  />
+                  <Label
+                    htmlFor="foreign-company"
+                    className="whitespace-nowrap"
+                  >
+                    จดทะเบียนนอกประเทศ
+                  </Label>
+                  <select
+                    className="w-full border-b text-sm focus:border-blue-500 focus:outline-none"
+                    onChange={(e) => {
+                      const { name, value } = e.target;
+                      setRegistration((prev) => ({
+                        ...prev,
+                        company_information: {
+                          ...prev?.company_information,
+                          company_registration: {
+                            ...prev?.company_information?.company_registration,
+                            [name]: value,
+                          },
+                        },
+                      }));
+                    }}
+                    value={
+                      registration?.company_information?.company_registration
+                        ?.country
+                    }
+                    name="country"
+                    disabled={
+                      registration?.company_information?.company_registration
+                        ?.is_thai
+                    }
+                  >
+                    <option value="">เลือกประเทศ</option>
+                    {CountryList?.map((item, index) => (
+                      <option key={index} value={item?.alpha2}>
+                        {item?.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
         </section>
       </main>
     </section>

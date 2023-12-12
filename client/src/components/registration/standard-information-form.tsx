@@ -25,8 +25,6 @@ const StandardInformationForm: FC = () => {
   const incotermList: TIncoterm[] = IncotermList;
   const countryList: TCountryList[] = CountryList;
 
-  console.table(registration?.benefits);
-
   return (
     <section id="standard-certification-info" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -54,14 +52,14 @@ const StandardInformationForm: FC = () => {
                       <div className="col-span-2 flex items-center gap-2">
                         <Checkbox
                           checked={
-                            registration?.certificate?.find(
-                              (info) => info?.cer_name === item?.name,
-                            )?.is_active ?? false
+                            registration?.standard?.certificate?.find(
+                              (info) => info?.value === item?.name,
+                            )?.is_checked ?? false
                           }
                           disabled={
-                            registration?.certificate?.find(
-                              (info) => info?.cer_name === "none-certification",
-                            )?.is_active && item?.name !== "none-certification"
+                            registration?.standard?.certificate?.find(
+                              (info) => info?.value === "none-certification",
+                            )?.is_checked && item?.name !== "none-certification"
                           }
                           id={item.name?.toString()}
                           onCheckedChange={(e) => {
@@ -69,46 +67,60 @@ const StandardInformationForm: FC = () => {
                               if (e) {
                                 setRegistration({
                                   ...registration,
-                                  certificate: [
-                                    {
-                                      cer_name: item?.name,
-                                      label: item?.label,
-                                      is_active: true,
-                                      cer_value: null,
-                                      expired_date: null,
-                                    },
-                                  ],
+                                  standard: {
+                                    ...registration?.standard,
+                                    certificate: [
+                                      {
+                                        cer_id: item?.name,
+                                        label_th: item?.label,
+                                        label_en: item?.label,
+                                        is_checked: true,
+                                        value: item.name,
+                                        exp: null,
+                                      },
+                                    ],
+                                  },
                                 });
                               } else {
                                 setRegistration({
                                   ...registration,
-                                  certificate: [],
+                                  standard: {
+                                    ...registration?.standard,
+                                    certificate: [],
+                                  },
                                 });
                               }
                             } else {
                               if (e) {
-                                setRegistration({
-                                  ...registration,
-                                  certificate: [
-                                    ...registration?.certificate,
-                                    {
-                                      cer_name: item?.name,
-                                      label: item?.label,
-                                      is_active: true,
-                                      cer_value: null,
-                                      expired_date: null,
-                                    },
-                                  ],
-                                });
+                                setRegistration((prev) => ({
+                                  ...prev,
+                                  standard: {
+                                    ...prev.standard,
+                                    certificate: [
+                                      ...prev.standard?.certificate,
+                                      {
+                                        cer_id: item?.name,
+                                        label_th: item?.label,
+                                        label_en: item?.label,
+                                        is_checked: true,
+                                        value: item.name,
+                                        exp: null,
+                                      },
+                                    ],
+                                  },
+                                }));
                               } else {
-                                setRegistration({
-                                  ...registration,
-                                  certificate: [
-                                    ...registration?.certificate.filter(
-                                      (info) => info?.cer_name !== item?.name,
-                                    ),
-                                  ],
-                                });
+                                setRegistration((prev) => ({
+                                  ...prev,
+                                  standard: {
+                                    ...prev.standard,
+                                    certificate: [
+                                      ...prev.standard?.certificate.filter(
+                                        (info) => info?.value !== item?.name,
+                                      ),
+                                    ],
+                                  },
+                                }));
                               }
                             }
                           }}
@@ -117,9 +129,9 @@ const StandardInformationForm: FC = () => {
                           htmlFor={item.name?.toString()}
                           className={cn(
                             "whitespace-nowrap text-sm font-medium",
-                            registration?.certificate?.find(
-                              (info) => info?.cer_name === "none-certification",
-                            )?.is_active && item?.name !== "none-certification"
+                            registration?.standard?.certificate?.find(
+                              (info) => info?.value === "none-certification",
+                            )?.is_checked && item?.name !== "none-certification"
                               ? "line-through opacity-50"
                               : "",
                           )}
@@ -134,30 +146,35 @@ const StandardInformationForm: FC = () => {
                             item?.id !== 14 ? "hidden" : "",
                           )}
                           value={
-                            registration?.certificate?.find(
-                              (info) => info?.cer_name === item?.name,
-                            )?.cer_value ?? ""
+                            registration?.standard?.certificate?.find(
+                              (info) => info?.value === item?.name,
+                            )?.value ?? ""
                           }
                           onChange={(e) => {
                             setRegistration({
                               ...registration,
-                              certificate: [
-                                ...registration?.certificate.map((info) => {
-                                  if (info?.cer_name === item?.name) {
-                                    return {
-                                      ...info,
-                                      cer_value: e.target.value,
-                                    };
-                                  }
-                                  return info;
-                                }),
-                              ],
+                              standard: {
+                                ...registration?.standard,
+                                certificate: [
+                                  ...registration?.standard?.certificate.map(
+                                    (info) => {
+                                      if (info?.value === item?.name) {
+                                        return {
+                                          ...info,
+                                          value: e.target.value,
+                                        };
+                                      }
+                                      return info;
+                                    },
+                                  ),
+                                ],
+                              },
                             });
                           }}
                           disabled={
-                            !registration?.certificate?.find(
-                              (info) => info?.cer_name === item?.name,
-                            )?.is_active
+                            !registration?.standard?.certificate?.find(
+                              (info) => info?.value === item?.name,
+                            )?.is_checked
                           }
                         >
                           <option value="" className="text-sm">
@@ -184,30 +201,33 @@ const StandardInformationForm: FC = () => {
                           className="w-full rounded-sm border px-2 text-sm"
                           required
                           disabled={
-                            !registration?.certificate?.find(
-                              (info) => info?.cer_name === item?.name,
-                            )?.is_active
+                            !registration?.standard?.certificate?.find(
+                              (info) => info?.value === item?.name,
+                            )?.is_checked
                           }
                           onChange={(e) => {
-                            setRegistration({
-                              ...registration,
-                              certificate: [
-                                ...registration?.certificate.map((info) => {
-                                  if (info?.cer_name === item?.name) {
-                                    return {
-                                      ...info,
-                                      expired_date: e.target.value,
-                                    };
-                                  }
-                                  return info;
-                                }),
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                certificate: [
+                                  ...prev.standard?.certificate.map((info) => {
+                                    if (info?.value === item?.name) {
+                                      return {
+                                        ...info,
+                                        exp: e.target.value,
+                                      };
+                                    }
+                                    return info;
+                                  }),
+                                ],
+                              },
+                            }));
                           }}
                           value={
-                            registration?.certificate?.find(
-                              (info) => info?.cer_name === item?.name,
-                            )?.expired_date ?? ""
+                            registration?.standard?.certificate?.find(
+                              (info) => info?.value === item?.name,
+                            )?.exp ?? ""
                           }
                         />
                       </div>
@@ -218,39 +238,46 @@ const StandardInformationForm: FC = () => {
                       <Checkbox
                         id="other-certification"
                         disabled={
-                          registration?.certificate?.find(
-                            (info) => info?.cer_name === "none-certification",
-                          )?.is_active ?? false
+                          registration?.standard?.certificate?.find(
+                            (info) => info?.value === "none-certification",
+                          )?.is_checked ?? false
                         }
                         checked={
-                          registration?.certificate?.find(
-                            (info) => info?.cer_name === "other",
-                          )?.is_active ?? false
+                          registration?.standard?.certificate?.find(
+                            (info) => info?.value === "other",
+                          )?.is_checked ?? false
                         }
                         onCheckedChange={(e) => {
                           if (e) {
-                            setRegistration({
-                              ...registration,
-                              certificate: [
-                                ...registration?.certificate,
-                                {
-                                  cer_name: "other",
-                                  label: "",
-                                  is_active: true,
-                                  cer_value: null,
-                                  expired_date: null,
-                                },
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                certificate: [
+                                  ...prev.standard?.certificate,
+                                  {
+                                    cer_id: "other",
+                                    label_th: "",
+                                    label_en: "",
+                                    is_checked: true,
+                                    value: "other",
+                                    exp: null,
+                                  },
+                                ],
+                              },
+                            }));
                           } else {
-                            setRegistration({
-                              ...registration,
-                              certificate: [
-                                ...registration?.certificate.filter(
-                                  (info) => info?.cer_name !== "other",
-                                ),
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                certificate: [
+                                  ...prev.standard?.certificate.filter(
+                                    (info) => info?.value !== "other",
+                                  ),
+                                ],
+                              },
+                            }));
                           }
                         }}
                       />
@@ -258,9 +285,9 @@ const StandardInformationForm: FC = () => {
                         htmlFor="other-certification"
                         className={cn(
                           "whitespace-nowrap text-sm font-medium",
-                          registration?.certificate?.find(
-                            (info) => info?.cer_name === "none-certification",
-                          )?.is_active && "line-through opacity-50",
+                          registration?.standard?.certificate?.find(
+                            (info) => info?.value === "none-certification",
+                          )?.is_checked && "line-through opacity-50",
                         )}
                       >
                         อื่นๆ
@@ -273,30 +300,34 @@ const StandardInformationForm: FC = () => {
                         className={cn("col-span-3 w-full")}
                         variant="flushed"
                         disabled={
-                          !registration?.certificate?.find(
-                            (info) => info?.cer_name === "other",
-                          )?.is_active
+                          !registration?.standard?.certificate?.find(
+                            (info) => info?.value === "other",
+                          )?.is_checked
                         }
                         onChange={(e) => {
-                          setRegistration({
-                            ...registration,
-                            certificate: [
-                              ...registration?.certificate.map((info) => {
-                                if (info?.cer_name === "other") {
-                                  return {
-                                    ...info,
-                                    label: e.target.value,
-                                  };
-                                }
-                                return info;
-                              }),
-                            ],
-                          });
+                          setRegistration((prev) => ({
+                            ...prev,
+                            standard: {
+                              ...prev.standard,
+                              certificate: [
+                                ...prev.standard?.certificate.map((info) => {
+                                  if (info?.value === "other") {
+                                    return {
+                                      ...info,
+                                      label_th: e.target.value,
+                                      label_en: e.target.value,
+                                    };
+                                  }
+                                  return info;
+                                }),
+                              ],
+                            },
+                          }));
                         }}
                         value={
-                          registration?.certificate?.find(
-                            (info) => info?.cer_name === "other",
-                          )?.label ?? ""
+                          registration?.standard?.certificate?.find(
+                            (info) => info?.value === "other",
+                          )?.label_th ?? ""
                         }
                       />
                       <div className="col-span-2 flex items-center gap-2">
@@ -308,30 +339,33 @@ const StandardInformationForm: FC = () => {
                           className="w-full rounded-sm border px-2 text-sm"
                           required
                           disabled={
-                            !registration?.certificate?.find(
-                              (info) => info?.cer_name === "other",
-                            )?.is_active
+                            !registration?.standard?.certificate?.find(
+                              (info) => info?.value === "other",
+                            )?.is_checked
                           }
                           onChange={(e) => {
-                            setRegistration({
-                              ...registration,
-                              certificate: [
-                                ...registration?.certificate.map((info) => {
-                                  if (info?.cer_name === "other") {
-                                    return {
-                                      ...info,
-                                      expired_date: e.target.value,
-                                    };
-                                  }
-                                  return info;
-                                }),
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                certificate: [
+                                  ...prev.standard?.certificate.map((info) => {
+                                    if (info?.value === "other") {
+                                      return {
+                                        ...info,
+                                        exp: e.target.value,
+                                      };
+                                    }
+                                    return info;
+                                  }),
+                                ],
+                              },
+                            }));
                           }}
                           value={
-                            registration?.certificate?.find(
-                              (info) => info?.cer_name === "other",
-                            )?.expired_date ?? ""
+                            registration?.standard?.certificate?.find(
+                              (info) => info?.value === "other",
+                            )?.exp ?? ""
                           }
                         />
                       </div>
@@ -357,60 +391,74 @@ const StandardInformationForm: FC = () => {
                         <Checkbox
                           id={item.id?.toString()}
                           checked={
-                            registration?.benefits?.find(
-                              (info) => info?.name === item?.id,
-                            )?.is_active ?? false
+                            registration?.standard?.benefit?.find(
+                              (info) => info?.value === item?.id,
+                            )?.is_checked ?? false
                           }
                           disabled={
-                            registration?.benefits?.find(
-                              (info) => info?.name === "none-benefit",
-                            )?.is_active && item?.id !== "none-benefit"
+                            registration?.standard?.benefit?.find(
+                              (info) => info?.value === "none-benefit",
+                            )?.is_checked && item?.id !== "none-benefit"
                           }
                           onCheckedChange={(e) => {
                             if (item?.id === "none-benefit") {
                               if (e) {
                                 setRegistration({
                                   ...registration,
-                                  benefits: [
-                                    {
-                                      name: item?.id,
-                                      label: item?.label,
-                                      is_active: true,
-                                      value: "",
-                                      expired_date: null,
-                                    },
-                                  ],
+                                  standard: {
+                                    ...registration?.standard,
+                                    benefit: [
+                                      {
+                                        cer_id: item?.id,
+                                        label_th: item?.label,
+                                        label_en: item?.label,
+                                        is_checked: true,
+                                        value: item.id,
+                                        exp: null,
+                                      },
+                                    ],
+                                  },
                                 });
                               } else {
                                 setRegistration({
                                   ...registration,
-                                  benefits: [],
+                                  standard: {
+                                    ...registration?.standard,
+                                    benefit: [],
+                                  },
                                 });
                               }
                             } else {
                               if (e) {
-                                setRegistration({
-                                  ...registration,
-                                  benefits: [
-                                    ...registration?.benefits,
-                                    {
-                                      name: item?.id,
-                                      label: item?.label,
-                                      is_active: true,
-                                      value: "",
-                                      expired_date: null,
-                                    },
-                                  ],
-                                });
+                                setRegistration((prev) => ({
+                                  ...prev,
+                                  standard: {
+                                    ...prev.standard,
+                                    benefit: [
+                                      ...prev.standard?.benefit,
+                                      {
+                                        cer_id: item?.id,
+                                        label_th: item?.label,
+                                        label_en: item?.label,
+                                        is_checked: true,
+                                        value: item.id,
+                                        exp: null,
+                                      },
+                                    ],
+                                  },
+                                }));
                               } else {
-                                setRegistration({
-                                  ...registration,
-                                  benefits: [
-                                    ...registration?.benefits.filter(
-                                      (info) => info?.name !== item?.id,
-                                    ),
-                                  ],
-                                });
+                                setRegistration((prev) => ({
+                                  ...prev,
+                                  standard: {
+                                    ...prev.standard,
+                                    benefit: [
+                                      ...prev.standard?.benefit.filter(
+                                        (info) => info?.value !== item?.id,
+                                      ),
+                                    ],
+                                  },
+                                }));
                               }
                             }
                           }}
@@ -419,9 +467,9 @@ const StandardInformationForm: FC = () => {
                           htmlFor={item.id?.toString()}
                           className={cn(
                             "whitespace-nowrap text-sm font-medium",
-                            registration?.benefits?.find(
-                              (info) => info?.name === "none-benefit",
-                            )?.is_active && item?.id !== "none-benefit"
+                            registration?.standard?.benefit?.find(
+                              (info) => info?.value === "none-benefit",
+                            )?.is_checked && item?.id !== "none-benefit"
                               ? "line-through opacity-50"
                               : "",
                           )}
@@ -443,30 +491,33 @@ const StandardInformationForm: FC = () => {
                           className="w-full rounded-sm border px-2 text-sm"
                           required
                           disabled={
-                            !registration?.benefits?.find(
-                              (info) => info?.name === item?.id,
-                            )?.is_active
+                            !registration?.standard?.benefit?.find(
+                              (info) => info?.value === item?.id,
+                            )?.is_checked
                           }
                           onChange={(e) => {
-                            setRegistration({
-                              ...registration,
-                              benefits: [
-                                ...registration?.benefits.map((info) => {
-                                  if (info?.name === item?.id) {
-                                    return {
-                                      ...info,
-                                      expired_date: e.target.value,
-                                    };
-                                  }
-                                  return info;
-                                }),
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                benefit: [
+                                  ...prev.standard?.benefit.map((info) => {
+                                    if (info?.value === item?.id) {
+                                      return {
+                                        ...info,
+                                        exp: e.target.value,
+                                      };
+                                    }
+                                    return info;
+                                  }),
+                                ],
+                              },
+                            }));
                           }}
                           value={
-                            registration?.benefits?.find(
-                              (info) => info?.name === item?.id,
-                            )?.expired_date ?? ""
+                            registration?.standard?.benefit?.find(
+                              (info) => info?.value === item?.id,
+                            )?.exp ?? ""
                           }
                         />
                       </div>
@@ -477,39 +528,46 @@ const StandardInformationForm: FC = () => {
                       <Checkbox
                         id="other-benefit"
                         disabled={
-                          registration?.benefits?.find(
-                            (info) => info?.name === "none-benefit",
-                          )?.is_active ?? false
+                          registration?.standard?.benefit?.find(
+                            (info) => info?.value === "none-benefit",
+                          )?.is_checked ?? false
                         }
                         checked={
-                          registration?.benefits?.find(
-                            (info) => info?.name === "other-benefit",
-                          )?.is_active ?? false
+                          registration?.standard?.benefit?.find(
+                            (info) => info?.value === "other",
+                          )?.is_checked ?? false
                         }
                         onCheckedChange={(e) => {
                           if (e) {
-                            setRegistration({
-                              ...registration,
-                              benefits: [
-                                ...registration?.benefits,
-                                {
-                                  name: "other-benefit",
-                                  label: "",
-                                  is_active: true,
-                                  value: "",
-                                  expired_date: null,
-                                },
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                benefit: [
+                                  ...prev.standard?.benefit,
+                                  {
+                                    cer_id: "other",
+                                    label_th: "",
+                                    label_en: "",
+                                    is_checked: true,
+                                    value: "other",
+                                    exp: null,
+                                  },
+                                ],
+                              },
+                            }));
                           } else {
-                            setRegistration({
-                              ...registration,
-                              benefits: [
-                                ...registration?.benefits.filter(
-                                  (info) => info?.name !== "other-benefit",
-                                ),
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                benefit: [
+                                  ...prev.standard?.benefit.filter(
+                                    (info) => info?.value !== "other",
+                                  ),
+                                ],
+                              },
+                            }));
                           }
                         }}
                       />
@@ -517,9 +575,9 @@ const StandardInformationForm: FC = () => {
                         htmlFor="other-benefit"
                         className={cn(
                           "whitespace-nowrap text-sm font-medium",
-                          registration?.benefits?.find(
-                            (info) => info?.name === "none-benefit",
-                          )?.is_active && "line-through opacity-50",
+                          registration?.standard?.benefit?.find(
+                            (info) => info?.value === "none-benefit",
+                          )?.is_checked && "line-through opacity-50",
                         )}
                       >
                         อื่นๆ
@@ -532,30 +590,34 @@ const StandardInformationForm: FC = () => {
                         className={cn("col-span-3 w-full")}
                         variant="flushed"
                         disabled={
-                          !registration?.benefits?.find(
-                            (info) => info?.name === "other-benefit",
-                          )?.is_active
+                          !registration?.standard?.benefit?.find(
+                            (info) => info?.value === "other",
+                          )?.is_checked
                         }
                         onChange={(e) => {
-                          setRegistration({
-                            ...registration,
-                            benefits: [
-                              ...registration?.benefits.map((info) => {
-                                if (info?.name === "other-benefit") {
-                                  return {
-                                    ...info,
-                                    label: e.target.value,
-                                  };
-                                }
-                                return info;
-                              }),
-                            ],
-                          });
+                          setRegistration((prev) => ({
+                            ...prev,
+                            standard: {
+                              ...prev.standard,
+                              benefit: [
+                                ...prev.standard?.benefit.map((info) => {
+                                  if (info?.value === "other") {
+                                    return {
+                                      ...info,
+                                      label_th: e.target.value,
+                                      label_en: e.target.value,
+                                    };
+                                  }
+                                  return info;
+                                }),
+                              ],
+                            },
+                          }));
                         }}
                         value={
-                          registration?.benefits?.find(
-                            (info) => info?.name === "other-benefit",
-                          )?.label ?? ""
+                          registration?.standard?.benefit?.find(
+                            (info) => info?.value === "other",
+                          )?.label_th ?? ""
                         }
                       />
                       <div className="col-span-2 flex items-center gap-2">
@@ -567,30 +629,33 @@ const StandardInformationForm: FC = () => {
                           className="w-full rounded-sm border px-2 text-sm"
                           required
                           disabled={
-                            !registration?.benefits?.find(
-                              (info) => info?.name === "other-benefit",
-                            )?.is_active
+                            !registration?.standard?.benefit?.find(
+                              (info) => info?.value === "other",
+                            )?.is_checked
                           }
                           onChange={(e) => {
-                            setRegistration({
-                              ...registration,
-                              benefits: [
-                                ...registration?.benefits.map((info) => {
-                                  if (info?.name === "other-benefit") {
-                                    return {
-                                      ...info,
-                                      expired_date: e.target.value,
-                                    };
-                                  }
-                                  return info;
-                                }),
-                              ],
-                            });
+                            setRegistration((prev) => ({
+                              ...prev,
+                              standard: {
+                                ...prev.standard,
+                                benefit: [
+                                  ...prev.standard?.benefit.map((info) => {
+                                    if (info?.value === "other") {
+                                      return {
+                                        ...info,
+                                        exp: e.target.value,
+                                      };
+                                    }
+                                    return info;
+                                  }),
+                                ],
+                              },
+                            }));
                           }}
                           value={
-                            registration?.benefits?.find(
-                              (info) => info?.name === "other-benefit",
-                            )?.expired_date ?? ""
+                            registration?.standard?.benefit?.find(
+                              (info) => info?.value === "other",
+                            )?.exp ?? ""
                           }
                         />
                       </div>
@@ -633,6 +698,7 @@ const StandardInformationForm: FC = () => {
                         <option value="" className="text-sm">
                           โปรดเลือกจำนวนวัน
                         </option>
+                        <option value="cash">เงินสด</option>
                         <option value="30">30 วัน</option>
                         <option value="60">60 วัน</option>
                         <option value="75">75 วัน</option>
@@ -880,15 +946,7 @@ const StandardInformationForm: FC = () => {
                       <option value="other">อื่นๆ</option>
                     </select>
                   </div>
-                  {/* <div className="w-full">
-                    <Select placeholder="โปรดระบุ">
-                      <option value="30-70">30/70 %</option>
-                      <option value="50-50">50/50 %</option>
-                      <option value="60-40">60/40 %</option>
-                      <option value="70-30">70/30 %</option>
-                      <option value="other">อื่นๆ</option>
-                    </Select>
-                  </div> */}
+
                   <Input type="text" placeholder="โปรดระบุ" variant="flushed" />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-deposit" id="none-deposit" />
@@ -937,15 +995,6 @@ const StandardInformationForm: FC = () => {
                       <option value="other">อื่นๆ</option>
                     </select>
                   </div>
-                  {/* <div className="w-full">
-                    <Select placeholder="โปรดระบุ">
-                      <option value="1">1 ปี</option>
-                      <option value="2">2 ปี</option>
-                      <option value="3">3 ปี</option>
-                      <option value="5">5 ปี</option>
-                      <option value="other">อื่นๆ</option>
-                    </Select>
-                  </div> */}
                   <Input
                     type="text"
                     placeholder="โปรดระบุ ปี"
@@ -999,6 +1048,11 @@ const StandardInformationForm: FC = () => {
                     </div>
                   </div>
                 ))}
+                <Input
+                  type="text"
+                  placeholder="โปรดระบุ นโยบายการดำเนินการอื่นๆ"
+                  variant="flushed"
+                />
               </div>
             </section>
           </article>
@@ -1062,19 +1116,6 @@ const StandardInformationForm: FC = () => {
                     </div>
                   ))}
                 </RadioGroup>
-                {/* <div>
-                  <select
-                    placeholder="เลือกประเทศ"
-                    className="w-full rounded-sm border px-2 py-[0.1rem] text-sm"
-                  >
-                    <option value="">เลือกประเทศ</option>
-                    {countryList?.map((item, i) => (
-                      <option key={i} value={item?.name}>
-                        {item?.name}
-                      </option>
-                    ))}
-                  </select>
-                </div> */}
               </div>
             </section>
           </article>

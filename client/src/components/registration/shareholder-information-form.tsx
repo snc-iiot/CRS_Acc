@@ -13,16 +13,6 @@ const ShareholderInformationForm: FC = () => {
   const { hight_nationalities, thai_nationalities, other_nationalities } =
     registration?.share_holder;
 
-  const total =
-    isNaN(hight_nationalities?.percentage) ||
-    isNaN(thai_nationalities) ||
-    isNaN(other_nationalities)
-      ? 0
-      : hight_nationalities?.percentage + hight_nationalities?.nationalities ==
-        "ไทย"
-      ? 0
-      : thai_nationalities + other_nationalities;
-
   const countryList: TCountryList[] = CountryList;
 
   return (
@@ -49,29 +39,23 @@ const ShareholderInformationForm: FC = () => {
                   id="shareholder-type"
                   placeholder="เลือกสัญชาติผู้ถือหุ้นสูงสุด"
                   className="text-sm"
-                  value={
-                    registration?.share_holder?.hight_nationalities
-                      ?.nationalities
-                  }
                   onChange={(e) => {
-                    setRegistration({
-                      ...registration,
+                    setRegistration((prev) => ({
+                      ...prev,
                       share_holder: {
-                        ...registration.share_holder,
+                        ...prev.share_holder,
                         hight_nationalities: {
-                          ...registration.share_holder.hight_nationalities,
+                          ...prev.share_holder.hight_nationalities,
                           nationalities: e.target.value,
+                          percentage: 0,
                         },
-                        thai_nationalities:
-                          e.target.value != "ไทย" ? thai_nationalities : 0,
-                        other_nationalities:
-                          e.target.value != "ไทย" ? other_nationalities : 0,
                       },
-                    });
+                    }));
                   }}
+                  value={hight_nationalities?.nationalities}
                 >
                   {countryList?.map((item, i) => (
-                    <option key={i} value={item?.name}>
+                    <option key={i} value={item?.alpha2}>
                       {item.name}
                     </option>
                   ))}
@@ -84,49 +68,32 @@ const ShareholderInformationForm: FC = () => {
                   type="number"
                   placeholder="กรอกสัดส่วนผู้ถือหุ้น"
                   className="text-sm"
-                  value={
-                    registration?.share_holder?.hight_nationalities?.percentage
-                  }
                   max={"100"}
                   min={"0"}
+                  // disabled={
+                  //   thai_nationalities === 100 ||
+                  //   other_nationalities === 100 ||
+                  //   thai_nationalities + other_nationalities === 100 ||
+                  //   hight_nationalities?.nationalities === "TH"
+                  // }
                   onChange={(e) => {
-                    if (hight_nationalities?.nationalities != "ไทย") {
-                      const Max =
-                        100 -
-                        (isNaN(thai_nationalities) ? 0 : thai_nationalities) -
-                        (isNaN(other_nationalities) ? 0 : other_nationalities);
-                      setRegistration({
-                        ...registration,
-                        share_holder: {
-                          ...registration.share_holder,
-                          hight_nationalities: {
-                            ...registration.share_holder.hight_nationalities,
-                            percentage:
-                              e.target.valueAsNumber > Max
-                                ? Max
-                                : e.target.valueAsNumber,
-                          },
+                    const max =
+                      100 -
+                      (thai_nationalities || 0) -
+                      (other_nationalities || 0);
+                    setRegistration((prev) => ({
+                      ...prev,
+                      share_holder: {
+                        ...prev.share_holder,
+                        hight_nationalities: {
+                          ...prev.share_holder.hight_nationalities,
+                          percentage:
+                            +e.target.value > max ? max : +e.target.value,
                         },
-                      });
-                    } else {
-                      const Max =
-                        100 -
-                        (isNaN(other_nationalities) ? 0 : other_nationalities);
-                      setRegistration({
-                        ...registration,
-                        share_holder: {
-                          ...registration.share_holder,
-                          hight_nationalities: {
-                            ...registration.share_holder.hight_nationalities,
-                            percentage:
-                              e.target.valueAsNumber > Max
-                                ? Max
-                                : e.target.valueAsNumber,
-                          },
-                        },
-                      });
-                    }
+                      },
+                    }));
                   }}
+                  value={hight_nationalities?.percentage || ""}
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -135,7 +102,12 @@ const ShareholderInformationForm: FC = () => {
               <p className="text-sm text-red-500">*</p>
             </div>
           </div>
-          <div className="grid w-full grid-cols-10 items-center gap-2">
+          <div
+            className={cn(
+              "grid w-full grid-cols-10 items-center gap-2",
+              hight_nationalities?.nationalities === "TH" ? "hidden" : "",
+            )}
+          >
             <div className="col-span-4 flex justify-end">
               <h3 className="text-sm">สัญชาติไทย</h3>
             </div>
@@ -144,34 +116,23 @@ const ShareholderInformationForm: FC = () => {
                 <Input
                   type="number"
                   placeholder="กรอกสัดส่วนผู้ถือหุ้น"
-                  className="text-sm"
-                  value={thai_nationalities}
-                  disabled={
-                    registration?.share_holder?.hight_nationalities
-                      ?.nationalities == "ไทย" ||
-                    hight_nationalities?.percentage >= 100
-                  }
+                  className={cn("text-sm")}
                   onChange={(e) => {
-                    if (
-                      registration?.share_holder?.hight_nationalities
-                        ?.nationalities != "ไทย"
-                    ) {
-                      const Max =
-                        100 -
-                        hight_nationalities?.percentage -
-                        (isNaN(other_nationalities) ? 0 : other_nationalities);
-                      setRegistration({
-                        ...registration,
-                        share_holder: {
-                          ...registration.share_holder,
-                          thai_nationalities:
-                            e.target.valueAsNumber > Max
-                              ? Max
-                              : e.target.valueAsNumber,
-                        },
-                      });
-                    }
+                    if (+e.target.value > 100) return;
+                    const max =
+                      100 -
+                      (hight_nationalities?.percentage || 0) -
+                      (other_nationalities || 0);
+                    setRegistration((prev) => ({
+                      ...prev,
+                      share_holder: {
+                        ...prev.share_holder,
+                        thai_nationalities:
+                          +e.target.value > max ? max : +e.target.value,
+                      },
+                    }));
                   }}
+                  value={thai_nationalities || ""}
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -190,45 +151,26 @@ const ShareholderInformationForm: FC = () => {
                   type="number"
                   placeholder="กรอกสัดส่วนผู้ถือหุ้น"
                   className="text-sm"
-                  value={other_nationalities}
+                  disabled={
+                    hight_nationalities?.percentage === 100 ||
+                    thai_nationalities === 100 ||
+                    hight_nationalities?.percentage + thai_nationalities === 100
+                  }
                   onChange={(e) => {
-                    if (
-                      registration?.share_holder?.hight_nationalities
-                        ?.nationalities != "ไทย"
-                    ) {
-                      setRegistration({
-                        ...registration,
-                        share_holder: {
-                          ...registration.share_holder,
-                          other_nationalities:
-                            e.target.valueAsNumber >
-                            100 -
-                              hight_nationalities?.percentage -
-                              thai_nationalities
-                              ? 100 -
-                                hight_nationalities?.percentage -
-                                thai_nationalities
-                              : e.target.valueAsNumber,
-                        },
-                      });
-                    } else {
-                      const Max =
-                        100 -
-                        (isNaN(hight_nationalities?.percentage)
-                          ? 0
-                          : hight_nationalities?.percentage);
-                      setRegistration({
-                        ...registration,
-                        share_holder: {
-                          ...registration.share_holder,
-                          other_nationalities:
-                            e.target.valueAsNumber > Max
-                              ? Max
-                              : e.target.valueAsNumber,
-                        },
-                      });
-                    }
+                    const max =
+                      100 -
+                      (hight_nationalities?.percentage || 0) -
+                      (thai_nationalities || 0);
+                    setRegistration((prev) => ({
+                      ...prev,
+                      share_holder: {
+                        ...prev.share_holder,
+                        other_nationalities:
+                          +e.target.value > max ? max : +e.target.value,
+                      },
+                    }));
                   }}
+                  value={other_nationalities || ""}
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -249,10 +191,18 @@ const ShareholderInformationForm: FC = () => {
                   readOnly
                   className={cn(
                     "text-sm",
-                    total != 100 ? "border border-red-500" : "",
+                    hight_nationalities?.percentage +
+                      thai_nationalities +
+                      other_nationalities !==
+                      100
+                      ? "border border-red-500"
+                      : "",
                   )}
-                  // defaultValue={total}
-                  value={total}
+                  value={
+                    hight_nationalities?.percentage +
+                    thai_nationalities +
+                    other_nationalities
+                  }
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -260,10 +210,18 @@ const ShareholderInformationForm: FC = () => {
             <div
               className={cn(
                 "col-span-2 flex items-center",
-                total !== 100 ? "justify-between" : "justify-end",
+                hight_nationalities?.percentage +
+                  thai_nationalities +
+                  other_nationalities !==
+                  100
+                  ? "justify-between"
+                  : "justify-end",
               )}
             >
-              {total !== 100 ? (
+              {hight_nationalities?.percentage +
+                thai_nationalities +
+                other_nationalities !==
+              100 ? (
                 <p className="text-xs text-red-500">
                   รวมสัดส่วนผู้ถือหุ้นไม่เท่ากับ 100% กรุณาตรวจสอบ อีกครั้ง
                 </p>

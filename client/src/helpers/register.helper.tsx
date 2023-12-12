@@ -83,7 +83,11 @@ export const ConditionalInput = (
             onChange={(e) => {
               handleOnChange(e);
             }}
-            value={value?.[item?.name as keyof TCompanyInformation]}
+            value={
+              value?.[item?.name as keyof TCompanyInformation] as
+                | string
+                | undefined
+            }
             disabled={item?.disabled}
           >
             {item?.options?.map((option, index) => (
@@ -105,7 +109,11 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={(e) => handleOnChange(e)}
-          value={value?.[item?.name as keyof TCompanyInformation]}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
           disabled={item?.disabled}
         />
       );
@@ -120,7 +128,11 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TCompanyInformation]}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
           disabled={item?.disabled}
         />
       );
@@ -135,7 +147,11 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TCompanyInformation]}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
           disabled={item?.disabled}
         />
       );
@@ -150,7 +166,11 @@ export const ConditionalInput = (
           className="text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TCompanyInformation]}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
           disabled={item?.disabled}
         />
       );
@@ -164,7 +184,11 @@ export const ConditionalInput = (
           className="max-h-[100px] text-sm"
           required={item?.required}
           onChange={handleOnChange}
-          value={value?.[item?.name as keyof TCompanyInformation]}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
           disabled={item?.disabled}
         />
       );

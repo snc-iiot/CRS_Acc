@@ -1,4 +1,4 @@
-export type IContractForm = {
+export type IContactForm = {
   id: string;
   group: string;
   fields: {

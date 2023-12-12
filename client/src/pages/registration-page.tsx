@@ -2,7 +2,7 @@ import { Icons } from "@/components/common/icons";
 import {
   CompanyInformationForm,
   ConsentForm,
-  ContractInformationForm,
+  ContactInformationForm,
   DocumentUploadForm,
   RelationshipInformationForm,
   ShareholderInformationForm,
@@ -18,7 +18,7 @@ import { FC, useEffect, useState } from "react";
 
 const RegistrationPage: FC = () => {
   const { registration } = useAtomStore();
-  console.table(registration.company_information);
+  console.log(registration.contact_person);
   const MODE = "register";
 
   const onSubmit = () => {
@@ -141,7 +141,7 @@ const RegistrationPage: FC = () => {
                   <ScrollArea className="h-0 flex-grow">
                     <CompanyInformationForm />
                     <ShareholderInformationForm />
-                    <ContractInformationForm />
+                    <ContactInformationForm />
                     <RelationshipInformationForm />
                     <StandardInformationForm />
                     <DocumentUploadForm />
