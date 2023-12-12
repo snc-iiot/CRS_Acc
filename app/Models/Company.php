@@ -43,7 +43,7 @@ class Company extends Model
         "standard",
         "relationship",
         "payment_term",
-        "create_at",
-        "update_at",
+        "created_at",
+        "updated_at",
     ];
 }

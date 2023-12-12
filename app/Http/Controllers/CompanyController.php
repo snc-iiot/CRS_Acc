@@ -6,6 +6,7 @@ use App\Http\Libraries\JWT\JWTUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
+use App\Models\Documents;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
@@ -14,6 +15,20 @@ class CompanyController extends Controller
     public function __construct()
     {
         $this->jwtUtils = new JWTUtils();
+    }
+
+
+    //!random Name
+    private function randomName(int $length = 10)
+    {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = \strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < $length; $i++) {
+            $n = \rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return \implode($pass); //turn the array into a string
     }
 
     //!Add Company
@@ -29,8 +44,10 @@ class CompanyController extends Controller
             ], 401);
             // $decoded = $jwt->decoded;
 
-            \date_default_timezone_set('Asia/Bangkok');
-            $now = new \DateTime();
+            // \date_default_timezone_set('Asia/Bangkok');
+            // $now = new \DateTime();
+            // $datetime = date('Y-m-d H:i:s');
+            // $path = \getcwd() . "\\..\\..\\docs\\pdf\\";
 
 
             $rules = [
@@ -46,6 +63,8 @@ class CompanyController extends Controller
                 'company_information.juristic_id' => 'required|string',
                 'company_information.website' => 'required|string|url',
                 'company_information.nature_of_business' => 'required|string',
+                'company_information.company_registration.is_thai_registration' => 'required|boolean',
+                'company_information.company_registration.registration_country' => 'required|string',
 
                 'share_holder.hight_nationalities.nationalities' => 'required|string',
                 'share_holder.hight_nationalities.percentage' => 'required|integer|min:0|max:100',
@@ -71,17 +90,18 @@ class CompanyController extends Controller
                 'standard.benefit.*.is_checked' => 'required|boolean',
                 'standard.benefit.*.value' => 'required|string',
                 'standard.benefit.*.exp' => 'required|string',
+
                 'payment_term.credit_term.name' => 'required|string',
                 'payment_term.credit_term.value' => 'required|integer',
                 'payment_term.billing_term.name' => 'required|string',
                 'payment_term.billing_term.value' => 'required|string',
                 'payment_term.currency' => 'required|string',
                 'payment_term.incoterm' => 'required|string',
-                'payment_term.L/C_term.is_L/C' => 'required|boolean',
-                'payment_term.L/C_term.L/C_type' => 'required|string',
-                'payment_term.*.delivery_term.*.label_th' => 'required|string',
-                'payment_term.*.delivery_term.*.label_en' => 'required|string',
-                'payment_term.*.delivery_term.*.is_checked' => 'required|boolean',
+                'payment_term.LC_term.is_LC' => 'required|boolean',
+                'payment_term.LC_term.LC_type' => 'required|string',
+                'payment_term.delivery_term.*.label_th' => 'required|string',
+                'payment_term.delivery_term.*.label_en' => 'required|string',
+                'payment_term.delivery_term.*.is_checked' => 'required|boolean',
                 'payment_term.deposit_term.is_deposit' => 'required|boolean',
                 'payment_term.deposit_term.deposit_type' => 'required|string',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
@@ -97,35 +117,8 @@ class CompanyController extends Controller
 
 
             $validator = Validator::make($request->all(), $rules);
-            if ($validator->passes()) {
-                $company_information = json_encode($request->company_information);
-                $share_holder = json_encode($request->share_holder);
-                $contact_person = json_encode($request->contact_person);
-                $standard = json_encode($request->standard);
-                $relationship = json_encode($request->relationship);
-                $payment_term = json_encode($request->payment_term);
 
-                $result = Company::insert([
-                    "company_information" => $company_information,
-                    "share_holder" => $share_holder,
-                    "contact_person" => $contact_person,
-                    "standard" => $standard,
-                    "relationship" => $relationship,
-                    "payment_term" => $payment_term,
-                    "create_at" => $now,
-                    "update_at" => $now
-                ]);
-
-                return response()->json([
-                    "status" => 'success',
-                    "message" => "Added company successfully",
-                    "data" => [
-                        [
-                            "result" => $result
-                        ]
-                    ],
-                ]);
-            } else {
+            if ($validator->fails()) {
                 return response()->json([
                     "status" => "error",
                     "message" => "Bad request",
@@ -136,6 +129,33 @@ class CompanyController extends Controller
                     ]
                 ], 400);
             }
+
+            $company_information = json_encode($request->company_information);
+            $share_holder = json_encode($request->share_holder);
+            $contact_person = json_encode($request->contact_person);
+            $standard = json_encode($request->standard);
+            $relationship = json_encode($request->relationship);
+            $payment_term = json_encode($request->payment_term);
+
+            // $result = Company::insert([
+            $result = DB::table("dev_company_informations")->insert([
+                "company_information"   => $company_information,
+                "share_holder"          => $share_holder,
+                "contact_person"        => $contact_person,
+                "standard"              => $standard,
+                "relationship"          => $relationship,
+                "payment_term"          => $payment_term,
+            ]);
+
+            return response()->json([
+                "status" => 'success',
+                "message" => "Added company successfully",
+                "data" => [
+                    [
+                        "result" => $result
+                    ]
+                ],
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
@@ -144,7 +164,6 @@ class CompanyController extends Controller
             ], 500);
         }
     }
-
 
     //!company_list
     function companyList(Request $request)
@@ -222,9 +241,7 @@ class CompanyController extends Controller
             return response()->json([
                 "status" => "success",
                 "message" => "data output success",
-                "data" => [
-                    "data" => $data
-                ]
+                "data" => $data
             ]);
         } catch (\Exception $e) {
             return response()->json([

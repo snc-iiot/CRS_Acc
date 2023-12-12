@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CompanyController;
-// use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\HomePageController;
 use App\Models\Company;
 
 /*
@@ -33,9 +33,9 @@ Route::prefix('user')->controller(LoginController::class)->group(function () {
     // Test
 });
 
-// Route::prefix('iCRS')->controller(HomePageController::class)->group(function () {
-//     Route::post('/home', '');
-// });
+Route::prefix('home')->controller(HomePageController::class)->group(function () {
+    Route::get('/', 'index');
+});
 
 Route::prefix('company')->controller(CompanyController::class)->group(function () {
     //     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
