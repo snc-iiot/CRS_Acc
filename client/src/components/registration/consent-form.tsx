@@ -83,8 +83,8 @@ const ConsentForm: FC = () => {
         <div className="col-span-8 flex flex-col space-y-2">
           <p className="text-sm">
             <strong className="font-semibold">หมายเหตุ:</strong>{" "}
-            หลังจากที่ท่านกด "ยืนยันการขึ้นทะเบียน" เรียบร้อยแล้ว
-            ท่านสามารถติดตามผลการขึ้นทะเบียนได้ Email ที่ท่านได้ลงทะเบียนไว้
+            หลังจากที่ท่านกด "ลงทะเบียน" เรียบร้อยแล้ว
+            ท่านสามารถติดตามผลการได้ผ่าน Email ที่ท่านได้ลงทะเบียนไว้
           </p>
         </div>
       </div>

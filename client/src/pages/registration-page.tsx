@@ -18,7 +18,7 @@ import { FC, useEffect, useState } from "react";
 
 const RegistrationPage: FC = () => {
   const { registration } = useAtomStore();
-  console.log(registration.contact_person);
+  console.log(registration.payment_term);
   const MODE = "register";
 
   const onSubmit = () => {

@@ -89,7 +89,7 @@ export type TPaymentTerm = {
 
 export type TCreditTerm = {
   name: string;
-  value: number;
+  value: string;
 };
 
 export type TBillingTerm = {

@@ -53,6 +53,7 @@ const ShareholderInformationForm: FC = () => {
                     }));
                   }}
                   value={hight_nationalities?.nationalities}
+                  required
                 >
                   {countryList?.map((item, i) => (
                     <option key={i} value={item?.alpha2}>
@@ -94,6 +95,7 @@ const ShareholderInformationForm: FC = () => {
                     }));
                   }}
                   value={hight_nationalities?.percentage || ""}
+                  required
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -133,6 +135,7 @@ const ShareholderInformationForm: FC = () => {
                     }));
                   }}
                   value={thai_nationalities || ""}
+                  required
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -171,6 +174,7 @@ const ShareholderInformationForm: FC = () => {
                     }));
                   }}
                   value={other_nationalities || ""}
+                  required
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -203,6 +207,7 @@ const ShareholderInformationForm: FC = () => {
                     thai_nationalities +
                     other_nationalities
                   }
+                  required
                 />
                 <InputRightAddon children="%" />
               </InputGroup>

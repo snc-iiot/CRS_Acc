@@ -38,6 +38,7 @@ const RelationshipInformationForm: FC = () => {
                     },
                   }));
                 }}
+                required
               >
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center space-x-2">
@@ -66,6 +67,7 @@ const RelationshipInformationForm: FC = () => {
                         },
                       }));
                     }}
+                    required={registration?.relationship?.is_relationship}
                   />
                 </div>
                 <div className="flex items-center space-x-2">

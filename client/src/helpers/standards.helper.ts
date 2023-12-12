@@ -131,12 +131,19 @@ export const CertificationStandards = [
     isOption: false,
     options: [],
   },
+  // {
+  //   id: 16,
+  //   name: "gi",
+  //   label: "การรับรองอุตสาหกรรมสีเขียว (GI)",
+  //   isOption: true,
+  //   options: [{ id: 1, label: "ระดับที่ื 1" }],
+  // },
   {
     id: 16,
-    name: "gi",
-    label: "การรับรองอุตสาหกรรมสีเขียว (GI)",
-    isOption: true,
-    options: [{ id: 1, label: "ระดับที่ื 1" }],
+    name: "other",
+    label: "อื่นๆ",
+    isOption: false,
+    options: [],
   },
   {
     id: 17,
@@ -163,6 +170,12 @@ export const BenefitsStandards = [
   {
     id: "j_tepa",
     label: "JTEPA",
+    isOption: false,
+    options: [],
+  },
+  {
+    id: "other-benefit",
+    label: "อื่นๆ",
     isOption: false,
     options: [],
   },
@@ -208,5 +221,23 @@ export const MainCustomerOfCompany = [
   {
     label: "ต่างประเทศ",
     name: "foreign",
+  },
+];
+
+export const DeliveryTerms = [
+  {
+    label: "SNC เป็นผู้ขนส่งสินค้า",
+    label_en: "SNC is a freight forwarder",
+    value: "SNC เป็นผู้ขนส่งสินค้า",
+  },
+  {
+    label: "ผู้รับ (Customer) เป็นผู้ขนส่งสินค้า",
+    label_en: "The recipient (Customer) is the person who transports the goods",
+    value: "ผู้รับ (Customer) เป็นผู้ขนส่งสินค้า",
+  },
+  {
+    label: "ผู้รับ (Customer) จ้างขนส่งภายนอก",
+    label_en: "The recipient (Customer) hires outside transportation",
+    value: "ผู้รับ (Customer) จ้างขนส่งภายนอก",
   },
 ];

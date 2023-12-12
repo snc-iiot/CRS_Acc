@@ -76,7 +76,7 @@ export const registrationAtom = atom<TRegistrationForm>({
   payment_term: {
     credit_term: {
       name: "",
-      value: 0,
+      value: "",
     },
     billing_term: {
       name: "",

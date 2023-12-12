@@ -58,7 +58,7 @@ export const Sections: {
   },
   {
     id: "consent-form",
-    title: "แบบฟอร์มยินยอม / Consent Form",
+    title: "ศึกษาและให้ความยินยอม / Consent Form",
     description: "กรุณากรอกข้อมูลให้ครบถ้วน",
   },
 ];
@@ -134,7 +134,7 @@ export const ConditionalInput = (
               | undefined
           }
           disabled={item?.disabled}
-          pattern={item?.pattern}
+          pattern="^[0-9-+\s()]*$"
         />
       );
     }

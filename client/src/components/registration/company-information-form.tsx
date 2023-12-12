@@ -20,7 +20,10 @@ const CompanyInformationForm: FC = () => {
       ...prev,
       company_information: {
         ...prev.company_information,
-        [name]: value,
+        [name]:
+          e.target.type == "tel"
+            ? value.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")
+            : value,
       },
     }));
   };

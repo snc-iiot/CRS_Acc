@@ -15,7 +15,7 @@ export const ContactInfo: IContactForm[] = [
         name: "name",
         label: "ชื่อนามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ นามสกุล",
         required: true,
       },
       {
@@ -30,7 +30,7 @@ export const ContactInfo: IContactForm[] = [
         name: "email",
         label: "อีเมล",
         type: "email",
-        placeholder: "กรอกอีเมล",
+        placeholder: "ชื่อ นามสกุล",
         required: true,
       },
     ],
@@ -43,7 +43,7 @@ export const ContactInfo: IContactForm[] = [
         name: "name",
         label: "ชื่อนามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ นามสกุล",
         required: true,
       },
       {
@@ -71,7 +71,7 @@ export const ContactInfo: IContactForm[] = [
         name: "name",
         label: "ชื่อนามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ นามสกุล",
         required: true,
       },
       {
@@ -99,7 +99,7 @@ export const ContactInfo: IContactForm[] = [
         name: "name",
         label: "ชื่อนามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ นามสกุล",
         required: true,
       },
       {
@@ -127,7 +127,7 @@ export const ContactInfo: IContactForm[] = [
         name: "name",
         label: "ชื่อนามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ นามสกุล",
         required: true,
       },
       {
