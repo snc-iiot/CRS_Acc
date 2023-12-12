@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CompanyController;
+use App\Models\Company;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,14 +31,14 @@ Route::prefix('iCRS')->controller(LoginController::class)->group(function () {
     Route::post('/login', 'login');
 });
 
-Route::prefix('iCRS')->controller(HomePageController::class)->group(function() {
+Route::prefix('iCRS')->controller(HomePageController::class)->group(function () {
     Route::post('/home', '');
 });
 
-Route::prefix('iCRS')->controller(DevicesController::class)->group(function () {
-//     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
+Route::prefix('iCRS')->controller(CompanyController::class)->group(function () {
+    //     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
     Route::post('/add-company', 'addCompany');
-    Route::put('/edit-device', 'editDevice');
-//     Route::delete('/delete-device/{id}', 'deleteDevice');
-//     Route::get('/get-all-devices', 'getAllDevices');
+    Route::get('/company-list', 'companyList');
+    Route::get('/business-type', 'businessType');
+    Route::get('/country-amount', 'countryAmount');
 });
