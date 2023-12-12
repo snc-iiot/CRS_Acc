@@ -27,7 +27,7 @@ Route::get('/', function () {
     return response()->json(["message" => "Welcome to iCRS API."]);
 });
 
-Route::prefix('iCRS')->controller(LoginController::class)->group(function () {
+Route::prefix('user')->controller(LoginController::class)->group(function () {
     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
     Route::post('/login', 'login');
 });
@@ -36,7 +36,7 @@ Route::prefix('iCRS')->controller(LoginController::class)->group(function () {
 //     Route::post('/home', '');
 // });
 
-Route::prefix('iCRS')->controller(CompanyController::class)->group(function () {
+Route::prefix('company')->controller(CompanyController::class)->group(function () {
     //     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
     Route::post('/add-company', 'addCompany');
     Route::get('/company-list', 'companyList');
