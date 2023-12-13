@@ -11,8 +11,10 @@
 // import CalculateRoa from "@/components/common/calculate-roa";
 import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
+import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import CountyList from "@/mock/county-list.json";
 import { FC, useId, useState } from "react";
 
 export const R1AdminInformation: FC = () => {
@@ -135,7 +137,10 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">4. เงื่อนไขการปรับราคา</h4>
+        <h4 className="whitespace-nowrap">
+          4. เงื่อนไขการปรับราคา
+          <RequiredTopic />
+        </h4>
         <div className="col-span-3">
           <div className="flex items-center gap-2">
             <select
@@ -466,7 +471,7 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">
-          8. ระยะทางในการขนส่งสินค้า / ค่าใช้จ่าย (บาท/เที่ยว)
+          8. ระยะทางในการขนส่งสินค้า / ค่าใช้จ่าย (บาท/เที่ยว) <RequiredTopic />
         </h4>
         <div className="col-span-4 pl-1">
           <div className="mb-1 flex items-center gap-x-1">
@@ -497,13 +502,23 @@ export const R1AdminInformation: FC = () => {
             >
               ขนส่งไปต่างประเทศ
             </label>
-            <input
+            {/* <input
               type="text"
               placeholder="โปรดระบุประเทศปลายทาง"
               className="ml-2 w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-            />
+            /> */}
+            <select className="ml-3 w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black">
+              <option value="">โปรดระบุประเทศปลายทาง</option>
+              {CountyList.sort((a) => {
+                if (a.alpha2 === "TH") return -1;
+                return 0;
+              }).map((info, i) => (
+                <option key={i} value={info.alpha2}>
+                  {info?.name}
+                </option>
+              ))}
+            </select>
           </div>
-
           <div className="pl-4">
             <div className="flex items-center gap-x-1">
               <p className="w-[7rem] whitespace-nowrap">ต้นทาง</p>

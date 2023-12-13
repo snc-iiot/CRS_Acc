@@ -53,6 +53,7 @@ const RegistrationInfo: FC = () => {
   const navigate = useNavigate();
   const [viewPage, setViewPage] = useState<string>("2");
   const [activeTab, setActiveTab] = useState<string>("R1");
+  const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
 
   const actionsTab = ["R1", "R2"];
   const mainActions = [
@@ -70,19 +71,19 @@ const RegistrationInfo: FC = () => {
 
   const TabList = [
     {
-      label: "General Assessment (R1)",
+      label: "(R1) General Assessment",
       value: "R1",
     },
     {
-      label: "Financial Report (R2)",
+      label: "(R2) DBD Financial Report",
       value: "R2",
     },
     {
-      label: "Financial Ratio Assessment (R3)",
+      label: " (R3) Financial Ratio Assessment",
       value: "R3",
     },
     {
-      label: "Overall Assessment (R4)",
+      label: "(R4) Overall Assessment",
       value: "R4",
     },
     // {
@@ -219,13 +220,26 @@ const RegistrationInfo: FC = () => {
                 viewPage == "R" ? "hidden delay-500" : "block",
               )}
             >
-              <h3 className="text-md font-bold">
-                รายละเอียดบริษัทลูกค้า / Customer Details
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-md font-bold">
+                  รายละเอียดบริษัทลูกค้า / Customer Details
+                </h3>
+                <h3
+                  className="cursor-pointer text-sm text-primary hover:underline"
+                  onClick={() => setIsOpenAccordion(!isOpenAccordion)}
+                >
+                  {isOpenAccordion ? "Collapse" : "Explode"}
+                </h3>
+              </div>
+
               <Accordion
                 type="multiple"
                 className="mb-[3rem]"
-                // defaultValue={leftAccordionList?.map((item) => item?.topic)}
+                value={
+                  isOpenAccordion
+                    ? leftAccordionList?.map((item) => item?.topic)
+                    : []
+                }
               >
                 {leftAccordionList?.map((item, i) => (
                   <AccordionItem value={item?.topic} key={i}>

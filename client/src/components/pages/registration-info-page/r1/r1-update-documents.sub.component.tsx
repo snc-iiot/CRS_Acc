@@ -1,12 +1,12 @@
 import { Icons } from "@/components/common/icons";
+import RequiredTopic from "@/components/common/required-topic";
 import { UploadFile } from "@/hooks/upload-file";
 import { ChangeEvent, FC, Fragment } from "react";
 
 export const R1UpdateDocuments: FC = () => {
   const documentsInformation: { label: string; link: string }[] = [
     { label: "BOM + Process", link: "" },
-    { label: "โครงสร้างราคา (Breakdown)", link: "" },
-    { label: "โครงสร้างราคา", link: "" },
+    { label: "โครงสร้างราคา (Breakdown) ", link: "" },
     { label: "ใบเสนอราคาและเงื่อนไขการปรับราคา", link: "" },
     { label: "เอกสารอื่นๆ 1", link: "" },
     { label: "เอกสารอื่นๆ 2", link: "" },
@@ -28,7 +28,7 @@ export const R1UpdateDocuments: FC = () => {
               className="grid w-[80%] grid-cols-7 items-center gap-x-1"
             >
               <p className="col-span-3 overflow-x-hidden whitespace-nowrap">
-                {i + 1}. {item?.label}{" "}
+                {i + 1}. {item?.label} {i == 0 ? <RequiredTopic /> : null}
                 {Array(100)
                   .fill(0)
                   .map(() => "........")
@@ -36,7 +36,7 @@ export const R1UpdateDocuments: FC = () => {
               </p>
               <div className="flex items-center gap-x-1">
                 <div
-                  className="text-righ mr-2 flex cursor-pointer items-center gap-x-0.5 whitespace-nowrap text-primary hover:underline"
+                  className="mr-2 flex cursor-pointer items-center gap-x-0.5 whitespace-nowrap text-right text-primary hover:underline"
                   onClick={() =>
                     window.open(
                       "https://snc-services.sncformer.com/ivrs/docs/pdf/flow-iVRS2.pdf",
