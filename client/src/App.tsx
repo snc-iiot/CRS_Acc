@@ -4,8 +4,8 @@ import { NotFoundPage, RegistationPage } from "./pages";
 
 const App = () => {
   return (
-    // <BrowserRouter basename="/icrs/customer">
-    <BrowserRouter>
+    <BrowserRouter basename="/icrs/customer">
+      {/* <BrowserRouter> */}
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<RegistationPage />} />

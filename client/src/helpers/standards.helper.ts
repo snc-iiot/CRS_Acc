@@ -6,13 +6,7 @@ export const CertificationStandards = [
     isOption: false,
     options: [],
   },
-  {
-    id: 2,
-    name: "tif-18001-1999",
-    label: "TIS 18001:1999",
-    isOption: false,
-    options: [],
-  },
+  
   {
     id: 3,
     name: "iso-14001-2015",
@@ -45,6 +39,13 @@ export const CertificationStandards = [
     id: 7,
     name: "iso-14001",
     label: "OHSAS 18001:2007",
+    isOption: false,
+    options: [],
+  },
+  {
+    id: 2,
+    name: "tif-18001-1999",
+    label: "TIS 18001:1999",
     isOption: false,
     options: [],
   },
