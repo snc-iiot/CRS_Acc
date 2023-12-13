@@ -46,7 +46,7 @@ const CustomerRegistrations: FC = () => {
         <div className="flex items-center gap-x-1">
           <Button
             className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]"
-            onClick={() => navigate("/registration")}
+            onClick={() => navigate("/registrations/customer")}
           >
             <span>ลงทะเบียนลูกค้าใหม่</span>
             <Icons.plus className="h-8 w-8 font-bold" />
@@ -181,7 +181,10 @@ const CustomerRegistrations: FC = () => {
                     </Td>
                     <Td>
                       <Link
-                        to={"/registration-info?RegisID=" + item?.RegisID}
+                        to={
+                          "/registrations/customer/info?RegisID=" +
+                          item?.RegisID
+                        }
                         className="flex items-center gap-x-1 text-primary hover:underline"
                       >
                         <Icons.eye className="h-4 w-4" /> <span>ดูละเอียด</span>

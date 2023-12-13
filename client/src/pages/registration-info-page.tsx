@@ -228,7 +228,7 @@ const RegistrationInfo: FC = () => {
                   className="cursor-pointer text-sm text-primary hover:underline"
                   onClick={() => setIsOpenAccordion(!isOpenAccordion)}
                 >
-                  {isOpenAccordion ? "Collapse" : "Explode"}
+                  {isOpenAccordion ? "Collapse" : "Expand"}
                 </h3>
               </div>
 

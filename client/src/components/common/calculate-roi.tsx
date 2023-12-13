@@ -2,6 +2,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { FC, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Icons } from "./icons";
 
 interface CalculateRoiProps {
   totalInvestment?: number;
@@ -29,7 +30,9 @@ const CalculateRoi: FC<CalculateRoiProps> = ({
 
   return (
     <Sheet>
-      <SheetTrigger>Auto</SheetTrigger>
+      <SheetTrigger asChild className="cursor-pointer text-primary">
+        <Icons.calculator className="h-4 w-4" />
+      </SheetTrigger>
       <SheetContent className="w-[30vw] sm:max-w-none" side="right">
         <main className="flex h-full w-full flex-col gap-2">
           <section>

@@ -7,12 +7,13 @@
 // } from "@/components/ui/input-custom";
 // import { Input } from "@/components/ui/input";
 // import { Select } from "@/components/ui/select-custom";
-// import CalculatePlayback from "@/components/common/calculate-playback";
-// import CalculateRoa from "@/components/common/calculate-roa";
+import CalculatePlayback from "@/components/common/calculate-playback";
+import CalculateRoa from "@/components/common/calculate-roa";
 import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
+import { LatitudesLongitudes } from "@/helpers/common.helper";
 import { cn } from "@/lib/utils";
 import CountyList from "@/mock/county-list.json";
 import { FC, useId, useState } from "react";
@@ -212,7 +213,7 @@ export const R1AdminInformation: FC = () => {
           <div className={mcAddInvert ? "pl-4" : "hidden"}>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">จำนวนเงินลงทุน</p>
-              <div className="col-span-3 flex items-center gap-2" />
+              {/* <div className="col-span-3 flex items-center gap-2" /> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -224,7 +225,7 @@ export const R1AdminInformation: FC = () => {
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROI</p>
-              <div className="col-span-3 flex items-center gap-2">
+              {/* <div className="col-span-3 flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <input type="radio" name="roi" id="auto-roi" />
                   <label htmlFor="auto-roi">
@@ -235,7 +236,7 @@ export const R1AdminInformation: FC = () => {
                   <input type="radio" name="roi" id="manual-roi" />
                   <label htmlFor="manual-roi">manual</label>
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -244,10 +245,11 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
+              <CalculateRoi />
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
-              <div className="col-span-3 flex items-center gap-2">
+              {/* <div className="col-span-3 flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <input type="radio" name="roa" id="auto-roa" />
                   <label htmlFor="auto-roa">Auto</label>
@@ -256,7 +258,7 @@ export const R1AdminInformation: FC = () => {
                   <input type="radio" name="roa" id="manual-roa" />
                   <label htmlFor="manual-roa">manual</label>
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -265,10 +267,11 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
+              <CalculateRoa />
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
-              <div className="col-span-3 flex items-center gap-2">
+              {/* <div className="col-span-3 flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <input type="radio" name="payback" id="auto-payback" />
                   <label htmlFor="auto-payback">Auto</label>
@@ -277,7 +280,7 @@ export const R1AdminInformation: FC = () => {
                   <input type="radio" name="payback" id="manual-payback" />
                   <label htmlFor="manual-payback">manual</label>
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -286,6 +289,7 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>ปี</span>
               </div>
+              <CalculatePlayback />
             </div>
           </div>
         </div>
@@ -349,7 +353,7 @@ export const R1AdminInformation: FC = () => {
           <div className={moldAddInvert ? "pl-4" : "hidden"}>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">จำนวนเงินลงทุน</p>
-              <div className="col-span-3 flex items-center gap-2" />
+              {/* <div className="col-span-3 flex items-center gap-2" /> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -361,7 +365,7 @@ export const R1AdminInformation: FC = () => {
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROI</p>
-              <div className="col-span-3 flex items-center gap-2">
+              {/* <div className="col-span-3 flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <input type="radio" name="roi" id="auto-roi" />
                   <label htmlFor="auto-roi">Auto</label>
@@ -370,7 +374,7 @@ export const R1AdminInformation: FC = () => {
                   <input type="radio" name="roi" id="manual-roi" />
                   <label htmlFor="manual-roi">manual</label>
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -379,10 +383,11 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
+              <CalculateRoi />
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
-              <div className="col-span-3 flex items-center gap-2">
+              {/* <div className="col-span-3 flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <input type="radio" name="roa" id="auto-roa" />
                   <label htmlFor="auto-roa">Auto</label>
@@ -391,7 +396,7 @@ export const R1AdminInformation: FC = () => {
                   <input type="radio" name="roa" id="manual-roa" />
                   <label htmlFor="manual-roa">manual</label>
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -400,10 +405,11 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
+              <CalculateRoa />
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
-              <div className="col-span-3 flex items-center gap-2">
+              {/* <div className="col-span-3 flex items-center gap-2">
                 <div className="flex items-center gap-2">
                   <input type="radio" name="payback" id="auto-payback" />
                   <label htmlFor="auto-payback">Auto</label>
@@ -412,7 +418,7 @@ export const R1AdminInformation: FC = () => {
                   <input type="radio" name="payback" id="manual-payback" />
                   <label htmlFor="manual-payback">manual</label>
                 </div>
-              </div>
+              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
@@ -421,6 +427,7 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>ปี</span>
               </div>
+              <CalculatePlayback />
             </div>
           </div>
         </div>
@@ -526,6 +533,7 @@ export const R1AdminInformation: FC = () => {
                 type="text"
                 placeholder="โปรดระบุ ละติจูด,ลองจิจูด"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+                defaultValue={`${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`}
               />
               <span className="flex items-center gap-x-1">GPS</span>
               <button
@@ -533,7 +541,7 @@ export const R1AdminInformation: FC = () => {
                 className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
                 onClick={() =>
                   window.open(
-                    "https://www.google.com/maps/place/12.884426690936518,101.09545134163946",
+                    `https://www.google.com/maps/place/${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`,
                   )
                 }
               >

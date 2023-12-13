@@ -93,7 +93,9 @@ const CalculatePlayback: FC = () => {
 
   return (
     <Sheet>
-      <SheetTrigger className="text-primary">Auto</SheetTrigger>
+      <SheetTrigger className="text-primary" asChild>
+        <Icons.calculator className="h-4 w-4" />
+      </SheetTrigger>
       <SheetContent className="w-[30vw] sm:max-w-none" side="right">
         <main className="flex h-full w-full flex-col gap-2">
           <section>

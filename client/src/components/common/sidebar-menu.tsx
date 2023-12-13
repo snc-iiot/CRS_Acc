@@ -10,48 +10,6 @@ import { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Icons } from "./icons";
 
-// export const workspaceLinks = () => [
-//   {
-//     Icon: <Icons.layoutGrid className="h-5 w-5" />,
-//     name: "หน้าหลัก",
-//     href: `/`,
-//     disabled: false,
-//   },
-//   {
-//     Icon: <Icons.fileText className="h-5 w-5" />,
-//     name: "รายการลงทะเบียน",
-//     href: `/registrations`,
-//     disabled: false,
-//   },
-//   {
-//     Icon: <Icons.fileText className="h-5 w-5" />,
-//     name: "ลงทะเบียนลูกค้า",
-//     href: `/customer-registration`,
-//     disabled: false,
-//   },
-//   // {
-//   //   Icon: <Icons.checkCircle className="h-5 w-5" />,
-//   //   name: "Customers",
-//   //   href: `/customers`,
-//   //   disabled: false,
-//   // },
-//   // {
-//   //   Icon: <Icons.shoppingCart className="h-5 w-5" />,
-//   //   name: "Products",
-//   //   href: `/products`,
-//   // },
-//   // {
-//   //   Icon: <Icons.users className="h-5 w-5" />,
-//   //   name: "Authorized",
-//   //   href: `/authorized`,
-//   // },
-//   // {
-//   //   Icon: <Icons.settings className="h-5 w-5" />,
-//   //   name: "Settings",
-//   //   href: `/settings`,
-//   // },
-// ];
-
 export type WorkspaceSidebarMenuProps = {
   isOpen: boolean;
 };
@@ -71,24 +29,22 @@ export const WorkspaceSidebarMenu: React.FC<WorkspaceSidebarMenuProps> = ({
     {
       Icon: <Icons.fileText className="h-5 w-5" />,
       name: "รายการลงทะเบียนลูกค้า",
-      href: `/customer-registrations`,
+      href: `/registrations`,
       disabled: false,
     },
-    {
-      Icon: <Icons.settings className="h-5 w-5" />,
-      name: "ตั้งค่า",
-      href: `/settings`,
-      disabled: false,
-    },
+    // {
+    //   Icon: <Icons.settings className="h-5 w-5" />,
+    //   name: "ตั้งค่า",
+    //   href: `/settings`,
+    //   disabled: false,
+    // },
   ];
 
   return (
     <div className="mt-5 w-full cursor-pointer space-y-2 px-2">
       {workspaceLinks.map((link, index) => {
         const isActive =
-          link.href === "/settings" ||
-          link.href === "/customer-registrations" ||
-          link.href === "/registration"
+          link.href === "/settings" || link.href === "/registrations"
             ? pathname.includes(link.href)
             : pathname === link.href;
 

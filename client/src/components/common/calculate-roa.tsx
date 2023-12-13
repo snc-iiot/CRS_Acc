@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { FC, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Icons } from "./icons";
 
 const CalculateRoi: FC = () => {
   const [netIncome, setNetIncome] = useState<number>(0);
@@ -20,7 +21,9 @@ const CalculateRoi: FC = () => {
 
   return (
     <Sheet>
-      <SheetTrigger className="text-primary">Auto</SheetTrigger>
+      <SheetTrigger asChild className="text-primary cursor-pointer">
+        <Icons.calculator className="h-4 w-4" />
+      </SheetTrigger>
       <SheetContent className="w-[30vw] sm:max-w-none" side="right">
         <main className="flex h-full w-full flex-col gap-2">
           <section>

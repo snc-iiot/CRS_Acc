@@ -64,7 +64,7 @@ const R3Form: FC = () => {
           </TableHeader>
           {data.map((item, index) => (
             <TableBody key={index}>
-              <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
+              <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-secondary hover:text-secondary-foreground">
                 <TableCell
                   className="border font-bold"
                   colSpan={item?.data[0]?.current.length + 2}
@@ -74,7 +74,7 @@ const R3Form: FC = () => {
               </TableRow>
               {item.data.map((data, j) => (
                 <TableRow
-                  className="text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                  className="text-xs hover:cursor-pointer hover:bg-secondary hover:text-secondary-foreground"
                   key={j}
                 >
                   <TableCell className="border">{data.list_name}</TableCell>
@@ -88,6 +88,12 @@ const R3Form: FC = () => {
                         "border text-end",
                         data?.year === new Date().getFullYear()
                           ? "bg-secondary font-bold text-secondary-foreground"
+                          : "",
+                        data?.value < 0
+                          ? "text-red-500"
+                          : data?.value > 0 &&
+                            data.year !== new Date().getFullYear()
+                          ? "font-semibold text-green-500"
                           : "",
                       )}
                     >
