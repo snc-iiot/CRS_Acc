@@ -54,6 +54,7 @@ const RegistrationInfo: FC = () => {
   const [viewPage, setViewPage] = useState<string>("2");
   const [activeTab, setActiveTab] = useState<string>("R1");
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
+  const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
 
   const actionsTab = ["R1", "R2"];
   const mainActions = [
@@ -226,24 +227,50 @@ const RegistrationInfo: FC = () => {
                 </h3>
                 <h3
                   className="cursor-pointer text-sm text-primary hover:underline"
-                  onClick={() => setIsOpenAccordion(!isOpenAccordion)}
+                  onClick={() => {
+                    setIsOpenAccordion(!isOpenAccordion);
+                    if (isOpenAccordion) {
+                      setActiveAccordion([]);
+                    } else {
+                      setActiveAccordion(
+                        leftAccordionList?.map((item) => item?.topic),
+                      );
+                    }
+                  }}
                 >
-                  {isOpenAccordion ? "Collapse" : "Expand"}
+                  {leftAccordionList?.filter((item) =>
+                    activeAccordion.includes(item?.topic),
+                  )?.length > 0 && isOpenAccordion
+                    ? "Collapse"
+                    : leftAccordionList?.filter((item) =>
+                        activeAccordion.includes(item?.topic),
+                      )?.length > 0 && !isOpenAccordion
+                    ? "Expand"
+                    : "Expand"}
                 </h3>
               </div>
 
               <Accordion
                 type="multiple"
                 className="mb-[3rem]"
-                value={
-                  isOpenAccordion
-                    ? leftAccordionList?.map((item) => item?.topic)
-                    : []
-                }
+                value={activeAccordion}
               >
                 {leftAccordionList?.map((item, i) => (
                   <AccordionItem value={item?.topic} key={i}>
-                    <AccordionTrigger className="py-1 text-xs font-bold">
+                    <AccordionTrigger
+                      className="py-1 text-xs font-bold"
+                      onClick={() => {
+                        if (activeAccordion.includes(item?.topic)) {
+                          setActiveAccordion(
+                            activeAccordion.filter(
+                              (topic) => topic !== item?.topic,
+                            ),
+                          );
+                        } else {
+                          setActiveAccordion([...activeAccordion, item?.topic]);
+                        }
+                      }}
+                    >
                       {i + 1}. {item?.title}
                     </AccordionTrigger>
                     <AccordionContent>{item?.content}</AccordionContent>
