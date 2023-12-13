@@ -5,8 +5,9 @@ import { ChangeEvent, FC, Fragment } from "react";
 export const R1UpdateDocuments: FC = () => {
   const documentsInformation: { label: string; link: string }[] = [
     { label: "BOM + Process", link: "" },
+    { label: "โครงสร้างราคา (Breakdown)", link: "" },
     { label: "โครงสร้างราคา", link: "" },
-    { label: "เงื่อนไขการปรับราคา", link: "" },
+    { label: "ใบเสนอราคาและเงื่อนไขการปรับราคา", link: "" },
     { label: "เอกสารอื่นๆ 1", link: "" },
     { label: "เอกสารอื่นๆ 2", link: "" },
     { label: "เอกสารอื่นๆ 3", link: "" },

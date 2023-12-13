@@ -420,7 +420,10 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">7. วัตถุดิบหลักในการผลิตสินค้า</h4>
+        <h4 className="whitespace-nowrap">
+          7. วัตถุดิบหลักในการผลิตสินค้า{" "}
+          <span>(สามารถเลือกได้มากกว่า 1 ข้อ)</span>
+        </h4>
         <div className="col-span-4 select-none pl-1">
           <div className="grid grid-cols-3">
             {materialsProduce?.slice(0, -1)?.map((item, i) => (
@@ -799,7 +802,7 @@ export const R1AdminInformation: FC = () => {
             <span>%</span>
           </div>
           <div className="flex items-center gap-x-1">
-            <p className="w-[12rem] whitespace-nowrap">COGs - RM</p>
+            <p className="w-[12rem] whitespace-nowrap">COGs</p>
             <input
               type="number"
               placeholder="โปรดระบุ"

@@ -13,11 +13,11 @@ interface TableAssessmentSummaryProps {
   TableHeaderText: string[];
   data: {
     Topic: string;
-    Score: 10 | 8 | 5 | 0;
+    Score: number;
   }[];
   Header?: string;
   className?: string;
-  activeScore?: 10 | 8 | 5 | 0;
+  activeScore?: number;
   activeOnly?: boolean;
 }
 
@@ -29,10 +29,7 @@ const TableAssessmentSummary: FC<TableAssessmentSummaryProps> = ({
   activeScore = 10,
   // activeOnly = false,
 }) => {
-  const getScoreColor = (
-    activeScore: 10 | 8 | 5 | 0,
-    score: 10 | 8 | 5 | 0 = 10,
-  ) => {
+  const getScoreColor = (activeScore: number, score: number) => {
     if (activeScore === score && score === 10) {
       return "text-green-600 hover:text-green-700 font-bold";
     } else if (activeScore === score && score === 8) {

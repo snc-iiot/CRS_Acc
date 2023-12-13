@@ -18,7 +18,7 @@ const AssessmentDetailsSection: FC = () => {
     section_2: ["ออร์เดอร์ / ปี (Order/Year)", "กำไรสุทธิ (EAT)"],
     section_3: [
       "เครดิตเทอมการจ่ายเงินของลูกค้า (Customer's Credit Term)",
-      "เครดิตเทอมการจ่ายเงิoนซัพพลายเออร์(Suplier's Credit Term)",
+      "เครดิตเทอมการจ่ายเงินซัพพลายเออร์(Suplier's Credit Term)",
       "ระยะสินค้าคงคลัง (Inventory Day)",
     ],
     section_4: [
@@ -29,24 +29,61 @@ const AssessmentDetailsSection: FC = () => {
     ],
   };
 
+  const NewDetail: {
+    label: string;
+    data: {
+      Topic: string;
+      Score: number;
+    }[];
+  }[] = [
+    {
+      label: "รายได้หลัก (Net Profit Margin)",
+      data: [
+        {
+          Topic: "> 5,000 MB/Year",
+          Score: 10,
+        },
+        {
+          Topic: "> 1,000 - 5,000MB/Year",
+          Score: 8,
+        },
+        {
+          Topic: "> 500 - 1,000MB/Year",
+          Score: 5,
+        },
+        {
+          Topic: "≤ 500 MB/Year",
+          Score: 0,
+        },
+      ],
+    },
+    {
+      label: "กำไรสุทธิ (EAT)",
+      data: [],
+    },
+    {
+      label: "อัตราส่วนหนี้สินต่อส่วนของผู้ถือหุ้น (D/E)",
+      data: [],
+    },
+    {
+      label: "อัตราส่วนผลตอบแทนต่อส่วนของผู้ถือหุ้น (ROE)",
+      data: [],
+    },
+  ];
+
   const AssessmentDetails = [
     {
       label: "1.1 รายได้และผลตอบแทนผู้ถือหุ้น (10/10 คะแนน)",
       component: (
         <div className="grid grid-cols-2 gap-2">
-          {Detail.section_1.map((info, index) => (
+          {NewDetail.map((info, index) => (
             <TableAssessmentSummary
               key={index}
-              Header={info}
+              Header={info.label}
               className="w-full gap-0"
               TableHeaderText={["หัวข้อ / เงื่อนไข / เกณฑ์", "คะแนน"]}
               activeScore={10}
-              data={[
-                { Topic: "", Score: 10 },
-                { Topic: "", Score: 8 },
-                { Topic: "", Score: 5 },
-                { Topic: "", Score: 0 },
-              ]}
+              data={info.data}
             />
           ))}
         </div>
