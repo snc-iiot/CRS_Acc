@@ -106,7 +106,7 @@ export type TDeliveryTerm = {
   cer_id: string;
   label_th: string;
   label_en: string;
-  is_checked: boolean;
+  is_checked: boolean | null;
 };
 
 export type TDepositTerm = {

@@ -90,11 +90,11 @@ export const registrationAtom = atom<TRegistrationForm>({
     },
     delivery_term: [],
     deposit_term: {
-      is_deposit: true,
+      is_deposit: false,
       deposit_type: "",
     },
     product_warranty: {
-      is_warranty: true,
+      is_warranty: false,
       value: "",
     },
     company_policy: [],

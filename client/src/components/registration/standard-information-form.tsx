@@ -16,7 +16,7 @@ import CountryList from "@/mocks/country-list-th.json";
 import CurrencyList from "@/mocks/currency-list.json";
 import IncotermList from "@/mocks/incoterm-list.json";
 import { TCountryList, TCurrency, TIncoterm } from "@/types";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Select } from "../ui/select-custom";
@@ -27,6 +27,8 @@ const StandardInformationForm: FC = () => {
   const currencyList: TCurrency[] = CurrencyList;
   const incotermList: TIncoterm[] = IncotermList;
   const countryList: TCountryList[] = CountryList;
+  const [depositType, setDepositType] = useState<string>("");
+  const [warranty, setWarranty] = useState<string>("");
 
   const CreditTerm = ["cash", "30", "60", "75", "90"];
 
@@ -836,7 +838,8 @@ const StandardInformationForm: FC = () => {
                       className="rounded-sm border px-2 py-[0.1rem] text-sm"
                       disabled={
                         registration?.company_information?.company_registration
-                          ?.is_thai
+                          ?.is_thai ||
+                        !registration?.payment_term?.lc_term?.is_lc
                       }
                       value={registration?.payment_term?.lc_term?.lc_type ?? ""}
                       onChange={(e) => {
@@ -963,7 +966,25 @@ const StandardInformationForm: FC = () => {
               </div>
               <div className="col-span-4 flex justify-start">
                 <RadioGroup
-                  defaultValue="option-one"
+                  value={
+                    registration?.payment_term?.deposit_term?.is_deposit
+                      ? "deposit"
+                      : "none-deposit"
+                  }
+                  required={isForeigner}
+                  onValueChange={(e) => {
+                    setRegistration((prev) => ({
+                      ...prev,
+                      payment_term: {
+                        ...prev.payment_term,
+                        deposit_term: {
+                          ...prev.payment_term?.deposit_term,
+                          is_deposit: e === "deposit",
+                          deposit_type: "",
+                        },
+                      },
+                    }));
+                  }}
                   className="flex w-full flex-col gap-1"
                   disabled={!isForeigner}
                 >
@@ -982,7 +1003,31 @@ const StandardInformationForm: FC = () => {
                     </div>
                     <select
                       className="rounded-sm border px-2 py-[0.1rem] text-sm"
-                      disabled={!isForeigner}
+                      disabled={
+                        !isForeigner ||
+                        !registration?.payment_term?.deposit_term?.is_deposit
+                      }
+                      required={
+                        registration?.payment_term?.deposit_term?.is_deposit &&
+                        isForeigner
+                      }
+                      value={depositType}
+                      onChange={(e) => {
+                        setDepositType(e.target.value);
+                        setRegistration((prev) => ({
+                          ...prev,
+                          payment_term: {
+                            ...prev.payment_term,
+                            deposit_term: {
+                              ...prev.payment_term?.deposit_term,
+                              deposit_type:
+                                e.target.value === "other"
+                                  ? ""
+                                  : e.target.value,
+                            },
+                          },
+                        }));
+                      }}
                     >
                       <option value="" className="text-sm">
                         โปรดเลือกเงื่อนไขการวางเงินมัดจำ
@@ -994,18 +1039,43 @@ const StandardInformationForm: FC = () => {
                       <option value="other">อื่นๆ</option>
                     </select>
                   </div>
-
                   <Input
                     type="text"
+                    className={cn(
+                      "w-full",
+                      depositType !== "other" ? "hidden" : "",
+                    )}
                     placeholder="โปรดระบุ"
                     variant="flushed"
                     disabled={!isForeigner}
+                    required={
+                      registration?.payment_term?.deposit_term?.is_deposit &&
+                      isForeigner
+                    }
+                    onChange={(e) => {
+                      setRegistration((prev) => ({
+                        ...prev,
+                        payment_term: {
+                          ...prev.payment_term,
+                          deposit_term: {
+                            ...prev.payment_term?.deposit_term,
+                            deposit_type: e.target.value,
+                          },
+                        },
+                      }));
+                    }}
+                    value={
+                      registration?.payment_term?.deposit_term?.deposit_type
+                    }
                   />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-deposit" id="none-deposit" />
                     <label
                       htmlFor="none-deposit"
-                      className="whitespace-nowrap text-sm font-medium"
+                      className={cn(
+                        "whitespace-nowrap text-sm font-medium",
+                        !isForeigner ? "opacity-50" : "",
+                      )}
                     >
                       ไม่มี
                     </label>
@@ -1024,8 +1094,25 @@ const StandardInformationForm: FC = () => {
               </div>
               <div className="col-span-4 flex justify-start">
                 <RadioGroup
-                  defaultValue="option-one"
+                  value={
+                    registration?.payment_term?.product_warranty?.is_warranty
+                      ? "warranty"
+                      : "none-warranty"
+                  }
                   className="flex w-full flex-col gap-1"
+                  onValueChange={(e) => {
+                    setWarranty("");
+                    setRegistration((prev) => ({
+                      ...prev,
+                      payment_term: {
+                        ...prev.payment_term,
+                        product_warranty: {
+                          is_warranty: e === "warranty",
+                          value: "",
+                        },
+                      },
+                    }));
+                  }}
                 >
                   <div className="item-center flex space-x-2">
                     <div className="flex items-center space-x-2">
@@ -1037,7 +1124,34 @@ const StandardInformationForm: FC = () => {
                         ต้องการ
                       </label>
                     </div>
-                    <select className="rounded-sm border px-2 py-[0.1rem] text-sm">
+                    <select
+                      className="rounded-sm border px-2 py-[0.1rem] text-sm"
+                      disabled={
+                        !registration?.payment_term?.product_warranty
+                          ?.is_warranty
+                      }
+                      required={
+                        registration?.payment_term?.product_warranty
+                          ?.is_warranty
+                      }
+                      value={warranty}
+                      onChange={(e) => {
+                        setWarranty(e.target.value);
+                        setRegistration((prev) => ({
+                          ...prev,
+                          payment_term: {
+                            ...prev.payment_term,
+                            product_warranty: {
+                              ...prev.payment_term?.product_warranty,
+                              value:
+                                e.target.value === "other"
+                                  ? ""
+                                  : e.target.value,
+                            },
+                          },
+                        }));
+                      }}
+                    >
                       <option value="" className="text-sm">
                         โปรดเลือกเงื่อนไขการรับประกันสินค้า
                       </option>
@@ -1052,6 +1166,29 @@ const StandardInformationForm: FC = () => {
                     type="text"
                     placeholder="โปรดระบุ ปี"
                     variant="flushed"
+                    className={cn(
+                      "w-full",
+                      warranty !== "other" ? "hidden" : "",
+                    )}
+                    disabled={
+                      !registration?.payment_term?.product_warranty?.is_warranty
+                    }
+                    required={
+                      registration?.payment_term?.product_warranty?.is_warranty
+                    }
+                    onChange={(e) => {
+                      setRegistration((prev) => ({
+                        ...prev,
+                        payment_term: {
+                          ...prev.payment_term,
+                          product_warranty: {
+                            ...prev.payment_term?.product_warranty,
+                            value: e.target.value,
+                          },
+                        },
+                      }));
+                    }}
+                    value={registration?.payment_term?.product_warranty?.value}
                   />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-warranty" id="none-warranty" />
