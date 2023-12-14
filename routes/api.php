@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\JsonTemplateController;
 use App\Models\Company;
 
 /*
@@ -26,18 +28,28 @@ Route::get('/', function () {
     return response()->json(["message" => "Welcome to iCRS API."]);
 });
 
-Route::prefix('iCRS')->controller(LoginController::class)->group(function () {
+Route::prefix('user')->controller(LoginController::class)->group(function () {
     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
     Route::post('/login', 'login');
+    // Test
 });
 
-Route::prefix('iCRS')->controller(HomePageController::class)->group(function () {
-    Route::post('/home', '');
+Route::prefix('home')->controller(HomePageController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/gen-uuid', 'generateUUIDV4');
 });
 
-Route::prefix('iCRS')->controller(CompanyController::class)->group(function () {
+Route::prefix('json-template')->controller(JsonTemplateController::class)->group(function () {
+    Route::get('/upload-documents', 'uploadDocumentsTemplate');
+});
+
+Route::prefix('company')->controller(CompanyController::class)->group(function () {
     //     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
+    Route::post('/create-regis-id', 'createRegisId');
+    Route::post('/upload-document', 'uploadDocument');
+    Route::post('/test-post', 'testPost');
     Route::post('/add-company', 'addCompany');
+    Route::post('/update-company', 'updateCompany');
     Route::get('/company-list', 'companyList');
     Route::get('/business-type', 'businessType');
     Route::get('/country-amount', 'countryAmount');

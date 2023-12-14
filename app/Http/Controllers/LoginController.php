@@ -63,7 +63,6 @@ class LoginController extends Controller
                 "data" => []
             ]);
 
-            // Check iNPM login
             $user = DB::table("dev_accounts")->where('username', $username)->take(1)->get();
             // return response()->json($user);
             // $user = Login::where('username', $username)->take(1)->get();
@@ -92,6 +91,7 @@ class LoginController extends Controller
             // return response()->json(["name" => $name->en, "type" => gettype($name->en)]);
             // return response()->json(["user" => $user[0]->username, "type" => gettype($user[0]->username)]);
             $payload = array(
+                "account_id" => $user[0]->account_id,
                 "username" => $username,
                 "name" => $name->en,
                 // "pass" => $pass[0] -> pass,

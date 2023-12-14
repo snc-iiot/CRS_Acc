@@ -4,14 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateFailedJobsTable extends Migration
 {
-    /**
-     * The database connection that should be used by the migration.
-     *
-     * @var string
-     */
-    protected $connection = 'pgsql';
     /**
      * Run the migrations.
      *
@@ -39,4 +33,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('failed_jobs');
     }
-};
+}
