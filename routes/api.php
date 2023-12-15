@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\JsonTemplateController;
+use App\Http\Controllers\AdminController;
 use App\Models\Company;
 
 /*
@@ -31,7 +32,6 @@ Route::get('/', function () {
 Route::prefix('user')->controller(LoginController::class)->group(function () {
     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
     Route::post('/login', 'login');
-    // Test
 });
 
 Route::prefix('home')->controller(HomePageController::class)->group(function () {
@@ -41,6 +41,10 @@ Route::prefix('home')->controller(HomePageController::class)->group(function () 
 
 Route::prefix('json-template')->controller(JsonTemplateController::class)->group(function () {
     Route::get('/upload-documents', 'uploadDocumentsTemplate');
+});
+
+Route::prefix('admin')->controller(AdminController::class)->group(function () {
+    Route::post('/company-detail', 'companyDetail');
 });
 
 Route::prefix('company')->controller(CompanyController::class)->group(function () {
