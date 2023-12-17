@@ -9,10 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { useProfile } from "@/hooks/use-profile";
 import { collapsedAtom } from "@/jotai/atom";
 import { cn } from "@/lib/utils";
 import { useAtom } from "jotai";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Icons } from "./icons";
 import { Header } from "./site-header";
@@ -20,12 +21,24 @@ import Sidebar from "./site-sidebar";
 import ThemeToggle from "./theme-toggle";
 
 const RootLayout: FC = () => {
+  const { setProfile } = useProfile();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useAtom(collapsedAtom);
 
   function resetAtom() {
     setCollapsed(false);
   }
+
+  useEffect(() => {
+    setProfile({
+      id: 0,
+      username: "",
+      email: "",
+      role: "",
+      token:
+        "eyJhbGciOiJIUzI1NiJ9.eyJpc3N1ZWQgQXQiOiIyMDIzLTEyLTE3VDEwOjUyOjE4LjYzNFoiLCJyb2xlIjoiQWRtaW4iLCJleHBpcmF0aW9uIjoiMjAyMy0xMi0xN1QxMDo1MjoxOC42MzRaIiwiaXNzdWVyIjoiSXNzdWVyIiwidXNlcm5hbWUiOiJKYXZhSW5Vc2UifQ.g7WSTOcUiw8mZ80MmmaIW3YkQ6Y4YLUxxLlAP9JhF2o",
+    });
+  }, [setProfile]);
 
   return (
     <div className="relative flex h-screen w-full overflow-hidden">

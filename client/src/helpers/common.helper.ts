@@ -14,3 +14,7 @@ export const LatitudesLongitudes = {
     longitude: 100.78228050617567,
   },
 };
+
+export const KEY_LOCAL_STORAGE = {
+  ICRS_LOCAL_STORAGE: "ICRS_LOCAL_STORAGE",
+};

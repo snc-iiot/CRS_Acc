@@ -18,12 +18,16 @@ import {
   TableRow as Tr,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
+import usePermissions from "@/hooks/use-permissions";
 import registrationsMock from "@/mock/registrations.mock.json";
 import { RegistrationInterface } from "@/models";
 import { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomerRegistrations: FC = () => {
+  const { permissions } = usePermissions();
+
+  console.log(permissions);
   const registrations: RegistrationInterface[] = registrationsMock;
   const navigate = useNavigate();
 

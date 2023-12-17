@@ -1,93 +1,27 @@
-import axios from 'axios';
+import axiosInstance from "@/axios/axios-instance";
 
 export abstract class APIService {
-  protected baseURL: string;
-  protected headers: unknown = {};
+  protected readonly axios = axiosInstance;
 
-  constructor(baseURL: string) {
-    this.baseURL = baseURL;
+  protected constructor(protected readonly url: string) {}
+
+  protected get<T>(path: string) {
+    return this.axios.get<T>(`${this.url}${path}`);
   }
 
-  setAccessToken(token: string) {
-    localStorage.setItem('accessToken', token);
+  protected post<T>(path: string, data: any) {
+    return this.axios.post<T>(`${this.url}${path}`, data);
   }
 
-  getAccessToken() {
-    return localStorage.getItem('accessToken');
+  protected put<T>(path: string, data: any) {
+    return this.axios.put<T>(`${this.url}${path}`, data);
   }
 
-  removeAccessToken() {
-    localStorage.removeItem('accessToken');
+  protected delete<T>(path: string) {
+    return this.axios.delete<T>(`${this.url}${path}`);
   }
 
-  setRefreshToken(token: string) {
-    localStorage.setItem('refreshToken', token);
-  }
-
-  getRefreshToken() {
-    return localStorage.getItem('refreshToken');
-  }
-
-  removeRefreshToken() {
-    localStorage.removeItem('refreshToken');
-  }
-
-  getHeaders() {
-    return {
-      Authorization: `Bearer ${this.getAccessToken()}`,
-    };
-  }
-
-  get(url: string, config = {}): Promise<any> {
-    return axios({
-      method: "get",
-      url: this.baseURL + url,
-      headers: this.getAccessToken() ? this.getHeaders() : {},
-      ...config,
-    });
-  }
-
-  post(url: string, data = {}, config = {}): Promise<any> {
-    return axios({
-      method: "post",
-      url: this.baseURL + url,
-      data,
-      headers: this.getAccessToken() ? this.getHeaders() : {},
-      ...config,
-    });
-  }
-
-  put(url: string, data = {}, config = {}): Promise<any> {
-    return axios({
-      method: "put",
-      url: this.baseURL + url,
-      data,
-      headers: this.getAccessToken() ? this.getHeaders() : {},
-      ...config,
-    });
-  }
-
-  patch(url: string, data = {}, config = {}): Promise<any> {
-    return axios({
-      method: "patch",
-      url: this.baseURL + url,
-      data,
-      headers: this.getAccessToken() ? this.getHeaders() : {},
-      ...config,
-    });
-  }
-
-  delete(url: string, data?: any, config = {}): Promise<any> {
-    return axios({
-      method: "delete",
-      url: this.baseURL + url,
-      data: data,
-      headers: this.getAccessToken() ? this.getHeaders() : {},
-      ...config,
-    });
-  }
-
-  request(config = {}) {
-    return axios(config);
+  protected patch<T>(path: string, data: any) {
+    return this.axios.patch<T>(`${this.url}${path}`, data);
   }
 }
