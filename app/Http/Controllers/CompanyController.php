@@ -124,7 +124,6 @@ class CompanyController extends Controller
                 ], 400);
             }
 
-
             $regisId = $validator->validated()["regis_id"];
             $docName = $validator->validated()["doc_name"];
 
