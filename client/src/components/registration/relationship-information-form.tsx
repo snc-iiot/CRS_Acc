@@ -1,6 +1,6 @@
 import { Sections } from "@/helpers/register.helper";
-import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
+import { useAtomStore } from "@/store/use-atom-store";
 import { FC } from "react";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";

@@ -10,11 +10,11 @@ import {
   MainCustomerOfCompany,
   ObjectivePurchasing,
 } from "@/helpers/standards.helper";
-import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import CountryList from "@/mocks/country-list-th.json";
 import CurrencyList from "@/mocks/currency-list.json";
 import IncotermList from "@/mocks/incoterm-list.json";
+import { useAtomStore } from "@/store/use-atom-store";
 import { TCountryList, TCurrency, TIncoterm } from "@/types";
 import { FC, useState } from "react";
 import { Input } from "../ui/input";

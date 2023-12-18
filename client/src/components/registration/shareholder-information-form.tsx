@@ -1,7 +1,7 @@
 import { Sections } from "@/helpers/register.helper";
-import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import CountryList from "@/mocks/country-list-th.json";
+import { useAtomStore } from "@/store/use-atom-store";
 import { TCountryList } from "@/types";
 import { FC } from "react";
 import { Input, InputGroup, InputRightAddon } from "../ui/input";

@@ -12,8 +12,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { HeaderConditions, Sections } from "@/helpers/register.helper";
-import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
+import { useAtomStore } from "@/store/use-atom-store";
 import { FC, useEffect, useState } from "react";
 
 const RegistrationPage: FC = () => {

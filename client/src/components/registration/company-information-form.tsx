@@ -1,9 +1,9 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CompanyInfo } from "@/helpers/company.helper";
 import { ConditionalInput, Sections } from "@/helpers/register.helper";
-import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import CountryList from "@/mocks/country-list-th.json";
+import { useAtomStore } from "@/store/use-atom-store";
 import { ChangeEvent, FC, useMemo } from "react";
 import { Label } from "../ui/label";
 
