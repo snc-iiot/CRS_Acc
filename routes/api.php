@@ -48,13 +48,17 @@ Route::prefix('admin')->controller(AdminController::class)->group(function () {
 });
 
 Route::prefix('company')->controller(CompanyController::class)->group(function () {
-    //     //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
+    //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
     Route::post('/create-regis-id', 'createRegisId');
     Route::post('/upload-document', 'uploadDocument');
     Route::post('/test-post', 'testPost');
     Route::post('/add-company', 'addCompany');
     Route::post('/update-company', 'updateCompany');
     Route::get('/company-list', 'companyList');
+    Route::get('/certifications', 'certifications');
+    Route::get('/benefits', 'benefits');
+    Route::get('/delivery-term', 'deliveryTerms');
+    Route::get('/company-policy', 'companyPolicy');
     Route::get('/business-type', 'businessType');
     Route::get('/country-amount', 'countryAmount');
 });

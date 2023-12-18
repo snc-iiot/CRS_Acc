@@ -361,13 +361,13 @@ class CompanyController extends Controller
     function addCompany(Request $request)
     {
         try {
-            $header = $request->header('Authorization');
-            $jwt = $this->jwtUtils->verifyToken($header);
-            if (!$jwt->state) return response()->json([
-                "status" => "error",
-                "message" => "Unauthorized",
-                "data" => [],
-            ], 401);
+            // $header = $request->header('Authorization');
+            // $jwt = $this->jwtUtils->verifyToken($header);
+            // if (!$jwt->state) return response()->json([
+            //     "status" => "error",
+            //     "message" => "Unauthorized",
+            //     "data" => [],
+            // ], 401);
             // $decoded = $jwt->decoded;
 
             \date_default_timezone_set('Asia/Bangkok');
@@ -605,6 +605,150 @@ class CompanyController extends Controller
             if (\count($data) == 0) return response()->json([
                 "status" => "error",
                 "message" => "There is no data country in the iCRS system",
+                "data" => []
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "data output success",
+                "data" => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ], 500);
+        }
+    }
+
+    //!Certifications
+    function certifications(Request $request)
+    {
+        try {
+
+            // $header = $request->header('Authorization');
+            // $jwt = $this->jwtUtils->verifyToken($header);
+            // if (!$jwt->state) return response()->json([
+            //     "status" => "error",
+            //     "message" => "Unauthorized",
+            //     "data" => [],
+            // ], 401);
+
+            $request->all();
+
+            $data = DB::table("dev_certifications")->get();
+            if (\count($data) == 0) return response()->json([
+                "status" => "error",
+                "message" => "There is no data certifications in the iCRS system",
+                "data" => []
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "data output success",
+                "data" => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ], 500);
+        }
+    }
+
+    //!Benefits
+    function benefits(Request $request)
+    {
+        try {
+
+            // $header = $request->header('Authorization');
+            // $jwt = $this->jwtUtils->verifyToken($header);
+            // if (!$jwt->state) return response()->json([
+            //     "status" => "error",
+            //     "message" => "Unauthorized",
+            //     "data" => [],
+            // ], 401);
+
+            $request->all();
+
+            $data = DB::table("dev_benefits")->get();
+            if (\count($data) == 0) return response()->json([
+                "status" => "error",
+                "message" => "There is no data benefits in the iCRS system",
+                "data" => []
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "data output success",
+                "data" => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ], 500);
+        }
+    }
+
+    //!Delivery Terms
+    function deliveryTerms(Request $request)
+    {
+        try {
+
+            // $header = $request->header('Authorization');
+            // $jwt = $this->jwtUtils->verifyToken($header);
+            // if (!$jwt->state) return response()->json([
+            //     "status" => "error",
+            //     "message" => "Unauthorized",
+            //     "data" => [],
+            // ], 401);
+
+            $request->all();
+
+            $data = DB::table("dev_delivery_terms")->get();
+            if (\count($data) == 0) return response()->json([
+                "status" => "error",
+                "message" => "There is no data delivery terms in the iCRS system",
+                "data" => []
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "data output success",
+                "data" => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ], 500);
+        }
+    }
+
+    //!Company Policies
+    function companyPolicy(Request $request)
+    {
+        try {
+
+            // $header = $request->header('Authorization');
+            // $jwt = $this->jwtUtils->verifyToken($header);
+            // if (!$jwt->state) return response()->json([
+            //     "status" => "error",
+            //     "message" => "Unauthorized",
+            //     "data" => [],
+            // ], 401);
+
+            $request->all();
+
+            $data = DB::table("dev_company_policy")->get();
+            if (\count($data) == 0) return response()->json([
+                "status" => "error",
+                "message" => "There is no data company policies in the iCRS system",
                 "data" => []
             ]);
 
