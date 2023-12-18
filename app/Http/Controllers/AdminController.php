@@ -32,12 +32,10 @@ class AdminController extends Controller
                 "data" => [],
             ], 401);
 
-            $validator = Validator::make(
-                $request->all(),
-                [
-                    'regis_id' => 'required|string'
-                ]
-            );
+            $rules = [
+                'regis_id' => ["required", "string"],
+            ];
+            $validator = Validator::make($request->all(), $rules);
 
             if ($validator->fails()) {
                 return response()->json([
@@ -51,9 +49,10 @@ class AdminController extends Controller
                 ], 400);
             }
 
-            $regis_id = $request->regis_id;
+            $regis_id = $validator->validated()["regis_id"];
 
-            $data = DB::table("dev_company_informations")->where('regis_id', $regis_id->regis_id)->take(1)->get();
+            $data = DB::table("dev_company_informations")->where('regis_id', $regis_id)->take(1)->get();
+            $data2 = DB::table("dev_documents")->where('regis_id', $regis_id)->take(1)->get();
             if (\count($data) == 0) return response()->json([
                 "status" => "error",
                 "message" => "There is no data country in the iCRS system",
@@ -63,7 +62,8 @@ class AdminController extends Controller
             return response()->json([
                 "status" => "success",
                 "message" => "data output success",
-                "data" => $data
+                "data" => $data,
+                "data2" => $data2,
             ]);
         } catch (\Exception $e) {
             return response()->json([
