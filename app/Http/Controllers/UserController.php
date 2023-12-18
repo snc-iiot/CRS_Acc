@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 // use App\Models\Login;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -167,6 +169,100 @@ class UserController extends Controller
                 "message" => $e->getMessage(),
                 "data" => []
             ], 500);
+        }
+    }
+
+    function putCache(Request $request)
+    {
+        try {
+            Cache::put("/icrs/test", $request->value);
+            return response()->json([
+                "status" => "success",
+                "message" => "OK",
+                "data" => []
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ]);
+        }
+    }
+
+    function setCache(Request $request)
+    {
+        try {
+            Redis::set("/icrs/test", $request->value);
+            return response()->json([
+                "status" => "success",
+                "message" => "OK",
+                "data" => []
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ]);
+        }
+    }
+
+    function pullCache()
+    {
+        try {
+            $value = Cache::pull("/icrs/test");
+            return response()->json([
+                "status" => "success",
+                "message" => "OK",
+                "data" => [["value" => $value]]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ]);
+        }
+    }
+
+    function getCache()
+    {
+        try {
+            $value = Redis::get("/icrs/test");
+            return response()->json([
+                "status" => "success",
+                "message" => "OK",
+                "data" => [["value" => $value]]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ]);
+        }
+    }
+
+    function pubRedis(Request $request)
+    {
+        try {
+            // $result = Redis::command("publish", ["/icrs/test", $request->value]);
+            $result = Redis::publish("/icrs/test", \json_encode([
+                "value" => $request->value,
+                "name" => $request->name,
+            ]));
+            return response()->json([
+                "status" => "success",
+                "message" => "OK",
+                "data" => [["result" => $result]]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ]);
         }
     }
 }

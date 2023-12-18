@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\CompanyController;
 // use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\JsonTemplateController;
@@ -32,6 +33,16 @@ Route::get('/', function () {
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/create-user', 'createUser');
+    Route::get('/put-cache', 'putCache');
+    Route::get('/set-cache', 'setCache');
+    Route::get('/pull-cache', 'pullCache');
+    Route::get('/get-cache', 'getCache');
+    Route::get('/pub-redis', 'pubRedis');
+});
+
+Route::prefix('registration')->controller(RegistrationController::class)->group(function () {
+    Route::post('/create-regis-id', 'createRegisID');
+    Route::patch('/upload-document', 'uploadDocument');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {
