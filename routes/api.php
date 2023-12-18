@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\HomePageController;
+// use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\JsonTemplateController;
 use App\Http\Controllers\AdminController;
-use App\Models\Company;
+// use App\Models\Company;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,17 +29,17 @@ Route::get('/', function () {
     return response()->json(["message" => "Welcome to iCRS API."]);
 });
 
-Route::prefix('user')->controller(LoginController::class)->group(function () {
-    //! app/Http/Middleware/VerifyCsrfToken.php -> add '/auth/login'
+Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::post('/login', 'login');
+    Route::post('/create-user', 'createUser');
 });
 
-Route::prefix('home')->controller(HomePageController::class)->group(function () {
-    Route::get('/', 'index');
-    Route::get('/gen-uuid', 'generateUUIDV4');
-});
+// Route::prefix('home')->controller(HomePageController::class)->group(function () {
+//     Route::get('/', 'index');
+//     // Route::get('/gen-uuid', 'generateUUIDV4');
+// });
 
-Route::prefix('json-template')->controller(JsonTemplateController::class)->group(function () {
+Route::prefix('json')->controller(JsonTemplateController::class)->group(function () {
     Route::get('/upload-documents', 'uploadDocumentsTemplate');
 });
 
