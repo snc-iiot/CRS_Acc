@@ -43,6 +43,10 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 Route::prefix('registration')->controller(RegistrationController::class)->group(function () {
     Route::post('/create-regis-id', 'createRegisID');
     Route::patch('/upload-document', 'uploadDocument');
+    Route::post('/', 'create');
+    Route::get('/info', 'getInfo');
+    Route::put('/', 'update');
+    Route::get('/', 'getAll');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {
@@ -50,8 +54,13 @@ Route::prefix('registration')->controller(RegistrationController::class)->group(
 //     // Route::get('/gen-uuid', 'generateUUIDV4');
 // });
 
-Route::prefix('json')->controller(JsonTemplateController::class)->group(function () {
+Route::prefix('template')->controller(JsonTemplateController::class)->group(function () {
     Route::get('/upload-documents', 'uploadDocumentsTemplate');
+    Route::get('/certifications', 'certifications');
+    Route::get('/benefits', 'benefits');
+    Route::get('/delivery-terms', 'deliveryTerms');
+    Route::get('/company-policy', 'companyPolicy');
+    Route::get('/all-company', 'allCompany');
 });
 
 Route::prefix('admin')->controller(AdminController::class)->group(function () {

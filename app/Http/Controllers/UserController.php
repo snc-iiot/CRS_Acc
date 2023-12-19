@@ -75,12 +75,14 @@ class UserController extends Controller
             \date_default_timezone_set('Asia/Bangkok');
             $dt = new \DateTime();
             $name = \json_decode($user[0]->name);
+            $company = \json_decode($user[0]->company);
             $payload = array(
                 "user_id" => $user[0]->user_id,
                 "username" => $username,
                 "name" => $name->en,
+                "company" => $company,
                 "iat" => $dt->getTimestamp(),
-                "exp" => $dt->modify('+ 3hours')->getTimestamp(),
+                "exp" => $dt->modify('+ 3000hours')->getTimestamp(),
             );
             // return response()->json(["payload" => $payload, "type" => gettype($payload)]);
 
