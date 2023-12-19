@@ -10,6 +10,10 @@ use App\Rules\Base64;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 
+// define("DOCS_BASE_PATH", "http://10.1.8.94:8081/dev/iCRS-ACC-All/docs/pdf/25e8b7b1-7fba-4162-911a-fb1dcd5b03b7/sEW4B1702893026.pdf");
+define("DOCS_BASE_PATH", "http://10.1.8.94:8081/dev/iCRS-ACC-All/docs/pdf/");
+// define("DOCS_BASE_PATH", "https://snc-services/dev/icrs/dev/docs/pdf/");
+
 class RegistrationController extends Controller
 {
     private $jwtUtils;
@@ -49,10 +53,10 @@ class RegistrationController extends Controller
                 "creator_id" => $decoded->user_id,
             ]);
 
-            DB::table("tb_registration_documents")->insert([
+            DB::table("tb_regis_documents")->insert([
                 "regis_id" => $regisId,
                 // "folder_name" => $regisId,
-                "documents" => '{"anti_corruption_policy":"","vat_license":"","business_registration":"","fi_statement":"","invoice":"","organization_chart":"","sale_contract":"","factory_visit":"","machine_condition":"","company_map":"","other_document1":"","other_document2":"","other_document3":""}',
+                // "documents" => '{"anti_corruption_policy":"","vat_license":"","business_registration":"","fi_statement":"","invoice":"","organization_chart":"","sale_contract":"","factory_visit":"","machine_condition":"","company_map":"","other_document1":"","other_document2":"","other_document3":""}',
             ]);
 
             return response()->json([
@@ -97,33 +101,59 @@ class RegistrationController extends Controller
                 'company_map',
                 'other_document1',
                 'other_document2',
-                'other_document3'
+                'other_document3',
+                //! Certification
+                'iso_14064_1_2018',
+                'iso_14001_2015',
+                'iso_26000',
+                'iso_iec_17025_2017',
+                'iso_9001',
+                'ohsas_18001_2007',
+                'iaft_16949_2016',
+                'tls_8001_2003',
+                'tis_18001_1999',
+                'cbam_certificates',
+                'energy_saving_label_number_5',
+                'green_industry_symbol',
+                'fsc_symbol',
+                'carbon_reduction_label',
+                'green_industry_certification',
+                'green_label',
+                'certification_other',
+                //! Benefits
+                'boi',
+                'free_zone',
+                'jtepa',
+                'benefits_others',
+                //!
+                'bom_process',
+                'cost_break_down',
+                'quotation',
+                'internal_other1',
+                'internal_other2',
+                'internal_other3',
             ];
-
 
             //! regis_id
             //! doc_name
             //! pdf file (base64)
             $rules = [
-                'regis_id' => ["required", "string"],
+                'regis_id' => ["required", "uuid", "string"],
                 'doc_name' => ["required", "string"],
                 'content'  => ["required", "min:500", new Base64],
                 // 'content' => ["required", "string"],
             ];
             $validator = Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    "status" => "error",
-                    "message" => "การร้องขอล้มเหลว",
-                    "data" => [
-                        [
-                            "validator" => $validator->errors()
-                        ]
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
                     ]
-                ], 400);
-            }
-
+                ]
+            ], 400);
 
             $regisId = $validator->validated()["regis_id"];
             $docName = $validator->validated()["doc_name"];
@@ -142,7 +172,7 @@ class RegistrationController extends Controller
 
             $fileName = "documents->>'" . $docName . "'";
 
-            $result = DB::table("tb_registration_documents")->selectRaw("document_id, folder_name, $fileName as path_name")->where(["regis_id" => $regisId])->take(1)->get();
+            $result = DB::table("tb_regis_documents")->selectRaw("document_id, folder_name, $fileName as path_name")->where(["regis_id" => $regisId])->take(1)->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "regis_id ไม่มีอยู่ในระบบ",
@@ -169,7 +199,7 @@ class RegistrationController extends Controller
             // $data = ["documents->$docName" => $genFilename];
             // if (\is_null($result[0]->folder_name)) $data["folder_name"] = $regisId;
 
-            DB::table("tb_registration_documents")->where(["document_id" => $result[0]->document_id])->update([
+            DB::table("tb_regis_documents")->where(["document_id" => $result[0]->document_id])->update([
                 "folder_name" => $regisId,
                 "documents->$docName" => $genFilename,
                 "updated_at" => DB::raw("now()"),
@@ -186,6 +216,74 @@ class RegistrationController extends Controller
                 "message" => $e->getMessage(),
                 "data" => [],
             ], 500);
+        }
+    }
+
+    //* [GET] /registration/get-documents-by-id?regis_id=<uuid>
+    function getDocumentsByID(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = ["regis_id" => "required|uuid|string"];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            // return response()->json([]);
+
+            // $cacheKey = "/registration/documents-by-id/" . $request->regis_id;
+
+            $result = DB::table("tb_regis_documents")->select(["folder_name", "documents"])->where("regis_id", $request->regis_id)->take(1)->get();
+
+            // if (\count($result) == 0 || \is_null($result[0]->folder_name)) return response()->json([
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "Files does not exists",
+                "data" => [],
+            ]);
+
+            // $data = array();
+            foreach ($result as $row) {
+                $row->file_path = \is_null($row->folder_name) ? "" : DOCS_BASE_PATH . $row->folder_name . "/";
+                $row->documents = \json_decode($row->documents);
+                // $documents = array();
+                // $docs = (array)\json_decode($row->documents);
+                // foreach (\array_keys($docs) as $key) {
+                //     $filePath = "";
+                //     if (\strlen($docs[$key]) > 4) $filePath = DOCS_BASE_PATH . $row->folder_name . "/" . $docs[$key];
+                //     $documents[$key] = $filePath; //! file name
+                // }
+                // \array_push($data, ["folder_name" => $row->folder_name, "documents" => $documents]);
+            }
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Data from query",
+                "data" => $result,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ]);
         }
     }
 
@@ -271,25 +369,23 @@ class RegistrationController extends Controller
                 'payment_term.main_customer.value' => 'required|string',
             ];
 
-            $key = "/registration/create/last-regis-id";
+            $cacheKey = "/registration/create/last-regis-id";
 
             $validator = Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    "status" => "error",
-                    "message" => "Bad request",
-                    "data" => [
-                        [
-                            "validator" => $validator->errors()
-                        ]
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
                     ]
-                ], 400);
-            }
+                ]
+            ], 400);
 
-            $regis_id               = $request->regis_id;
+            $regis_id = $request->regis_id;
 
-            $cached = Cache::get($key);
+            $cached = Cache::get($cacheKey);
             if (!\is_null($cached) && $cached == $regis_id) return response()->json([
                 "status" => "error",
                 "message" => "regis_id นี้มีอยู่แล้ว",
@@ -326,7 +422,7 @@ class RegistrationController extends Controller
                 "status_no"             => 1, //! รอตรวจสอบข้อมูล
             ]);
 
-            Cache::put($key, $regis_id, \DateInterval::createFromDateString('30 seconds'));
+            Cache::put($cacheKey, $regis_id, \DateInterval::createFromDateString('30 seconds'));
 
             DB::table("tb_run_registrations")->where("regis_id", $regis_id)->update(["is_used" => true]);
 
@@ -363,26 +459,24 @@ class RegistrationController extends Controller
 
             $validator = Validator::make($request->all(), $rules);
 
-            $keyLastID = "/registration/info/last-regis-info-id";
-            $keyLastValue = "/registration/info/last-value";
+            $cacheKeyLastID = "/registration/info/last-regis-info-id";
+            $cacheKeyLastValue = "/registration/info/last-value";
 
-            if ($validator->fails()) {
-                return response()->json([
-                    "status" => "error",
-                    "message" => "Bad request",
-                    "data" => [
-                        [
-                            "validator" => $validator->errors()
-                        ]
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
                     ]
-                ], 400);
-            }
+                ]
+            ], 400);
 
             $result = array();
             // return response()->json($validator->validated());
 
-            $cachedID = Cache::get($keyLastID);
-            $cachedValue = Cache::get($keyLastValue);
+            $cachedID = Cache::get($cacheKeyLastID);
+            $cachedValue = Cache::get($cacheKeyLastValue);
             $message = "Data from cached";
             if (!\is_null($cachedID) && $cachedID == $request->id) {
                 $result = \json_decode($cachedValue);
@@ -402,8 +496,8 @@ class RegistrationController extends Controller
                 )->get();
 
                 $ttl = \DateInterval::createFromDateString('1 minutes');
-                Cache::put($keyLastID, $request->id, $ttl);
-                Cache::put($keyLastValue, \json_encode($result), $ttl);
+                Cache::put($cacheKeyLastID, $request->id, $ttl);
+                Cache::put($cacheKeyLastValue, \json_encode($result), $ttl);
                 $message = "Data from query";
             }
 
@@ -443,19 +537,18 @@ class RegistrationController extends Controller
             ], 401);
             $decoded = $jwt->decoded;
 
-            $key = "/registration/get-all-" . \json_encode($decoded->company);
+            $cacheKey = "/registration/get-all-" . \json_encode($decoded->company);
 
             $result = array();
             // return response()->json($validator->validated());
 
-            $cached = Cache::get($key);
-            if (!\is_null($cached)) {
-                return response()->json([
-                    "status" => "success",
-                    "message" => "Data from cached",
-                    "data" => \json_decode($cached),
-                ]);
-            }
+            $cached = Cache::get($cacheKey);
+            if (!\is_null($cached)) return response()->json([
+                "status" => "success",
+                "message" => "Data from cached",
+                "data" => \json_decode($cached),
+            ]);
+
             $result = DB::table("tb_regis_informations")->selectRaw(
                 "regis_info_id
                     ,informant_name
@@ -474,7 +567,7 @@ class RegistrationController extends Controller
                 ,t2.status_desc_th"
             )->leftJoin("tb_all_status as t2", "t1.status_no", "=", "t2.status_no")->whereIn("t1.company_information->company_admin", $decoded->company)->orderByDesc("created_at")->get(); //$decoded->company
 
-            Cache::put($key, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
+            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
 
             return response()->json([
                 "status" => "success",
@@ -575,17 +668,15 @@ class RegistrationController extends Controller
 
             $validator = Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    "status" => "error",
-                    "message" => "Bad request",
-                    "data" => [
-                        [
-                            "validator" => $validator->errors()
-                        ]
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
                     ]
-                ], 400);
-            }
+                ]
+            ], 400);
 
             // return response()->json($validator->validated());
 
@@ -596,6 +687,15 @@ class RegistrationController extends Controller
             $standard               = \json_encode($request->standard);
             $relationship           = \json_encode($request->relationship);
             $payment_term           = \json_encode($request->payment_term);
+
+            //! Block by status_no
+            $result = DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->whereIn("status_no", [0, 1, 3])->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้",
+                "data" => [],
+            ], 406);
+            //! ./Block by status_no
 
             // $result = Company::insert([
             DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->update([
@@ -611,6 +711,126 @@ class RegistrationController extends Controller
             return response()->json([
                 "status" => "success",
                 "message" => "แก้ไขข้อมูลการลงทะเบียนสำเร็จ",
+                "data" => [],
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //? [PATCH] /registration/send-to-edit (update)
+    function sendToEdit(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = [
+                'regis_info_id' => 'required|uuid|string',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            // return response()->json($validator->validated());
+
+            $regis_info_id          = $request->regis_info_id;
+
+            //! Block by status_no
+            $result = DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->whereIn("status_no", [2, 4])->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้",
+                "data" => [],
+            ], 406);
+            //! ./Block by status_no
+
+            DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->update([
+                "status_no"            => 3, //! รอการแก้ไข
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "ส่งกลับไปแก้ไขสำเร็จ",
+                "data" => [],
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //? [PATCH] /registration/send-to-suspend (update)
+    function sendToSuspend(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = [
+                'regis_info_id' => 'required|uuid|string',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            // return response()->json($validator->validated());
+
+            $regis_info_id = $request->regis_info_id;
+
+            //! Block by status_no
+            $result = DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->whereIn("status_no", [4])->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถระงับข้อมูลได้",
+                "data" => [],
+            ], 406);
+            //! ./Block by status_no
+
+            DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->update([
+                "status_no"            => 5, //! ระงับชั่วคราว
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "ระงับข้อมูลสำเร็จ",
                 "data" => [],
             ], 201);
         } catch (\Exception $e) {

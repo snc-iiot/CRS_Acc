@@ -342,8 +342,6 @@ class CompanyController extends Controller
         }
     }
 
-
-
     //!random Name
     private function randomName(int $length = 10)
     {
