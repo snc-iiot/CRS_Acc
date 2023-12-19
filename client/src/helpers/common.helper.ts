@@ -15,3 +15,6 @@ export const CheckCustomerForeigner = (
   } = customerInfo;
   return is_thai ? false : true;
 };
+
+export const PrimaryColor = "#2463EB";
+export const SecondaryColor = "#F3F7FA";

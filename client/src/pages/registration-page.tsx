@@ -12,17 +12,26 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { HeaderConditions, Sections } from "@/helpers/register.helper";
+import { useSwal } from "@/hooks/use-swal";
 import { cn } from "@/lib/utils";
+import { useCustomer } from "@/services/hooks";
 import { useAtomStore } from "@/store/use-atom-store";
 import { FC, useEffect, useState } from "react";
 
 const RegistrationPage: FC = () => {
+  const { mutateRegisterCustomer } = useCustomer();
+  const { confirmSwal } = useSwal();
   const { registration } = useAtomStore();
-  console.log(registration.payment_term);
   const MODE = "register";
 
-  const onSubmit = () => {
-    console.log("submit");
+  const onSubmit = async () => {
+    const isConfirm = await confirmSwal(
+      "ยืนยันการลงทะเบียน",
+      "ต้องการลงทะเบียนใช่หรือไม่",
+    );
+    if (isConfirm) {
+      await mutateRegisterCustomer(registration);
+    }
   };
 
   //? Observer Section
@@ -77,7 +86,7 @@ const RegistrationPage: FC = () => {
         className="flex h-full w-full flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit;
+          onSubmit();
         }}
       >
         <main className="flex h-full flex-col items-center justify-center gap-2">

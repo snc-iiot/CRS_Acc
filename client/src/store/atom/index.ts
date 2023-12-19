@@ -8,3 +8,4 @@ if (process.env.NODE_ENV !== "production") {
 export * from "./registration-atom";
 export * from "./thai-province-atom";
 export * from "./business-type-atom";
+export * from "./utils-atom";
