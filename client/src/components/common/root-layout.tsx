@@ -1,5 +1,5 @@
+import { ReqAuth } from "@/auth/req-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,149 +9,150 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { useProfile } from "@/hooks/use-profile";
 import { collapsedAtom } from "@/jotai/atom";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
+import { useUtils } from "@/services";
 import { useAtom } from "jotai";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+// import CallApi from "./call-api";
 import { Icons } from "./icons";
 import { Header } from "./site-header";
 import Sidebar from "./site-sidebar";
 import ThemeToggle from "./theme-toggle";
 
 const RootLayout: FC = () => {
-  const { setProfile } = useProfile();
+  const { companyPolicyList } = useUtils();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useAtom(collapsedAtom);
+  const { utils } = useAtomStore();
+
+  console.log(utils);
 
   function resetAtom() {
     setCollapsed(false);
   }
 
-  useEffect(() => {
-    setProfile({
-      id: 0,
-      username: "",
-      email: "",
-      role: "",
-      token:
-        "eyJhbGciOiJIUzI1NiJ9.eyJpc3N1ZWQgQXQiOiIyMDIzLTEyLTE3VDEwOjUyOjE4LjYzNFoiLCJyb2xlIjoiQWRtaW4iLCJleHBpcmF0aW9uIjoiMjAyMy0xMi0xN1QxMDo1MjoxOC42MzRaIiwiaXNzdWVyIjoiSXNzdWVyIiwidXNlcm5hbWUiOiJKYXZhSW5Vc2UifQ.g7WSTOcUiw8mZ80MmmaIW3YkQ6Y4YLUxxLlAP9JhF2o",
-    });
-  }, [setProfile]);
+  console.log(companyPolicyList);
 
   return (
-    <div className="relative flex h-screen w-full overflow-hidden">
-      <main className="relative flex h-full w-full flex-col overflow-hidden">
-        <Header
-          left={
-            <div className="flex items-center">
-              <div
-                className="grid h-[40px] w-[45px] cursor-pointer place-items-center delay-200 hover:rounded-full hover:bg-primary-foreground"
-                onClick={() => setCollapsed(!collapsed)}
-              >
-                <Icons.menu className="text-gray-500" />
-              </div>
-              <div
-                className="flex cursor-pointer items-center gap-x-2"
-                onClick={() => navigate("//")}
-              >
-                <img
-                  src="/images/logo.webp"
-                  alt="SNC Logo"
-                  width={230}
-                  height={230}
-                  className="h-auto w-[5.5rem] select-none"
-                />
-                <Separator
-                  orientation="vertical"
-                  className="h-[2rem] bg-foreground"
-                />
-                <div className="flex flex-col">
-                  <p className="text-sm font-bold">
-                    CUSTOMER REGISTRATION SYSTEM
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Powered by The Center of Digital Expertise (CoDE)
-                  </p>
+    <ReqAuth>
+      {/* <CallApi /> */}
+      <div className="relative flex h-screen w-full overflow-hidden">
+        <main className="relative flex h-full w-full flex-col overflow-hidden">
+          <Header
+            left={
+              <div className="flex items-center">
+                <div
+                  className="grid h-[40px] w-[45px] cursor-pointer place-items-center delay-200 hover:rounded-full hover:bg-primary-foreground"
+                  onClick={() => setCollapsed(!collapsed)}
+                >
+                  <Icons.menu className="text-gray-500" />
+                </div>
+                <div
+                  className="flex cursor-pointer items-center gap-x-2"
+                  onClick={() => navigate("//")}
+                >
+                  <img
+                    src="/images/logo.webp"
+                    alt="SNC Logo"
+                    width={230}
+                    height={230}
+                    className="h-auto w-[5.5rem] select-none"
+                  />
+                  <Separator
+                    orientation="vertical"
+                    className="h-[2rem] bg-foreground"
+                  />
+                  <div className="flex flex-col">
+                    <p className="text-sm font-bold">
+                      CUSTOMER REGISTRATION SYSTEM
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Powered by The Center of Digital Expertise (CoDE)
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          }
-          right={
-            <div className="flex items-center gap-2">
-              <div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <div
-                      className={cn(
-                        "group flex cursor-pointer items-center justify-start gap-2.5",
-                      )}
+            }
+            right={
+              <div className="flex items-center gap-2">
+                <div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <div
+                        className={cn(
+                          "group flex cursor-pointer items-center justify-start gap-2.5",
+                        )}
+                      >
+                        <Avatar className="h-6 w-6 cursor-pointer">
+                          <AvatarImage src="" />
+                          <AvatarFallback className="bg-primary/10 uppercase">
+                            {"Administrator".at(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="text-sm font-semibold uppercase">
+                          {"Administrator"}
+                        </p>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      side="bottom"
+                      align="start"
+                      className={cn("w-72")}
                     >
-                      <Avatar className="h-6 w-6 cursor-pointer">
-                        <AvatarImage src="" />
-                        <AvatarFallback className="bg-primary/10 uppercase">
-                          {"Administrator".at(0)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <p className="text-sm font-semibold uppercase">
-                        {"Administrator"}
-                      </p>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    side="bottom"
-                    align="start"
-                    className={cn("w-72")}
-                  >
-                    <DropdownMenuLabel>
-                      <p className="text-sm font-semibold">
-                        {"admin@mail.com"}
-                      </p>
-                      <p className="text-xs text-gray-400">{"Administrator"}</p>
-                    </DropdownMenuLabel>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        navigate("/settings/profile");
-                      }}
-                    >
-                      <Icons.userCircle2 className="h-5 w-5" />
-                      <p className="ml-2">Profile</p>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        navigate("/settings");
-                      }}
-                    >
-                      <Icons.settings className="h-5 w-5" />
-                      <p className="ml-2">Settings</p>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={() => {
-                        localStorage.removeItem("auth");
-                        resetAtom();
-                        navigate("/login");
-                      }}
-                    >
-                      <Icons.logOut className="h-5 w-5 text-red-500" />
-                      <p className="ml-2 text-red-500">Logout</p>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                      <DropdownMenuLabel>
+                        <p className="text-sm font-semibold">
+                          {"admin@mail.com"}
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          {"Administrator"}
+                        </p>
+                      </DropdownMenuLabel>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/settings/profile");
+                        }}
+                      >
+                        <Icons.userCircle2 className="h-5 w-5" />
+                        <p className="ml-2">Profile</p>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          navigate("/settings");
+                        }}
+                      >
+                        <Icons.settings className="h-5 w-5" />
+                        <p className="ml-2">Settings</p>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => {
+                          localStorage.removeItem("auth");
+                          resetAtom();
+                          navigate("/login");
+                        }}
+                      >
+                        <Icons.logOut className="h-5 w-5 text-red-500" />
+                        <p className="ml-2 text-red-500">Logout</p>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                <ThemeToggle />
               </div>
-              <ThemeToggle />
+            }
+          />
+          <div className="flex h-full">
+            <Sidebar />
+            <div className="w-full p-2">
+              <Outlet />
             </div>
-          }
-        />
-        <div className="flex h-full">
-          <Sidebar />
-          <div className="w-full p-2">
-            <Outlet />
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </ReqAuth>
   );
 };
 

@@ -1,7 +1,7 @@
 import { PERMISSION, ROLES, TPermission } from "@/helpers/permission.helper";
+import { useProfile } from "@/services/hooks/use-profile";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { useProfile } from "./use-profile";
 
 /**
  * The `usePermissions` function retrieves the user's permissions based on their role stored in a JWT

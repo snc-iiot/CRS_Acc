@@ -1,27 +1,77 @@
-import axiosInstance from "@/axios/axios-instance";
+import { KEY_LOCAL_STORAGE } from "@/helpers/common.helper";
+import axios from "axios";
 
 export abstract class APIService {
-  protected readonly axios = axiosInstance;
+  protected baseURL: string;
+  protected headers: unknown = {};
 
-  protected constructor(protected readonly url: string) {}
-
-  protected get<T>(path: string) {
-    return this.axios.get<T>(`${this.url}${path}`);
+  constructor(baseURL: string) {
+    this.baseURL = baseURL;
   }
 
-  protected post<T>(path: string, data: any) {
-    return this.axios.post<T>(`${this.url}${path}`, data);
+  getAccessToken() {
+    const profile = localStorage.getItem(
+      KEY_LOCAL_STORAGE.ICRS_ADMIN_LOCAL_STORAGE,
+    );
+    return profile ? JSON.parse(profile).token : null;
   }
 
-  protected put<T>(path: string, data: any) {
-    return this.axios.put<T>(`${this.url}${path}`, data);
+  getHeaders() {
+    return {
+      Authorization: `Bearer ${this.getAccessToken()}`,
+    };
   }
 
-  protected delete<T>(path: string) {
-    return this.axios.delete<T>(`${this.url}${path}`);
+  get(url: string, config = {}): Promise<any> {
+    return axios({
+      method: "get",
+      url: this.baseURL + url,
+      headers: this.getAccessToken() ? this.getHeaders() : {},
+      ...config,
+    });
   }
 
-  protected patch<T>(path: string, data: any) {
-    return this.axios.patch<T>(`${this.url}${path}`, data);
+  post(url: string, data = {}, config = {}): Promise<any> {
+    return axios({
+      method: "post",
+      url: this.baseURL + url,
+      data,
+      headers: this.getAccessToken() ? this.getHeaders() : {},
+      ...config,
+    });
+  }
+
+  put(url: string, data = {}, config = {}): Promise<any> {
+    return axios({
+      method: "put",
+      url: this.baseURL + url,
+      data,
+      headers: this.getAccessToken() ? this.getHeaders() : {},
+      ...config,
+    });
+  }
+
+  patch(url: string, data = {}, config = {}): Promise<any> {
+    return axios({
+      method: "patch",
+      url: this.baseURL + url,
+      data,
+      headers: this.getAccessToken() ? this.getHeaders() : {},
+      ...config,
+    });
+  }
+
+  delete(url: string, data?: any, config = {}): Promise<any> {
+    return axios({
+      method: "delete",
+      url: this.baseURL + url,
+      data: data,
+      headers: this.getAccessToken() ? this.getHeaders() : {},
+      ...config,
+    });
+  }
+
+  request(config = {}) {
+    return axios(config);
   }
 }

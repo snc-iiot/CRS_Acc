@@ -2,18 +2,26 @@ import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select-custom";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { API_BASE_URL } from "@/helpers/common.helper";
+import { useSwal } from "@/hooks/use-swal";
 import { cn } from "@/lib/utils";
+import { useProfile } from "@/services/hooks/use-profile";
+import { TResponseAction } from "@/types";
+import axios from "axios";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const LoginPage: FC = () => {
+  const navigate = useNavigate();
+  const { showSuccess, showError } = useSwal();
+  const { setProfile } = useProfile();
   const annoucements: { label: string; link: string }[] = [
     { label: "สื่อสาธิตการใช้งานระบบ SNC-iCRS", link: "#" },
     {
@@ -22,20 +30,45 @@ const LoginPage: FC = () => {
     },
   ];
 
-  const businessCodes: { BUCode: string; Description: string }[] = [
-    { BUCode: "SCAN", Description: "SNC CREATIVITY ANTHOLOGY CO.,LTD." },
-    { BUCode: "SEREN", Description: "SNC SERENITY CO., LTD." },
-  ];
-
   const {
     register,
     handleSubmit,
-    // watch,
+    watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = handleSubmit((data) => console.log(data));
 
-  // console.log(watch("example")); // watch input value by passing the name of it
+  const Login = async (username: string, password: string) => {
+    try {
+      const { data } = await axios.post<TResponseAction>(
+        `${API_BASE_URL}/user/login`,
+        {
+          username,
+          password,
+        },
+      );
+      return data;
+    } catch (error: any) {
+      showError("เกิดข้อผิดพลาด", error?.response?.data?.message);
+      return null;
+    }
+  };
+
+  const onSubmit = handleSubmit(async () => {
+    const username = watch("emailRequired");
+    const password = watch("passwordRequired");
+
+    const profile = await Login(username, password);
+    if (profile?.status == "success") {
+      setProfile(profile.data?.[0]);
+      console.log(profile.data?.[0]);
+      showSuccess("เข้าสู่ระบบสำเร็จ", "กำลังพาท่านไปยังหน้าหลัก...");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } else {
+      showError("เกิดข้อผิดพลาด", "กรุณาตรวจสอบข้อมูลใหม่อีกครั้ง");
+    }
+  });
 
   return (
     <FadeIn>
@@ -77,10 +110,10 @@ const LoginPage: FC = () => {
 
               <form onSubmit={onSubmit} className="mt-3">
                 <div className="mb-2">
-                  <p className="font-[600]">Email</p>
+                  <p className="font-[600]">Username</p>
                   <Input
-                    type="email"
-                    placeholder="example@mail.com"
+                    type="text"
+                    placeholder="Username"
                     {...register("emailRequired", { required: true })}
                   />
                   {errors.emailRequired && (
@@ -103,7 +136,7 @@ const LoginPage: FC = () => {
                   )}
                 </div>
 
-                <div className="mb-2">
+                {/* <div className="mb-2">
                   <p className="font-[600]">Business Code</p>
                   <Select
                     placeholder="Select business code"
@@ -124,7 +157,7 @@ const LoginPage: FC = () => {
                       This field is required
                     </span>
                   )}
-                </div>
+                </div> */}
 
                 <div className="mt-6 flex items-center justify-between">
                   <Button type="button" variant="link" className="text-xs">
@@ -132,11 +165,7 @@ const LoginPage: FC = () => {
                     <br />
                     Forgot password?
                   </Button>
-                  <Button
-                    type="submit"
-                    // variant={"outline"}
-                    // className="bg-primary"
-                  >
+                  <Button type="submit">
                     <Icons.logIn className="mr-2 w-[1.2rem]" /> เข้าสู่ระบบ
                   </Button>
                 </div>

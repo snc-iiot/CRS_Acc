@@ -1,7 +1,15 @@
-export const API_BASE_URL = "http://localhost:3000";
+export const API_BASE_URL =
+  "http://10.1.8.94:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
 
 export const queryKey = {
   GET_USER: "GET_USER",
+  GET_BUSINESS_TYPE_LIST: "GET_BUSINESS_TYPE_LIST",
+  GET_DOCUMENT_KEY_LIST: "GET_DOCUMENT_KEY_LIST",
+  GET_CERTIFICATED_LIST: "GET_CERTIFICATED_LIST",
+  GET_BENEFITS_LIST: "GET_BENEFITS_LIST",
+  GET_DELIVERY_TERMS_LIST: "GET_DELIVERY_TERMS_LIST",
+  GET_COMPANY_POLICY_LIST: "GET_COMPANY_POLICY_LIST",
+  GET_COMPANY_LIST: "GET_COMPANY_LIST",
 };
 
 export const LatitudesLongitudes = {
@@ -16,5 +24,7 @@ export const LatitudesLongitudes = {
 };
 
 export const KEY_LOCAL_STORAGE = {
-  ICRS_LOCAL_STORAGE: "ICRS_LOCAL_STORAGE",
+  ICRS_ADMIN_LOCAL_STORAGE: "ICRS_ADMIN_LOCAL_STORAGE",
 };
+
+export const PRIMARY_COLOR = "#1E88E5";
