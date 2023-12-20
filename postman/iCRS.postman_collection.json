@@ -465,7 +465,7 @@
 			]
 		},
 		{
-			"name": "templates [7]✔️",
+			"name": "templates [8]✔️",
 			"item": [
 				{
 					"name": "Upload Documents",
@@ -570,6 +570,24 @@
 							"path": [
 								"template",
 								"business-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Country Codes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/template/country-codes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"template",
+								"country-codes"
 							]
 						}
 					},
