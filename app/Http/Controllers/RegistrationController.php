@@ -333,7 +333,8 @@ class RegistrationController extends Controller
                 'contact_person.*.email' => 'required|email',
 
                 'relationship.is_relationship' => 'required|boolean',
-                'relationship.relationship_name' => 'required_if:relationship.is_relationship,true|string',
+                'relationship.relationship_name' => 'nullable|string',
+                // 'relationship.relationship_name' => 'required_if:relationship.is_relationship,true|string',
 
                 'standard.certificate.*.cer_name_th' => 'required|string',
                 'standard.certificate.*.cer_name_en' => 'required|string',
@@ -364,9 +365,9 @@ class RegistrationController extends Controller
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
                 'payment_term.company_policy.*.is_checked' => 'required|boolean',
-                'payment_term.objective_purchasing.name' => 'required|string',
+                'payment_term.objective_purchasing.name' => 'required|string|in:trade,produce,other',
                 'payment_term.objective_purchasing.value' => 'required|string',
-                'payment_term.main_customer.name' => 'required|string',
+                'payment_term.main_customer.name' => 'required|string|in:thai,foreign', //foreign
                 'payment_term.main_customer.value' => 'required|string',
             ];
 
