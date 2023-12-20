@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "dfdab1ea-4bfe-420e-925c-04ed91c3c305",
-		"name": "iCRS",
+		"name": "iCRS [16]",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15054079",
 		"_collection_link": "https://blue-desert-843613.postman.co/workspace/Projects~fa0f08fc-3a20-4a58-b5ce-17314fa3ab8d/collection/15054079-dfdab1ea-4bfe-420e-925c-04ed91c3c305?action=share&source=collection_link&creator=15054079"
@@ -465,7 +465,7 @@
 			]
 		},
 		{
-			"name": "templates [6]✔️",
+			"name": "templates [7]✔️",
 			"item": [
 				{
 					"name": "Upload Documents",
@@ -552,6 +552,24 @@
 							"path": [
 								"template",
 								"company-policy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Business Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/template/business-types",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"template",
+								"business-types"
 							]
 						}
 					},

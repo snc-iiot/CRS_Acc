@@ -62,6 +62,7 @@ Route::prefix('template')->controller(JsonTemplateController::class)->group(func
     Route::get('/delivery-terms', 'deliveryTerms');
     Route::get('/company-policy', 'companyPolicy');
     Route::get('/business-types', 'businessTypes');
+    Route::get('/country-codes', 'countryCodes');
     Route::get('/all-company', 'allCompany');
 });
 
