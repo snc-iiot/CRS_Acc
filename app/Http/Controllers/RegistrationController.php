@@ -823,7 +823,7 @@ class RegistrationController extends Controller
             // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้",
+                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no
@@ -891,7 +891,7 @@ class RegistrationController extends Controller
             // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้",
+                "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no
@@ -956,7 +956,7 @@ class RegistrationController extends Controller
             // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถระงับข้อมูลได้",
+                "message" => "ไม่สามารถระงับข้อมูลได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no

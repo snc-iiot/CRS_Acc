@@ -46,20 +46,20 @@ class GeneralAssessmentController extends Controller
                 "machine_produce.*.label_en"    => "required|string",
                 "machine_produce.*.is_checked"  => "required|boolean",
                 "machine_produce.*.value"       => "nullable",
-                "machine_produce.*.value.amount"    => "required|integer|min:0",
-                "machine_produce.*.value.ROI"       => "required|integer|min:0",
-                "machine_produce.*.value.ROA"       => "required|integer|min:0",
-                "machine_produce.*.value.payback"   => "required|integer|min:0",
+                // "machine_produce.*.value.amount"    => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "machine_produce.*.value.ROI"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "machine_produce.*.value.ROA"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "machine_produce.*.value.payback"   => "required_if:mold_use.*.value!=null|integer|min:0",
 
                 "mold_use.*.id"          => "required|string",
                 "mold_use.*.label_th"    => "required|string",
                 "mold_use.*.label_en"    => "required|string",
                 "mold_use.*.is_checked"  => "required|boolean",
                 "mold_use.*.value"       => "nullable",
-                "mold_use.*.value.amount"    => "required|integer|min:0",
-                "mold_use.*.value.ROI"       => "required|integer|min:0",
-                "mold_use.*.value.ROA"       => "required|integer|min:0",
-                "mold_use.*.value.payback"   => "required|integer|min:0",
+                // "mold_use.*.value.amount"    => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "mold_use.*.value.ROI"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "mold_use.*.value.ROA"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "mold_use.*.value.payback"   => "required_if:mold_use.*.value!=null|integer|min:0",
 
                 "main_material.*.id"          => "required|string",
                 "main_material.*.label_th"    => "required|string",
@@ -117,7 +117,7 @@ class GeneralAssessmentController extends Controller
             // $result = DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->whereIn("status_no", [1])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้",
+                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no
@@ -189,20 +189,20 @@ class GeneralAssessmentController extends Controller
                 "machine_produce.*.label_en"    => "required|string",
                 "machine_produce.*.is_checked"  => "required|boolean",
                 "machine_produce.*.value"       => "nullable",
-                "machine_produce.*.value.amount"    => "required|integer|min:0",
-                "machine_produce.*.value.ROI"       => "required|integer|min:0",
-                "machine_produce.*.value.ROA"       => "required|integer|min:0",
-                "machine_produce.*.value.payback"   => "required|integer|min:0",
+                // "machine_produce.*.value.amount"    => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "machine_produce.*.value.ROI"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "machine_produce.*.value.ROA"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "machine_produce.*.value.payback"   => "required_if:mold_use.*.value!=null|integer|min:0",
 
                 "mold_use.*.id"          => "required|string",
                 "mold_use.*.label_th"    => "required|string",
                 "mold_use.*.label_en"    => "required|string",
                 "mold_use.*.is_checked"  => "required|boolean",
                 "mold_use.*.value"       => "nullable",
-                "mold_use.*.value.amount"    => "required|integer|min:0",
-                "mold_use.*.value.ROI"       => "required|integer|min:0",
-                "mold_use.*.value.ROA"       => "required|integer|min:0",
-                "mold_use.*.value.payback"   => "required|integer|min:0",
+                // "mold_use.*.value.amount"    => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "mold_use.*.value.ROI"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "mold_use.*.value.ROA"       => "required_if:mold_use.*.value!=null|integer|min:0",
+                // "mold_use.*.value.payback"   => "required_if:mold_use.*.value!=null|integer|min:0",
 
                 "main_material.*.id"          => "required|string",
                 "main_material.*.label_th"    => "required|string",
@@ -259,7 +259,7 @@ class GeneralAssessmentController extends Controller
             // $result = DB::table("tb_general_assessments")->select(["approvals"])->where("regis_id", $request->regis_id)->whereIn("status_no", [3])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้",
+                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no
