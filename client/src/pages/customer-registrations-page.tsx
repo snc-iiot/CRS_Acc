@@ -59,7 +59,7 @@ const CustomerRegistrations: FC = () => {
         regis_id: regisId.data?.[0]?.regis_id || "",
       });
       navigate(
-        `/registrations/customer/register?RegisID=${regisId.data?.[0]?.regis_id}&?mode=${MODE_CODE.CREATE}`,
+        `/registrations/customer/register?RegisID=${regisId.data?.[0]?.regis_id}&mode=${MODE_CODE.CREATE}`,
       );
     }
   };

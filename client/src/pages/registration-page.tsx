@@ -26,6 +26,7 @@ const RegistrationPage: FC = () => {
   const { confirmSwal, showError } = useSwal();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("RegisID");
+  const mode = searchParams.get("mode");
   const [isAcceptConsent, setIsAcceptConsent] = useState<{
     consent_1: boolean;
     consent_2: boolean;
@@ -99,36 +100,39 @@ const RegistrationPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    setRegistration({
-      ...registration,
-      regis_id: id ? id : "",
-      payment_term: {
-        ...registration?.payment_term,
-        delivery_term: deliveryTermsList,
-        company_policy: companyPolicyList,
-      },
-      standard: {
-        ...registration?.standard,
-        certificate: certificatedList?.map((item) => {
-          return {
-            ...item,
-            value: "-",
-          };
-        }),
-        benefit: benefitsList?.map((item) => {
-          return {
-            ...item,
-            value: "-",
-          };
-        }),
-      },
-    });
+    if (mode?.toLowerCase() == "create") {
+      setRegistration({
+        ...registration,
+        regis_id: id ? id : "",
+        payment_term: {
+          ...registration?.payment_term,
+          delivery_term: deliveryTermsList,
+          company_policy: companyPolicyList,
+        },
+        standard: {
+          ...registration?.standard,
+          certificate: certificatedList?.map((item) => {
+            return {
+              ...item,
+              value: "-",
+            };
+          }),
+          benefit: benefitsList?.map((item) => {
+            return {
+              ...item,
+              value: "-",
+            };
+          }),
+        },
+      });
+    }
   }, [
     id,
     certificatedList,
     benefitsList,
     companyPolicyList,
     deliveryTermsList,
+    mode,
   ]);
 
   useEffect(() => {
@@ -274,7 +278,8 @@ const RegistrationPage: FC = () => {
               ยกเลิก
             </Button>
             <Button type="submit" disabled={!isAcceptConsentAll}>
-              ลงทะเบียน
+              {/* ลงทะเบียน */}
+              {mode?.toLowerCase() === "create" ? "ลงทะเบียน" : "แก้ไข"}
             </Button>
           </section>
         </main>

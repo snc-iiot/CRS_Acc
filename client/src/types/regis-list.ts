@@ -1,5 +1,5 @@
 export type TRegisList = {
-  regis_info_id: string;
+  regis_id: string;
   juristic_id: string;
   company_name: string;
   company_admin: string;

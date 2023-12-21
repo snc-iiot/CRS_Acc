@@ -19,6 +19,7 @@ export const queryKey = {
   UPLOAD_FILE: "UPLOAD_FILE",
   GET_REGIS_LIST: "GET_REGIS_LIST",
   GET_REGIS_BY_ID: "GET_REGIS_BY_ID",
+  DELETE_DOC_BY_ID: "DELETE_DOC_BY_ID",
 };
 
 export const LatitudesLongitudes = {

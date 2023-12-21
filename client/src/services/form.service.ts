@@ -90,4 +90,26 @@ export class FormService extends APIService {
       return {} as TRegistrationForm;
     }
   };
+
+  deleteDoc = async ({
+    regis_id,
+    doc_name,
+  }: {
+    regis_id: string;
+    doc_name: string;
+  }): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.delete(
+        `/registration/delete-document?regis_id=${regis_id}&doc_name=${doc_name}`,
+      );
+      return responseData;
+    } catch (error: any) {
+      console.error("FormService -> deleteDoc -> error", error);
+      return {
+        data: [],
+        message: error?.response?.data?.message ?? "Something went wrong",
+        status: "error",
+      };
+    }
+  };
 }

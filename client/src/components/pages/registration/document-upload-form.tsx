@@ -12,7 +12,7 @@ import { useSearchParams } from "react-router-dom";
 
 const DocumentUploadForm: FC = () => {
   const { mutateGetDocByRegisId } = useUtils();
-  const { mutateUploadFile } = useForm();
+  const { mutateUploadFile, mutateDeleteDocById } = useForm();
   const [searchParams] = useSearchParams();
   const regisId = searchParams.get("RegisID");
   const { registration, docByRegisId } = useAtomStore();
@@ -109,8 +109,21 @@ const DocumentUploadForm: FC = () => {
                           );
                         }}
                       >
-                        {docByRegisId?.documents?.[item?.name]}
+                        {docByRegisId?.documents?.[item?.name] ?? "-"}
                       </p>
+                      <Icons.trash
+                        className="h-4 w-4 cursor-pointer text-red-500"
+                        onClick={async () => {
+                          await mutateDeleteDocById({
+                            regis_id: regisId as string,
+                            doc_name: item?.name,
+                          });
+                          await mutateGetDocByRegisId(regisId as string);
+                          document
+                            .getElementById(`${item?.name}`)
+                            ?.setAttribute("value", "");
+                        }}
+                      />
                     </div>
                   ) : (
                     <p className="text-sm text-gray-500">

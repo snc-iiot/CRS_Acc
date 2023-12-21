@@ -98,7 +98,10 @@ export const useForm = () => {
     },
     onSuccess: (data) => {
       closeSwal();
-      setRegistration(data);
+      setRegistration({
+        ...data,
+        regis_id: data?.regis_id ?? "",
+      });
     },
     onError: (error) => {
       closeSwal();
@@ -107,10 +110,40 @@ export const useForm = () => {
     },
   });
 
+  const { mutateAsync: mutateDeleteDocById } = useMutation<
+    TResponseAction,
+    Error,
+    { doc_name: string; regis_id: string }
+  >({
+    mutationKey: [queryKey.DELETE_DOC_BY_ID],
+    mutationFn: (data: { doc_name: string; regis_id: string }) =>
+      formService.deleteDoc({
+        doc_name: data.doc_name,
+        regis_id: data.regis_id,
+      }),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      queryClient.refetchQueries({
+        queryKey: [queryKey.GET_DOC_BY_REGIS_ID],
+      });
+      closeSwal();
+      if (data?.status === "error") {
+        showError("ลบไฟล์ไม่สำเร็จ", data?.message);
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError(error?.message, error?.message);
+    },
+  });
+
   return {
     mutateCreateNewCustomer,
     useGetRegisList,
     mutateUploadFile,
     mutateGetRegisById,
+    mutateDeleteDocById,
   };
 };

@@ -14,8 +14,11 @@ import { cn } from "@/lib/utils";
 import CurrentCode from "@/mock/currency-code.json";
 import IncotermList from "@/mock/incoterm.json";
 import { FC, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const StandardInformationForm: FC = () => {
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get("mode");
   const refCertification = useRef<HTMLDivElement>(null);
   const [depositType, setDepositType] = useState<string>("");
   const [warranty, setWarranty] = useState<string>("");
@@ -34,41 +37,37 @@ const StandardInformationForm: FC = () => {
   const CreditTerm = ["cash", "30", "60", "75", "90"];
 
   useEffect(() => {
-    setRegistration((prev) => ({
-      ...prev,
-      payment_term: {
-        ...prev.payment_term,
-        company_policy: companyPolicyList,
-        delivery_term: deliveryTermsList,
-      },
-      standard: {
-        certificate: certificatedList?.map((item) => {
-          return {
-            ...item,
-            value: "-",
-          };
-        }),
-        benefit: benefitsList?.map((item) => {
-          return {
-            ...item,
-            value: "-",
-          };
-        }),
-      },
-    }));
-  }, [companyPolicyList, certificatedList, benefitsList, deliveryTermsList]);
-
-  // useEffect(() => {
-  //   // ถ้า checkbox ที่ิอยู่ภายใน Ref มีค่าเป็น false หมด ให้ scroll ไป checkbox ตัวแรก
-  //   if (
-  //     !registration?.standard?.certificate?.find((item) => item?.is_checked)
-  //   ) {
-  //     refCertification?.current?.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "center",
-  //     });
-  //   }
-  // }, [registration?.standard?.certificate]);
+    if (mode?.toLowerCase() === "create") {
+      setRegistration((prev) => ({
+        ...prev,
+        payment_term: {
+          ...prev.payment_term,
+          company_policy: companyPolicyList,
+          delivery_term: deliveryTermsList,
+        },
+        standard: {
+          certificate: certificatedList?.map((item) => {
+            return {
+              ...item,
+              value: "-",
+            };
+          }),
+          benefit: benefitsList?.map((item) => {
+            return {
+              ...item,
+              value: "-",
+            };
+          }),
+        },
+      }));
+    }
+  }, [
+    companyPolicyList,
+    certificatedList,
+    benefitsList,
+    deliveryTermsList,
+    mode,
+  ]);
 
   return (
     <section id="standard-certification-info" className="pr-4">

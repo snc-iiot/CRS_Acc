@@ -42,15 +42,19 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { MODE_CODE } from "@/helpers/common.helper";
+import { useSwal } from "@/hooks/use-swal";
 import { cn, COLORS_SERIES } from "@/lib/utils";
 import MockCompany from "@/mock/company.json";
-import { useForm } from "@/services/";
+import { useForm, useUtils } from "@/services/";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationInfo: FC = () => {
+  const { confirmSwal } = useSwal();
   const [searchParams] = useSearchParams();
   const { mutateGetRegisById } = useForm();
+  const { mutateGetDocByRegisId } = useUtils();
   const RegisID = searchParams.get("RegisID");
   const navigate = useNavigate();
   const [viewPage, setViewPage] = useState<string>("2");
@@ -89,10 +93,6 @@ const RegistrationInfo: FC = () => {
       label: "(R4) Overall Assessment",
       value: "R4",
     },
-    // {
-    //   label: "Assessment Result",
-    //   value: "R5",
-    // },
   ];
 
   const showSplitScreen: {
@@ -144,6 +144,7 @@ const RegistrationInfo: FC = () => {
 
   const getRegisById = async () => {
     try {
+      await mutateGetDocByRegisId(RegisID as string);
       await mutateGetRegisById(RegisID as string);
     } catch (error) {
       console.log(error);
@@ -286,7 +287,19 @@ const RegistrationInfo: FC = () => {
                   viewPage == "L" ? "w-full" : "w-1/3",
                 )}
               >
-                <Button className="bg-yellow-500 hover:bg-yellow-500/80">
+                <Button
+                  className="bg-yellow-500 hover:bg-yellow-500/80"
+                  onClick={async () => {
+                    const isConfirm = await confirmSwal(
+                      "แก้ไขข้อมูลลูกค้า",
+                      "คุณต้องการแก้ไขข้อมูลลูกค้าใช่หรือไม่",
+                    );
+                    if (isConfirm)
+                      navigate(
+                        `/registrations/customer/register?RegisID=${RegisID}&mode=${MODE_CODE.EDIT}`,
+                      );
+                  }}
+                >
                   <Icons.edit className="mr-2 h-5 w-5" /> แก้ไขข้อมูลลูกค้า
                 </Button>
               </div>

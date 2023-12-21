@@ -211,7 +211,7 @@ export const InitialRegistration: TRegistrationForm = {
     phone_number: "",
     juristic_id: "",
     website: "",
-    nature_of_business: "",
+    nature_of_business: 0,
     company_registration: {
       is_thai: true,
       country: "",

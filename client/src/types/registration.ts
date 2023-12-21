@@ -1,5 +1,4 @@
 export type TRegistrationForm = {
-  regis_info_id?: string;
   regis_id: string;
   informant_name: string;
   company_information: TCompanyInformation;
