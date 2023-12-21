@@ -11,19 +11,36 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { UploadDocument } from "@/helpers/document.helper";
 import { HeaderConditions, Sections } from "@/helpers/register.helper";
 import { validateRegisterForm } from "@/helpers/validate.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
-import { useForm } from "@/services";
-import { FC, useEffect, useState } from "react";
+import { useForm, useUtils } from "@/services";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationPage: FC = () => {
+  const { mutateGetDocByRegisId } = useUtils();
   const { confirmSwal, showError } = useSwal();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("RegisID");
+  const [isAcceptConsent, setIsAcceptConsent] = useState<{
+    consent_1: boolean;
+    consent_2: boolean;
+    consent_3: boolean;
+  }>({
+    consent_1: false,
+    consent_2: false,
+    consent_3: false,
+  });
+
+  const isAcceptConsentAll =
+    isAcceptConsent.consent_1 &&
+    isAcceptConsent.consent_2 &&
+    isAcceptConsent.consent_3;
+
   const MODE = "register";
   const { mutateCreateNewCustomer } = useForm();
   const {
@@ -31,8 +48,9 @@ const RegistrationPage: FC = () => {
     setRegistration,
     certificatedList,
     benefitsList,
-    deliveryTermsList,
     companyPolicyList,
+    deliveryTermsList,
+    docByRegisId,
   } = useAtomStore();
 
   const navigate = useNavigate();
@@ -52,9 +70,6 @@ const RegistrationPage: FC = () => {
     });
   };
 
-  /* The `useEffect` hook is used to perform side effects in a functional component. In this case, it is
-used to create an `IntersectionObserver` that observes the sections on the page and updates the
-active section based on the intersection. */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -89,10 +104,11 @@ active section based on the intersection. */
       regis_id: id ? id : "",
       payment_term: {
         ...registration?.payment_term,
-        company_policy: companyPolicyList,
         delivery_term: deliveryTermsList,
+        company_policy: companyPolicyList,
       },
       standard: {
+        ...registration?.standard,
         certificate: certificatedList?.map((item) => {
           return {
             ...item,
@@ -108,14 +124,31 @@ active section based on the intersection. */
       },
     });
   }, [
-    benefitsList,
+    id,
     certificatedList,
+    benefitsList,
     companyPolicyList,
     deliveryTermsList,
-    id,
-    registration,
-    setRegistration,
   ]);
+
+  useEffect(() => {
+    if (id) {
+      mutateGetDocByRegisId(id);
+    }
+  }, [id]);
+
+  const checkDocument = useCallback(() => {
+    const doc = UploadDocument(registration);
+    const docList = docByRegisId?.documents;
+    const docName = Object?.keys(docList);
+    const check = doc?.some((item) => {
+      if (docName.includes(item?.name)) {
+        return docList?.[item?.name] === "";
+      }
+      return false;
+    });
+    return check;
+  }, [registration, docByRegisId]);
 
   return (
     <div className="relative h-full w-full overflow-y-auto py-2">
@@ -124,7 +157,12 @@ active section based on the intersection. */
         onSubmit={async (e) => {
           e.preventDefault();
           const { isValid, error_th } = validateRegisterForm(registration);
-          if (!isValid) {
+          if (checkDocument()) {
+            showError(
+              "กรุณาอัพโหลดเอกสารให้ครบถ้วน",
+              "กรุณาอัพโหลดเอกสารให้ครบถ้วน",
+            );
+          } else if (!isValid) {
             showError(error_th, "กรุณากรอกข้อมูลให้ครบถ้วน");
           } else {
             const idConfirm = await confirmSwal(
@@ -132,21 +170,21 @@ active section based on the intersection. */
               "คุณต้องการลงทะเบียนใช่หรือไม่",
             );
             if (idConfirm) {
-              const cer = registration?.standard?.certificate?.filter(
-                (item) => item.is_checked === true,
-              );
-              const benefit = registration?.standard?.benefit?.filter(
-                (item) => item.is_checked === true,
-              );
-              const data = {
-                ...registration,
-                standard: {
-                  ...registration?.standard,
-                  certificate: cer,
-                  benefit: benefit,
-                },
-              };
-              mutateCreateNewCustomer(data);
+              // const cer = registration?.standard?.certificate?.filter(
+              //   (item) => item.is_checked === true,
+              // );
+              // const benefit = registration?.standard?.benefit?.filter(
+              //   (item) => item.is_checked === true,
+              // );
+              // const data = {
+              //   ...registration,
+              //   standard: {
+              //     ...registration?.standard,
+              //     certificate: cer,
+              //     benefit: benefit,
+              //   },
+              // };
+              mutateCreateNewCustomer(registration);
             }
           }
         }}
@@ -216,7 +254,10 @@ active section based on the intersection. */
                     <RelationshipInformationForm />
                     <StandardInformationForm />
                     <DocumentUploadForm />
-                    <ConsentForm />
+                    <ConsentForm
+                      isAcceptConsent={isAcceptConsent}
+                      setIsAcceptConsent={setIsAcceptConsent}
+                    />
                     <ScrollBar />
                   </ScrollArea>
                 </section>
@@ -232,7 +273,9 @@ active section based on the intersection. */
             >
               ยกเลิก
             </Button>
-            <Button type="submit">ลงทะเบียน</Button>
+            <Button type="submit" disabled={!isAcceptConsentAll}>
+              ลงทะเบียน
+            </Button>
           </section>
         </main>
       </form>

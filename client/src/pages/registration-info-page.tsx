@@ -44,12 +44,14 @@ import {
 } from "@/components/ui/tooltip";
 import { cn, COLORS_SERIES } from "@/lib/utils";
 import MockCompany from "@/mock/company.json";
+import { useForm } from "@/services/";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationInfo: FC = () => {
   const [searchParams] = useSearchParams();
-  const RegisID = Number(searchParams.get("RegisID"));
+  const { mutateGetRegisById } = useForm();
+  const RegisID = searchParams.get("RegisID");
   const navigate = useNavigate();
   const [viewPage, setViewPage] = useState<string>("2");
   const [activeTab, setActiveTab] = useState<string>("R1");
@@ -140,17 +142,18 @@ const RegistrationInfo: FC = () => {
     },
   ];
 
-  useEffect(() => {
-    const initPage = setTimeout(() => {
-      if (isNaN(RegisID)) {
-        navigate("/");
-      }
-    }, 0);
+  const getRegisById = async () => {
+    try {
+      await mutateGetRegisById(RegisID as string);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    return () => {
-      clearTimeout(initPage);
-    };
-  }, [RegisID, navigate]);
+  useEffect(() => {
+    if (!RegisID) navigate("/registration");
+    getRegisById();
+  }, [RegisID]);
 
   return (
     <FadeIn>

@@ -19,5 +19,6 @@ module.exports = {
     // quotes: ['error', 'double'],
     // any
     "@typescript-eslint/no-explicit-any": "off",
+    "react-hooks/exhaustive-deps": "off",
   },
 };

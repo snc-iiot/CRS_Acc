@@ -184,7 +184,13 @@ const CompanyInformationForm: FC = () => {
                     จดทะเบียนนอกประเทศ
                   </Label>
                   <select
-                    className="w-full border-b text-sm focus:border-blue-500 focus:outline-none"
+                    className={cn(
+                      "w-full border-b text-sm focus:border-blue-500 focus:outline-none",
+                      registration?.company_information?.company_registration
+                        ?.is_thai
+                        ? "hidden"
+                        : "",
+                    )}
                     onChange={(e) => {
                       const { name, value } = e.target;
                       setRegistration((prev) => ({

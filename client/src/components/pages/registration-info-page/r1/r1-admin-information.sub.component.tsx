@@ -1,12 +1,3 @@
-// import { Icons } from "@/components/common/icons";
-// import {
-//   Input,
-//   InputGroup,
-//   InputLeftAddon,
-//   InputRightAddon,
-// } from "@/components/ui/input-custom";
-// import { Input } from "@/components/ui/input";
-// import { Select } from "@/components/ui/select-custom";
 import CalculatePlayback from "@/components/common/calculate-playback";
 import CalculateRoa from "@/components/common/calculate-roa";
 import CalculateRoi from "@/components/common/calculate-roi";
@@ -521,7 +512,7 @@ export const R1AdminInformation: FC = () => {
                 return 0;
               }).map((info, i) => (
                 <option key={i} value={info.alpha2}>
-                  {info?.name}
+                  {info?.alpha2}
                 </option>
               ))}
             </select>

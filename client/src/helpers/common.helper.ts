@@ -1,8 +1,5 @@
 import { TRegistrationForm } from "@/types";
 
-// export const API_BASE_URL =
-//   "http://10.11.20.53:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
-
 export const API_BASE_URL =
   "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
 
@@ -21,6 +18,7 @@ export const queryKey = {
   GET_DOC_BY_REGIS_ID: "GET_DOC_BY_REGIS_ID",
   UPLOAD_FILE: "UPLOAD_FILE",
   GET_REGIS_LIST: "GET_REGIS_LIST",
+  GET_REGIS_BY_ID: "GET_REGIS_BY_ID",
 };
 
 export const LatitudesLongitudes = {

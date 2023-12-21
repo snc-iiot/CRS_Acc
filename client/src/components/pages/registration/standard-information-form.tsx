@@ -13,9 +13,10 @@ import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import CurrentCode from "@/mock/currency-code.json";
 import IncotermList from "@/mock/incoterm.json";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 const StandardInformationForm: FC = () => {
+  const refCertification = useRef<HTMLDivElement>(null);
   const [depositType, setDepositType] = useState<string>("");
   const [warranty, setWarranty] = useState<string>("");
   const {
@@ -37,8 +38,8 @@ const StandardInformationForm: FC = () => {
       ...prev,
       payment_term: {
         ...prev.payment_term,
-        company_policy: companyPolicyList?.map((item) => item),
-        delivery_term: deliveryTermsList?.map((item) => item),
+        company_policy: companyPolicyList,
+        delivery_term: deliveryTermsList,
       },
       standard: {
         certificate: certificatedList?.map((item) => {
@@ -55,13 +56,19 @@ const StandardInformationForm: FC = () => {
         }),
       },
     }));
-  }, [
-    companyPolicyList,
-    setRegistration,
-    certificatedList,
-    benefitsList,
-    deliveryTermsList,
-  ]);
+  }, [companyPolicyList, certificatedList, benefitsList, deliveryTermsList]);
+
+  // useEffect(() => {
+  //   // ถ้า checkbox ที่ิอยู่ภายใน Ref มีค่าเป็น false หมด ให้ scroll ไป checkbox ตัวแรก
+  //   if (
+  //     !registration?.standard?.certificate?.find((item) => item?.is_checked)
+  //   ) {
+  //     refCertification?.current?.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "center",
+  //     });
+  //   }
+  // }, [registration?.standard?.certificate]);
 
   return (
     <section id="standard-certification-info" className="pr-4">
@@ -84,7 +91,10 @@ const StandardInformationForm: FC = () => {
                 </h3>
               </div>
               <div className="col-span-6 flex justify-start">
-                <div className="grid w-full grid-cols-1 gap-1">
+                <div
+                  className="grid w-full grid-cols-1 gap-1"
+                  ref={refCertification}
+                >
                   {registration?.standard?.certificate
                     ?.filter((item) => item.cer_id !== 15)
                     ?.map((item, i) => (
@@ -101,6 +111,7 @@ const StandardInformationForm: FC = () => {
                                 (info) => info?.cer_id === 17,
                               )?.is_checked && item?.cer_id !== 17
                             }
+                            name={item.cer_name_en?.toString()}
                             id={item.cer_id?.toString()}
                             onCheckedChange={(e) => {
                               if (item.cer_id === 17) {
@@ -115,6 +126,8 @@ const StandardInformationForm: FC = () => {
                                             return {
                                               ...info,
                                               is_checked: false,
+                                              exp: "",
+                                              value: "-",
                                             };
                                           }
                                           return info;
@@ -219,11 +232,12 @@ const StandardInformationForm: FC = () => {
                           </p>
                           <input
                             type="date"
+                            name={`exp-${item?.cer_id}`}
                             className="w-full rounded-sm border px-2 text-sm"
                             required={
                               registration?.standard?.certificate?.find(
                                 (info) => info?.cer_id === item?.cer_id,
-                              )?.is_checked
+                              )?.is_checked && item?.cer_id !== 17
                             }
                             disabled={
                               !registration.standard.certificate?.find(
@@ -345,6 +359,8 @@ const StandardInformationForm: FC = () => {
                                         return {
                                           ...info,
                                           is_checked: false,
+                                          exp: "",
+                                          value: "-",
                                         };
                                       }
                                       return info;
@@ -401,7 +417,7 @@ const StandardInformationForm: FC = () => {
                           required={
                             registration?.standard?.benefit?.find(
                               (info) => info?.cer_id === item?.cer_id,
-                            )?.is_checked
+                            )?.is_checked && item?.cer_id !== 4
                           }
                           disabled={
                             !registration?.standard?.benefit?.find(
@@ -519,6 +535,9 @@ const StandardInformationForm: FC = () => {
                         },
                       },
                     }));
+                  }}
+                  onInvalid={(e) => {
+                    e.preventDefault();
                   }}
                   required
                   value={registration?.payment_term?.credit_term?.name}
@@ -1136,7 +1155,13 @@ const StandardInformationForm: FC = () => {
                       </label>
                     </div>
                     <select
-                      className="rounded-sm border px-2 py-[0.1rem] text-sm"
+                      className={cn(
+                        "rounded-sm border px-2 py-[0.1rem] text-sm",
+                        !registration?.payment_term?.product_warranty
+                          ?.is_warranty
+                          ? "hidden"
+                          : "",
+                      )}
                       disabled={
                         !registration?.payment_term?.product_warranty
                           ?.is_warranty
@@ -1432,7 +1457,8 @@ const StandardInformationForm: FC = () => {
                       <Label htmlFor={item?.name} className="whitespace-nowrap">
                         {item?.label ?? "-"}
                       </Label>
-                      {item?.name === "foreign" && (
+                      {registration?.payment_term?.main_customer?.name ===
+                        "foreign" && (
                         <select
                           placeholder="เลือกประเทศ"
                           className={cn(
@@ -1451,10 +1477,10 @@ const StandardInformationForm: FC = () => {
                               },
                             }));
                           }}
-                          // required={
-                          //   registration?.payment_term?.main_customer?.name ===
-                          //   "foreigner"
-                          // }
+                          required={
+                            registration?.payment_term?.main_customer?.name ===
+                            "foreign"
+                          }
                           value={
                             registration?.payment_term?.main_customer?.value ??
                             ""

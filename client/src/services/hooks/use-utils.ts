@@ -1,7 +1,6 @@
 import { queryKey } from "@/helpers/common.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
-import MockBusinessTypeList from "@/mock/business-type-list.json";
 import MockCompanyList from "@/mock/company-list.json";
 import {
   TBenefitsList,
@@ -43,9 +42,9 @@ export const useUtils = () => {
         utilsService.getBusinessTypeList(),
       select(data: TBusinessTypeList[]) {
         if (data.length === 0) {
-          setBusinessTypeList(MockBusinessTypeList);
+          setBusinessTypeList([]);
         }
-        setBusinessTypeList(MockBusinessTypeList);
+        setBusinessTypeList(data);
         return data;
       },
     });

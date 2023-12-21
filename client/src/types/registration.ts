@@ -1,4 +1,5 @@
 export type TRegistrationForm = {
+  regis_info_id?: string;
   regis_id: string;
   informant_name: string;
   company_information: TCompanyInformation;
@@ -7,6 +8,9 @@ export type TRegistrationForm = {
   relationship: TRelationship;
   standard: TStandard;
   payment_term: TPaymentTerm;
+  status_no?: number;
+  created_at?: string;
+  updated_at?: string;
 };
 
 export type TCompanyInformation = {
@@ -21,7 +25,7 @@ export type TCompanyInformation = {
   phone_number: string;
   juristic_id: string;
   website: string;
-  nature_of_business: string;
+  nature_of_business: number;
   company_registration: {
     is_thai: boolean;
     country: string;

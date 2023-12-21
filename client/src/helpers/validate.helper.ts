@@ -22,8 +22,15 @@ export const validateRegisterForm = (values: TRegistrationForm) => {
     isValid = false;
     error_th = "กรุณาระบุสิทธิประโยชน์ที่ได้รับ";
     error_en = "Benefit";
+  } else if (
+    values?.payment_term?.delivery_term.every(
+      (item) => item.is_checked === false,
+    )
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุเงื่อนไขการขนส่งสินค้า";
+    error_en = "Delivery term";
   }
-
   return {
     isValid,
     error_th,

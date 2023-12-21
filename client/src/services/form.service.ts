@@ -46,11 +46,9 @@ export class FormService extends APIService {
     setProgress: (progress: number) => void,
   ): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.post(
-        `/registration/upload-file`,
-        {
-          file,
-        },
+      const { data: responseData } = await this.patch(
+        `/registration/upload-document`,
+        file,
         {
           onUploadProgress: (progressEvent: any) => {
             const percentage = Math.round(
@@ -78,6 +76,18 @@ export class FormService extends APIService {
     } catch (error: any) {
       console.error("FormService -> getRegisList -> error", error);
       return [] as TRegisList[];
+    }
+  };
+
+  getRegisById = async (regisId: string): Promise<TRegistrationForm> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/registration/info?id=${regisId}`,
+      );
+      return responseData?.data?.[0] ?? ({} as TRegistrationForm);
+    } catch (error: any) {
+      console.error("FormService -> getRegisById -> error", error);
+      return {} as TRegistrationForm;
     }
   };
 }

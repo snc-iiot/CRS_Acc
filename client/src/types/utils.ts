@@ -5,8 +5,10 @@ export type TResponseAction = {
 };
 
 export type TBusinessTypeList = {
-  business_id: string;
-  business_type: string;
+  business_type_id: number;
+  business_type_th: string;
+  business_type_en: string;
+  value: string;
 };
 
 export type TDocumentKeyList = {

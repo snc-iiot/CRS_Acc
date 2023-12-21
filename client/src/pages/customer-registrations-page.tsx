@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { MODE_CODE } from "@/helpers/common.helper";
+import { InitialRegistration } from "@/helpers/register.helper";
 import { status, statusHelper } from "@/helpers/status.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
@@ -53,10 +54,10 @@ const CustomerRegistrations: FC = () => {
     const regisId = await mutateGetRegisterId();
     if (regisId.status === "success") {
       if (!regisId.data?.[0]?.regis_id) return;
-      setRegistration((prev) => ({
-        ...prev,
+      setRegistration({
+        ...InitialRegistration,
         regis_id: regisId.data?.[0]?.regis_id || "",
-      }));
+      });
       navigate(
         `/registrations/customer/register?RegisID=${regisId.data?.[0]?.regis_id}&?mode=${MODE_CODE.CREATE}`,
       );

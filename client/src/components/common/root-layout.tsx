@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { collapsedAtom } from "@/jotai/atom";
-import { useAtomStore } from "@/jotai/use-atom-store";
+// import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { useProfile } from "@/services/hooks/use-profile";
 import { useAtom } from "jotai";
@@ -24,10 +24,10 @@ import ThemeToggle from "./theme-toggle";
 
 const RootLayout: FC = () => {
   const { profile } = useProfile();
-  const { registration } = useAtomStore();
-  console.log("====================================");
-  console.log("registration", registration);
-  console.log("====================================");
+  // const { registration } = useAtomStore();
+  // console.log("====================================");
+  // console.log("registration", registration);
+  // console.log("====================================");
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useAtom(collapsedAtom);
 

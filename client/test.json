@@ -1,0 +1,355 @@
+{
+  "regis_id": "71e2b1fe-e297-4176-802d-aa441b70a346",
+  "informant_name": "",
+  "company_information": {
+    "company_admin": "",
+    "company_name": "",
+    "address": "",
+    "country": "",
+    "province": "",
+    "district": "",
+    "sub_district": "",
+    "zip_code": "",
+    "phone_number": "",
+    "juristic_id": "",
+    "website": "",
+    "nature_of_business": "",
+    "company_registration": { "is_thai": true, "country": "" }
+  },
+  "share_holder": {
+    "hight_nationalities": { "nationalities": "", "percentage": 0 },
+    "thai_nationalities": 0,
+    "other_nationalities": 0
+  },
+  "contact_person": [
+    {
+      "position_th": "ฝ่ายจัดซื้อ",
+      "position_en": "scm_officer",
+      "name": "",
+      "tel": "",
+      "email": ""
+    },
+    {
+      "position_th": "ผู้จัดการฝ่ายจัดซื้อ",
+      "position_en": "scm_department_manager",
+      "name": "",
+      "tel": "",
+      "email": ""
+    },
+    {
+      "position_th": "ฝ่ายบัญชีและการเงิน",
+      "position_en": "accounting_officer",
+      "name": "",
+      "tel": "",
+      "email": ""
+    },
+    {
+      "position_th": "ผู้จัดการฝ่ายบัญชีและการเงิน",
+      "position_en": "accounting_department_manager",
+      "name": "",
+      "tel": "",
+      "email": ""
+    },
+    {
+      "position_th": "กรรมการผู้จัดการ",
+      "position_en": "managing_director",
+      "name": "",
+      "tel": "",
+      "email": ""
+    }
+  ],
+  "relationship": { "is_relationship": false, "relationship_name": "" },
+  "standard": {
+    "certificate": [
+      {
+        "cer_id": 1,
+        "cer_name_th": "ISO 14064-1:2018",
+        "cer_name_en": "ISO 14064-1:2018",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 2,
+        "cer_name_th": "ISO 14001:2015",
+        "cer_name_en": "ISO 14001:2015",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 3,
+        "cer_name_th": "ISO 26000",
+        "cer_name_en": "ISO 26000",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 4,
+        "cer_name_th": "ISO/IEC 17025:2017",
+        "cer_name_en": "ISO/IEC 17025:2017",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 5,
+        "cer_name_th": "ISO 9001",
+        "cer_name_en": "ISO 9001",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 6,
+        "cer_name_th": "OHSAS 18001:2007",
+        "cer_name_en": "OHSAS 18001:2007",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 7,
+        "cer_name_th": "IATF 16949:2016",
+        "cer_name_en": "IATF 16949:2016",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 8,
+        "cer_name_th": "มรท. 8001-2546",
+        "cer_name_en": "TLS 8001-2003",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 9,
+        "cer_name_th": "มอก. 18001:1999",
+        "cer_name_en": "TIS 18001:1999",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 10,
+        "cer_name_th": "ใบรับรอง CBAM",
+        "cer_name_en": "CBAM-Certificates",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 11,
+        "cer_name_th": "ฉลากประหยัดไฟ เบอร์ 5",
+        "cer_name_en": "Energy saving label number 5",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 12,
+        "cer_name_th": "สัญลักษณ์ Green Industry",
+        "cer_name_en": "Green Industry symbol",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 13,
+        "cer_name_th": "สัญลักษณ์ FSC",
+        "cer_name_en": "FSC symbol",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 14,
+        "cer_name_th": "ฉลาก Carbon Reduction",
+        "cer_name_en": "Carbon Reduction label",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 15,
+        "cer_name_th": "การรับรองอุตสาหกรรมสีเขียว (GI)",
+        "cer_name_en": "Green Industry Certification (GI)",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 16,
+        "cer_name_th": "ฉลากเขียว",
+        "cer_name_en": "Green label",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 17,
+        "cer_name_th": "ไม่มี",
+        "cer_name_en": "None",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 18,
+        "cer_name_th": "อื่นๆ",
+        "cer_name_en": "Other",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      }
+    ],
+    "benefit": [
+      {
+        "cer_id": 1,
+        "cer_name_th": "BOI",
+        "cer_name_en": "BOI",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 2,
+        "cer_name_th": "Free Zone",
+        "cer_name_en": "Free Zone",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 3,
+        "cer_name_th": "JTEPA",
+        "cer_name_en": "JTEPA",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 4,
+        "cer_name_th": "ไม่ได้รับสิทธิประโยชน์ใดๆ",
+        "cer_name_en": "Do not receive any benefits",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      },
+      {
+        "cer_id": 5,
+        "cer_name_th": "อื่นๆ",
+        "cer_name_en": "Others",
+        "is_checked": false,
+        "value": "-",
+        "exp": ""
+      }
+    ]
+  },
+  "payment_term": {
+    "credit_term": { "name": "", "value": 0 },
+    "billing_term": { "name": "", "value": "" },
+    "currency": "",
+    "incoterm": "",
+    "lc_term": { "is_lc": false, "lc_type": "" },
+    "delivery_term": [
+      {
+        "cer_id": 1,
+        "cer_name_th": "SNC เป็นผู้ขนส่งสินค้า",
+        "cer_name_en": "SNC is the entity responsible for transporting goods",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 2,
+        "cer_name_th": "ผู้รับ (Customer) เป็นผู้ขนส่งสินค้า",
+        "cer_name_en": "The customer is the party responsible for transporting the goods",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 3,
+        "cer_name_th": "ผู้รับ (Customer) จ้างขนส่งภายนอก",
+        "cer_name_en": "The customer engages an external transport service for the transportation",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      }
+    ],
+    "deposit_term": { "is_deposit": false, "deposit_type": "" },
+    "product_warranty": { "is_warranty": false, "value": "" },
+    "company_policy": [
+      {
+        "cer_id": 1,
+        "cer_name_th": "มีนโยบายการต่อต้านทุจริตคอร์รัปชั่น",
+        "cer_name_en": "Anti-corruption policy",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 2,
+        "cer_name_th": "มีนโยบายไม่รับแรงงานต่ำกวา 18 ปี",
+        "cer_name_en": "Child labor policy",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 3,
+        "cer_name_th": "มีนโยบายการประเมินผลกระทบต่อสื่งแวดล้อมต่อตนเอง และชุมชนโดยรอบ",
+        "cer_name_en": "Environmental impact assessment policy",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 4,
+        "cer_name_th": "มีนโยบายการเปิดเผยช่องทางให้ติดต่อร้องเรียน",
+        "cer_name_en": "Complaints policy",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 5,
+        "cer_name_th": "มีนโยบายประเมินความปลอดภัย อาชีวอนามัยและสภาพแวดล้อมในการทำงาน",
+        "cer_name_en": "Safety, health, and environmental policy",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 6,
+        "cer_name_th": "มีนโยบายสวัสดิการแรงงานตามกฎหมายกำหนด",
+        "cer_name_en": "Minimum welfare policy",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 7,
+        "cer_name_th": "มีนโยบายให้พนักงานต้องมีการตรวจประวัติอาชญากรรมก่อนเริ่มงาน",
+        "cer_name_en": "Requiring employees to undergo a criminal policy",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      },
+      {
+        "cer_id": 8,
+        "cer_name_th": "อื่นๆ",
+        "cer_name_en": "Others",
+        "is_checked": false,
+        "value": "",
+        "exp": ""
+      }
+    ],
+    "objective_purchasing": { "name": "", "value": "" },
+    "main_customer": { "name": "", "value": "" }
+  }
+}
