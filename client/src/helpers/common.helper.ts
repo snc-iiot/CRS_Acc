@@ -4,6 +4,7 @@ export const API_BASE_URL =
   "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
 
 export const queryKey = {
+  //! for register new customer
   GET_USER: "GET_USER",
   GET_BUSINESS_TYPE_LIST: "GET_BUSINESS_TYPE_LIST",
   GET_DOCUMENT_KEY_LIST: "GET_DOCUMENT_KEY_LIST",
@@ -20,6 +21,12 @@ export const queryKey = {
   GET_REGIS_LIST: "GET_REGIS_LIST",
   GET_REGIS_BY_ID: "GET_REGIS_BY_ID",
   DELETE_DOC_BY_ID: "DELETE_DOC_BY_ID",
+  UPDATE_REGIS_BY_ID: "UPDATE_REGIS_BY_ID",
+
+  //! for general assessment
+  GET_APPROVALS_BY_ID: "GET_APPROVALS_BY_ID",
+  GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID:
+    "GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID",
 };
 
 export const LatitudesLongitudes = {

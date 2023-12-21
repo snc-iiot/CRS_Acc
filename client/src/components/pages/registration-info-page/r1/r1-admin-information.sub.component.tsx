@@ -5,66 +5,33 @@ import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
 import { LatitudesLongitudes } from "@/helpers/common.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import CountyList from "@/mock/country-list.json";
 import { FC, useId, useState } from "react";
 
 export const R1AdminInformation: FC = () => {
+  const { generalAssessmentForm, setGeneralAssessmentForm } = useAtomStore();
+
   const priceAdjustmentConditions: { label: string; value: string }[] = [
     { label: "ทุก 1 เดือน", value: "1" },
     { label: "ทุก 3 เดือน", value: "3" },
     { label: "ทุก 6 เดือน", value: "6" },
     { label: "อื่นๆ", value: "other" },
   ];
-  const [mcAddInvert, setMCAddInvert] = useState<boolean>(false);
-  const [moldAddInvert, setMoldAddInvert] = useState<boolean>(false);
+
+  const [priceConditions, setPriceConditions] = useState<{
+    period: string;
+    value: string;
+  }>({
+    period: "month",
+    value: "",
+  });
+
   const [mainSupplierCreditTerm, setMainSupplierCreditTerm] =
     useState<number>(1);
 
-  const mcCheckboxIds: {
-    enough: string;
-    useCustomer: string;
-    addInvest: string;
-  } = {
-    enough: useId(),
-    useCustomer: useId(),
-    addInvest: useId(),
-  };
-
-  const moldCheckboxIds: {
-    notUsed: string;
-    enough: string;
-    useCustomer: string;
-    addInvest: string;
-  } = {
-    notUsed: useId(),
-    enough: useId(),
-    useCustomer: useId(),
-    addInvest: useId(),
-  };
-
-  // const companyRelationshipName = useId();
-  // const companyRelationshipIds: { have: string; dontHave: string } = {
-  //   have: useId(),
-  //   dontHave: useId(),
-  // };
-
-  const materialsProduce: {
-    id: string;
-    label: string;
-    isChecked: boolean;
-    value: string;
-  }[] = [
-    { id: useId(), label: "เหล็ก", isChecked: false, value: "" },
-    { id: useId(), label: "อะลูมิเนียม", isChecked: false, value: "" },
-    { id: useId(), label: "มอเตอร์", isChecked: false, value: "" },
-    { id: useId(), label: "พลาสติก", isChecked: false, value: "" },
-    { id: useId(), label: "สแตนเลส", isChecked: false, value: "" },
-    { id: useId(), label: "คอมเพรสเซอร์", isChecked: false, value: "" },
-    { id: useId(), label: "ทองแดง", isChecked: false, value: "" },
-    { id: useId(), label: "ทองเหลือง", isChecked: false, value: "" },
-    { id: useId(), label: "อื่นๆ", isChecked: false, value: "" },
-  ];
+  console.log("generalAssessmentForm", generalAssessmentForm);
 
   const transferProductName = useId();
   const transferProductIds: {
@@ -88,6 +55,14 @@ export const R1AdminInformation: FC = () => {
             type="text"
             placeholder="โปรดระบุสินค้าที่ผลิต"
             className="w-[30rem] border-0 border-b  p-0.5 text-primary outline-0"
+            onChange={(e) => {
+              setGeneralAssessmentForm((prev) => ({
+                ...prev,
+                products: e.target.value,
+              }));
+            }}
+            value={generalAssessmentForm?.products || ""}
+            required
           />
         </div>
 
@@ -97,18 +72,36 @@ export const R1AdminInformation: FC = () => {
             <input
               type="number"
               placeholder="โปรดระบุ"
+              value={generalAssessmentForm?.orders || ""}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  orders: isNaN(+e.target.value) ? 0 : +e.target.value,
+                }));
+              }}
+              onWheel={(e) => e.currentTarget.blur()}
               className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
             />
             <span>MB</span>
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">2. จำนวนที่ผลิต ต่อ/ปี</h4>
+        <h4 className="whitespace-nowrap">3. จำนวนที่ผลิต ต่อ/ปี</h4>
         <div className="col-span-3">
           <div className="flex items-center gap-x-1">
             <input
               type="number"
               placeholder="โปรดระบุ"
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  quantity_per_year: isNaN(+e.target.value)
+                    ? 0
+                    : +e.target.value,
+                }));
+              }}
+              required
+              value={generalAssessmentForm?.quantity_per_year || ""}
               className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
             />
             <span>หน่วย</span>
@@ -116,19 +109,26 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">
-          3. ระยะเวลา (Lead Time) การสั่งซื้อ
+          4. ระยะเวลา (Lead Time) การสั่งซื้อ
         </h4>
         <div className="col-span-3">
           <div className="flex items-center gap-x-1">
             <input
               type="number"
               placeholder="โปรดระบุ"
+              value={generalAssessmentForm?.lead_time || ""}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  lead_time: isNaN(+e.target.value) ? 0 : +e.target.value,
+                }));
+              }}
+              required
               className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
             />
             <span>วัน</span>
           </div>
         </div>
-
         <h4 className="whitespace-nowrap">
           4. เงื่อนไขการปรับราคา
           <RequiredTopic />
@@ -141,6 +141,20 @@ export const R1AdminInformation: FC = () => {
                 "w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black",
                 // "[&_option:checked]:hidden",
               )}
+              value={priceConditions?.value || ""}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  price_conditions: {
+                    peroid: "month",
+                    value: e.target.value,
+                  },
+                }));
+                setPriceConditions({
+                  period: "month",
+                  value: e.target.value,
+                });
+              }}
               required
             >
               <option value="">เลือกเงื่อนไขการปรับราคา</option>
@@ -150,11 +164,28 @@ export const R1AdminInformation: FC = () => {
                 </option>
               ))}
             </select>
-            <input
-              type="number"
-              placeholder="โปรดระบุ"
-              className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
-            />
+            {priceConditions?.value === "other" && (
+              <input
+                type="number"
+                placeholder="โปรดระบุ ระยะเวลา (เดือน)"
+                value={
+                  generalAssessmentForm?.price_conditions?.value ||
+                  priceConditions?.value ||
+                  ""
+                }
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    price_conditions: {
+                      peroid: "month",
+                      value: e.target.value,
+                    },
+                  }));
+                }}
+                required
+                className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
+              />
+            )}
           </div>
         </div>
 
@@ -162,53 +193,86 @@ export const R1AdminInformation: FC = () => {
           5. เครื่องจักรที่ใช้ผลิต (ระบุอย่างน้อย 1 รายการ)
         </h4>
         <div className="col-span-4 select-none pl-1">
-          <div className="mb-1 flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              id={mcCheckboxIds?.enough}
-              className="cursor-pointer [&:checked+label]:text-primary"
-            />
-            <label htmlFor={mcCheckboxIds?.enough} className="cursor-pointer">
-              มีอยู่เพียงพอ
-            </label>
-          </div>
-
-          <div className="mb-1 flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              id={mcCheckboxIds?.useCustomer}
-              className="cursor-pointer [&:checked+label]:text-primary"
-            />
-            <label
-              htmlFor={mcCheckboxIds?.useCustomer}
-              className="cursor-pointer"
-            >
-              ใช้ของลูกค้า
-            </label>
-          </div>
-
-          <div className="mb-1 flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              id={mcCheckboxIds?.addInvest}
-              className="cursor-pointer [&:checked+label]:text-primary"
-              onChange={(e) => setMCAddInvert(e.target.checked)}
-            />
-            <label
-              htmlFor={mcCheckboxIds?.addInvest}
-              className="cursor-pointer"
-            >
-              ลงทุนเพิ่ม
-            </label>
-          </div>
-          <div className={mcAddInvert ? "pl-4" : "hidden"}>
+          {generalAssessmentForm?.machine_produce?.map((item, i) => (
+            <div className="mb-1 flex items-center gap-x-1" key={i}>
+              <input
+                type="checkbox"
+                id={item?.id}
+                className="cursor-pointer [&:checked+label]:text-primary"
+                value={item?.is_checked ? "true" : ""}
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    machine_produce: prev?.machine_produce?.map((item) => {
+                      if (item?.id === e.target.id) {
+                        const initialValue = {
+                          amount: 0,
+                          ROI: 0,
+                          ROA: 0,
+                          payback: 0,
+                        };
+                        return {
+                          ...item,
+                          is_checked: e.target.checked,
+                          value:
+                            item.id === "machine-produce-id-3" &&
+                            e.target.checked
+                              ? initialValue
+                              : null,
+                        };
+                      }
+                      return item;
+                    }),
+                  }));
+                }}
+              />
+              <label htmlFor={item?.id} className="cursor-pointer">
+                {item?.label_th}
+              </label>
+            </div>
+          ))}
+          <div
+            className={cn(
+              generalAssessmentForm?.machine_produce?.find(
+                (item) =>
+                  item?.is_checked && item?.id === "machine-produce-id-3",
+              )
+                ? "pl-4"
+                : "hidden",
+            )}
+          >
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">จำนวนเงินลงทุน</p>
-              {/* <div className="col-span-3 flex items-center gap-2" /> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
                   placeholder="โปรดระบุ"
+                  value={
+                    generalAssessmentForm?.machine_produce?.find(
+                      (item) => item?.id === "machine-produce-id-3",
+                    )?.value?.amount || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      machine_produce: prev?.machine_produce?.map((item) => {
+                        if (item?.id === "machine-produce-id-3") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: isNaN(+e.target.value)
+                                ? 0
+                                : +e.target.value,
+                              ROI: item?.value?.ROI || 0,
+                              ROA: item?.value?.ROA || 0,
+                              payback: item?.value?.payback || 0,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
                 />
                 <span>MB</span>
@@ -216,23 +280,35 @@ export const R1AdminInformation: FC = () => {
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROI</p>
-              {/* <div className="col-span-3 flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roi" id="auto-roi" />
-                  <label htmlFor="auto-roi">
-                    <CalculateRoi />
-                  </label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roi" id="manual-roi" />
-                  <label htmlFor="manual-roi">manual</label>
-                </div>
-              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
                   placeholder="โปรดระบุ"
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                  value={
+                    generalAssessmentForm?.machine_produce?.find(
+                      (item) => item?.id === "machine-produce-id-3",
+                    )?.value?.ROI || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      machine_produce: prev?.machine_produce?.map((item) => {
+                        if (item?.id === "machine-produce-id-3") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: item?.value?.amount || 0,
+                              ROA: item?.value?.ROA || 0,
+                              payback: item?.value?.payback || 0,
+                              ROI: isNaN(+e.target.value) ? 0 : +e.target.value,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                 />
                 <span>%</span>
               </div>
@@ -240,21 +316,35 @@ export const R1AdminInformation: FC = () => {
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
-              {/* <div className="col-span-3 flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roa" id="auto-roa" />
-                  <label htmlFor="auto-roa">Auto</label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roa" id="manual-roa" />
-                  <label htmlFor="manual-roa">manual</label>
-                </div>
-              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
                   placeholder="โปรดระบุ"
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                  value={
+                    generalAssessmentForm?.machine_produce?.find(
+                      (item) => item?.id === "machine-produce-id-3",
+                    )?.value?.ROA || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      machine_produce: prev?.machine_produce?.map((item) => {
+                        if (item?.id === "machine-produce-id-3") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: item?.value?.amount || 0,
+                              ROI: item?.value?.ROI || 0,
+                              payback: item?.value?.payback || 0,
+                              ROA: isNaN(+e.target.value) ? 0 : +e.target.value,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                 />
                 <span>%</span>
               </div>
@@ -262,21 +352,37 @@ export const R1AdminInformation: FC = () => {
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
-              {/* <div className="col-span-3 flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="payback" id="auto-payback" />
-                  <label htmlFor="auto-payback">Auto</label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="payback" id="manual-payback" />
-                  <label htmlFor="manual-payback">manual</label>
-                </div>
-              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
                   placeholder="โปรดระบุ"
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                  value={
+                    generalAssessmentForm?.machine_produce?.find(
+                      (item) => item?.id === "machine-produce-id-3",
+                    )?.value?.payback || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      machine_produce: prev?.machine_produce?.map((item) => {
+                        if (item?.id === "machine-produce-id-3") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: item?.value?.amount || 0,
+                              ROI: item?.value?.ROI || 0,
+                              ROA: item?.value?.ROA || 0,
+                              payback: isNaN(+e.target.value)
+                                ? 0
+                                : +e.target.value,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                 />
                 <span>ปี</span>
               </div>
@@ -287,61 +393,53 @@ export const R1AdminInformation: FC = () => {
 
         <h4 className="whitespace-nowrap">6. แม่พิมพ์ที่ใช้</h4>
         <div className="col-span-4 select-none pl-1">
-          <div className="mb-1 flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              id={moldCheckboxIds?.notUsed}
-              className="cursor-pointer [&:checked+label]:text-primary"
-            />
-            <label
-              htmlFor={moldCheckboxIds?.notUsed}
-              className="cursor-pointer"
-            >
-              ไม่ใช้แม่พิมพ์
-            </label>
-          </div>
+          {generalAssessmentForm?.mold_use?.map((item, i) => (
+            <div className="mb-1 flex items-center gap-x-1" key={i}>
+              <input
+                type="checkbox"
+                id={item?.id}
+                className="cursor-pointer [&:checked+label]:text-primary"
+                value={item?.is_checked ? "true" : ""}
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    mold_use: prev?.mold_use?.map((item) => {
+                      if (item?.id === e.target.id) {
+                        const initialValue = {
+                          amount: 0,
+                          ROI: 0,
+                          ROA: 0,
+                          payback: 0,
+                        };
+                        return {
+                          ...item,
+                          is_checked: e.target.checked,
+                          value:
+                            item.id === "mold-use-id-4" && e.target.checked
+                              ? initialValue
+                              : null,
+                        };
+                      }
+                      return item;
+                    }),
+                  }));
+                }}
+              />
+              <label htmlFor={item?.id} className="cursor-pointer">
+                {item?.label_th}
+              </label>
+            </div>
+          ))}
 
-          <div className="mb-1 flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              id={moldCheckboxIds?.enough}
-              className="cursor-pointer [&:checked+label]:text-primary"
-            />
-            <label htmlFor={moldCheckboxIds?.enough} className="cursor-pointer">
-              มีอยู่เพียงพอ
-            </label>
-          </div>
-
-          <div className="mb-1 flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              id={moldCheckboxIds?.useCustomer}
-              className="cursor-pointer [&:checked+label]:text-primary"
-            />
-            <label
-              htmlFor={moldCheckboxIds?.useCustomer}
-              className="cursor-pointer"
-            >
-              ใช้ของลูกค้า
-            </label>
-          </div>
-
-          <div className="mb-1 flex items-center gap-x-1">
-            <input
-              type="checkbox"
-              id={moldCheckboxIds?.addInvest}
-              className="cursor-pointer [&:checked+label]:text-primary"
-              onChange={(e) => setMoldAddInvert(e.target.checked)}
-            />
-            <label
-              htmlFor={moldCheckboxIds?.addInvest}
-              className="cursor-pointer"
-            >
-              ลงทุนเพิ่ม
-            </label>
-          </div>
-
-          <div className={moldAddInvert ? "pl-4" : "hidden"}>
+          <div
+            className={cn(
+              generalAssessmentForm?.mold_use?.find(
+                (item) => item?.is_checked && item?.id === "mold-use-id-4",
+              )
+                ? "pl-4"
+                : "hidden",
+            )}
+          >
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">จำนวนเงินลงทุน</p>
               {/* <div className="col-span-3 flex items-center gap-2" /> */}
@@ -350,27 +448,67 @@ export const R1AdminInformation: FC = () => {
                   type="number"
                   placeholder="โปรดระบุ"
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                  value={
+                    generalAssessmentForm?.mold_use?.find(
+                      (item) => item?.id === "mold-use-id-4",
+                    )?.value?.amount || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      mold_use: prev?.mold_use?.map((item) => {
+                        if (item?.id === "mold-use-id-4") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: isNaN(+e.target.value)
+                                ? 0
+                                : +e.target.value,
+                              ROI: item?.value?.ROI || 0,
+                              ROA: item?.value?.ROA || 0,
+                              payback: item?.value?.payback || 0,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                 />
                 <span>MB</span>
               </div>
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROI</p>
-              {/* <div className="col-span-3 flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roi" id="auto-roi" />
-                  <label htmlFor="auto-roi">Auto</label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roi" id="manual-roi" />
-                  <label htmlFor="manual-roi">manual</label>
-                </div>
-              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
                   placeholder="โปรดระบุ"
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                  value={
+                    generalAssessmentForm?.mold_use?.find(
+                      (item) => item?.id === "mold-use-id-4",
+                    )?.value?.ROI || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      mold_use: prev?.mold_use?.map((item) => {
+                        if (item?.id === "mold-use-id-4") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: item?.value?.amount || 0,
+                              ROI: isNaN(+e.target.value) ? 0 : +e.target.value,
+                              ROA: item?.value?.ROA || 0,
+                              payback: item?.value?.payback || 0,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                 />
                 <span>%</span>
               </div>
@@ -378,21 +516,35 @@ export const R1AdminInformation: FC = () => {
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
-              {/* <div className="col-span-3 flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roa" id="auto-roa" />
-                  <label htmlFor="auto-roa">Auto</label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="roa" id="manual-roa" />
-                  <label htmlFor="manual-roa">manual</label>
-                </div>
-              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
                   placeholder="โปรดระบุ"
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                  value={
+                    generalAssessmentForm?.mold_use?.find(
+                      (item) => item?.id === "mold-use-id-4",
+                    )?.value?.ROA || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      mold_use: prev?.mold_use?.map((item) => {
+                        if (item?.id === "mold-use-id-4") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: item?.value?.amount || 0,
+                              ROI: item?.value?.ROI || 0,
+                              ROA: isNaN(+e.target.value) ? 0 : +e.target.value,
+                              payback: item?.value?.payback || 0,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                 />
                 <span>%</span>
               </div>
@@ -400,21 +552,37 @@ export const R1AdminInformation: FC = () => {
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
-              {/* <div className="col-span-3 flex items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="payback" id="auto-payback" />
-                  <label htmlFor="auto-payback">Auto</label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="radio" name="payback" id="manual-payback" />
-                  <label htmlFor="manual-payback">manual</label>
-                </div>
-              </div> */}
               <div className="col-span-5 flex items-center gap-x-1">
                 <input
                   type="number"
                   placeholder="โปรดระบุ"
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
+                  value={
+                    generalAssessmentForm?.mold_use?.find(
+                      (item) => item?.id === "mold-use-id-4",
+                    )?.value?.payback || ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      mold_use: prev?.mold_use?.map((item) => {
+                        if (item?.id === "mold-use-id-4") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: item?.value?.amount || 0,
+                              ROI: item?.value?.ROI || 0,
+                              ROA: item?.value?.ROA || 0,
+                              payback: isNaN(+e.target.value)
+                                ? 0
+                                : +e.target.value,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
                 />
                 <span>ปี</span>
               </div>
@@ -429,27 +597,40 @@ export const R1AdminInformation: FC = () => {
         </h4>
         <div className="col-span-4 select-none pl-1">
           <div className="grid grid-cols-3">
-            {materialsProduce?.slice(0, -1)?.map((item, i) => (
+            {generalAssessmentForm?.main_material?.map((item, i) => (
               <div key={i} className="mb-1 flex items-center gap-x-1 gap-y-1">
                 <input
                   type="checkbox"
                   id={item?.id}
                   className="cursor-pointer [&:checked+label]:text-primary"
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      main_material: prev?.main_material?.map((item) => {
+                        if (item?.id === e.target.id) {
+                          return {
+                            ...item,
+                            is_checked: e.target.checked,
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
+                  value={item?.is_checked ? "true" : ""}
                 />
                 <label htmlFor={item?.id} className="cursor-pointer">
-                  {item?.label}
+                  {item?.label_th}
                 </label>
               </div>
             ))}
 
-            {materialsProduce?.slice(-1)?.map((item, i) => (
-              <div
-                key={i}
-                className="col-span-3 mb-1 flex items-center gap-x-1 gap-y-1"
-              >
+            {/* {generalAssessmentForm?.main_material?.find(
+              (item) => item?.is_checked && item?.id === "main-material-id-9",
+            )?.is_checked && (
+              <div className="col-span-3 mb-1 flex items-center gap-x-1 gap-y-1">
                 <input
                   type="checkbox"
-                  id={item?.id}
                   className="cursor-pointer whitespace-nowrap [&:checked+label]:text-primary"
                 />
                 <label
@@ -464,7 +645,7 @@ export const R1AdminInformation: FC = () => {
                   className="ml-2 w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
                 />
               </div>
-            ))}
+            )} */}
           </div>
         </div>
 
@@ -780,7 +961,7 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">10. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
+        <h4 className="whitespace-nowrap">9. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">ซื้อในประเทศไทย</p>
@@ -803,7 +984,7 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">
-          11. สัดส่วนวัตถุดิบ ต้นทุน และกำไร
+          10. สัดส่วนวัตถุดิบ ต้นทุน และกำไร
         </h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
@@ -836,7 +1017,7 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">
-          12. ระยะเวลาจัดเก็บสินค้า (Inventory day)
+          11. ระยะเวลาจัดเก็บสินค้า (Inventory day)
         </h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">

@@ -10,12 +10,12 @@ import {
   R2Form,
   R3Form,
   R4Form,
-  R5Form,
-  R6Form,
-  R7Form,
-  R8Form,
-  R9Form,
-  R10Form,
+  // R5Form,
+  // R6Form,
+  // R7Form,
+  // R8Form,
+  // R9Form,
+  // R10Form,
   Relationship,
   ShareholderProportion,
   StandardsCertifications,
@@ -47,10 +47,13 @@ import { useSwal } from "@/hooks/use-swal";
 import { cn, COLORS_SERIES } from "@/lib/utils";
 import MockCompany from "@/mock/company.json";
 import { useForm, useUtils } from "@/services/";
+import { useFormGeneral } from "@/services/hooks/use-general-form";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationInfo: FC = () => {
+  const { mutateGetApprovalsById, mutateGetTemplateGeneralAssessmentById } =
+    useFormGeneral();
   const { confirmSwal } = useSwal();
   const [searchParams] = useSearchParams();
   const { mutateGetRegisById } = useForm();
@@ -62,7 +65,7 @@ const RegistrationInfo: FC = () => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
   const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
 
-  const actionsTab = ["R1", "R2"];
+  const actionsTab = ["R2"];
   const mainActions = [
     "R1",
     "R2",
@@ -142,10 +145,12 @@ const RegistrationInfo: FC = () => {
     },
   ];
 
-  const getRegisById = async () => {
+  const getInfoById = async () => {
     try {
       await mutateGetDocByRegisId(RegisID as string);
       await mutateGetRegisById(RegisID as string);
+      await mutateGetApprovalsById(RegisID as string);
+      await mutateGetTemplateGeneralAssessmentById(RegisID as string);
     } catch (error) {
       console.log(error);
     }
@@ -153,7 +158,7 @@ const RegistrationInfo: FC = () => {
 
   useEffect(() => {
     if (!RegisID) navigate("/registration");
-    getRegisById();
+    getInfoById();
   }, [RegisID]);
 
   return (
@@ -352,43 +357,13 @@ const RegistrationInfo: FC = () => {
                       <R4Form />
                     </div>
                   </TabsContent>
-                  <TabsContent value="R5" className="h-full overflow-auto">
-                    <div className="flex h-0 flex-grow flex-col">
-                      <R5Form />
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="R6" className="h-full overflow-auto">
-                    <div className="flex h-0 flex-grow flex-col">
-                      <R6Form />
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="R7" className="h-full overflow-auto">
-                    <div className="flex h-0 flex-grow flex-col">
-                      <R7Form />
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="R8" className="h-full overflow-auto">
-                    <div className="flex h-0 flex-grow flex-col">
-                      <R8Form />
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="R9" className="h-full overflow-auto">
-                    <div className="flex h-0 flex-grow flex-col">
-                      <R9Form />
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="R10" className="h-full overflow-auto">
-                    <div className="flex h-0 flex-grow flex-col">
-                      <R10Form />
-                    </div>
-                  </TabsContent>
                 </Tabs>
               </div>
               {/* //! Action by user */}
               {actionsTab.includes(activeTab) ? (
                 <div className="flex h-[7%] items-center justify-between border border-b-0 px-2">
                   <ActionTab
-                    activeTab={activeTab as "R1" | "R2" | "R3" | "R4" | "R5"}
+                    activeTab={activeTab as "R2" | "R3" | "R4" | "R5"}
                   />
                 </div>
               ) : null}

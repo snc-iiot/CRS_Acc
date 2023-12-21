@@ -43,7 +43,8 @@ const RegistrationPage: FC = () => {
     isAcceptConsent.consent_3;
 
   const MODE = "register";
-  const { mutateCreateNewCustomer } = useForm();
+  const { mutateCreateNewCustomer, mutateUpdateCustomer, mutateGetRegisById } =
+    useForm();
   const {
     registration,
     setRegistration,
@@ -141,6 +142,23 @@ const RegistrationPage: FC = () => {
     }
   }, [id]);
 
+  const getRegisById = async () => {
+    try {
+      await mutateGetDocByRegisId(id as string);
+      await mutateGetRegisById(id as string);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!id) {
+      navigate("/registration");
+    } else if (mode?.toLowerCase() === "edit") {
+      getRegisById();
+    }
+  }, [id, mode]);
+
   const checkDocument = useCallback(() => {
     const doc = UploadDocument(registration);
     const docList = docByRegisId?.documents;
@@ -173,22 +191,10 @@ const RegistrationPage: FC = () => {
               "ยืนยันการลงทะเบียน",
               "คุณต้องการลงทะเบียนใช่หรือไม่",
             );
-            if (idConfirm) {
-              // const cer = registration?.standard?.certificate?.filter(
-              //   (item) => item.is_checked === true,
-              // );
-              // const benefit = registration?.standard?.benefit?.filter(
-              //   (item) => item.is_checked === true,
-              // );
-              // const data = {
-              //   ...registration,
-              //   standard: {
-              //     ...registration?.standard,
-              //     certificate: cer,
-              //     benefit: benefit,
-              //   },
-              // };
+            if (idConfirm && mode?.toLowerCase() === "create") {
               mutateCreateNewCustomer(registration);
+            } else if (idConfirm && mode?.toLowerCase() === "edit") {
+              mutateUpdateCustomer(registration);
             }
           }
         }}

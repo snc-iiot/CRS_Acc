@@ -257,8 +257,7 @@ const CustomerRegistrations: FC = () => {
                   <Td>
                     <Link
                       to={
-                        "/registrations/customer/info?RegisID=" +
-                        item?.regis_info_id
+                        "/registrations/customer/info?RegisID=" + item?.regis_id
                       }
                       className="flex items-center gap-x-1 text-primary hover:underline"
                     >

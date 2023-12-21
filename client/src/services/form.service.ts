@@ -29,6 +29,20 @@ export class FormService extends APIService {
     }
   };
 
+  editCustomer = async (data: TRegistrationForm): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.put(`/registration`, data);
+      return responseData;
+    } catch (error: any) {
+      console.error("FormService -> editCustomer -> error", error);
+      return {
+        data: [],
+        message: error?.response?.data?.message ?? "Something went wrong",
+        status: "error",
+      };
+    }
+  };
+
   getDocByRegisId = async (regisId: string): Promise<TDocByRegisId> => {
     try {
       const { data: responseData } = await this.get(
@@ -82,7 +96,7 @@ export class FormService extends APIService {
   getRegisById = async (regisId: string): Promise<TRegistrationForm> => {
     try {
       const { data: responseData } = await this.get(
-        `/registration/info?id=${regisId}`,
+        `/registration/info?regis_id=${regisId}`,
       );
       return responseData?.data?.[0] ?? ({} as TRegistrationForm);
     } catch (error: any) {

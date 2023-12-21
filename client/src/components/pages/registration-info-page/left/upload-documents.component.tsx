@@ -1,25 +1,27 @@
 import { Icons } from "@/components/common/icons";
+import { UploadDocument } from "@/helpers/document.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC, Fragment } from "react";
 
 const UploadDocuments: FC = () => {
-  // console.log(docByRegisId);
+  const { docByRegisId, registration } = useAtomStore();
 
-  // const docList = Object.entries(docByRegisId?.documents).map(
-  //   ([key, value]) => {
-  //     return { label: key, value };
-  //   },
-  // );
+  const docList = Object?.entries(docByRegisId?.documents)?.map(
+    ([key, value]) => {
+      return { label: key, value };
+    },
+  );
 
-  const MakArray = new Array(10).fill(0);
+  console.log(docList);
 
   return (
     <div className="mb-6 grid grid-cols-5 items-center gap-0.5 gap-y-0.5 pl-1 pr-4 text-xs">
-      {MakArray?.length == 0
+      {UploadDocument(registration)?.length == 0
         ? null
-        : MakArray?.map((item, i) => (
+        : UploadDocument(registration)?.map((item, i) => (
             <Fragment key={i}>
               <h5 className="col-span-3 overflow-x-hidden whitespace-nowrap">
-                {i + 1}.
+                {i + 1}. {item?.label}
                 {Array(100)
                   .fill(0)
                   .map(() => "......")
@@ -32,7 +34,9 @@ const UploadDocuments: FC = () => {
                     className="cursor-pointer hover:underline"
                     onClick={() =>
                       window.open(
-                        "https://snc-services.sncformer.com/ivrs/docs/pdf/flow-iVRS2.pdf",
+                        `${docByRegisId?.file_path}/${docByRegisId?.documents[
+                          item?.name
+                        ]}`,
                       )
                     }
                   >

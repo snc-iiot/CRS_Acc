@@ -47,6 +47,33 @@ export const useForm = () => {
     },
   });
 
+  const { mutateAsync: mutateUpdateCustomer } = useMutation<
+    TResponseAction,
+    Error,
+    TRegistrationForm
+  >({
+    mutationKey: [queryKey.UPDATE_REGIS_BY_ID],
+    mutationFn: (data: TRegistrationForm) => formService.editCustomer(data),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
+      closeSwal();
+      if (data?.status === "success") {
+        showSuccess("แก้ไขข้อมูลสำเร็จ", data?.message);
+        setRegistration(InitialRegistration);
+        navigate("/registrations");
+      } else {
+        showError("แก้ไขข้อมูลไม่สำเร็จ", data?.message);
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError(error?.message, error?.message);
+    },
+  });
+
   const useGetRegisList = () => {
     return useQuery({
       queryKey: [queryKey.GET_REGIS_LIST],
@@ -145,5 +172,6 @@ export const useForm = () => {
     mutateUploadFile,
     mutateGetRegisById,
     mutateDeleteDocById,
+    mutateUpdateCustomer,
   };
 };

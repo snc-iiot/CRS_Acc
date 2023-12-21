@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import {
+  approvalListAtom,
   benefitsListAtom,
   businessTypeListAtom,
   certificatedListAtom,
@@ -9,6 +10,7 @@ import {
   deliveryTermsListAtom,
   docByRegisIdAtom,
   documentKeyListAtom,
+  generalAssessmentFormAtom,
   regisListAtom,
   registrationAtom,
   thaiProvinceAtom,
@@ -31,6 +33,12 @@ export const useAtomStore = () => {
   const [countryCodeList, setCountryCodeList] = useAtom(countryCodeListAtom);
   const [docByRegisId, setDocByRegisId] = useAtom(docByRegisIdAtom);
   const [regisList, setRegisList] = useAtom(regisListAtom);
+
+  //! for general form
+  const [approvalList, setApprovalList] = useAtom(approvalListAtom);
+  const [generalAssessmentForm, setGeneralAssessmentForm] = useAtom(
+    generalAssessmentFormAtom,
+  );
 
   return {
     benefitsList,
@@ -56,5 +64,10 @@ export const useAtomStore = () => {
     setDocByRegisId,
     regisList,
     setRegisList,
+    //! for general form
+    approvalList,
+    setApprovalList,
+    generalAssessmentForm,
+    setGeneralAssessmentForm,
   };
 };

@@ -1,5 +1,9 @@
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-// import { CheckIcon, CircleIcon, Stepper, Steps } from "@/components/ui/stepper";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useConfirm } from "@/hooks";
 import { FC } from "react";
 import { Button } from "../ui/button";
@@ -24,25 +28,6 @@ interface Props {
 const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
   const { Confirm } = useConfirm();
 
-  // const CompanySteps = [
-  //   {
-  //     label: "นาย อนุวัฒน์ ทีสุกะ",
-  //     value: "anuwat-thisuka",
-  //   },
-  //   {
-  //     label: "นาย อนุวัฒน์ ทีสุกะ",
-  //     value: "anuwat-thisuka",
-  //   },
-  //   {
-  //     label: "นาย อนุวัฒน์ ทีสุกะ",
-  //     value: "anuwat-thisuka",
-  //   },
-  //   {
-  //     label: "นาย อนุวัฒน์ ทีสุกะ",
-  //     value: "anuwat-thisuka",
-  //   },
-  // ];
-
   const renderElement = {
     ["R1"]: (
       <div className="flex h-full w-full items-center justify-between gap-x-2  px-2 text-sm">
@@ -62,7 +47,16 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
             }}
           >
             <div className="h-96">
-              <SettingsApproved />
+              <SettingsApproved
+                closeButton={
+                  <SheetClose className="flex items-center gap-2" asChild>
+                    <Button>
+                      <Icons.save className="h-5 w-5" />
+                      บันทึการตั้งค่าสายอนุมัติและปิดหน้าต่าง
+                    </Button>
+                  </SheetClose>
+                }
+              />
             </div>
           </SheetContent>
         </Sheet>
