@@ -820,7 +820,8 @@ class RegistrationController extends Controller
             $payment_term           = \json_encode($request->payment_term);
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
+            // $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
+            $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้",
@@ -887,7 +888,8 @@ class RegistrationController extends Controller
             $regis_id          = $request->regis_id;
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
+            // $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
+            $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้",
@@ -895,9 +897,9 @@ class RegistrationController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-                "status_no"            => 3, //! รอการแก้ไข
-            ]);
+            // DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
+            //     "status_no"            => 3, //! รอการแก้ไข
+            // ]);
 
             DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
                 "status_no"            => 3, //! รอการแก้ไข
@@ -951,7 +953,8 @@ class RegistrationController extends Controller
             $regis_id = $request->regis_id;
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
+            // $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
+            $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถระงับข้อมูลได้",
@@ -959,9 +962,9 @@ class RegistrationController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-                "status_no"            => 5, //! ระงับชั่วคราว
-            ]);
+            // DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
+            //     "status_no"            => 5, //! ระงับชั่วคราว
+            // ]);
 
             DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
                 "status_no"            => 5, //! รอการแก้ไข
