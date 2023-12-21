@@ -8,7 +8,7 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\CompanyController;
 // use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\JsonTemplateController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GeneralAssessmentController;
 // use App\Models\Company;
 
 /*
@@ -43,11 +43,16 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 Route::prefix('registration')->controller(RegistrationController::class)->group(function () {
     Route::post('/create-regis-id', 'createRegisID');
     Route::patch('/upload-document', 'uploadDocument');
+    Route::delete('/delete-document', 'deleteDocument');
     Route::post('/', 'create');
     Route::get('/info', 'getInfo');
     Route::put('/', 'update');
     Route::get('/', 'getAll');
     Route::get('/get-documents-by-id', 'getDocumentsByID');
+});
+
+Route::prefix('general-assessment')->controller(GeneralAssessmentController::class)->group(function () {
+    Route::get('/approvals-by-id', 'getApprovalsByID');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {

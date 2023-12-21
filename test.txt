@@ -1,17 +1,35 @@
-('suttawee"	"suttawee@sncformer.com"	"user"	"{""en"": ""Suttawee"", ""th"": ""สุทธวีร์""}"	"[""SCAN"", ""SEREN""]"	true	"2023-12-18 19:44:22.654024+07"	
-('iot-center"	"iot-center@sncformer.com"	"user"	"{""en"": ""iiot-center"", ""th"": ""ไอโอทีเซนเตอร์""}"	"[""SCAN"", ""SEREN""]"	true	"2023-12-18 19:51:10.878062+07"	
-('sutan-pho"	"sutan@sncformer.com"	"user"	"{""en"": ""sutan"", ""th"": ""สุแทน""}"	"[""SCAN""]"	false	"2023-12-19 10:48:39.248505+07"	"MINI-MD"
-('wiwat-tap"	"wiwat@sncformer.com"	"user"	"{""en"": ""wiwat"", ""th"": ""วิวัฒน์""}"	"[""SCAN""]"	false	"2023-12-19 10:50:29.377471+07"	"MINI-MD"
-('Visut"	"visut@sncformer.com"	"user"	"{""en"": ""Visut"", ""th"": ""วิสูตร""}"	"[""SCAN""]"	false	"2023-12-19 11:02:50.955814+07"	"MINI-MD"
-('Boonyuen"	"boonyuen@sncformer.com"	"user"	"{""en"": ""Boonyuen"", ""th"": ""บุญยืน""}"	"[""SCAN""]"	false	"2023-12-19 11:21:20.987982+07"	"MINI-MD"
-('Pollawat-C"	"pollawat@sncformer.com"	"user"	"{""en"": ""pollawat"", ""th"": ""พลวัตน์""}"	"[""SEREN""]"	false	"2023-12-19 11:25:28.259864+07"	"MINI-MD"
-('apichart-bun"	"apichart-bun@sncformer.com"	"user"	"{""en"": ""apichart"", ""th"": ""อภิชาติ""}"	"[""SEREN""]"	false	"2023-12-19 11:30:47.372216+07"	"MINI-MD"
-('parinyawat"	"parinyawat@sncformer.com"	"user"	"{""en"": ""parinyawat"", ""th"": ""ปริญญวัตน์""}"	"[""SAHP""]"	false	"2023-12-19 11:23:49.695858+07"	"MINI-MD"
-('Panithi"	"Panithi@sncformer.com"	"user"	"{""en"": ""Panithi"", ""th"": ""ปณิธิ""}"	"[""MERQ""]"	false	"2023-12-19 16:56:03.854927+07"	"MINI-MD"
-('Sawang"	"sawang@sncformer.com"	"user"	"{""en"": ""Sawang"", ""th"": ""สว่าง""}"	"[""SCAN""]"	false	"2023-12-19 10:05:58.72658+07"	"MINI-MD"
-('Keeree"	"keeree@sncformer.com"	"user"	"{""en"": ""Keeree"", ""th"": ""คีรีย์""}"	"[""SCAN""]"	false	"2023-12-19 10:20:37.739587+07"	"MINI-MD"
-('Noppadol"	"noppadol@sncformer.com"	"user"	"{""en"": ""Noppadol"", ""th"": ""นพดล""}"	"[""SCAN""]"	false	"2023-12-19 10:34:41.68655+07"	"MINI-MD"
-('Surat"	"surat@sncformer.com"	"user"	"{""en"": ""Surat"", ""th"": ""สุรัตน์""}"	"[""SCAN""]"	false	"2023-12-19 10:36:04.962735+07"	"MINI-MD"
-('Songsak-kha"	"songsak-kha@sncformer.com"	"user"	"{""en"": ""Songsak-kha"", ""th"": ""ทรงศักดิ์-ข่า""}"	"[""SCAN""]"	false	"2023-12-19 10:39:21.281481+07"	"MINI-MD"
-('Laliphat"	"laliphat@sncformer.com"	"user"	"{""en"": ""Laliphat"", ""th"": ""ลลิพัฒน์""}"	"[""SCAN""]"	false	"2023-12-19 10:44:28.178891+07"	"MINI-MD"
-('Sanguansak"	"sanguansak@sncformer.com"	"user"	"{""en"": ""Sanguansak"", ""th"": ""สงวนศักดิ์""}"	"[""SCAN""]"	false	"2023-12-19 10:46:20.188896+07"	"MINI-MD"
+('suttawee'	,'suttawee@sncformer.com'	     ,'user'	     ,'{"en": "Suttawee", "th": "สุทธวีร์"}',	'["SCAN", "SEREN"]',	null),
+('iot-center'	,'iot-center@sncformer.com'	     ,'user'	     ,'{"en": "iiot-center", "th": "ไอโอทีเซนเตอร์"}',	'["SCAN", "SEREN"]',	null),
+('sutan-pho'	,'sutan@sncformer.com'	          ,'user'	     ,'{"en": "sutan", "th": "สุแทน"}',	'["SCAN"]',	'MINI-MD'),
+('wiwat-tap'	,'wiwat@sncformer.com'	          ,'user'	     ,'{"en": "wiwat", "th": "วิวัฒน์"}',	'["SCAN"]',	'MINI-MD'),
+('Visut'	     ,'visut@sncformer.com'	          ,'user'	     ,'{"en": "Visut", "th": "วิสูตร"}',	'["SCAN"]',	'MINI-MD'),
+('Boonyuen'	,'boonyuen@sncformer.com'	     ,'user'	     ,'{"en": "Boonyuen", "th": "บุญยืน"}',	'["SCAN"]',	'MINI-MD'),
+('Pollawat-C'	,'pollawat@sncformer.com'	     ,'user'	     ,'{"en": "pollawat", "th": "พลวัตน์"}',	'["SEREN"]',	'MINI-MD'),
+('apichart-bun'	,'apichart-bun@sncformer.com'	,'user'	     ,'{"en": "apichart", "th": "อภิชาติ"}',	'["SEREN"]',	'MINI-MD'),
+('Thanawat'	,'varinthorn@sncformer.com'	     ,'user'	     ,'{"en": "varinthorn", "th": "วรินทร"}',	'["YALA"]',	'MINIMD'),
+('Chantana'	,'Chantana@sncformer.com'	     ,'admin'	     ,'{"en": "Chantana", "th": "ฉันทนา"}',	'["IMP"]',	'MGR-ACC'),
+('Onuma'	     ,'Onuma@sncformer.com'	          ,'admin'	     ,'{"en": "Onuma", "th": "อรอุมา"}',	'["PRD", "B2", "HQ"]',	'MGR-ACC'),
+('Parichat-Ham'	,'parichat@sncformer.com'	     ,'admin'	     ,'{"en": "parichat", "th": "ปริฉัตร"}',	'["COOL"]',	'MGR-ACC'),
+('Achara'	     ,'achara@sncformer.com'	     ,'approver'	,'{"en": "achara", "th": "อัฉรา"}',	'["SCAN", "IPC", "SAHP", "SEREN", "MERQ", "YALA", "HERMES", "99IS", "PAMC"]',	'AMD-ACC'),
+('parinyawat'	,'parinyawat@sncformer.com'	     ,'user'	     ,'{"en": "parinyawat", "th": "ปริญญวัตน์"}',	'["SAHP"]',	MINI-MD'),
+('Rattapoom'	,'rattapoom@sncformer.com'	     ,'approver'	,'{"en": "Rattapoom", "th": "รัฐภูมิ"}',	'["SCAN", "IPC", "SAHP", "SEREN", "MERQ", "YALA", "HERMES", "99IS", "PAMC", "PRD", "B2", "IMP", "COOL", "HQ"]',	'CFO'),
+('Panithi'	     ,'Panithi@sncformer.com'	     ,'user'	     ,'{"en": "Panithi", "th": "ปณิธิ"}',	'["MERQ"]',	'MINI-MD'),
+('Keeree'	     ,'keeree@sncformer.com'	     ,'user'	     ,'{"en": "Keeree", "th": "คีรีย์"}',	'["SCAN"]',	'MINI-MD'),
+('Noppadol'	,'noppadol@sncformer.com'	     ,'user'	     ,'{"en": "Noppadol", "th": "นพดล"}',	'["SCAN"]',	'MINI-MD'),
+('Surat'	     ,'surat@sncformer.com'	          ,'user'	     ,'{"en": "Surat", "th": "สุรัตน์"}',	'["SCAN"]',	'MINI-MD'),
+('vichan-wha'	,'vichan@sncformer.com'	     ,'user'	     ,'{"en": "Vichan", "th": "วิชาญ"}',	'["PRD"]',	'MINIMD'),
+('Songsak-kha'	,'songsak-kha@sncformer.com'	,'user'	     ,'{"en": "Songsak-kha", "th": "ทรงศักดิ์-ข่า"}',	'["SCAN"]',	'MINI-MD'),
+('Sanguansak'	,'sanguansak@sncformer.com'	     ,'user'	     ,'{"en": "Sanguansak", "th": "สงวนศักดิ์"}',	'["SCAN"]',	'MINI-MD'),
+('Kanjanapa'	,'kanjanapa@sncformer.com'	     ,'user'	     ,'{"en": "kanjanapa", "th": "กาญจนาภา"}',	'["B2"]',	'MINIMD'),
+('chanchai'	,'Chanchai@sncformer.com'	     ,'user'	     ,'{"en": "chanchai", "th": "ชาญชัย"}',	'["IMP"]',	'MINIMD'),
+('Nirada-jai'	,'Nirada@sncformer.com'	     ,'user'	     ,'{"en": "Nirada", "th": "นิรดา"}',	'["IMP"]',	'MINIMD'),
+('dusadee'	     ,'dusadee@sncformer.com'	     ,'user'	     ,'{"en": "dusadee", "th": "ดุษฎี"}',	'["COOL"]',	'MINIMD'),
+('Wachara'	     ,'watchara@sncformer.com'	     ,'user'	     ,'{"en": "watchara", "th": "วัชระ"}',	'["HQ"]',	'MINIMD'),
+('Laliphat'	,'laliphat@sncformer.com'	     ,'user'	     ,'{"en": "Laliphat", "th": "ลลิพัฒน์"}',	'["SCAN", "IPC"]',	'MINI-MD'),
+('Seksun'	     ,'seksun@sncformer.com'	     ,'user'	     ,'{"en": "Seksun", "th": "เสกสรรค์"}',	'["SCAN", "99IS"]',	'MINIMD'),
+('Sawang'	     ,'sawang@sncformer.com'	     ,'user'	     ,'{"en": "Sawang", "th": "สว่าง"}',	'["SCAN", "SEREN"]',	'MINI-MD'),
+('nathaphart'	,'Nathaphart@sncformer.com'	     ,'user'	     ,'{"en": "nathaphart", "th": "ณฐพัฒน์"}',	'["SCAN", "99IS"]',	'MINIMD'),
+('Wongsakorn'	,'wongsakorn@sncformer.com'	     ,'user'	     ,'{"en": "Wongsakorn", "th": "วงศกร"}',	'["HERMES", "YALA", "MERQ", "PAMC"]',	'AMD'),
+('Suthisa'	     ,'uthisa@sncformer.com'	     ,'admin'	     ,'{"en": "Suthisa", "th": "สุธิสา"}',	'["SCAN", "99IS"]',	'MGR-ACC'),
+('Wanna'	     ,'anna@sncformer.com'	          ,'admin'	     ,'{"en": "Wanna", "th": "วรรณา"}',	'["IPC", "SAHP", "SEREN", "PAMC", "HERMES"]',	'MGR-ACC'),
+('Yaowaluk'	,'yaowaluk@sncformer.com'	     ,'admin'	     ,'{"en": "Yaowaluk", "th": "เยาวลักษณ์"}',	'["MERQ", "YALA"]',	'MGR-ACC');

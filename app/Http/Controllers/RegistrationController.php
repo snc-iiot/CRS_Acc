@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Rules\Base64;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\Rule;
 
 // define("DOCS_BASE_PATH", "http://10.1.8.94:8081/dev/iCRS-ACC-All/docs/pdf/25e8b7b1-7fba-4162-911a-fb1dcd5b03b7/sEW4B1702893026.pdf");
 // define("DOCS_BASE_PATH", "http://10.1.8.94:8081/dev/iCRS-ACC-All/docs/pdf/");
@@ -140,8 +141,8 @@ class RegistrationController extends Controller
             //! pdf file (base64)
             $rules = [
                 'regis_id' => ["required", "uuid", "string"],
-                'doc_name' => ["required", "string"],
-                'content'  => ["required", "min:500", new Base64],
+                'doc_name' => ["required", "string", Rule::in($docNames)],
+                'content'  => ["required", "string", "min:500", new Base64],
                 // 'content' => ["required", "string"],
             ];
             $validator = Validator::make($request->all(), $rules);
@@ -159,15 +160,15 @@ class RegistrationController extends Controller
             $regisId = $validator->validated()["regis_id"];
             $docName = $validator->validated()["doc_name"];
 
-            if (!\in_array($docName, $docNames)) {
-                return response()->json([
-                    "status" => "error",
-                    "message" => "การร้องขอล้มเหลว (ชื่อเอกสารไม่ถูกต้อง)",
-                    "data" => [
-                        // ["validator" => "doc_name ($docName) does not match."]
-                    ]
-                ], 400);
-            }
+            // if (!\in_array($docName, $docNames)) {
+            //     return response()->json([
+            //         "status" => "error",
+            //         "message" => "การร้องขอล้มเหลว (ชื่อเอกสารไม่ถูกต้อง)",
+            //         "data" => [
+            //             // ["validator" => "doc_name ($docName) does not match."]
+            //         ]
+            //     ], 400);
+            // }
 
             // return response()->json($request->all());
 
@@ -209,6 +210,129 @@ class RegistrationController extends Controller
             return response()->json([
                 "status" => "success",
                 "message" => "อัพโหลดเอกสารสำเร็จ",
+                "data" => [],
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //! [DELETE] /registration/delete-document
+    function deleteDocument(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $docNames = [
+                'anti_corruption_policy',
+                'vat_license',
+                'business_registration',
+                'fi_statement',
+                'invoice',
+                'organization_chart',
+                'sale_contract',
+                'factory_visit',
+                'machine_condition',
+                'company_map',
+                'other_document1',
+                'other_document2',
+                'other_document3',
+                //! Certification
+                'iso_14064_1_2018',
+                'iso_14001_2015',
+                'iso_26000',
+                'iso_iec_17025_2017',
+                'iso_9001',
+                'ohsas_18001_2007',
+                'iaft_16949_2016',
+                'tls_8001_2003',
+                'tis_18001_1999',
+                'cbam_certificates',
+                'energy_saving_label_number_5',
+                'green_industry_symbol',
+                'fsc_symbol',
+                'carbon_reduction_label',
+                'green_industry_certification',
+                'green_label',
+                'certification_other',
+                //! Benefits
+                'boi',
+                'free_zone',
+                'jtepa',
+                'benefits_others',
+                //!
+                'bom_process',
+                'cost_break_down',
+                'quotation',
+                'internal_other1',
+                'internal_other2',
+                'internal_other3',
+            ];
+
+            //! regis_id
+            //! doc_name
+            //! pdf file (base64)
+            $rules = [
+                'regis_id' => ["required", "uuid", "string"],
+                'doc_name' => ["required", "string", Rule::in($docNames)],
+                // 'content'  => ["required", "string", "min:500", new Base64],
+                // 'content' => ["required", "string"],
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            $regisId = $validator->validated()["regis_id"];
+            $docName = $validator->validated()["doc_name"];
+
+            // return response()->json($request->all());
+
+            $fileName = "documents->>'" . $docName . "'";
+
+            $result = DB::table("tb_regis_documents")->selectRaw("document_id, folder_name, $fileName as path_name")->where(["regis_id" => $regisId])->take(1)->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "regis_id ไม่มีอยู่ในระบบ",
+                "data" => []
+            ], 400);
+
+            $path = \getcwd() . "\\..\\..\\docs\\pdf\\";
+            // if (!\is_dir($path)) \mkdir($path, 0777, true);
+
+            $folderPath = $path . $regisId . "\\";
+            // if (!\is_dir($folderPath)) \mkdir($folderPath, 0777, true);
+
+            $pathOfOldFile = $folderPath . $result[0]->path_name;
+            if (\file_exists($pathOfOldFile) && \strlen($result[0]->path_name) != 0) \unlink($pathOfOldFile);
+
+            DB::table("tb_regis_documents")->where(["document_id" => $result[0]->document_id])->update([
+                "folder_name" => $regisId,
+                "documents->$docName" => "",
+                "updated_at" => DB::raw("now()"),
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "ลบเอกสารสำเร็จ",
                 "data" => [],
             ], 201);
         } catch (\Exception $e) {

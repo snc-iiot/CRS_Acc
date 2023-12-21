@@ -219,7 +219,7 @@ class JsonTemplateController extends Controller
                     "data" => \json_decode($cached),
                 ]);
             }
-            $result = DB::table("tb_business_types")->select(["business_type_id", "business_type"])->orderBy("created_at")->get();
+            $result = DB::table("tb_business_types")->select(["business_type_id", "business_type_th", "business_type_en"])->orderBy("created_at")->get();
 
             foreach ($result as $row) {
                 // $row->is_checked = false;
