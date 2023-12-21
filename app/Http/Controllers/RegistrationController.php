@@ -899,6 +899,10 @@ class RegistrationController extends Controller
                 "status_no"            => 3, //! รอการแก้ไข
             ]);
 
+            DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
+                "status_no"            => 3, //! รอการแก้ไข
+            ]);
+
             return response()->json([
                 "status" => "success",
                 "message" => "ส่งกลับไปแก้ไขสำเร็จ",
@@ -957,6 +961,10 @@ class RegistrationController extends Controller
 
             DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
                 "status_no"            => 5, //! ระงับชั่วคราว
+            ]);
+
+            DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
+                "status_no"            => 5, //! รอการแก้ไข
             ]);
 
             return response()->json([

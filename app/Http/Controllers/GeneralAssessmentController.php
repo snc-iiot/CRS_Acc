@@ -128,6 +128,48 @@ class GeneralAssessmentController extends Controller
         }
     }
 
+    //* [GET] /general-assessment/info-by-id?regis_id=<uuid>
+    function getInfoByID(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+
+            $rules = ["regis_id" => "required|uuid|string"];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            //! Block by status_no
+            //! ./Block by status_no
+
+            return response()->json([
+                "status" => "success",
+                "message" => "บันทึกแบบฟอร์มประเมินลูกค้าสำเร็จ",
+                "data" => []
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
     //* [GET] /general-assessment/approvals-by-id
     function getApprovalsByID(Request $request)
     {
