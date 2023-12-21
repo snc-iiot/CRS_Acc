@@ -9,6 +9,7 @@ use App\Http\Controllers\CompanyController;
 // use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\JsonTemplateController;
 use App\Http\Controllers\GeneralAssessmentController;
+use App\Http\Controllers\AssessmentCommentsController;
 // use App\Models\Company;
 
 /*
@@ -56,6 +57,11 @@ Route::prefix('general-assessment')->controller(GeneralAssessmentController::cla
     Route::post('/', 'create');
     Route::put('/', 'update');
     Route::get('/form-by-id', 'getFormByID');
+});
+
+Route::prefix('assessment-comments')->controller(AssessmentCommentsController::class)->group(function () {
+    Route::post('/', 'create');
+    Route::get('/', 'getAllComments');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {

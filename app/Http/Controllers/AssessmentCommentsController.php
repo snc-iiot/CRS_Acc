@@ -79,4 +79,62 @@ class AssessmentCommentsController extends Controller
             ], 500);
         }
     }
+
+
+    //* [GET] /assessment-comments (read)
+    function getAllComments(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = [
+                "regis_id"      => "required|uuid|string",
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            $result = DB::table("tb_assessments_comments as t1")->selectRaw(
+                "t1.regis_id
+                ,json_agg(json_build_object(
+                    'comments_id', t1.ass_comment_id,
+                    'comments', t1.comments,
+                    'comments_type', t1.comments_type,
+                    'creator_id', t1.creator_id,
+                    'created_at', t1.created_at::varchar(19),
+                    'name_th', t2.name->>'th',
+                    'name_en', t2.name->>'en'
+                )) as comments"
+            )->leftJoin("tb_users as t2", "t1.creator_id", "=", "t2.user_id")->where("t1.regis_id", $request->regis_id)->groupBy(["t1.regis_id"])->get();
+
+            foreach ($result as $row) $row->comments = \json_decode($row->comments);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Data from Query",
+                "data" => $result
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
 }

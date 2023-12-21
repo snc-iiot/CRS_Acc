@@ -35,6 +35,7 @@ class GeneralAssessmentController extends Controller
             $rules = [
                 "regis_id"                  => "required|uuid|string",
                 "products"                  => "required|string",
+                "quantity_per_year"         => "required|integer|min:0",
                 "orders"                    => "required|integer|min:0",
                 "lead_time"                 => "required|integer|min:0",
 
@@ -125,6 +126,7 @@ class GeneralAssessmentController extends Controller
             DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->update([
                 "products" => $request->products,
                 "orders" => $request->orders,
+                "quantity_per_year" => $request->quantity_per_year,
                 "lead_time" => $request->lead_time,
                 "price_conditions" => \json_encode($request->price_conditions),
                 "machine_produce" => \json_encode($request->machine_produce),
@@ -178,6 +180,7 @@ class GeneralAssessmentController extends Controller
             $rules = [
                 "regis_id"                  => "required|uuid|string",
                 "products"                  => "required|string",
+                "quantity_per_year"         => "required|integer|min:0",
                 "orders"                    => "required|integer|min:0",
                 "lead_time"                 => "required|integer|min:0",
 
@@ -276,6 +279,7 @@ class GeneralAssessmentController extends Controller
             DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->update([
                 "products" => $request->products,
                 "orders" => $request->orders,
+                "quantity_per_year" => $request->quantity_per_year,
                 "lead_time" => $request->lead_time,
                 "price_conditions" => \json_encode($request->price_conditions),
                 "machine_produce" => \json_encode($request->machine_produce),
@@ -343,6 +347,7 @@ class GeneralAssessmentController extends Controller
                 "regis_id,
                 products,
                 orders,
+                quantity_per_year,
                 lead_time,
                 price_conditions,
                 machine_produce,
