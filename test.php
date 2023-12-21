@@ -7,3 +7,7 @@
 // $time = \DateInterval::createFromDateString('24 hours');
 
 // var_dump($time);
+
+$data = null;
+
+// var_dump(\json_decode($data));

@@ -729,8 +729,6 @@ class RegistrationController extends Controller
 
             $rules = [
                 'regis_id' => 'required|uuid|string',
-                // 'regis_id' => 'required|uuid|string',
-                // 'informant_name' => 'required|string',
                 'company_information.company_admin' => 'required|string',
                 'company_information.company_name' => 'required|string',
                 'company_information.address' => 'required|string',
@@ -760,41 +758,42 @@ class RegistrationController extends Controller
                 'contact_person.*.email' => 'required|email',
 
                 'relationship.is_relationship' => 'required|boolean',
-                'relationship.relationship_name' => 'required_if:relationship.is_relationship,true|string',
+                'relationship.relationship_name' => 'nullable|string',
+                // 'relationship.relationship_name' => 'required_if:relationship.is_relationship,true|string',
 
                 'standard.certificate.*.cer_name_th' => 'required|string',
                 'standard.certificate.*.cer_name_en' => 'required|string',
                 'standard.certificate.*.is_checked' => 'required|boolean',
-                'standard.certificate.*.value' => 'required|string',
-                'standard.certificate.*.exp' => 'required|string',
+                'standard.certificate.*.value' => 'nullable|string',
+                'standard.certificate.*.exp' => 'nullable|string',
                 'standard.benefit.*.cer_name_th' => 'required|string',
                 'standard.benefit.*.cer_name_en' => 'required|string',
                 'standard.benefit.*.is_checked' => 'required|boolean',
-                'standard.benefit.*.value' => 'required|string',
-                'standard.benefit.*.exp' => 'required|string',
+                'standard.benefit.*.value' => 'nullable|string',
+                'standard.benefit.*.exp' => 'nullable|string',
 
-                'payment_term.credit_term.name' => 'required|string',
-                'payment_term.credit_term.value' => 'required|integer',
-                'payment_term.billing_term.name' => 'required|string',
-                'payment_term.billing_term.value' => 'required|string',
-                'payment_term.currency' => 'required|string',
-                'payment_term.incoterm' => 'required|string',
-                'payment_term.lc_term.is_lc' => 'required|boolean',
-                'payment_term.lc_term.lc_type' => 'required|string',
+                'payment_term.credit_term.name' => 'nullable|string',
+                'payment_term.credit_term.value' => 'nullable|integer',
+                'payment_term.billing_term.name' => 'nullable|string',
+                'payment_term.billing_term.value' => 'nullable|string',
+                'payment_term.currency' => 'nullable|string',
+                'payment_term.incoterm' => 'nullable|string',
+                'payment_term.lc_term.is_lc' => 'nullable|boolean',
+                'payment_term.lc_term.lc_type' => 'nullable|string',
                 'payment_term.delivery_term.*.cer_name_th' => 'required|string',
                 'payment_term.delivery_term.*.cer_name_en' => 'required|string',
                 'payment_term.delivery_term.*.is_checked' => 'required|boolean',
-                'payment_term.deposit_term.is_deposit' => 'required|boolean',
-                'payment_term.deposit_term.deposit_type' => 'required|string',
+                'payment_term.deposit_term.is_deposit' => 'nullable|boolean',
+                'payment_term.deposit_term.deposit_type' => 'nullable|string',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
-                'payment_term.product_warranty.value' => 'required|string',
+                'payment_term.product_warranty.value' => 'nullable|string',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
                 'payment_term.company_policy.*.is_checked' => 'required|boolean',
-                'payment_term.objective_purchasing.name' => 'required|string',
-                'payment_term.objective_purchasing.value' => 'required|string',
-                'payment_term.main_customer.name' => 'required|string',
-                'payment_term.main_customer.value' => 'required|string',
+                'payment_term.objective_purchasing.name' => 'required|string|in:trade,produce,other',
+                'payment_term.objective_purchasing.value' => 'nullable|string',
+                'payment_term.main_customer.name' => 'required|string|in:internal,foreign', //foreign
+                'payment_term.main_customer.value' => 'nullable|string',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -820,8 +819,8 @@ class RegistrationController extends Controller
             $payment_term           = \json_encode($request->payment_term);
 
             //! Block by status_no
-            // $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
-            $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
+            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้",
@@ -888,8 +887,8 @@ class RegistrationController extends Controller
             $regis_id          = $request->regis_id;
 
             //! Block by status_no
-            // $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
-            $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
+            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้",
@@ -897,13 +896,13 @@ class RegistrationController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            // DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-            //     "status_no"            => 3, //! รอการแก้ไข
-            // ]);
-
-            DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
+            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
                 "status_no"            => 3, //! รอการแก้ไข
             ]);
+
+            // DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
+            //     "status_no"            => 3, //! รอการแก้ไข
+            // ]);
 
             return response()->json([
                 "status" => "success",
@@ -953,8 +952,8 @@ class RegistrationController extends Controller
             $regis_id = $request->regis_id;
 
             //! Block by status_no
-            // $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
-            $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
+            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถระงับข้อมูลได้",
@@ -962,13 +961,13 @@ class RegistrationController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            // DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-            //     "status_no"            => 5, //! ระงับชั่วคราว
-            // ]);
-
-            DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
-                "status_no"            => 5, //! รอการแก้ไข
+            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
+                "status_no"            => 5, //! ระงับชั่วคราว
             ]);
+
+            // DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
+            //     "status_no"            => 5, //! รอการแก้ไข
+            // ]);
 
             return response()->json([
                 "status" => "success",

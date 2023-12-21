@@ -53,6 +53,9 @@ Route::prefix('registration')->controller(RegistrationController::class)->group(
 
 Route::prefix('general-assessment')->controller(GeneralAssessmentController::class)->group(function () {
     Route::get('/approvals-by-id', 'getApprovalsByID');
+    Route::post('/', 'create');
+    Route::put('/', 'update');
+    Route::get('/form-by-id', 'getFormByID');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {
