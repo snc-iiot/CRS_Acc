@@ -41,61 +41,93 @@ const FilterBarInput = React.forwardRef<
 interface FilterSelectProps {
   triggerText?: string;
   options?: { label: string; value: string }[];
+  classNameTrigger?: string;
+  setState?: React.Dispatch<React.SetStateAction<string[]>>;
+  state?: string[];
+  commandPlaceholder?: string;
+  commandEmpty?: string;
 }
 
 const FilterSelect = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & FilterSelectProps
->(({ className, ...props }, ref) => (
-  <Popover>
-    <PopoverTrigger asChild>
-      <Button variant="outline" role="combobox" className="border-dashed">
-        <PlusCircledIcon className="mr-2 h-4 w-4" />
-        {props.triggerText || "เพิ่มตัวกรอง"}
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent
-      align="start"
-      className={cn(
-        "flex flex-col gap-y-2 rounded-md bg-popover p-0 shadow-md",
-        className,
-      )}
-      {...props}
-      ref={ref}
-    >
-      <Command>
-        <CommandInput placeholder="Search..." className="h-9" />
-        <CommandEmpty>No states found matching </CommandEmpty>
-        <CommandGroup className="max-h-64  w-full overflow-y-auto">
-          {props?.options?.map((option, i) => (
-            <CommandItem
-              key={i}
-              className={cn(
-                "flex items-center gap-x-2 px-3 py-2",
-                "hover:bg-primary hover:bg-opacity-10",
-                "focus:bg-primary focus:bg-opacity-10",
-                "active:bg-primary active:bg-opacity-20",
-                "cursor-pointer",
-              )}
-              value={option.value}
-              onSelect={(value) => console.log(value)}
-            >
-              <div
+>(
+  (
+    {
+      className,
+      classNameTrigger,
+      setState,
+      state,
+      commandPlaceholder = "ค้นหา",
+      commandEmpty = "ไม่พบข้อมูล",
+      ...props
+    },
+    ref,
+  ) => (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          className={cn("border-dashed", classNameTrigger)}
+        >
+          <PlusCircledIcon className="mr-2 h-4 w-4" />
+          {props.triggerText || "เพิ่มตัวกรอง"}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="start"
+        className={cn(
+          "flex flex-col gap-y-2 rounded-md bg-popover p-0 shadow-md",
+          className,
+        )}
+        {...props}
+        ref={ref}
+      >
+        <Command>
+          <CommandInput placeholder={commandPlaceholder} className="h-9" />
+          <CommandEmpty>{commandEmpty}</CommandEmpty>
+          <CommandGroup className="max-h-64  w-full overflow-y-auto">
+            {props?.options?.map((option, i) => (
+              <CommandItem
+                key={i}
                 className={cn(
-                  "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                  "opacity-50 [&_svg]:invisible",
+                  "flex items-center gap-x-2 px-3 py-2",
+                  "hover:bg-primary hover:bg-opacity-10",
+                  "focus:bg-primary focus:bg-opacity-10",
+                  "active:bg-primary active:bg-opacity-20",
+                  "cursor-pointer",
                 )}
+                value={option.value}
+                onSelect={(value) => {
+                  if (state?.includes(value)) {
+                    setState?.((prev) => prev.filter((item) => item !== value));
+                  } else {
+                    setState?.((prev) => [...prev, value]);
+                  }
+                }}
               >
-                <CheckIcon className={cn("h-4 w-4")} />
-              </div>
-              <span>{option.label}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </Command>
-    </PopoverContent>
-  </Popover>
-));
+                <div
+                  className={cn(
+                    "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                    state?.includes(option.value)
+                      ? "bg-primary text-primary-foreground"
+                      : "opacity-50 [&_svg]:invisible",
+                  )}
+                >
+                  <CheckIcon
+                    className={cn("h-4 w-4 text-primary-foreground")}
+                  />
+                </div>
+                <span>{option.label}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  ),
+);
 
 const ClearButton = React.forwardRef<
   React.ElementRef<"button">,

@@ -12,33 +12,32 @@ import { Separator } from "@/components/ui/separator";
 import { collapsedAtom } from "@/jotai/atom";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
-import { useUtils } from "@/services";
+import { useProfile } from "@/services/hooks/use-profile";
 import { useAtom } from "jotai";
 import { FC } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-// import CallApi from "./call-api";
+import CallApi from "./call-api";
 import { Icons } from "./icons";
 import { Header } from "./site-header";
 import Sidebar from "./site-sidebar";
 import ThemeToggle from "./theme-toggle";
 
 const RootLayout: FC = () => {
-  const { companyPolicyList } = useUtils();
+  const { profile } = useProfile();
+  const { registration } = useAtomStore();
+  console.log("====================================");
+  console.log("registration", registration);
+  console.log("====================================");
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useAtom(collapsedAtom);
-  const { utils } = useAtomStore();
-
-  console.log(utils);
 
   function resetAtom() {
     setCollapsed(false);
   }
 
-  console.log(companyPolicyList);
-
   return (
     <ReqAuth>
-      {/* <CallApi /> */}
+      <CallApi />
       <div className="relative flex h-screen w-full overflow-hidden">
         <main className="relative flex h-full w-full flex-col overflow-hidden">
           <Header
@@ -89,11 +88,11 @@ const RootLayout: FC = () => {
                         <Avatar className="h-6 w-6 cursor-pointer">
                           <AvatarImage src="" />
                           <AvatarFallback className="bg-primary/10 uppercase">
-                            {"Administrator".at(0)}
+                            {profile?.name?.th?.at(0)}
                           </AvatarFallback>
                         </Avatar>
                         <p className="text-sm font-semibold uppercase">
-                          {"Administrator"}
+                          {profile?.name?.th}
                         </p>
                       </div>
                     </DropdownMenuTrigger>
@@ -104,10 +103,10 @@ const RootLayout: FC = () => {
                     >
                       <DropdownMenuLabel>
                         <p className="text-sm font-semibold">
-                          {"admin@mail.com"}
+                          {profile?.name?.en}
                         </p>
                         <p className="text-xs text-gray-400">
-                          {"Administrator"}
+                          {profile?.name?.en}
                         </p>
                       </DropdownMenuLabel>
                       <DropdownMenuItem

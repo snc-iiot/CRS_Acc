@@ -5,13 +5,16 @@ import {
   certificatedListAtom,
   companyListAtom,
   companyPolicyListAtom,
+  countryCodeListAtom,
   deliveryTermsListAtom,
+  docByRegisIdAtom,
   documentKeyListAtom,
-  utilsAtom,
+  regisListAtom,
+  registrationAtom,
+  thaiProvinceAtom,
 } from "./atom";
 
 export const useAtomStore = () => {
-  const [utils, setUtils] = useAtom(utilsAtom);
   const [benefitsList, setBenefitsList] = useAtom(benefitsListAtom);
   const [businessTypeList, setBusinessTypeList] = useAtom(businessTypeListAtom);
   const [certificatedList, setCertificatedList] = useAtom(certificatedListAtom);
@@ -23,10 +26,13 @@ export const useAtomStore = () => {
     deliveryTermsListAtom,
   );
   const [documentKeyList, setDocumentKeyList] = useAtom(documentKeyListAtom);
+  const [registration, setRegistration] = useAtom(registrationAtom);
+  const [thaiProvince] = useAtom(thaiProvinceAtom);
+  const [countryCodeList, setCountryCodeList] = useAtom(countryCodeListAtom);
+  const [docByRegisId, setDocByRegisId] = useAtom(docByRegisIdAtom);
+  const [regisList, setRegisList] = useAtom(regisListAtom);
 
   return {
-    utils,
-    setUtils,
     benefitsList,
     setBenefitsList,
     businessTypeList,
@@ -41,5 +47,14 @@ export const useAtomStore = () => {
     setDeliveryTermsList,
     documentKeyList,
     setDocumentKeyList,
+    registration,
+    setRegistration,
+    thaiProvince,
+    countryCodeList,
+    setCountryCodeList,
+    docByRegisId,
+    setDocByRegisId,
+    regisList,
+    setRegisList,
   };
 };

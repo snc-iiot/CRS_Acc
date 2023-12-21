@@ -1,12 +1,15 @@
+// import { Icons } from "@/co/common/icons";
+import { Icons } from "@/components/common/icons";
+import { UploadFile } from "@/components/common/upload-file";
+// import { Button } from "../ui/button";
 import { Button } from "@/components/ui/button";
 import { DocumentUpload } from "@/helpers/document.helper";
 import { Sections } from "@/helpers/register.helper";
-import { UploadFile } from "@/hooks/upload-file";
-// import Base64Tools from "@/lib/base64-tools";
 import { FC } from "react";
 
 const DocumentUploadForm: FC = () => {
-  // const base64Tools = new Base64Tools();
+  const data = [...DocumentUpload];
+
   return (
     <section id="upload-documents" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -16,7 +19,7 @@ const DocumentUploadForm: FC = () => {
           </h2>
         </section>
         <section className="flex h-full w-full flex-col gap-2">
-          {DocumentUpload?.map((item, i) => (
+          {data?.map((item, i) => (
             <div
               className="grid w-full grid-cols-10 items-center gap-2"
               key={i}
@@ -27,19 +30,21 @@ const DocumentUploadForm: FC = () => {
               <div className="col-span-6 flex">
                 <UploadFile
                   onChange={(e) => {
-                    const files = e.target.files;
-                    if (files?.length) {
-                      // base64Tools.getBase64(e.target.files[0]).then((res) => {
-                      // base64Tools.openBase64NewTab(res);
-                      // });
-                      console.log(files?.[0]?.name);
-                    }
+                    console.log(e);
                   }}
                   accept="application/pdf"
                   showFileName={true}
-                  className="flex items-center gap-x-1"
+                  deleteButton={
+                    <Icons.trash className="h-4 w-4 text-red-500" />
+                  }
                 >
-                  <Button type="button">อัพโหลดไฟล์</Button>
+                  <Button
+                    className="rounded-md bg-primary px-2 py-1 text-white"
+                    type="button"
+                  >
+                    <Icons.uploadCloudIcon className="mr-2 h-4 w-4" />
+                    อัพโหลดเอกสาร
+                  </Button>
                 </UploadFile>
               </div>
             </div>

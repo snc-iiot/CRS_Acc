@@ -1,3 +1,4 @@
+import CallApi from "@/components/common/call-api";
 import { useProfile } from "@/services/hooks/use-profile";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,5 +17,10 @@ export const ReqAuth = ({ children }: Props) => {
     }
   }, [profile, navigate]);
 
-  return profile?.token != null ? <>{children}</> : null;
+  return profile?.token != null ? (
+    <>
+      <CallApi />
+      {children}
+    </>
+  ) : null;
 };

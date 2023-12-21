@@ -60,6 +60,7 @@ const UploadFile = forwardRef<HTMLDivElement, Props>(
               accept={accept}
               className="hidden"
               onChange={handleOnChange}
+              required={false}
             />
 
             {!showFileName || fileNames?.length == 0 ? null : (

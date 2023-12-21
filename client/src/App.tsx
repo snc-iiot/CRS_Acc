@@ -22,7 +22,10 @@ function App() {
           <Route path="/" element={<RootLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/test-page" element={<TestPage />} />
-            <Route path="/registrations/customer" element={<Registration />} />
+            <Route
+              path="/registrations/customer/register"
+              element={<Registration />}
+            />
             <Route path="/registrations" element={<CustomerRegistrations />} />
             <Route path="/settings" element={<SettingPage />} />
             <Route

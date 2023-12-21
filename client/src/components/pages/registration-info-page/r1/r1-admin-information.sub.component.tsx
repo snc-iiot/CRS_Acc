@@ -15,7 +15,7 @@ import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
 import { LatitudesLongitudes } from "@/helpers/common.helper";
 import { cn } from "@/lib/utils";
-import CountyList from "@/mock/county-list.json";
+import CountyList from "@/mock/country-list.json";
 import { FC, useId, useState } from "react";
 
 export const R1AdminInformation: FC = () => {

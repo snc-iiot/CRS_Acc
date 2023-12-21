@@ -1,15 +1,15 @@
-import { IContractForm } from "@/models/types";
+import { IContactForm } from "@/types";
 
-export const ContractInfo: IContractForm[] = [
+export const ContactInfo: IContactForm[] = [
   {
-    id: "manager-scm",
-    group: "ผู้จัดการแผนกฝ่ายจัดซื้อ",
+    id: "scm_officer",
+    group: "ฝ่ายจัดซื้อ",
     fields: [
       {
         name: "name",
-        label: "ชื่อนามสกุล",
+        label: "ชื่อ-นามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ-นามสกุล",
         required: true,
       },
       {
@@ -18,6 +18,7 @@ export const ContractInfo: IContractForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",
@@ -29,14 +30,14 @@ export const ContractInfo: IContractForm[] = [
     ],
   },
   {
-    id: "manager-finance",
-    group: "ผู้จัดการแผนกบัญชีและการเงิน",
+    id: "scm_department_manager",
+    group: "ผู้จัดการฝ่ายจัดซื้อ",
     fields: [
       {
         name: "name",
-        label: "ชื่อนามสกุล",
+        label: "ชื่อ-นามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ-นามสกุล",
         required: true,
       },
       {
@@ -45,6 +46,7 @@ export const ContractInfo: IContractForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",
@@ -56,14 +58,70 @@ export const ContractInfo: IContractForm[] = [
     ],
   },
   {
-    id: "manager-legal",
+    id: "accounting_officer",
+    group: "ฝ่ายบัญชีและการเงิน",
+    fields: [
+      {
+        name: "name",
+        label: "ชื่อ-นามสกุล",
+        type: "text",
+        placeholder: "ชื่อ-นามสกุล",
+        required: true,
+      },
+      {
+        name: "tel",
+        label: "เบอร์โทรศัพท์",
+        type: "tel",
+        placeholder: "กรอกเบอร์โทรศัพท์",
+        required: true,
+        pattern: "^[0-9]{10}$",
+      },
+      {
+        name: "email",
+        label: "อีเมล",
+        type: "email",
+        placeholder: "กรอกอีเมล",
+        required: true,
+      },
+    ],
+  },
+  {
+    id: "accounting_department_manager",
+    group: "ผู้จัดการฝ่ายบัญชีและการเงิน",
+    fields: [
+      {
+        name: "name",
+        label: "ชื่อ-นามสกุล",
+        type: "text",
+        placeholder: "ชื่อ-นามสกุล",
+        required: true,
+      },
+      {
+        name: "tel",
+        label: "เบอร์โทรศัพท์",
+        type: "tel",
+        placeholder: "กรอกเบอร์โทรศัพท์",
+        required: true,
+        pattern: "^[0-9]{10}$",
+      },
+      {
+        name: "email",
+        label: "อีเมล",
+        type: "email",
+        placeholder: "กรอกอีเมล",
+        required: true,
+      },
+    ],
+  },
+  {
+    id: "managing_director",
     group: "กรรมการผู้จัดการ",
     fields: [
       {
         name: "name",
-        label: "ชื่อนามสกุล",
+        label: "ชื่อ-นามสกุล",
         type: "text",
-        placeholder: "กรอกชื่อนามสกุล",
+        placeholder: "ชื่อ-นามสกุล",
         required: true,
       },
       {
@@ -72,6 +130,7 @@ export const ContractInfo: IContractForm[] = [
         type: "tel",
         placeholder: "กรอกเบอร์โทรศัพท์",
         required: true,
+        pattern: "^[0-9]{10}$",
       },
       {
         name: "email",

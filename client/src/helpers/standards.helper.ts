@@ -156,7 +156,7 @@ export const CompanyPolicies = [
 export const ObjectivePurchasing = [
   {
     label: "ซื้อมาขายไป",
-    name: "buyAndSell",
+    name: "trade",
   },
   {
     label: "ผลิตงาน",
@@ -171,7 +171,7 @@ export const ObjectivePurchasing = [
 export const MainCustomerOfCompany = [
   {
     label: "ลูกค้าในประเทศไทย",
-    name: "local",
+    name: "internal",
   },
   {
     label: "ต่างประเทศ",

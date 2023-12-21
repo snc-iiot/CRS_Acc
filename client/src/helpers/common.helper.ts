@@ -1,5 +1,10 @@
+import { TRegistrationForm } from "@/types";
+
+// export const API_BASE_URL =
+//   "http://10.11.20.53:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
+
 export const API_BASE_URL =
-  "http://10.1.8.94:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
+  "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
 
 export const queryKey = {
   GET_USER: "GET_USER",
@@ -10,6 +15,12 @@ export const queryKey = {
   GET_DELIVERY_TERMS_LIST: "GET_DELIVERY_TERMS_LIST",
   GET_COMPANY_POLICY_LIST: "GET_COMPANY_POLICY_LIST",
   GET_COMPANY_LIST: "GET_COMPANY_LIST",
+  CREATE_REGISTER_ID: "CREATE_REGISTER_ID",
+  GET_COUNTRY_CODE_LIST: "GET_COUNTRY_CODE_LIST",
+  CREATE_NEW_CUSTOMER: "CREATE_NEW_CUSTOMER",
+  GET_DOC_BY_REGIS_ID: "GET_DOC_BY_REGIS_ID",
+  UPLOAD_FILE: "UPLOAD_FILE",
+  GET_REGIS_LIST: "GET_REGIS_LIST",
 };
 
 export const LatitudesLongitudes = {
@@ -27,4 +38,21 @@ export const KEY_LOCAL_STORAGE = {
   ICRS_ADMIN_LOCAL_STORAGE: "ICRS_ADMIN_LOCAL_STORAGE",
 };
 
-export const PRIMARY_COLOR = "#1E88E5";
+export const PRIMARY_COLOR = "#2563EB";
+
+export const MODE_CODE = {
+  CREATE: "CREATE",
+  EDIT: "EDIT",
+  VIEW: "VIEW",
+};
+
+export const CheckCustomerForeigner = (
+  customerInfo: TRegistrationForm,
+): boolean => {
+  const {
+    company_information: {
+      company_registration: { is_thai },
+    },
+  } = customerInfo;
+  return is_thai ? false : true;
+};

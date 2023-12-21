@@ -1,5 +1,7 @@
 import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
+import { Spinner } from "@/components/common/spinner";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -18,39 +20,87 @@ import {
   TableRow as Tr,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import usePermissions from "@/hooks/use-permissions";
-import registrationsMock from "@/mock/registrations.mock.json";
-import { RegistrationInterface } from "@/models";
-import { FC } from "react";
+import { MODE_CODE } from "@/helpers/common.helper";
+import { status, statusHelper } from "@/helpers/status.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
+import { cn } from "@/lib/utils";
+import { useUtils } from "@/services";
+import { useForm } from "@/services/hooks/use-form";
+import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomerRegistrations: FC = () => {
-  const { permissions } = usePermissions();
-
-  console.log(permissions);
-  const registrations: RegistrationInterface[] = registrationsMock;
+  const { useGetRegisList } = useForm();
+  const { setRegistration, regisList, companyList } = useAtomStore();
+  const { mutateGetRegisterId } = useUtils();
   const navigate = useNavigate();
+  const [search, setSearch] = useState<string>("");
+  const [companySelect, setCompanySelect] = useState<string[]>([]);
+  const [statusSelect, setStatusSelect] = useState<string[]>([]);
+  const { isLoading } = useGetRegisList();
 
-  const Status = [
-    { value: "ทั้งหมด", label: "ทั้งหมด" },
-    { value: "สถานะ1", label: "สถานะ1" },
-    { value: "สถานะ2", label: "สถานะ2" },
-  ];
+  const Status = status?.map((item) => ({
+    label: item?.status_name?.toUpperCase(),
+    value: item?.status_id?.toString(),
+  }));
 
-  const Company = [
-    { value: "ทั้งหมด", label: "ทั้งหมด" },
-    { value: "บริษัท1", label: "บริษัท1" },
-    { value: "บริษัท2", label: "บริษัท2" },
-  ];
+  const Company = companyList?.map((item) => ({
+    value: item?.company?.toLowerCase(),
+    label: item?.company?.toUpperCase(),
+  }));
+
+  const getRegisterId = async () => {
+    const regisId = await mutateGetRegisterId();
+    if (regisId.status === "success") {
+      if (!regisId.data?.[0]?.regis_id) return;
+      setRegistration((prev) => ({
+        ...prev,
+        regis_id: regisId.data?.[0]?.regis_id || "",
+      }));
+      navigate(
+        `/registrations/customer/register?RegisID=${regisId.data?.[0]?.regis_id}&?mode=${MODE_CODE.CREATE}`,
+      );
+    }
+  };
+
+  const filterData = regisList
+    ?.filter((item) => {
+      if (statusSelect.length === 0) return true;
+      return statusSelect.includes(item.status_no?.toString());
+    })
+    ?.filter((item) => {
+      if (companySelect.length === 0) return true;
+      return companySelect.includes(item.company_admin?.toLowerCase());
+    })
+    ?.filter((item) => {
+      if (search === "") return item;
+      else if (
+        item?.juristic_id?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.company_name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.company_admin?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.created_at?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.status_desc_th?.toLowerCase().includes(search.toLowerCase())
+      ) {
+        return item;
+      }
+    });
+
+  if (isLoading)
+    return (
+      <main className="flex h-[90dvh] flex-col items-center justify-center gap-2">
+        <Spinner />
+        <p className="text-sm">กำลังโหลดข้อมูล...</p>
+      </main>
+    );
 
   return (
     <FadeIn>
-      <main className="flex h-[90dvh] flex-col gap-2">
+      <main className="flex h-[90dvh] flex-col gap-2 px-1">
         <h2 className="text-xl font-bold">รายการลงทะเบียนลูกค้า</h2>
         <div className="flex items-center gap-x-1">
           <Button
             className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]"
-            onClick={() => navigate("/registrations/customer")}
+            onClick={getRegisterId}
           >
             <span>ลงทะเบียนลูกค้าใหม่</span>
             <Icons.plus className="h-8 w-8 font-bold" />
@@ -125,10 +175,33 @@ const CustomerRegistrations: FC = () => {
         </div>
         <div>
           <FilterBar>
-            <FilterBarInput placeholder="ค้นหา" />
-            <FilterSelect triggerText="สถานะ" options={Status} />
-            <FilterSelect triggerText="บริษัท" options={Company} />
-            <ClearButton className="text-red-600 hover:text-red-600">
+            <FilterBarInput
+              placeholder="ค้นหา"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+            <FilterSelect
+              triggerText="สถานะ"
+              options={Status}
+              state={statusSelect}
+              setState={setStatusSelect}
+            />
+            <FilterSelect
+              triggerText="บริษัท"
+              options={Company}
+              state={companySelect}
+              setState={setCompanySelect}
+            />
+            <ClearButton
+              className="text-red-600 hover:text-red-600"
+              onClick={() => {
+                setSearch("");
+                setCompanySelect([]);
+                setStatusSelect([]);
+              }}
+            >
               ล้าง
             </ClearButton>
           </FilterBar>
@@ -157,47 +230,43 @@ const CustomerRegistrations: FC = () => {
               </Tr>
             </THead>
             <TBody className="text-sm">
-              {registrations
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                // .concat(registrations)
-                ?.map((item, i) => (
-                  <Tr key={i} className="whitespace-nowrap border-b text-xs">
-                    <Td>{i + 1}</Td>
-                    <Td>{item?.JuristicID}</Td>
-                    <Td>{item?.Company}</Td>
-                    <Td>{item?.RegisWithCompany}</Td>
-                    <Td>{item?.RegisDT}</Td>
-                    <Td>
-                      <small className="select-none rounded bg-primary/70 p-1 uppercase text-white">
-                        Status1
-                      </small>
-                    </Td>
-                    <Td>
-                      <Link
-                        to={
-                          "/registrations/customer/info?RegisID=" +
-                          item?.RegisID
-                        }
-                        className="flex items-center gap-x-1 text-primary hover:underline"
-                      >
-                        <Icons.eye className="h-4 w-4" /> <span>ดูละเอียด</span>
-                      </Link>
-                    </Td>
-                  </Tr>
-                ))}
+              {filterData?.length === 0 && (
+                <Tr>
+                  <Td colSpan={7} className="text-center">
+                    ไม่พบข้อมูล
+                  </Td>
+                </Tr>
+              )}
+              {filterData?.map((item, i) => (
+                <Tr key={i} className="whitespace-nowrap border-b text-xs">
+                  <Td>{i + 1}</Td>
+                  <Td>{item?.juristic_id}</Td>
+                  <Td>{item?.company_name}</Td>
+                  <Td>{item?.company_admin}</Td>
+                  <Td>{item?.created_at}</Td>
+                  <Td>
+                    <Badge
+                      className={cn(
+                        statusHelper(item?.status_no)?.status_color,
+                      )}
+                    >
+                      {item?.status_desc_th}
+                    </Badge>
+                  </Td>
+                  <Td>
+                    <Link
+                      to={
+                        "/registrations/customer/info?RegisID=" +
+                        item?.regis_info_id
+                      }
+                      className="flex items-center gap-x-1 text-primary hover:underline"
+                    >
+                      <Icons.eye className="h-4 w-4" /> <span>ดูละเอียด</span>
+                    </Link>
+                  </Td>
+                </Tr>
+              ))}
             </TBody>
-            {/* </table> */}
           </Table>
         </div>
       </main>

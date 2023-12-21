@@ -1,26 +1,18 @@
-import { ICompanyForm } from "@/models/types";
+import BusinessTypeList from "@/mock/business-type-list.json";
+import CountryList from "@/mock/country-list.json";
+import { ICompanyForm } from "@/types";
 
 export const CompanyInfo: ICompanyForm[] = [
   {
-    name: "company-register",
+    name: "company_admin",
     label: "ขึ้นทะเบียนกับบริษัท",
     type: "select",
     placeholder: "เลือกบริษัท",
-    options: [
-      { value: "1", label: "บริษัท 1" },
-      { value: "2", label: "บริษัท 2" },
-    ],
+    options: [],
     required: true,
   },
   {
-    name: "to",
-    label: "เรียน",
-    type: "text",
-    placeholder: "กรอกชื่อผู้รับ",
-    required: true,
-  },
-  {
-    name: "company-name",
+    name: "company_name",
     label: "ชื่อบริษัท",
     type: "text",
     placeholder: "กรอกชื่อบริษัท",
@@ -28,20 +20,71 @@ export const CompanyInfo: ICompanyForm[] = [
   },
   {
     name: "address",
-    label: "ที่อยู่",
+    label: "เลขที่",
     type: "textarea",
-    placeholder: "กรอกที่อยู่",
+    placeholder: "กรอกเลขที่",
     required: true,
   },
   {
-    name: "tel",
+    name: "country",
+    label: "ประเทศ",
+    type: "select",
+    placeholder: "กรอกประเทศ",
+    options: CountryList?.map((country) => ({
+      value: country?.alpha2,
+      label: country?.country,
+    })),
+    required: true,
+  },
+  {
+    name: "province",
+    label: "จังหวัด",
+    type: "select",
+    placeholder: "กรอกจังหวัด",
+    options: [
+      { value: "1", label: "จังหวัด 1" },
+      { value: "2", label: "จังหวัด 2" },
+    ],
+    required: true,
+  },
+  {
+    name: "district",
+    label: "อำเภอ/เขต",
+    type: "select",
+    placeholder: "กรอกอำเภอ/เขต",
+    options: [
+      { value: "1", label: "อำเภอ 1" },
+      { value: "2", label: "อำเภอ 2" },
+    ],
+    required: true,
+  },
+  {
+    name: "sub_district",
+    label: "ตำบล/แขวง",
+    type: "select",
+    placeholder: "กรอกตำบล/แขวง",
+    options: [
+      { value: "1", label: "ตำบล 1" },
+      { value: "2", label: "ตำบล 2" },
+    ],
+    required: true,
+  },
+  {
+    name: "zip_code",
+    label: "รหัสไปรษณีย์",
+    type: "number",
+    placeholder: "กรอกรหัสไปรษณีย์",
+    required: true,
+  },
+  {
+    name: "phone_number",
     label: "เบอร์โทรศัพท์",
     type: "tel",
     placeholder: "กรอกเบอร์โทรศัพท์",
     required: true,
   },
   {
-    name: "tax-id",
+    name: "juristic_id",
     label: "เลขประจำตัวผู้เสียภาษี",
     type: "number",
     placeholder: "กรอกเลขประจำตัวผู้เสียภาษี",
@@ -55,14 +98,14 @@ export const CompanyInfo: ICompanyForm[] = [
     required: true,
   },
   {
-    name: "business-type",
-    label: "ประเภทธุรกิจ",
+    name: "nature_of_business",
+    label: "ประเภทกิจการตามใบอนุญาตประกอบการ",
     type: "select",
-    placeholder: "กรอกประเภทธุรกิจ",
-    options: [
-      { value: "1", label: "ประเภทธุรกิจ 1" },
-      { value: "2", label: "ประเภทธุรกิจ 2" },
-    ],
+    placeholder: "ประเภทกิจการตามใบอนุญาตประกอบการ",
     required: true,
+    options: BusinessTypeList?.map((business) => ({
+      value: business?.business_id,
+      label: business?.business_type,
+    })),
   },
 ];

@@ -30,12 +30,18 @@ export const useSwal = () => {
     });
   };
 
-  const showError = (title: string, message: string) => {
+  const showError = (
+    title: string,
+    message: string,
+    confirmButtonText?: string,
+    cancelButtonText?: string,
+  ) => {
     Swal.fire({
       title: title,
       text: message,
       icon: "error",
-      confirmButtonText: "ตกลง",
+      confirmButtonText: confirmButtonText || "ตกลง",
+      cancelButtonText: cancelButtonText || "ยกเลิก",
       confirmButtonColor: PRIMARY_COLOR,
     });
   };

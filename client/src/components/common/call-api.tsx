@@ -1,10 +1,31 @@
-import { useUtils } from "@/services";
+import { useForm, useUtils } from "@/services";
 import { FC } from "react";
 
-/* The code is defining a functional component called `CallApi`. It is using the `FC` type from the
-`react` package to specify that this component does not receive any props. */
 const CallApi: FC = () => {
-  // useUtils();
+  const {
+    useGetBenefitsList,
+    useGetBusinessTypeList,
+    useGetCertificatedList,
+    useGetCompanyList,
+    useGetCompanyPolicyList,
+    useGetCountryCodeList,
+    useGetDeliveryTermsList,
+    useGetDocumentKeyList,
+  } = useUtils();
+
+  const { useGetRegisList } = useForm();
+
+  useGetBenefitsList();
+  useGetBusinessTypeList();
+  useGetCertificatedList();
+  useGetCompanyList();
+  useGetCompanyPolicyList();
+  useGetCountryCodeList();
+  useGetDeliveryTermsList();
+  useGetDocumentKeyList();
+
+  //? Get Regis List
+  useGetRegisList();
   return <div style={{ display: "none" }} />;
 };
 

@@ -20,8 +20,9 @@ import { useNavigate } from "react-router";
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
-  const { showSuccess, showError } = useSwal();
+  const { showSuccess, showError, showLoading, closeSwal } = useSwal();
   const { setProfile } = useProfile();
+
   const annoucements: { label: string; link: string }[] = [
     { label: "สื่อสาธิตการใช้งานระบบ SNC-iCRS", link: "#" },
     {
@@ -48,19 +49,20 @@ const LoginPage: FC = () => {
       );
       return data;
     } catch (error: any) {
+      console.error(error);
       showError("เกิดข้อผิดพลาด", error?.response?.data?.message);
       return null;
     }
   };
 
-  const onSubmit = handleSubmit(async () => {
+  const submitLogin = async () => {
+    showLoading("กำลังเข้าสู่ระบบ...");
     const username = watch("emailRequired");
     const password = watch("passwordRequired");
-
     const profile = await Login(username, password);
+    closeSwal();
     if (profile?.status == "success") {
       setProfile(profile.data?.[0]);
-      console.log(profile.data?.[0]);
       showSuccess("เข้าสู่ระบบสำเร็จ", "กำลังพาท่านไปยังหน้าหลัก...");
       setTimeout(() => {
         navigate("/");
@@ -68,7 +70,9 @@ const LoginPage: FC = () => {
     } else {
       showError("เกิดข้อผิดพลาด", "กรุณาตรวจสอบข้อมูลใหม่อีกครั้ง");
     }
-  });
+  };
+
+  const onSubmit = handleSubmit(submitLogin);
 
   return (
     <FadeIn>

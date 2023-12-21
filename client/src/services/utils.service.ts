@@ -5,8 +5,10 @@ import {
   TCertificatedList,
   TCompanyList,
   TCompanyPolicyList,
+  TCountryCodeList,
   TDeliveryTermsList,
   TDocumentKeyList,
+  TResponseAction,
 } from "@/types";
 import { APIService } from "./api.service";
 
@@ -79,11 +81,33 @@ export class UtilsService extends APIService {
 
   getCompanyList = async (): Promise<TCompanyList[]> => {
     try {
-      const { data: responseData } = await this.get(`/template/companies`);
+      const { data: responseData } = await this.get(`/template/all-company`);
       return responseData?.data ?? [];
     } catch (error: any) {
       console.error("UtilsService -> getCompanyList -> error", error);
       return [] as TCompanyList[];
+    }
+  };
+
+  createRegisterId = async (): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.post(
+        `/registration/create-regis-id`,
+      );
+      return responseData ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> createRegisterId -> error", error);
+      return {} as TResponseAction;
+    }
+  };
+
+  getCountryCodeList = async (): Promise<TCountryCodeList[]> => {
+    try {
+      const { data: responseData } = await this.get(`/template/country-codes`);
+      return responseData?.data ?? [];
+    } catch (error: any) {
+      console.error("UtilsService -> getCountryCodeList -> error", error);
+      return [] as TCountryCodeList[];
     }
   };
 }

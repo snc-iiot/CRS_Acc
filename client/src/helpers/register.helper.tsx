@@ -1,7 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select-custom";
 import { Textarea } from "@/components/ui/textarea";
-import { ICompanyForm } from "@/models/types";
+import { ICompanyForm, TCompanyInformation } from "@/types";
+import { ChangeEvent } from "react";
 
 export const HeaderConditions: {
   [key in "register" | "login"]: {
@@ -40,6 +41,11 @@ export const Sections: {
     description: "กรุณากรอกข้อมูลให้ครบถ้วน",
   },
   {
+    id: "relationship-info",
+    title: "ความสัมพันธ์กับบริษัท / Relationship with Company",
+    description: "กรุณากรอกข้อมูลให้ครบถ้วน",
+  },
+  {
     id: "standard-certification-info",
     title:
       "มาตรฐานและการรับรองที่ได้รับในปัจจุบัน / Standards and Certifications",
@@ -50,17 +56,39 @@ export const Sections: {
     title: "เอกสารอัพโหลด / Upload Documents",
     description: "กรุณากรอกข้อมูลให้ครบถ้วน",
   },
+  {
+    id: "consent-form",
+    title: "ศึกษาและให้ความยินยอม / Consent Form",
+    description: "กรุณากรอกข้อมูลให้ครบถ้วน",
+  },
 ];
 
-export const ConditionalInput = (item: ICompanyForm) => {
+export const ConditionalInput = (
+  item: ICompanyForm,
+  handleOnChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => void,
+  value: TCompanyInformation,
+) => {
   switch (item?.type) {
     case "select": {
       return (
         <div className="w-full">
           <Select
+            name={item?.name}
             id={item?.name}
             placeholder={item?.placeholder}
             className="text-sm"
+            required={item?.required}
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
+            value={
+              value?.[item?.name as keyof TCompanyInformation] as
+                | string
+                | undefined
+            }
+            disabled={item?.disabled}
           >
             {item?.options?.map((option, index) => (
               <option value={option?.value} key={index}>
@@ -74,48 +102,95 @@ export const ConditionalInput = (item: ICompanyForm) => {
     case "text": {
       return (
         <Input
+          type="text"
+          name={item?.name}
           id={item?.name}
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={(e) => handleOnChange(e)}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
+          disabled={item?.disabled}
         />
       );
     }
     case "tel": {
       return (
         <Input
+          name={item?.name}
           id={item?.name}
           type="tel"
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
+          disabled={item?.disabled}
+          pattern="^[0-9-+\s()]*$"
         />
       );
     }
     case "number": {
       return (
         <Input
+          name={item?.name}
           id={item?.name}
           type="number"
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
+          disabled={item?.disabled}
         />
       );
     }
     case "url": {
       return (
         <Input
+          name={item?.name}
           id={item?.name}
           type="url"
           placeholder={item?.placeholder}
           className="text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
+          disabled={item?.disabled}
         />
       );
     }
     case "textarea": {
       return (
         <Textarea
+          name={item?.name}
           id={item?.name}
           placeholder={item?.placeholder}
-          className="text-sm"
+          className="max-h-[100px] text-sm"
+          required={item?.required}
+          onChange={handleOnChange}
+          value={
+            value?.[item?.name as keyof TCompanyInformation] as
+              | string
+              | undefined
+          }
+          disabled={item?.disabled}
         />
       );
     }

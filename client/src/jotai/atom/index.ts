@@ -7,3 +7,4 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export * from "./utils-atom";
+export * from "./registration-atom";

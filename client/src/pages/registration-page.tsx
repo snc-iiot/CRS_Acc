@@ -1,8 +1,10 @@
 import { Icons } from "@/components/common/icons";
 import {
   CompanyInformationForm,
+  ConsentForm,
   ContractInformationForm,
   DocumentUploadForm,
+  RelationshipInformationForm,
   ShareholderInformationForm,
   StandardInformationForm,
 } from "@/components/pages/registration";
@@ -10,12 +12,28 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { HeaderConditions, Sections } from "@/helpers/register.helper";
+import { validateRegisterForm } from "@/helpers/validate.helper";
+import { useSwal } from "@/hooks/use-swal";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
+import { useForm } from "@/services";
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationPage: FC = () => {
+  const { confirmSwal, showError } = useSwal();
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("RegisID");
   const MODE = "register";
+  const { mutateCreateNewCustomer } = useForm();
+  const {
+    registration,
+    setRegistration,
+    certificatedList,
+    benefitsList,
+    deliveryTermsList,
+    companyPolicyList,
+  } = useAtomStore();
 
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("section-1");
@@ -65,9 +83,74 @@ active section based on the intersection. */
     };
   }, []);
 
+  useEffect(() => {
+    setRegistration({
+      ...registration,
+      regis_id: id ? id : "",
+      payment_term: {
+        ...registration?.payment_term,
+        company_policy: companyPolicyList,
+        delivery_term: deliveryTermsList,
+      },
+      standard: {
+        certificate: certificatedList?.map((item) => {
+          return {
+            ...item,
+            value: "-",
+          };
+        }),
+        benefit: benefitsList?.map((item) => {
+          return {
+            ...item,
+            value: "-",
+          };
+        }),
+      },
+    });
+  }, [
+    benefitsList,
+    certificatedList,
+    companyPolicyList,
+    deliveryTermsList,
+    id,
+    registration,
+    setRegistration,
+  ]);
+
   return (
     <div className="relative h-full w-full overflow-y-auto py-2">
-      <form className="flex h-full w-full flex-col gap-2">
+      <form
+        className="flex h-full w-full flex-col gap-2"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const { isValid, error_th } = validateRegisterForm(registration);
+          if (!isValid) {
+            showError(error_th, "กรุณากรอกข้อมูลให้ครบถ้วน");
+          } else {
+            const idConfirm = await confirmSwal(
+              "ยืนยันการลงทะเบียน",
+              "คุณต้องการลงทะเบียนใช่หรือไม่",
+            );
+            if (idConfirm) {
+              const cer = registration?.standard?.certificate?.filter(
+                (item) => item.is_checked === true,
+              );
+              const benefit = registration?.standard?.benefit?.filter(
+                (item) => item.is_checked === true,
+              );
+              const data = {
+                ...registration,
+                standard: {
+                  ...registration?.standard,
+                  certificate: cer,
+                  benefit: benefit,
+                },
+              };
+              mutateCreateNewCustomer(data);
+            }
+          }
+        }}
+      >
         <main className="flex h-full flex-col items-center justify-center gap-2">
           <section className="w-full py-1">
             <h1 className="text-2xl font-bold">
@@ -77,7 +160,6 @@ active section based on the intersection. */
               {HeaderConditions[MODE]?.description}
             </p>
           </section>
-
           <Separator />
           <section className="flex h-full w-full">
             <article className="flex w-1/4 flex-col gap-2 border-r pr-2">
@@ -126,13 +208,15 @@ active section based on the intersection. */
                   </h2>
                 </section>
                 <Separator />
-                <section className="flex h-full w-full flex-col py-1">
+                <section className="flex h-full w-full flex-col">
                   <ScrollArea className="h-0 flex-grow">
                     <CompanyInformationForm />
                     <ShareholderInformationForm />
                     <ContractInformationForm />
+                    <RelationshipInformationForm />
                     <StandardInformationForm />
                     <DocumentUploadForm />
+                    <ConsentForm />
                     <ScrollBar />
                   </ScrollArea>
                 </section>
@@ -148,9 +232,7 @@ active section based on the intersection. */
             >
               ยกเลิก
             </Button>
-            <Button type="button" onClick={() => navigate(-1)}>
-              ลงทะเบียน
-            </Button>
+            <Button type="submit">ลงทะเบียน</Button>
           </section>
         </main>
       </form>
