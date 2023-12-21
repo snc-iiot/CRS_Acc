@@ -19,8 +19,8 @@ class GeneralAssessmentController extends Controller
         $this->jwtUtils = new JWTUtils();
     }
 
-    //TODO [POST] /general-assessment
-    function create(Request $request)
+    //? [PUT] /general-assessment
+    function update(Request $request)
     {
         try {
             $header = $request->header('Authorization');
@@ -32,7 +32,7 @@ class GeneralAssessmentController extends Controller
             ], 401);
 
             $rules = [
-                "regis_info_id"             => "required|uuid|string",
+                "regis_id"                  => "required|uuid|string",
                 "products"                  => "required|string",
                 "orders"                    => "required|integer|min:0",
                 "lead_time"                 => "required|integer|min:0",
@@ -91,6 +91,13 @@ class GeneralAssessmentController extends Controller
                 "inventory_day.PRD" => "required|numeric|min:0",
                 "inventory_day.FG" => "required|numeric|min:0",
                 "inventory_day.inventory" => "required|numeric|min:0",
+
+                "approvals.*.order_no" => "required|integer|min:1",
+                "approvals.*.position" => "required|string",
+                "approvals.*.issued_at" => "nullable|date_format:Y-m-d H:i:s",
+                "approvals.*.issued_by" => "nullable|string",
+                "approvals.*.is_approved" => "nullable|boolean",
+                "approvals.*.issued_by_id" => "required|uuid",
             ];
             $validator = Validator::make($request->all(), $rules);
 
@@ -103,6 +110,9 @@ class GeneralAssessmentController extends Controller
                     ]
                 ]
             ], 400);
+
+            //! Block by status_no
+            //! ./Block by status_no
 
             return response()->json([
                 "status" => "success",
@@ -130,7 +140,7 @@ class GeneralAssessmentController extends Controller
                 "data" => [],
             ], 401);
 
-            $rules = ["regis_info_id" => "required|uuid|string"];
+            $rules = ["regis_id" => "required|uuid|string"];
 
             $validator = Validator::make($request->all(), $rules);
 
@@ -146,12 +156,19 @@ class GeneralAssessmentController extends Controller
 
             // return response()->json($validator->validated());
 
-            $result = DB::table("tb_regis_informations")->where("regis_info_id", $request->regis_info_id)->selectRaw("company_information->>'company_admin' as company_admin")->take(1)->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->selectRaw("company_information->>'company_admin' as company_admin")->take(1)->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่พบ regis_info_id นี้ในระบบ",
+                "message" => "ไม่พบ regis_id นี้ในระบบ",
                 "data" => []
             ], 400);
+
+            $companyAdmin = $result[0]->company_admin;
+            $result = DB::table("vw_approvals_setting")->where("company_group", $companyAdmin)->select(["approvals_set_id", "company_group", "business_unit", "approvals"])->get();
+
+            foreach ($result as $row) {
+                $row->approvals = \json_decode($row->approvals);
+            }
 
             return response()->json([
                 "status" => "success",

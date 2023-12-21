@@ -423,7 +423,7 @@ class RegistrationController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $rules = [
                 'regis_id' => 'required|uuid|string',
@@ -546,6 +546,11 @@ class RegistrationController extends Controller
                 "relationship"          => $relationship,
                 "payment_term"          => $payment_term,
                 "status_no"             => 1, //! รอตรวจสอบข้อมูล
+                "creator_id"            => $decoded->user_id,
+            ]);
+
+            DB::table("tb_general_assessments")->insert([
+                "regis_id"              => $regis_id,
             ]);
 
             Cache::put($cacheKey, $regis_id, \DateInterval::createFromDateString('30 seconds'));
@@ -580,12 +585,12 @@ class RegistrationController extends Controller
             // $decoded = $jwt->decoded;
 
             $rules = [
-                'id' => 'required|uuid|string',
+                'regis_id' => 'required|uuid|string',
             ];
 
             $validator = Validator::make($request->all(), $rules);
 
-            $cacheKeyLastID = "/registration/info/last-regis-info-id";
+            $cacheKeyLastID = "/registration/info/last-regis-id";
             $cacheKeyLastValue = "/registration/info/last-value";
 
             if ($validator->fails()) return response()->json([
@@ -607,8 +612,8 @@ class RegistrationController extends Controller
             if (!\is_null($cachedID) && $cachedID == $request->id) {
                 $result = \json_decode($cachedValue);
             } else {
-                $result = DB::table("tb_regis_informations")->where("regis_info_id", $request->id)->selectRaw(
-                    "regis_info_id
+                $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->selectRaw(
+                    "regis_id
                     ,company_information
                     ,share_holder
                     ,contact_person
@@ -676,7 +681,7 @@ class RegistrationController extends Controller
             ]);
 
             $result = DB::table("tb_regis_informations")->selectRaw(
-                "regis_info_id
+                "regis_id
                     ,informant_name
                     ,status_no
                     ,created_at::varchar(19) as created_at
@@ -684,7 +689,7 @@ class RegistrationController extends Controller
             )->get();
 
             $result = DB::table("tb_regis_informations as t1")->selectRaw(
-                "t1.regis_info_id
+                "t1.regis_id
                 ,t1.company_information->>'juristic_id' as juristic_id
                 ,t1.company_information->>'company_name' as company_name
                 ,t1.company_information->>'company_admin' as company_admin
@@ -723,7 +728,7 @@ class RegistrationController extends Controller
             // $decoded = $jwt->decoded;
 
             $rules = [
-                'regis_info_id' => 'required|uuid|string',
+                'regis_id' => 'required|uuid|string',
                 // 'regis_id' => 'required|uuid|string',
                 // 'informant_name' => 'required|string',
                 'company_information.company_admin' => 'required|string',
@@ -806,7 +811,7 @@ class RegistrationController extends Controller
 
             // return response()->json($validator->validated());
 
-            $regis_info_id          = $request->regis_info_id;
+            $regis_id               = $request->regis_id;
             $company_information    = \json_encode($request->company_information);
             $share_holder           = \json_encode($request->share_holder);
             $contact_person         = \json_encode($request->contact_person);
@@ -815,7 +820,7 @@ class RegistrationController extends Controller
             $payment_term           = \json_encode($request->payment_term);
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->whereIn("status_no", [0, 1, 3])->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้",
@@ -824,7 +829,7 @@ class RegistrationController extends Controller
             //! ./Block by status_no
 
             // $result = Company::insert([
-            DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->update([
+            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
                 "company_information"   => $company_information,
                 "share_holder"          => $share_holder,
                 "contact_person"        => $contact_person,
@@ -862,7 +867,7 @@ class RegistrationController extends Controller
             // $decoded = $jwt->decoded;
 
             $rules = [
-                'regis_info_id' => 'required|uuid|string',
+                'regis_id' => 'required|uuid|string',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -879,10 +884,10 @@ class RegistrationController extends Controller
 
             // return response()->json($validator->validated());
 
-            $regis_info_id          = $request->regis_info_id;
+            $regis_id          = $request->regis_id;
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->whereIn("status_no", [2, 4])->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้",
@@ -890,7 +895,7 @@ class RegistrationController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->update([
+            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
                 "status_no"            => 3, //! รอการแก้ไข
             ]);
 
@@ -922,7 +927,7 @@ class RegistrationController extends Controller
             // $decoded = $jwt->decoded;
 
             $rules = [
-                'regis_info_id' => 'required|uuid|string',
+                'regis_id' => 'required|uuid|string',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -939,10 +944,10 @@ class RegistrationController extends Controller
 
             // return response()->json($validator->validated());
 
-            $regis_info_id = $request->regis_info_id;
+            $regis_id = $request->regis_id;
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->whereIn("status_no", [4])->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถระงับข้อมูลได้",
@@ -950,7 +955,7 @@ class RegistrationController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            DB::table("tb_regis_informations")->where("regis_info_id", $regis_info_id)->update([
+            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
                 "status_no"            => 5, //! ระงับชั่วคราว
             ]);
 
