@@ -40,7 +40,7 @@ class GeneralAssessmentController extends Controller
                 "lead_time"                 => "required|integer|min:0",
 
                 "price_conditions.peroid"   => "required|string",
-                "price_conditions.value"    => "nullable|string",
+                "price_conditions.value"    => "required|integer|min:0",
 
                 "machine_produce.*.id"          => "required|string",
                 "machine_produce.*.label_th"    => "required|string",
@@ -185,7 +185,7 @@ class GeneralAssessmentController extends Controller
                 "lead_time"                 => "required|integer|min:0",
 
                 "price_conditions.peroid"   => "required|string",
-                "price_conditions.value"    => "nullable|string",
+                "price_conditions.value"    => "required|integer|min:1",
 
                 "machine_produce.*.id"          => "required|string",
                 "machine_produce.*.label_th"    => "required|string",
@@ -291,7 +291,7 @@ class GeneralAssessmentController extends Controller
                 "ratio_of_raw_mat" => \json_encode($request->ratio_of_raw_mat),
                 "inventory_day" => \json_encode($request->inventory_day),
                 "approvals" => \count($approvals) == 0 ? null : \json_encode($approvals),
-                "status_no" => 1, //! รอตรวจสอบข้อมูล
+                "status_no" => 2, //! รอตรวจสอบข้อมูล
                 "is_acc_cf" => false,
                 "acc_cf_at" => null,
                 "updated_at" => DB::raw("now()"),
@@ -299,7 +299,7 @@ class GeneralAssessmentController extends Controller
 
 
             DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->update([
-                "status_no"            => 1, //! รอตรวจสอบข้อมูล
+                "status_no"            => 2, //! รอตรวจสอบข้อมูล
             ]);
 
             //! ส่งเมลไปหา บัญชี

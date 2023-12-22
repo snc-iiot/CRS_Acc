@@ -89,6 +89,14 @@ class UserController extends Controller
 
             $token = $this->jwtUtils->generateToken($payload);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "transaction_desc"  => "User Login",
+                "api_endpoint"      => "/user/login",
+                "creator_id"        => $user[0]->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "เข้าสู่ระบบสำเร็จ",

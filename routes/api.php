@@ -13,6 +13,7 @@ use App\Http\Controllers\AssessmentCommentsController;
 use App\Http\Controllers\FinancialAnalyzeCommentsController;
 use App\Http\Controllers\DbdFinancialReportController;
 use App\Http\Controllers\FinancialRatioAssessmentController;
+use App\Http\Controllers\ApprovalsActionController;
 // use App\Models\Company;
 
 /*
@@ -35,13 +36,13 @@ Route::get('/', function () {
 });
 
 Route::prefix('user')->controller(UserController::class)->group(function () {
-    Route::post('/login', 'login');
-    Route::post('/create-user', 'createUser');
-    Route::get('/put-cache', 'putCache');
-    Route::get('/set-cache', 'setCache');
-    Route::get('/pull-cache', 'pullCache');
-    Route::get('/get-cache', 'getCache');
-    Route::get('/pub-redis', 'pubRedis');
+    Route::post('/login', 'login'); //! logger
+    // Route::post('/create-user', 'createUser');
+    // Route::get('/put-cache', 'putCache');
+    // Route::get('/set-cache', 'setCache');
+    // Route::get('/pull-cache', 'pullCache');
+    // Route::get('/get-cache', 'getCache');
+    // Route::get('/pub-redis', 'pubRedis');
 });
 
 Route::prefix('registration')->controller(RegistrationController::class)->group(function () {
@@ -80,6 +81,14 @@ Route::prefix('dbd-financial-report')->controller(DbdFinancialReportController::
 
 Route::prefix('financial-ratio')->controller(FinancialRatioAssessmentController::class)->group(function () {
     Route::get('/info', 'info');
+});
+
+Route::prefix('approvals-action')->controller(ApprovalsActionController::class)->group(function () {
+    Route::patch('/send-to-edit', 'sendToEdit');
+    Route::patch('/send-to-suspend', 'sendToSuspend');
+    Route::patch('/enter-customer-code', 'enterCustomerCode');
+    Route::patch('/reject', 'reject');
+    Route::patch('/approve', 'approve');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {

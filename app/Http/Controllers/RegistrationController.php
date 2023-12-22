@@ -461,7 +461,8 @@ class RegistrationController extends Controller
                 'company_information.website' => 'required|string|url',
                 'company_information.nature_of_business' => 'required|string',
                 'company_information.company_registration.is_thai' => 'required|boolean',
-                'company_information.company_registration.country' => 'sometimes|string|nullable',
+                'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
+                // 'company_information.company_registration.country' => 'sometimes|string|nullable',
                 // 'company_information.company_registration.country' => 'nullable|string',
                 // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
 
@@ -502,10 +503,10 @@ class RegistrationController extends Controller
                 'payment_term.delivery_term.*.cer_name_th' => 'required|string',
                 'payment_term.delivery_term.*.cer_name_en' => 'required|string',
                 'payment_term.delivery_term.*.is_checked' => 'required|boolean',
-                'payment_term.deposit_term.is_deposit' => 'nullable|boolean',
-                'payment_term.deposit_term.deposit_type' => 'nullable|string',
+                'payment_term.deposit_term.is_deposit' => 'required_if:company_information.company_registration.is_thai,true|boolean',
+                'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
-                'payment_term.product_warranty.value' => 'nullable|string',
+                'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
                 'payment_term.company_policy.*.is_checked' => 'required|boolean',
@@ -763,7 +764,8 @@ class RegistrationController extends Controller
                 'company_information.website' => 'required|string|url',
                 'company_information.nature_of_business' => 'required|string',
                 'company_information.company_registration.is_thai' => 'required|boolean',
-                'company_information.company_registration.country' => 'sometimes|string|nullable',
+                'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
+                // 'company_information.company_registration.country' => 'sometimes|string|nullable',
                 // 'company_information.company_registration.country' => 'nullable|string',
                 // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
 
@@ -804,10 +806,10 @@ class RegistrationController extends Controller
                 'payment_term.delivery_term.*.cer_name_th' => 'required|string',
                 'payment_term.delivery_term.*.cer_name_en' => 'required|string',
                 'payment_term.delivery_term.*.is_checked' => 'required|boolean',
-                'payment_term.deposit_term.is_deposit' => 'nullable|boolean',
-                'payment_term.deposit_term.deposit_type' => 'nullable|string',
+                'payment_term.deposit_term.is_deposit' => 'required_if:company_information.company_registration.is_thai,true|boolean',
+                'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
-                'payment_term.product_warranty.value' => 'nullable|string',
+                'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
                 'payment_term.company_policy.*.is_checked' => 'required|boolean',
@@ -863,136 +865,6 @@ class RegistrationController extends Controller
             return response()->json([
                 "status" => "success",
                 "message" => "แก้ไขข้อมูลการลงทะเบียนสำเร็จ",
-                "data" => [],
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                "status" => "error",
-                "message" => $e->getMessage(),
-                "data" => [],
-            ], 500);
-        }
-    }
-
-    //? [PATCH] /registration/send-to-edit (update)
-    function sendToEdit(Request $request)
-    {
-        try {
-            $header = $request->header('Authorization');
-            $jwt = $this->jwtUtils->verifyToken($header);
-            if (!$jwt->state) return response()->json([
-                "status" => "error",
-                "message" => "Unauthorized",
-                "data" => [],
-            ], 401);
-            // $decoded = $jwt->decoded;
-
-            $rules = [
-                'regis_id' => 'required|uuid|string',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) return response()->json([
-                "status" => "error",
-                "message" => "การร้องขอล้มเหลว",
-                "data" => [
-                    [
-                        "validator" => $validator->errors()
-                    ]
-                ]
-            ], 400);
-
-            // return response()->json($validator->validated());
-
-            $regis_id          = $request->regis_id;
-
-            //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
-            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
-            if (\count($result) == 0) return response()->json([
-                "status" => "error",
-                "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้ (สถานะไม่ถูกต้อง)",
-                "data" => [],
-            ], 406);
-            //! ./Block by status_no
-
-            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-                "status_no"            => 3, //! รอการแก้ไข
-            ]);
-
-            // DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
-            //     "status_no"            => 3, //! รอการแก้ไข
-            // ]);
-
-            return response()->json([
-                "status" => "success",
-                "message" => "ส่งกลับไปแก้ไขสำเร็จ",
-                "data" => [],
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                "status" => "error",
-                "message" => $e->getMessage(),
-                "data" => [],
-            ], 500);
-        }
-    }
-
-    //? [PATCH] /registration/send-to-suspend (update)
-    function sendToSuspend(Request $request)
-    {
-        try {
-            $header = $request->header('Authorization');
-            $jwt = $this->jwtUtils->verifyToken($header);
-            if (!$jwt->state) return response()->json([
-                "status" => "error",
-                "message" => "Unauthorized",
-                "data" => [],
-            ], 401);
-            // $decoded = $jwt->decoded;
-
-            $rules = [
-                'regis_id' => 'required|uuid|string',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) return response()->json([
-                "status" => "error",
-                "message" => "การร้องขอล้มเหลว",
-                "data" => [
-                    [
-                        "validator" => $validator->errors()
-                    ]
-                ]
-            ], 400);
-
-            // return response()->json($validator->validated());
-
-            $regis_id = $request->regis_id;
-
-            //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
-            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
-            if (\count($result) == 0) return response()->json([
-                "status" => "error",
-                "message" => "ไม่สามารถระงับข้อมูลได้ (สถานะไม่ถูกต้อง)",
-                "data" => [],
-            ], 406);
-            //! ./Block by status_no
-
-            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-                "status_no"            => 5, //! ระงับชั่วคราว
-            ]);
-
-            // DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
-            //     "status_no"            => 5, //! รอการแก้ไข
-            // ]);
-
-            return response()->json([
-                "status" => "success",
-                "message" => "ระงับข้อมูลสำเร็จ",
                 "data" => [],
             ], 201);
         } catch (\Exception $e) {
