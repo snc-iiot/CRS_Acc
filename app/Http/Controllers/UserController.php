@@ -81,6 +81,7 @@ class UserController extends Controller
                 "username" => $username,
                 "name" => $name->en,
                 "company" => $company,
+                "role" => $user[0]->role,
                 "iat" => $dt->getTimestamp(),
                 "exp" => $dt->modify('+ 3000hours')->getTimestamp(),
             );
@@ -96,6 +97,7 @@ class UserController extends Controller
                         "username" => $username,
                         "name" => $name,
                         "token" => $token,
+                        "role" => $user[0]->role,
                     ]
                 ]
             ]);

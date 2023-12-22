@@ -48,25 +48,15 @@ class DbdFinancialReportController extends Controller
             ], 400);
 
             //! Block by status_no
-            // $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [2])->get();
-            // // $result = DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->whereIn("status_no", [4])->get();
-            // if (\count($result) == 0) return response()->json([
-            //     "status" => "error",
-            //     "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
-            //     "data" => [],
-            // ], 406);
+            $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [2])->get();
+            // $result = DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->whereIn("status_no", [4])->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
+                "data" => [],
+            ], 406);
             //! ./Block by status_no
 
-            // $result = DB::table("tb_dbd_financial_reports")->selectRaw(
-            //     "regis_id,juristic_id
-            //     ,financial_position
-            //     ,income_statement
-            //     ,financial_ratios_latest
-            //     ,start_year,last_year
-            //     ,created_at::varchar(19) as created_at"
-            // )->where("regis_id", $request->regis_id)->get();
-
-            // DB::table("tb_dbd_financial_reports")->selectSub(, "")
             $sub = DB::table("tb_dbd_financial_reports")->selectRaw("regis_id,juristic_id
             ,financial_position
             ,income_statement
@@ -74,19 +64,9 @@ class DbdFinancialReportController extends Controller
             ,start_year,last_year
             ,created_at::varchar(19) as created_at")->where("regis_id", $request->regis_id);
 
-            $cursor = DB::table(DB::raw("({$sub->toSql()}) as t1"));
+            // $cursor = DB::table(DB::raw("({$sub->toSql()}) as t1"));
 
-            // $result = $cursor->mergeBindings($sub)->selectRaw("regis_id,juristic_id
-            // ,financial_position
-            // ,income_statement
-            // ,start_year,last_year
-            // ,created_at
-            // ,jsonb_agg(item) as financial_ratios_latest_arr")->whereIn(
-            //     "item->>'short_key'",
-            //     ['debt_to_equity_ratio', 'net_profit_margin', 'ROA', 'ROE']
-            // )->groupByRaw("regis_id,juristic_id,financial_position,income_statement,start_year,last_year,created_at")->get();
-
-            $result = $cursor->mergeBindings($sub)->selectRaw(
+            $result = DB::table(DB::raw("({$sub->toSql()}) as t1"))->mergeBindings($sub)->selectRaw(
                 "regis_id,juristic_id
             ,financial_position
             ,income_statement
