@@ -1,23 +1,30 @@
 import { queryKey } from "@/helpers/common.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
-import MockCompanyList from "@/mock/company-list.json";
 import {
   TBenefitsList,
   TBusinessTypeList,
   TCertificatedList,
+  TCommitList,
   TCompanyList,
   TCompanyPolicyList,
   TCountryCodeList,
+  TDBDSyncList,
   TDeliveryTermsList,
   TDocByRegisId,
   TDocumentKeyList,
+  TFinancialRatio,
   TResponseAction,
 } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 import { FormService, UtilsService } from "..";
 
 export const useUtils = () => {
+  const { setDBDSyncList, setFinancialRatio } = useAtomStore();
+  const [searchParams] = useSearchParams();
+  const regisId = searchParams.get("RegisID") as string;
+
   const { closeSwal, showError, showSuccess, showLoading } = useSwal();
   const utilsService = new UtilsService();
   const formService = new FormService();
@@ -33,6 +40,8 @@ export const useUtils = () => {
     setCompanyList,
     setCountryCodeList,
     setDocByRegisId,
+    setComment,
+    setCommentR3,
   } = useAtomStore();
 
   const useGetBusinessTypeList = async () => {
@@ -114,9 +123,6 @@ export const useUtils = () => {
       queryKey: [queryKey.GET_COMPANY_LIST],
       queryFn: (): Promise<TCompanyList[]> => utilsService.getCompanyList(),
       select(data: TCompanyList[]) {
-        if (data.length === 0) {
-          setCompanyList(MockCompanyList);
-        }
         setCompanyList(data);
         return data;
       },
@@ -146,7 +152,6 @@ export const useUtils = () => {
       setDocByRegisId(data);
     },
     onError: (error) => {
-      closeSwal();
       showError("เกิดข้อผิดพลาด", error?.message);
     },
   });
@@ -173,6 +178,134 @@ export const useUtils = () => {
       },
     });
 
+  const { mutateAsync: mutateGetCommentByRegisId } = useMutation<
+    TCommitList,
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_COMMENT_BY_REGIS_ID],
+    mutationFn: (regisId: string) => utilsService.getCommentList(regisId),
+    onSuccess: (data) => {
+      setComment(data);
+    },
+    onError: (error) => {
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateGetCommentByRegisIdR3 } = useMutation<
+    TCommitList,
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_COMMENT_BY_REGIS_ID_R3],
+    mutationFn: (regisId: string) => utilsService.getCommentR3List(regisId),
+    onSuccess: (data) => {
+      setCommentR3(data);
+    },
+    onError: (error) => {
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateCreateComment } = useMutation<
+    TResponseAction,
+    Error,
+    { regisId: string; comment: string }
+  >({
+    mutationKey: [queryKey.CREATE_COMMENT],
+    mutationFn: ({ regisId, comment }) =>
+      utilsService.createComment(regisId, comment),
+    onMutate: () => {
+      showLoading("กำลังสร้างข้อเสนอแนะ", "กรุณารอสักครู่");
+    },
+    onSuccess: (data) => {
+      closeSwal();
+      if (data.status == "success") {
+        mutateGetCommentByRegisId(regisId);
+        showSuccess("สร้างข้อเสนอแนะสำเร็จ", data?.message);
+      } else {
+        showError("สร้างข้อเสนอแนะไม่สำเร็จ", data?.message);
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateCreateCommentR3 } = useMutation<
+    TResponseAction,
+    Error,
+    { regisId: string; comment: string }
+  >({
+    mutationKey: [queryKey.CREATE_COMMENT],
+    mutationFn: ({ regisId, comment }) =>
+      utilsService.createCommentR3(regisId, comment),
+    onMutate: () => {
+      showLoading("กำลังสร้างข้อเสนอแนะ", "กรุณารอสักครู่");
+    },
+    onSuccess: (data) => {
+      closeSwal();
+      if (data.status == "success") {
+        mutateGetCommentByRegisId(regisId);
+        mutateGetCommentByRegisIdR3(regisId);
+        showSuccess("สร้างข้อเสนอแนะสำเร็จ", data?.message);
+      } else {
+        showError("สร้างข้อเสนอแนะไม่สำเร็จ", data?.message);
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateSyncDBD } = useMutation<
+    TDBDSyncList,
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_SYNC_DBD],
+    mutationFn: (regisId: string) => utilsService.getDBDSyncList(regisId),
+    onSuccess: (data) => {
+      setDBDSyncList(data);
+    },
+    onError: (error) => {
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateGetDBDInfo } = useMutation<
+    TDBDSyncList,
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_DBD_INFO],
+    mutationFn: (regisId: string) => utilsService.getDBDInfo(regisId),
+    onSuccess: (data) => {
+      setDBDSyncList(data);
+    },
+    onError: (error) => {
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateGetFinancialRatio } = useMutation<
+    TFinancialRatio,
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_FINANCIAL_RATIO],
+    mutationFn: (regisId: string) => utilsService.getFinancialRatio(regisId),
+    onSuccess: (data) => {
+      setFinancialRatio(data);
+    },
+    onError: (error) => {
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
   return {
     useGetBusinessTypeList,
     useGetDocumentKeyList,
@@ -185,5 +318,12 @@ export const useUtils = () => {
     dataGetRegisterId,
     useGetCountryCodeList,
     mutateGetDocByRegisId,
+    mutateGetCommentByRegisId,
+    mutateCreateComment,
+    mutateSyncDBD,
+    mutateGetDBDInfo,
+    mutateGetCommentByRegisIdR3,
+    mutateCreateCommentR3,
+    mutateGetFinancialRatio,
   };
 };

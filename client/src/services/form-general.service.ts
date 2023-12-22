@@ -1,5 +1,9 @@
 import { API_BASE_URL } from "@/helpers/common.helper";
-import { TApprovalList, TGeneralAssessmentForm } from "@/types";
+import {
+  TApprovalList,
+  TGeneralAssessmentForm,
+  TResponseAction,
+} from "@/types";
 import { APIService } from ".";
 
 export class FormGeneralService extends APIService {
@@ -33,6 +37,28 @@ export class FormGeneralService extends APIService {
         error,
       );
       return {} as TGeneralAssessmentForm;
+    }
+  };
+
+  createGeneralAssessment = async (
+    payload: TGeneralAssessmentForm,
+  ): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.post(
+        "/general-assessment",
+        payload,
+      );
+      return responseData;
+    } catch (error: any) {
+      console.error(
+        "FormGeneralService -> createGeneralAssessment -> error",
+        error,
+      );
+      return {
+        message: "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
+        status: "error",
+        data: [],
+      };
     }
   };
 }

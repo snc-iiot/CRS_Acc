@@ -27,51 +27,8 @@ interface ITableDBDProps {
   className?: string;
 }
 
-const Mock: ITableDBD[] = [
-  {
-    Topic: "Topic 1",
-    Info: [
-      {
-        Year: 2022,
-        Amount: 1000,
-        Change: -2,
-      },
-      {
-        Year: 2023,
-        Amount: 1000,
-        Change: -2,
-      },
-      {
-        Year: 2024,
-        Amount: 1000,
-        Change: -2,
-      },
-    ],
-  },
-  {
-    Topic: "Topic 2",
-    Info: [
-      {
-        Year: 2022,
-        Amount: 1000,
-        Change: -2,
-      },
-      {
-        Year: 2023,
-        Amount: 1000,
-        Change: -2,
-      },
-      {
-        Year: 2024,
-        Amount: 1000,
-        Change: -2,
-      },
-    ],
-  },
-];
-
 const TableDBD: FC<ITableDBDProps> = ({
-  data = Mock,
+  data,
   header,
   description,
   className,

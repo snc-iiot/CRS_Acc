@@ -9,3 +9,5 @@ if (process.env.NODE_ENV !== "production") {
 export * from "./utils-atom";
 export * from "./registration-atom";
 export * from "./general-form";
+export * from "./common-atom";
+export * from "./comment-atom";

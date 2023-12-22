@@ -10,9 +10,10 @@ import {
 } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
-import { FormService } from "..";
+import { AccService, FormService } from "..";
 
 export const useForm = () => {
+  const accService = new AccService();
   const { setRegisList, setRegistration } = useAtomStore();
   const queryClient = useQueryClient();
   const formService = new FormService();
@@ -97,7 +98,6 @@ export const useForm = () => {
       req: TUploadFile;
       setProgress: (progress: number) => void;
     }) => formService.uploadFile(data.req, data.setProgress),
-
     onSuccess: (data) => {
       queryClient.refetchQueries({
         queryKey: [queryKey.GET_DOC_BY_REGIS_ID],
@@ -166,6 +166,34 @@ export const useForm = () => {
     },
   });
 
+  const { mutateAsync: mutateConfirmDBDInfo } = useMutation<
+    TResponseAction,
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.CONFIRM_DBD_INFO],
+    mutationFn: (data: string) => accService.confirmDBDInfo(data),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      queryClient.refetchQueries({
+        queryKey: [queryKey.GET_REGIS_BY_ID],
+      });
+      closeSwal();
+      if (data?.status === "success") {
+        showSuccess("ยืนยันข้อมูลสำเร็จ", data?.message);
+        navigate("/registrations");
+      } else {
+        showError("ยืนยันข้อมูลไม่สำเร็จ", data?.message);
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError(error?.message, error?.message);
+    },
+  });
+
   return {
     mutateCreateNewCustomer,
     useGetRegisList,
@@ -173,5 +201,6 @@ export const useForm = () => {
     mutateGetRegisById,
     mutateDeleteDocById,
     mutateUpdateCustomer,
+    mutateConfirmDBDInfo,
   };
 };

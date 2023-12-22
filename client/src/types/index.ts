@@ -7,3 +7,5 @@ export * from "./contract-form.ts";
 export * from "./regis-doc.ts";
 export * from "./regis-list.ts";
 export * from "./general-assessment.ts";
+export * from "./comment.ts";
+export * from "./dbd.ts";

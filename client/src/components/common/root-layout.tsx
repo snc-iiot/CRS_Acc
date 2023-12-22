@@ -9,14 +9,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { KEY_LOCAL_STORAGE } from "@/helpers/common.helper";
 import { collapsedAtom } from "@/jotai/atom";
-// import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
+import { useForm, useUtils } from "@/services";
 import { useProfile } from "@/services/hooks/use-profile";
 import { useAtom } from "jotai";
 import { FC } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import CallApi from "./call-api";
 import { Icons } from "./icons";
 import { Header } from "./site-header";
 import Sidebar from "./site-sidebar";
@@ -24,10 +24,6 @@ import ThemeToggle from "./theme-toggle";
 
 const RootLayout: FC = () => {
   const { profile } = useProfile();
-  // const { registration } = useAtomStore();
-  // console.log("====================================");
-  // console.log("registration", registration);
-  // console.log("====================================");
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useAtom(collapsedAtom);
 
@@ -35,9 +31,33 @@ const RootLayout: FC = () => {
     setCollapsed(false);
   }
 
+  const {
+    useGetBenefitsList,
+    useGetBusinessTypeList,
+    useGetCertificatedList,
+    useGetCompanyList,
+    useGetCompanyPolicyList,
+    useGetCountryCodeList,
+    useGetDeliveryTermsList,
+    useGetDocumentKeyList,
+  } = useUtils();
+
+  const { useGetRegisList } = useForm();
+
+  useGetBenefitsList();
+  useGetBusinessTypeList();
+  useGetCertificatedList();
+  useGetCompanyList();
+  useGetCompanyPolicyList();
+  useGetCountryCodeList();
+  useGetDeliveryTermsList();
+  useGetDocumentKeyList();
+
+  //? Get Regis List
+  useGetRegisList();
+
   return (
     <ReqAuth>
-      <CallApi />
       <div className="relative flex h-screen w-full overflow-hidden">
         <main className="relative flex h-full w-full flex-col overflow-hidden">
           <Header
@@ -51,7 +71,7 @@ const RootLayout: FC = () => {
                 </div>
                 <div
                   className="flex cursor-pointer items-center gap-x-2"
-                  onClick={() => navigate("//")}
+                  onClick={() => navigate("/")}
                 >
                   <img
                     src="/images/logo.webp"
@@ -88,11 +108,11 @@ const RootLayout: FC = () => {
                         <Avatar className="h-6 w-6 cursor-pointer">
                           <AvatarImage src="" />
                           <AvatarFallback className="bg-primary/10 uppercase">
-                            {profile?.name?.th?.at(0)}
+                            {profile?.name?.en?.at(0)}
                           </AvatarFallback>
                         </Avatar>
                         <p className="text-sm font-semibold uppercase">
-                          {profile?.name?.th}
+                          {profile?.name?.en}
                         </p>
                       </div>
                     </DropdownMenuTrigger>
@@ -128,7 +148,9 @@ const RootLayout: FC = () => {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         onClick={() => {
-                          localStorage.removeItem("auth");
+                          localStorage.removeItem(
+                            KEY_LOCAL_STORAGE.ICRS_ADMIN_LOCAL_STORAGE,
+                          );
                           resetAtom();
                           navigate("/login");
                         }}

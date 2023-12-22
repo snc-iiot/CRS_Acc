@@ -144,10 +144,12 @@ const RegistrationPage: FC = () => {
 
   const getRegisById = async () => {
     try {
-      await mutateGetDocByRegisId(id as string);
-      await mutateGetRegisById(id as string);
+      Promise.all([
+        mutateGetDocByRegisId(id as string),
+        mutateGetRegisById(id as string),
+      ]);
     } catch (error) {
-      console.log(error);
+      showError("ไม่พบข้อมูลลงทะเบียน", "ไม่พบข้อมูลลงทะเบียน");
     }
   };
 

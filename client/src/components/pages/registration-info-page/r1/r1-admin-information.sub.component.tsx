@@ -1,48 +1,72 @@
-import CalculatePlayback from "@/components/common/calculate-playback";
-import CalculateRoa from "@/components/common/calculate-roa";
-import CalculateRoi from "@/components/common/calculate-roi";
+// import CalculatePlayback from "@/components/common/calculate-playback";
+// import CalculateRoa from "@/components/common/calculate-roa";
+// import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
 import { LatitudesLongitudes } from "@/helpers/common.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
-import CountyList from "@/mock/country-list.json";
-import { FC, useId, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 export const R1AdminInformation: FC = () => {
-  const { generalAssessmentForm, setGeneralAssessmentForm } = useAtomStore();
+  const {
+    generalAssessmentForm,
+    setGeneralAssessmentForm,
+    countryCodeList,
+    registration,
+    companyList,
+    common,
+  } = useAtomStore();
 
-  const priceAdjustmentConditions: { label: string; value: string }[] = [
-    { label: "ทุก 1 เดือน", value: "1" },
-    { label: "ทุก 3 เดือน", value: "3" },
-    { label: "ทุก 6 เดือน", value: "6" },
-    { label: "อื่นๆ", value: "other" },
-  ];
+  const [transportDistance, setTransportDistance] = useState<
+    "thailand" | "other" | ""
+  >("");
 
   const [priceConditions, setPriceConditions] = useState<{
     period: string;
-    value: string;
+    value: number;
   }>({
     period: "month",
-    value: "",
+    value: 0,
   });
 
-  const [mainSupplierCreditTerm, setMainSupplierCreditTerm] =
-    useState<number>(1);
+  const [priceAdjustmentConditions, setPriceAdjustmentConditions] = useState<
+    { label: string; value: number }[]
+  >([
+    { label: "ทุก 1 เดือน", value: 1 },
+    { label: "ทุก 3 เดือน", value: 3 },
+    { label: "ทุก 6 เดือน", value: 6 },
+    { label: "อื่นๆ", value: generalAssessmentForm?.price_conditions?.value },
+  ]);
 
-  console.log("generalAssessmentForm", generalAssessmentForm);
+  useEffect(() => {
+    if (generalAssessmentForm?.price_conditions?.value) {
+      setPriceConditions({
+        period: "month",
+        value: generalAssessmentForm?.price_conditions?.value,
+      });
+      setPriceAdjustmentConditions([
+        { label: "ทุก 1 เดือน", value: 1 },
+        { label: "ทุก 3 เดือน", value: 3 },
+        { label: "ทุก 6 เดือน", value: 6 },
+        {
+          label: "อื่นๆ",
+          value: generalAssessmentForm?.price_conditions?.value,
+        },
+      ]);
+    }
+  }, [generalAssessmentForm.price_conditions]);
 
-  const transferProductName = useId();
-  const transferProductIds: {
-    thai: string;
-    abroard: string;
-  } = {
-    thai: useId(),
-    abroard: useId(),
-  };
-
-  const mainSupplierCreditTermId = useId();
+  useEffect(() => {
+    if (generalAssessmentForm?.transport_distance?.transport) {
+      setTransportDistance(
+        generalAssessmentForm?.transport_distance?.transport === "thailand"
+          ? "thailand"
+          : "other",
+      );
+    }
+  }, [generalAssessmentForm?.transport_distance?.transport]);
 
   return (
     <div className="pl-1 text-xs">
@@ -63,6 +87,7 @@ export const R1AdminInformation: FC = () => {
             }}
             value={generalAssessmentForm?.products || ""}
             required
+            readOnly={!common?.isEditGeneralAssessmentForm}
           />
         </div>
 
@@ -79,6 +104,7 @@ export const R1AdminInformation: FC = () => {
                   orders: isNaN(+e.target.value) ? 0 : +e.target.value,
                 }));
               }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
               onWheel={(e) => e.currentTarget.blur()}
               className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
             />
@@ -101,6 +127,7 @@ export const R1AdminInformation: FC = () => {
                 }));
               }}
               required
+              readOnly={!common?.isEditGeneralAssessmentForm}
               value={generalAssessmentForm?.quantity_per_year || ""}
               className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
             />
@@ -123,6 +150,7 @@ export const R1AdminInformation: FC = () => {
                   lead_time: isNaN(+e.target.value) ? 0 : +e.target.value,
                 }));
               }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
               required
               className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
             />
@@ -130,7 +158,7 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
         <h4 className="whitespace-nowrap">
-          4. เงื่อนไขการปรับราคา
+          5. เงื่อนไขการปรับราคา
           <RequiredTopic />
         </h4>
         <div className="col-span-3">
@@ -147,14 +175,15 @@ export const R1AdminInformation: FC = () => {
                   ...prev,
                   price_conditions: {
                     peroid: "month",
-                    value: e.target.value,
+                    value: Number(e.target.value),
                   },
                 }));
                 setPriceConditions({
                   period: "month",
-                  value: e.target.value,
+                  value: Number(e.target.value),
                 });
               }}
+              disabled={!common?.isEditGeneralAssessmentForm}
               required
             >
               <option value="">เลือกเงื่อนไขการปรับราคา</option>
@@ -164,33 +193,36 @@ export const R1AdminInformation: FC = () => {
                 </option>
               ))}
             </select>
-            {priceConditions?.value === "other" && (
-              <input
-                type="number"
-                placeholder="โปรดระบุ ระยะเวลา (เดือน)"
-                value={
-                  generalAssessmentForm?.price_conditions?.value ||
-                  priceConditions?.value ||
-                  ""
-                }
-                onChange={(e) => {
-                  setGeneralAssessmentForm((prev) => ({
-                    ...prev,
-                    price_conditions: {
-                      peroid: "month",
-                      value: e.target.value,
-                    },
-                  }));
-                }}
-                required
-                className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
-              />
-            )}
+            {priceConditions?.value !== 1 &&
+              priceConditions?.value !== 3 &&
+              priceConditions?.value !== 6 && (
+                <input
+                  type="number"
+                  placeholder="โปรดระบุ ระยะเวลา (เดือน)"
+                  value={
+                    generalAssessmentForm?.price_conditions?.value ||
+                    priceConditions?.value ||
+                    ""
+                  }
+                  onChange={(e) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      price_conditions: {
+                        peroid: "month",
+                        value: isNaN(+e.target.value) ? 0 : +e.target.value,
+                      },
+                    }));
+                  }}
+                  readOnly={!common?.isEditGeneralAssessmentForm}
+                  required
+                  className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
+                />
+              )}
           </div>
         </div>
 
         <h4 className="whitespace-nowrap">
-          5. เครื่องจักรที่ใช้ผลิต (ระบุอย่างน้อย 1 รายการ)
+          6. เครื่องจักรที่ใช้ผลิต (ระบุอย่างน้อย 1 รายการ)
         </h4>
         <div className="col-span-4 select-none pl-1">
           {generalAssessmentForm?.machine_produce?.map((item, i) => (
@@ -200,6 +232,7 @@ export const R1AdminInformation: FC = () => {
                 id={item?.id}
                 className="cursor-pointer [&:checked+label]:text-primary"
                 value={item?.is_checked ? "true" : ""}
+                checked={item?.is_checked}
                 onChange={(e) => {
                   setGeneralAssessmentForm((prev) => ({
                     ...prev,
@@ -225,6 +258,7 @@ export const R1AdminInformation: FC = () => {
                     }),
                   }));
                 }}
+                readOnly={!common?.isEditGeneralAssessmentForm}
               />
               <label htmlFor={item?.id} className="cursor-pointer">
                 {item?.label_th}
@@ -252,6 +286,7 @@ export const R1AdminInformation: FC = () => {
                       (item) => item?.id === "machine-produce-id-3",
                     )?.value?.amount || ""
                   }
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                   onChange={(e) => {
                     setGeneralAssessmentForm((prev) => ({
                       ...prev,
@@ -273,6 +308,7 @@ export const R1AdminInformation: FC = () => {
                       }),
                     }));
                   }}
+                  disabled={!common?.isEditGeneralAssessmentForm}
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
                 />
                 <span>MB</span>
@@ -290,6 +326,7 @@ export const R1AdminInformation: FC = () => {
                       (item) => item?.id === "machine-produce-id-3",
                     )?.value?.ROI || ""
                   }
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                   onChange={(e) => {
                     setGeneralAssessmentForm((prev) => ({
                       ...prev,
@@ -312,7 +349,7 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
-              <CalculateRoi />
+              {/* <CalculateRoi /> */}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
@@ -326,6 +363,7 @@ export const R1AdminInformation: FC = () => {
                       (item) => item?.id === "machine-produce-id-3",
                     )?.value?.ROA || ""
                   }
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                   onChange={(e) => {
                     setGeneralAssessmentForm((prev) => ({
                       ...prev,
@@ -348,7 +386,7 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
-              <CalculateRoa />
+              {/* <CalculateRoa /> */}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
@@ -362,6 +400,7 @@ export const R1AdminInformation: FC = () => {
                       (item) => item?.id === "machine-produce-id-3",
                     )?.value?.payback || ""
                   }
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                   onChange={(e) => {
                     setGeneralAssessmentForm((prev) => ({
                       ...prev,
@@ -386,12 +425,12 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>ปี</span>
               </div>
-              <CalculatePlayback />
+              {/* <CalculatePlayback /> */}
             </div>
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">6. แม่พิมพ์ที่ใช้</h4>
+        <h4 className="whitespace-nowrap">7. แม่พิมพ์ที่ใช้</h4>
         <div className="col-span-4 select-none pl-1">
           {generalAssessmentForm?.mold_use?.map((item, i) => (
             <div className="mb-1 flex items-center gap-x-1" key={i}>
@@ -400,7 +439,32 @@ export const R1AdminInformation: FC = () => {
                 id={item?.id}
                 className="cursor-pointer [&:checked+label]:text-primary"
                 value={item?.is_checked ? "true" : ""}
+                checked={item?.is_checked}
+                disabled={
+                  generalAssessmentForm?.mold_use?.find(
+                    (item) => item?.id === "mold-use-id-1",
+                  )?.is_checked && item?.id !== "mold-use-id-1"
+                }
                 onChange={(e) => {
+                  if (item.id === "mold-use-id-1") {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      mold_use: prev?.mold_use?.map((item) => {
+                        if (item?.id === "mold-use-id-1") {
+                          return {
+                            ...item,
+                            is_checked: e.target.checked,
+                            value: null,
+                          };
+                        }
+                        return {
+                          ...item,
+                          is_checked: false,
+                          value: null,
+                        };
+                      }),
+                    }));
+                  }
                   setGeneralAssessmentForm((prev) => ({
                     ...prev,
                     mold_use: prev?.mold_use?.map((item) => {
@@ -424,8 +488,9 @@ export const R1AdminInformation: FC = () => {
                     }),
                   }));
                 }}
+                readOnly={!common?.isEditGeneralAssessmentForm}
               />
-              <label htmlFor={item?.id} className="cursor-pointer">
+              <label htmlFor={item?.id} className={cn("cursor-pointer")}>
                 {item?.label_th}
               </label>
             </div>
@@ -474,6 +539,7 @@ export const R1AdminInformation: FC = () => {
                       }),
                     }));
                   }}
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                 />
                 <span>MB</span>
               </div>
@@ -509,10 +575,11 @@ export const R1AdminInformation: FC = () => {
                       }),
                     }));
                   }}
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                 />
                 <span>%</span>
               </div>
-              <CalculateRoi />
+              {/* <CalculateRoi /> */}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
@@ -545,10 +612,11 @@ export const R1AdminInformation: FC = () => {
                       }),
                     }));
                   }}
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                 />
                 <span>%</span>
               </div>
-              <CalculateRoa />
+              {/* <CalculateRoa /> */}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
@@ -583,150 +651,255 @@ export const R1AdminInformation: FC = () => {
                       }),
                     }));
                   }}
+                  readOnly={!common?.isEditGeneralAssessmentForm}
                 />
                 <span>ปี</span>
               </div>
-              <CalculatePlayback />
+              {/* <CalculatePlayback />  */}
             </div>
           </div>
         </div>
 
         <h4 className="whitespace-nowrap">
-          7. วัตถุดิบหลักในการผลิตสินค้า{" "}
+          8. วัตถุดิบหลักในการผลิตสินค้า{" "}
           <span>(สามารถเลือกได้มากกว่า 1 ข้อ)</span>
         </h4>
         <div className="col-span-4 select-none pl-1">
           <div className="grid grid-cols-3">
             {generalAssessmentForm?.main_material?.map((item, i) => (
-              <div key={i} className="mb-1 flex items-center gap-x-1 gap-y-1">
-                <input
-                  type="checkbox"
-                  id={item?.id}
-                  className="cursor-pointer [&:checked+label]:text-primary"
-                  onChange={(e) => {
-                    setGeneralAssessmentForm((prev) => ({
-                      ...prev,
-                      main_material: prev?.main_material?.map((item) => {
-                        if (item?.id === e.target.id) {
-                          return {
-                            ...item,
-                            is_checked: e.target.checked,
-                          };
-                        }
-                        return item;
-                      }),
-                    }));
-                  }}
-                  value={item?.is_checked ? "true" : ""}
-                />
-                <label htmlFor={item?.id} className="cursor-pointer">
-                  {item?.label_th}
-                </label>
+              <div>
+                <div key={i} className="mb-1 flex items-center gap-x-1 gap-y-1">
+                  <input
+                    type="checkbox"
+                    id={item?.id}
+                    className="cursor-pointer [&:checked+label]:text-primary"
+                    checked={item?.is_checked}
+                    onChange={(e) => {
+                      setGeneralAssessmentForm((prev) => ({
+                        ...prev,
+                        main_material: prev?.main_material?.map((item) => {
+                          if (item?.id === e.target.id) {
+                            return {
+                              ...item,
+                              is_checked: e.target.checked,
+                              value:
+                                item?.id === "main-material-id-9" ? "" : "",
+                            };
+                          }
+                          return item;
+                        }),
+                      }));
+                    }}
+                    value={item?.is_checked ? "true" : ""}
+                    readOnly={!common?.isEditGeneralAssessmentForm}
+                  />
+                  <label htmlFor={item?.id} className="cursor-pointer">
+                    {item?.label_th}
+                  </label>
+                </div>
+                <div
+                  className={cn(
+                    "col-span-3 mb-1 flex items-center gap-x-1 gap-y-1",
+                    item.is_checked && item.id === "main-material-id-9"
+                      ? "block"
+                      : "hidden",
+                  )}
+                >
+                  <input
+                    type="text"
+                    placeholder="โปรดระบุ"
+                    value={item?.value || ""}
+                    onChange={(e) => {
+                      setGeneralAssessmentForm((prev) => ({
+                        ...prev,
+                        main_material: prev?.main_material?.map((item) => {
+                          if (item?.id === "main-material-id-9") {
+                            return {
+                              ...item,
+                              value: e.target.value,
+                            };
+                          }
+                          return item;
+                        }),
+                      }));
+                    }}
+                    readOnly={!common?.isEditGeneralAssessmentForm}
+                    className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+                  />
+                </div>
               </div>
             ))}
-
-            {/* {generalAssessmentForm?.main_material?.find(
-              (item) => item?.is_checked && item?.id === "main-material-id-9",
-            )?.is_checked && (
-              <div className="col-span-3 mb-1 flex items-center gap-x-1 gap-y-1">
-                <input
-                  type="checkbox"
-                  className="cursor-pointer whitespace-nowrap [&:checked+label]:text-primary"
-                />
-                <label
-                  htmlFor={item?.id}
-                  className="cursor-pointer whitespace-nowrap"
-                >
-                  {item?.label}
-                </label>
-                <input
-                  type="text"
-                  placeholder="โปรดระบุ"
-                  className="ml-2 w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-                />
-              </div>
-            )} */}
           </div>
         </div>
-
         <h4 className="whitespace-nowrap">
-          8. ระยะทางในการขนส่งสินค้า / ค่าใช้จ่าย (บาท/เที่ยว) <RequiredTopic />
+          9. ระยะทางในการขนส่งสินค้า / ค่าใช้จ่าย (บาท/เที่ยว) <RequiredTopic />
         </h4>
         <div className="col-span-4 pl-1">
           <div className="mb-1 flex items-center gap-x-1">
             <input
               type="radio"
-              name={transferProductName}
-              id={transferProductIds?.thai}
+              name="transport_distance"
+              id="thailand"
+              value="thailand"
+              checked={transportDistance === "thailand"}
               className="cursor-pointer [&:checked+label]:text-primary"
-              defaultChecked
+              onChange={(e) => {
+                const companyAdmin =
+                  registration?.company_information?.company_admin;
+
+                const Plant = companyList?.find(
+                  (item) => item?.company === companyAdmin,
+                );
+
+                setTransportDistance(e.target.value as "thailand" | "other");
+
+                const PlantLatLong =
+                  LatitudesLongitudes?.[
+                    Plant?.province as keyof typeof LatitudesLongitudes
+                  ] || LatitudesLongitudes?.RAYONG;
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  transport_distance: {
+                    ...prev?.transport_distance,
+                    transport: e.target.value,
+                    origin: `${PlantLatLong?.latitude},${PlantLatLong?.longitude}`,
+                    destination: "",
+                    distance: 0,
+                    car_type: "",
+                    fuel_type: "",
+                    shipping_cost: 0,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
-            <label
-              htmlFor={transferProductIds?.thai}
-              className="cursor-pointer"
-            >
+            <label htmlFor="thailand" className="cursor-pointer" id="thailand">
               ขนส่งในประเทศไทย
             </label>
           </div>
           <div className="mb-1 flex items-center gap-x-1">
             <input
               type="radio"
-              name={transferProductName}
-              id={transferProductIds?.abroard}
               className="cursor-pointer [&:checked+label]:text-primary"
+              id="other"
+              name="transport_distance"
+              value="other"
+              checked={transportDistance === "other"}
+              onChange={(e) => {
+                const companyAdmin =
+                  registration?.company_information?.company_admin;
+
+                const Plant = companyList?.find(
+                  (item) => item?.company === companyAdmin,
+                );
+
+                setTransportDistance(e.target.value as "thailand" | "other");
+
+                const PlantLatLong =
+                  LatitudesLongitudes?.[
+                    Plant?.province as keyof typeof LatitudesLongitudes
+                  ] || LatitudesLongitudes?.RAYONG;
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  transport_distance: {
+                    ...prev?.transport_distance,
+                    transport: e.target.value,
+                    origin: `${PlantLatLong?.latitude},${PlantLatLong?.longitude}`,
+                    destination: "",
+                    distance: 0,
+                    car_type: "",
+                    fuel_type: "",
+                    shipping_cost: 0,
+                  },
+                }));
+              }}
             />
-            <label
-              htmlFor={transferProductIds?.abroard}
-              className="cursor-pointer"
-            >
+            <label className="cursor-pointer" htmlFor="other" id="other">
               ขนส่งไปต่างประเทศ
             </label>
-            {/* <input
-              type="text"
-              placeholder="โปรดระบุประเทศปลายทาง"
-              className="ml-2 w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-            /> */}
-            <select className="ml-3 w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black">
+            <select
+              className={cn(
+                "ml-3 w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black",
+                transportDistance === "other" ? "block" : "hidden",
+              )}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  transport_distance: {
+                    ...prev?.transport_distance,
+                    transport: e.target.value,
+                  },
+                }));
+              }}
+              disabled={!common?.isEditGeneralAssessmentForm}
+              value={generalAssessmentForm?.transport_distance?.transport || ""}
+            >
               <option value="">โปรดระบุประเทศปลายทาง</option>
-              {CountyList.sort((a) => {
-                if (a.alpha2 === "TH") return -1;
-                return 0;
-              }).map((info, i) => (
-                <option key={i} value={info.alpha2}>
-                  {info?.alpha2}
-                </option>
-              ))}
+              {countryCodeList
+                .sort((a) => {
+                  if (a.alpha2 === "TH") return -1;
+                  return 0;
+                })
+                .map((info, i) => (
+                  <option key={i} value={info.alpha2}>
+                    {info?.country}
+                  </option>
+                ))}
             </select>
           </div>
-          <div className="pl-4">
+          <div className={cn("pl-4")}>
             <div className="flex items-center gap-x-1">
               <p className="w-[7rem] whitespace-nowrap">ต้นทาง</p>
               <input
                 type="text"
                 placeholder="โปรดระบุ ละติจูด,ลองจิจูด"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-                defaultValue={`${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`}
+                readOnly
+                value={generalAssessmentForm?.transport_distance?.origin || ""}
               />
               <span className="flex items-center gap-x-1">GPS</span>
               <button
                 type="button"
                 className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
-                onClick={() =>
+                onClick={() => {
+                  const companyAdmin =
+                    registration?.company_information?.company_admin;
+
+                  const Plant = companyList?.find(
+                    (item) => item?.company === companyAdmin,
+                  );
+
+                  const PlantLatLong =
+                    LatitudesLongitudes?.[
+                      Plant?.province as keyof typeof LatitudesLongitudes
+                    ] || LatitudesLongitudes?.RAYONG;
                   window.open(
-                    `https://www.google.com/maps/place/${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`,
-                  )
-                }
+                    `https://www.google.com/maps/place/${PlantLatLong?.latitude},${PlantLatLong?.longitude}`,
+                  );
+                }}
               >
                 <Icons.mapPin className="h-3 w-3" /> ดูแผนที่
               </button>
             </div>
-
             <div className="flex items-center gap-x-1">
               <p className="w-[7rem] whitespace-nowrap">ปลายทาง</p>
               <input
                 type="text"
                 placeholder="โปรดระบุ ละติจูด,ลองจิจูด"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+                value={
+                  generalAssessmentForm?.transport_distance?.destination || ""
+                }
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    transport_distance: {
+                      ...prev?.transport_distance,
+                      destination: e.target.value,
+                    },
+                  }));
+                }}
+                readOnly={!common?.isEditGeneralAssessmentForm}
               />
               <span>GPS</span>
               <button
@@ -734,8 +907,11 @@ export const R1AdminInformation: FC = () => {
                 className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
                 onClick={() =>
                   window.open(
-                    "https://www.google.com/maps/place/12.884426690936518,101.09545134163946",
+                    `https://www.google.com/maps/place/${generalAssessmentForm?.transport_distance?.destination}`,
                   )
+                }
+                disabled={
+                  !generalAssessmentForm?.transport_distance?.destination
                 }
               >
                 <Icons.mapPin className="h-3 w-3" /> ดูแผนที่
@@ -748,6 +924,19 @@ export const R1AdminInformation: FC = () => {
                 type="number"
                 placeholder="โปรดระบุ"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+                value={
+                  generalAssessmentForm?.transport_distance?.distance || ""
+                }
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    transport_distance: {
+                      ...prev?.transport_distance,
+                      distance: isNaN(+e.target.value) ? 0 : +e.target.value,
+                    },
+                  }));
+                }}
+                readOnly={!common?.isEditGeneralAssessmentForm}
               />
               <span>km.</span>
             </div>
@@ -755,12 +944,24 @@ export const R1AdminInformation: FC = () => {
             <div className="flex items-center gap-x-1">
               <p className="w-[7rem] whitespace-nowrap">ประเภทรถ</p>
               <select
-                placeholder="เลือกเงื่อนไขการปรับราคา"
+                placeholder="กรุณาเลือกประเภทรถ"
                 className={cn(
                   "w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black",
                   // "[&_option:checked]:hidden",
                 )}
-                required
+                value={
+                  generalAssessmentForm?.transport_distance?.car_type || ""
+                }
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    transport_distance: {
+                      ...prev?.transport_distance,
+                      car_type: e.target.value,
+                    },
+                  }));
+                }}
+                disabled={!common?.isEditGeneralAssessmentForm}
               >
                 <option value="">เลือกประเภทรถ</option>
                 {new Array(3).fill(0).map((_, i) => (
@@ -780,7 +981,19 @@ export const R1AdminInformation: FC = () => {
                   "w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black",
                   // "[&_option:checked]:hidden",
                 )}
-                required
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    transport_distance: {
+                      ...prev?.transport_distance,
+                      fuel_type: e.target.value,
+                    },
+                  }));
+                }}
+                value={
+                  generalAssessmentForm?.transport_distance?.fuel_type || ""
+                }
+                disabled={!common?.isEditGeneralAssessmentForm}
               >
                 <option value="">เลือกประเภทเชื่อเพลิงที่ใช้</option>
                 {new Array(3).fill(0).map((_, i) => (
@@ -797,10 +1010,25 @@ export const R1AdminInformation: FC = () => {
                 type="number"
                 placeholder="โปรดระบุ"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    transport_distance: {
+                      ...prev?.transport_distance,
+                      shipping_cost: isNaN(+e.target.value)
+                        ? 0
+                        : +e.target.value,
+                    },
+                  }));
+                }}
+                value={
+                  generalAssessmentForm?.transport_distance?.shipping_cost || ""
+                }
+                readOnly={!common?.isEditGeneralAssessmentForm}
               />
               <span>บาท/เที่ยว</span>
             </div>
-            <div className="flex items-center gap-x-1 font-semibold text-primary">
+            {/* <div className="flex items-center gap-x-1 font-semibold text-primary">
               <Icons.cloudy className="h-5 w-5" />
               <p className="truncate whitespace-nowrap">
                 Carbon Emission (CO2)
@@ -814,7 +1042,7 @@ export const R1AdminInformation: FC = () => {
                 Scope 1 (Direct)
               </p>
               <p className="w-[15rem] whitespace-nowrap">(ของลูกค้า)</p>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -857,9 +1085,9 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div> */}
 
-        <h4 className="whitespace-nowrap">9. เครดิตเทอม ซัพพลายเออร์หลัก</h4>
+        <h4 className="whitespace-nowrap">10. เครดิตเทอม ซัพพลายเออร์หลัก</h4>
         <div className="col-span-4 pl-1">
-          {new Array(mainSupplierCreditTerm).fill(0).map((_, i) => {
+          {generalAssessmentForm?.main_supplier_credit_terms.map((_, i) => {
             return (
               <div key={i} className="mb-2">
                 <div className="mb-1 flex items-center gap-x-1">
@@ -870,6 +1098,28 @@ export const R1AdminInformation: FC = () => {
                     type="text"
                     placeholder="โปรดระบุ"
                     className="ml-2 w-[30rem] border-0 border-b p-0.5 text-primary outline-0"
+                    onChange={(e) => {
+                      setGeneralAssessmentForm((prev) => ({
+                        ...prev,
+                        main_supplier_credit_terms:
+                          prev?.main_supplier_credit_terms?.map(
+                            (item, index) => {
+                              if (index === i) {
+                                return {
+                                  ...item,
+                                  supplier_name: e.target.value,
+                                };
+                              }
+                              return item;
+                            },
+                          ),
+                      }));
+                    }}
+                    value={
+                      generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                        ?.supplier_name || ""
+                    }
+                    readOnly={!common?.isEditGeneralAssessmentForm}
                   />
                 </div>
                 <div className="mb-1 flex items-center gap-x-1">
@@ -880,6 +1130,30 @@ export const R1AdminInformation: FC = () => {
                     type="number"
                     placeholder="โปรดระบุ"
                     className="ml-2 w-[10rem] border-0 border-b p-0.5 text-primary outline-0"
+                    onChange={(e) => {
+                      setGeneralAssessmentForm((prev) => ({
+                        ...prev,
+                        main_supplier_credit_terms:
+                          prev?.main_supplier_credit_terms?.map(
+                            (item, index) => {
+                              if (index === i) {
+                                return {
+                                  ...item,
+                                  ratio: isNaN(+e.target.value)
+                                    ? 0
+                                    : +e.target.value,
+                                };
+                              }
+                              return item;
+                            },
+                          ),
+                      }));
+                    }}
+                    value={
+                      generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                        ?.ratio || ""
+                    }
+                    readOnly={!common?.isEditGeneralAssessmentForm}
                   />
                   <span>%</span>
                 </div>
@@ -889,8 +1163,32 @@ export const R1AdminInformation: FC = () => {
                   </p>
                   <input
                     type="number"
-                    placeholder="โปรดระบุ"
+                    placeholder="โปรดระบุ จำนวนวัน"
                     className="ml-2 w-[10rem] border-0 border-b p-0.5 text-primary outline-0"
+                    onChange={(e) => {
+                      setGeneralAssessmentForm((prev) => ({
+                        ...prev,
+                        main_supplier_credit_terms:
+                          prev?.main_supplier_credit_terms?.map(
+                            (item, index) => {
+                              if (index === i) {
+                                return {
+                                  ...item,
+                                  credit_terms: isNaN(+e.target.value)
+                                    ? 0
+                                    : +e.target.value,
+                                };
+                              }
+                              return item;
+                            },
+                          ),
+                      }));
+                    }}
+                    value={
+                      generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                        ?.credit_terms || ""
+                    }
+                    readOnly={!common?.isEditGeneralAssessmentForm}
                   />
                   <span>วัน</span>
                 </div>
@@ -898,39 +1196,119 @@ export const R1AdminInformation: FC = () => {
                   <div className="flex select-none items-center gap-x-1">
                     <input
                       type="radio"
-                      name={`${mainSupplierCreditTermId}_${i}`}
-                      id={`${mainSupplierCreditTermId}_${i}_thai`}
+                      value="thailand-credit"
+                      id={`thailand-credit-${i}`}
                       className="cursor-pointer [&:checked+label]:text-primary"
-                      defaultChecked
+                      onChange={(e) => {
+                        setGeneralAssessmentForm((prev) => ({
+                          ...prev,
+                          main_supplier_credit_terms:
+                            prev?.main_supplier_credit_terms?.map(
+                              (item, index) => {
+                                if (index === i) {
+                                  return {
+                                    ...item,
+                                    country: {
+                                      label: e.target.value,
+                                      value: "",
+                                    },
+                                  };
+                                }
+                                return item;
+                              },
+                            ),
+                        }));
+                      }}
+                      checked={
+                        generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                          ?.country?.label === "thailand-credit"
+                      }
+                      readOnly={!common?.isEditGeneralAssessmentForm}
                     />
                     <label
-                      htmlFor={`${mainSupplierCreditTermId}_${i}_thai`}
                       className="cursor-pointer"
+                      htmlFor={`thailand-credit-${i}`}
                     >
                       ในประเทศไทย
                     </label>
                   </div>
-
                   <div className="flex select-none items-center gap-x-1">
                     <input
                       type="radio"
-                      name={`${mainSupplierCreditTermId}_${i}`}
-                      id={`${mainSupplierCreditTermId}_${i}_abroad`}
+                      value="other-credit"
+                      id={`other-credit-${i}`}
                       className="cursor-pointer [&:checked+label]:text-primary"
+                      onChange={(e) => {
+                        setGeneralAssessmentForm((prev) => ({
+                          ...prev,
+                          main_supplier_credit_terms:
+                            prev?.main_supplier_credit_terms?.map(
+                              (item, index) => {
+                                if (index === i) {
+                                  return {
+                                    ...item,
+                                    country: {
+                                      label: e.target.value,
+                                      value: "",
+                                    },
+                                  };
+                                }
+                                return item;
+                              },
+                            ),
+                        }));
+                      }}
+                      checked={
+                        generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                          ?.country?.label === "other-credit"
+                      }
+                      readOnly={!common?.isEditGeneralAssessmentForm}
                     />
                     <label
-                      htmlFor={`${mainSupplierCreditTermId}_${i}_abroad`}
                       className="cursor-pointer"
+                      htmlFor={`other-credit-${i}`}
                     >
                       ต่างประเทศ
                     </label>
                   </div>
-
-                  <div className="col-span-3 flex items-center gap-x-1">
+                  <div
+                    className={cn(
+                      "col-span-3 flex items-center gap-x-1",
+                      generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                        ?.country?.label === "other-credit"
+                        ? "block"
+                        : "hidden",
+                    )}
+                  >
                     <input
                       type="text"
                       placeholder="โปรดระบุ"
                       className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+                      onChange={(e) => {
+                        setGeneralAssessmentForm((prev) => ({
+                          ...prev,
+                          main_supplier_credit_terms:
+                            prev?.main_supplier_credit_terms?.map(
+                              (item, index) => {
+                                if (index === i) {
+                                  return {
+                                    ...item,
+                                    country: {
+                                      ...item?.country,
+                                      value: e.target.value,
+                                    },
+                                  };
+                                }
+                                return item;
+                              },
+                            ),
+                        }));
+                      }}
+                      value={
+                        generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                          ?.country?.value || ""
+                      }
+                      readOnly={!common?.isEditGeneralAssessmentForm}
                     />
                   </div>
                 </div>
@@ -942,7 +1320,25 @@ export const R1AdminInformation: FC = () => {
               size={"sm"}
               type="button"
               className="bg-green-600 hover:bg-green-600/80"
-              onClick={() => setMainSupplierCreditTerm((value) => value + 1)}
+              onClick={() => {
+                const initialValue = {
+                  supplier_name: "",
+                  ratio: 0,
+                  credit_terms: 0,
+                  country: {
+                    label: "thailand-credit",
+                    value: "",
+                  },
+                };
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  main_supplier_credit_terms: [
+                    ...prev.main_supplier_credit_terms,
+                    initialValue,
+                  ],
+                }));
+              }}
+              disabled={!common?.isEditGeneralAssessmentForm}
             >
               เพิ่ม
             </Button>
@@ -950,18 +1346,24 @@ export const R1AdminInformation: FC = () => {
               size={"sm"}
               type="button"
               className="bg-red-600 hover:bg-red-600/80"
-              onClick={() =>
-                setMainSupplierCreditTerm((value) =>
-                  value > 1 ? value - 1 : value,
-                )
-              }
+              onClick={() => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  main_supplier_credit_terms:
+                    prev?.main_supplier_credit_terms?.filter(
+                      (_, index) =>
+                        index !== prev?.main_supplier_credit_terms?.length - 1,
+                    ),
+                }));
+              }}
+              disabled={!common?.isEditGeneralAssessmentForm}
             >
               ลบ
             </Button>
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">9. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
+        <h4 className="whitespace-nowrap">11. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">ซื้อในประเทศไทย</p>
@@ -969,6 +1371,21 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.main_mat_ratio?.thailand || ""}
+              onChange={(e) => {
+                const value = isNaN(+e.target.value) ? 0 : +e.target.value;
+                const foreign = 100 - value < 0 ? 0 : 100 - value;
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  main_mat_ratio: {
+                    thailand: value > 100 ? 100 : value,
+                    foreign: foreign,
+                  },
+                }));
+              }}
+              min={0}
+              max={100}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>%</span>
           </div>
@@ -977,6 +1394,8 @@ export const R1AdminInformation: FC = () => {
             <input
               type="number"
               placeholder="โปรดระบุ"
+              readOnly
+              value={generalAssessmentForm?.main_mat_ratio?.foreign || ""}
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
             />
             <span>%</span>
@@ -984,7 +1403,7 @@ export const R1AdminInformation: FC = () => {
         </div>
 
         <h4 className="whitespace-nowrap">
-          10. สัดส่วนวัตถุดิบ ต้นทุน และกำไร
+          12. สัดส่วนวัตถุดิบ ต้นทุน และกำไร
         </h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
@@ -993,6 +1412,18 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.ratio_of_raw_mat?.RM || ""}
+              onChange={(e) => {
+                const RM = isNaN(+e.target.value) ? 0 : +e.target.value;
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  ratio_of_raw_mat: {
+                    ...prev?.ratio_of_raw_mat,
+                    RM: RM > 100 ? 100 : RM,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>%</span>
           </div>
@@ -1002,6 +1433,20 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.ratio_of_raw_mat?.COGS || ""}
+              onChange={(e) => {
+                const RM = generalAssessmentForm?.ratio_of_raw_mat?.RM || 0;
+                const COGS = isNaN(+e.target.value) ? 0 : +e.target.value;
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  ratio_of_raw_mat: {
+                    ...prev?.ratio_of_raw_mat,
+                    COGS: COGS > 100 ? 100 : COGS,
+                    GP: 100 - (RM + COGS) < 0 ? 0 : 100 - (RM + COGS),
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>%</span>
           </div>
@@ -1011,13 +1456,15 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.ratio_of_raw_mat?.GP || ""}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>%</span>
           </div>
         </div>
 
         <h4 className="whitespace-nowrap">
-          11. ระยะเวลาจัดเก็บสินค้า (Inventory day)
+          13. ระยะเวลาจัดเก็บสินค้า (Inventory day)
         </h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
@@ -1028,6 +1475,17 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.RM || ""}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    RM: isNaN(+e.target.value) ? 0 : +e.target.value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>วัน</span>
           </div>
@@ -1039,6 +1497,17 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.PRD || ""}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    PRD: isNaN(+e.target.value) ? 0 : +e.target.value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>วัน</span>
           </div>
@@ -1048,6 +1517,17 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.FG || ""}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    FG: isNaN(+e.target.value) ? 0 : +e.target.value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>วัน</span>
           </div>
@@ -1059,6 +1539,17 @@ export const R1AdminInformation: FC = () => {
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.inventory || ""}
+              onChange={(e) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    inventory: isNaN(+e.target.value) ? 0 : +e.target.value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>วัน</span>
           </div>

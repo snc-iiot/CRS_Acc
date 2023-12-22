@@ -1,4 +1,4 @@
-import MockCompanyList from "@/mock/company-list.json";
+// import MockCompanyList from "@/mock/company-list.json";
 import MockCountryCodesList from "@/mock/country-list.json";
 import ThaiProvince from "@/mock/thai-province.json";
 import {
@@ -8,8 +8,10 @@ import {
   TCompanyList,
   TCompanyPolicyList,
   TCountryCodeList,
+  TDBDSyncList,
   TDeliveryTermsList,
   TDocumentKeyList,
+  TFinancialRatio,
   TThaiProvince,
 } from "@/types";
 import { atom } from "jotai";
@@ -27,7 +29,7 @@ export const utilsAtom = atom({
 export const benefitsListAtom = atom<TBenefitsList[]>([]);
 export const businessTypeListAtom = atom<TBusinessTypeList[]>([]);
 export const certificatedListAtom = atom<TCertificatedList[]>([]);
-export const companyListAtom = atom<TCompanyList[]>(MockCompanyList);
+export const companyListAtom = atom<TCompanyList[]>([]);
 export const companyPolicyListAtom = atom<TCompanyPolicyList[]>([]);
 export const deliveryTermsListAtom = atom<TDeliveryTermsList[]>([]);
 export const documentKeyListAtom = atom<TDocumentKeyList>(
@@ -37,6 +39,10 @@ export const documentKeyListAtom = atom<TDocumentKeyList>(
 export const thaiProvinceAtom = atom<TThaiProvince[]>(ThaiProvince);
 export const countryCodeListAtom =
   atom<TCountryCodeList[]>(MockCountryCodesList);
+
+export const dbdSyncListAtom = atom<TDBDSyncList>({} as TDBDSyncList);
+
+export const financialRatioAtom = atom<TFinancialRatio>({} as TFinancialRatio);
 
 if (process.env.NODE_ENV !== "production") {
   utilsAtom.debugLabel = "utilsAtom";
@@ -49,4 +55,6 @@ if (process.env.NODE_ENV !== "production") {
   documentKeyListAtom.debugLabel = "documentKeyListAtom";
   thaiProvinceAtom.debugLabel = "thaiProvinceAtom";
   countryCodeListAtom.debugLabel = "countryCodeListAtom";
+  dbdSyncListAtom.debugLabel = "dbdSyncListAtom";
+  financialRatioAtom.debugLabel = "financialRatioAtom";
 }

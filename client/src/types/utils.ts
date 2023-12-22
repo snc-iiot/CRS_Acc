@@ -94,6 +94,7 @@ export type TCompanyList = {
   company: string;
   company_full_name_th: string;
   company_full_name_en: string;
+  province: string;
 };
 
 export type TCountryCodeList = {

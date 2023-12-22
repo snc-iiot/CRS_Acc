@@ -6,12 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import MockData from "@/mock/financial-ratio-analytics.mock.json";
 import { TFinancialRatioAnalytics } from "@/models/types";
 import { FC } from "react";
 
 const TableFinancialRatio: FC = () => {
+  const { dbdSyncList } = useAtomStore();
+
   const HEADER: string[] = [
     "Financial ratio",
     "ความหมาย",
@@ -21,6 +24,8 @@ const TableFinancialRatio: FC = () => {
     "หน่วย",
     "อ้างอิง ฐานข้อมูล",
   ];
+
+  console.log(dbdSyncList);
 
   const data: TFinancialRatioAnalytics[] = MockData;
 
@@ -73,11 +78,13 @@ const TableFinancialRatio: FC = () => {
                     </div>
                   ))}
                 </TableCell>
-                <TableCell className="whitespace-nowrap border">
+                <TableCell className="whitespace-nowrap border text-center">
                   {info?.Target}
                 </TableCell>
-                <TableCell className="border text-end">
-                  {info?.Result}
+                <TableCell className={cn("border text-end")}>
+                  {dbdSyncList?.financial_ratios_latest?.find(
+                    (item) => item?.short_key === info?.ShortName,
+                  )?.ratio ?? "-"}
                 </TableCell>
                 <TableCell className="border text-center">
                   {info?.Unit}

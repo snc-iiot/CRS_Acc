@@ -1,22 +1,89 @@
 import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
-import { UploadFile } from "@/hooks/upload-file";
-import { ChangeEvent, FC, Fragment } from "react";
+import { UploadFile } from "@/components/common/upload-file";
+import { Base64Helpers } from "@/helpers/base64.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
+import { cn } from "@/lib/utils";
+import { useForm, useUtils } from "@/services";
+import { FC, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export const R1UpdateDocuments: FC = () => {
-  const documentsInformation: { label: string; link: string }[] = [
-    { label: "BOM + Process", link: "" },
-    { label: "โครงสร้างราคา (Breakdown) ", link: "" },
-    { label: "ใบเสนอราคาและเงื่อนไขการปรับราคา", link: "" },
-    { label: "เอกสารอื่นๆ 1", link: "" },
-    { label: "เอกสารอื่นๆ 2", link: "" },
-    { label: "เอกสารอื่นๆ 3", link: "" },
+  const [searchParams] = useSearchParams();
+  const regisId = searchParams.get("RegisID");
+  const { mutateGetDocByRegisId } = useUtils();
+  const { mutateUploadFile, mutateDeleteDocById } = useForm();
+  const [progress, setProgress] = useState<number>(0);
+  const { docByRegisId } = useAtomStore();
+  const [name, setName] = useState<string>("");
+  const documentsInformation: {
+    label: string;
+    link: string;
+    name: string;
+  }[] = [
+    {
+      label: "BOM + Process",
+      link: docByRegisId?.documents?.bom_process || "",
+      name: "bom_process",
+    },
+    {
+      label: "โครงสร้างราคา (Breakdown) ",
+      link: docByRegisId?.documents?.cost_break_down || "",
+      name: "cost_break_down",
+    },
+    {
+      label: "ใบเสนอราคาและเงื่อนไขการปรับราคา",
+      link: docByRegisId?.documents?.quotation || "",
+      name: "quotation",
+    },
+    {
+      label: "เอกสารอื่นๆ 1",
+      link: docByRegisId?.documents?.internal_other1 || "",
+      name: "internal_other1",
+    },
+    {
+      label: "เอกสารอื่นๆ 2",
+      link: docByRegisId?.documents?.internal_other1 || "",
+      name: "internal_other2",
+    },
+    {
+      label: "เอกสารอื่นๆ 3",
+      link: docByRegisId?.documents?.internal_other1 || "",
+      name: "internal_other3",
+    },
   ];
 
-  function handleUploadFile(e: ChangeEvent<HTMLInputElement>) {
-    const files = e.target.files;
-    if (files?.length) console.log(files?.[0]?.name);
-  }
+  const handleUploadFile = async (
+    file: File | Blob,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const base64 = await Base64Helpers.getBase64(file as File);
+    const newReq = {
+      req: {
+        regis_id: regisId as string,
+        doc_name: e.target.name,
+        content: base64.split(",")[1],
+      },
+      setProgress: (progress: number) => setProgress(progress),
+    };
+    Promise.all([
+      mutateUploadFile(newReq),
+      mutateGetDocByRegisId(regisId as string),
+    ]).then(() => {
+      document.getElementById(`${e.target.name}`)?.setAttribute("value", "");
+    });
+
+    setTimeout(() => {
+      setProgress(0);
+    }, 3000);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleUploadFile(file, e);
+    }
+  };
 
   return (
     <div className="pl-1 text-xs">
@@ -35,26 +102,52 @@ export const R1UpdateDocuments: FC = () => {
                   .join("")}
               </p>
               <div className="flex items-center gap-x-1">
-                <div
-                  className="mr-2 flex cursor-pointer items-center gap-x-0.5 whitespace-nowrap text-right text-primary hover:underline"
+                <button
+                  className={cn(
+                    "mr-2 flex cursor-pointer items-center gap-x-0.5 whitespace-nowrap text-right text-primary hover:underline",
+                    !item?.link && "cursor-not-allowed opacity-50",
+                  )}
                   onClick={() =>
-                    window.open(
-                      "https://snc-services.sncformer.com/ivrs/docs/pdf/flow-iVRS2.pdf",
-                    )
+                    window.open(`${docByRegisId?.file_path}/${item?.name}.pdf}`)
                   }
+                  disabled={!item?.link}
                 >
                   <Icons.fileDown className="h-4 w-4" />{" "}
                   <span>ดูและดาวน์โหลด</span>
-                </div>
+                </button>
                 <UploadFile
-                  className="text-righ flex cursor-pointer items-center gap-x-0.5 whitespace-nowrap text-primary hover:underline"
+                  id={item?.name}
                   accept="application/pdf"
-                  onChange={handleUploadFile}
+                  showFileName={false}
+                  name={item?.name}
+                  className="cursor-pointer whitespace-nowrap text-primary hover:underline"
+                  onChange={(e) => {
+                    handleFileChange(e);
+                    setName(e.target.name);
+                  }}
                 >
-                  <Fragment>
-                    <Icons.fileUp className="h-4 w-4" /> <span>อัพโหลดซ้ำ</span>
-                  </Fragment>
+                  <button className="cursor-pointer whitespace-nowrap text-xs text-primary hover:underline">
+                    อัพโหลดซ้ำ
+                    {progress > 0 && name == item?.name ? (
+                      <span className="text-xs text-primary">{progress}%</span>
+                    ) : null}
+                  </button>
                 </UploadFile>
+                <button
+                  className="cursor-pointer whitespace-nowrap text-red-500 hover:underline"
+                  onClick={async () => {
+                    await mutateDeleteDocById({
+                      regis_id: regisId as string,
+                      doc_name: item?.name,
+                    });
+                    await mutateGetDocByRegisId(regisId as string);
+                    document
+                      .getElementById(`${item?.name}`)
+                      ?.setAttribute("value", "");
+                  }}
+                >
+                  ลบ
+                </button>
               </div>
             </div>
           ))}

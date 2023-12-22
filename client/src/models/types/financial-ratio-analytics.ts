@@ -5,6 +5,7 @@ export type TFinancialRatioAnalytics = {
 
 export type Info = {
   FinancialRatio: string;
+  ShortName: string;
   Meaning: string;
   Formula: string[];
   Target: string;

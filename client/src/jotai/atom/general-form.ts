@@ -9,7 +9,7 @@ export const generalAssessmentFormAtom = atom<TGeneralAssessmentForm>({
   lead_time: 0,
   price_conditions: {
     peroid: "",
-    value: "",
+    value: 0,
   },
   machine_produce: [],
   mold_use: [],

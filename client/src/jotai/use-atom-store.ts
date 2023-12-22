@@ -4,12 +4,17 @@ import {
   benefitsListAtom,
   businessTypeListAtom,
   certificatedListAtom,
+  commentAtom,
+  commentR3Atom,
+  commonAtom,
   companyListAtom,
   companyPolicyListAtom,
   countryCodeListAtom,
+  dbdSyncListAtom,
   deliveryTermsListAtom,
   docByRegisIdAtom,
   documentKeyListAtom,
+  financialRatioAtom,
   generalAssessmentFormAtom,
   regisListAtom,
   registrationAtom,
@@ -33,12 +38,23 @@ export const useAtomStore = () => {
   const [countryCodeList, setCountryCodeList] = useAtom(countryCodeListAtom);
   const [docByRegisId, setDocByRegisId] = useAtom(docByRegisIdAtom);
   const [regisList, setRegisList] = useAtom(regisListAtom);
+  const [common, setCommon] = useAtom(commonAtom);
 
   //! for general form
   const [approvalList, setApprovalList] = useAtom(approvalListAtom);
   const [generalAssessmentForm, setGeneralAssessmentForm] = useAtom(
     generalAssessmentFormAtom,
   );
+
+  //! comment
+  const [comment, setComment] = useAtom(commentAtom);
+
+  //! dbd
+  const [dbdSyncList, setDBDSyncList] = useAtom(dbdSyncListAtom);
+  const [commentR3, setCommentR3] = useAtom(commentR3Atom);
+
+  //! R3
+  const [financialRatio, setFinancialRatio] = useAtom(financialRatioAtom);
 
   return {
     benefitsList,
@@ -69,5 +85,23 @@ export const useAtomStore = () => {
     setApprovalList,
     generalAssessmentForm,
     setGeneralAssessmentForm,
+
+    //! common
+    common,
+    setCommon,
+
+    //! comment
+    comment,
+    setComment,
+    commentR3,
+    setCommentR3,
+
+    //!  dbdSyncList
+    dbdSyncList,
+    setDBDSyncList,
+
+    //! financialRatio
+    financialRatio,
+    setFinancialRatio,
   };
 };

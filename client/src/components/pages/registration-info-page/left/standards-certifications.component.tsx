@@ -5,13 +5,7 @@ import { cn } from "@/lib/utils";
 import { FC, Fragment } from "react";
 
 const StandardsCertifications: FC = () => {
-  const {
-    // registration: {
-    //   standard: { certificate, benefit },
-    //   payment_term,
-    // },
-    registration,
-  } = useAtomStore();
+  const { registration } = useAtomStore();
   const {
     standard: { certificate, benefit },
     payment_term,
@@ -19,7 +13,14 @@ const StandardsCertifications: FC = () => {
 
   const isForeigner = CheckCustomerForeigner(registration);
 
-  console.log(certificate);
+  if (!certificate || !benefit || !payment_term)
+    return (
+      <div>
+        <h1 className="text-xl font-semibold">
+          ไม่พบข้อมูลมาตรฐานหรือการรับรองที่ได้รับ
+        </h1>
+      </div>
+    );
 
   return (
     <div className="pl-1 text-xs">

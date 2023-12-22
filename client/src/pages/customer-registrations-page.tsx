@@ -251,7 +251,7 @@ const CustomerRegistrations: FC = () => {
                         statusHelper(item?.status_no)?.status_color,
                       )}
                     >
-                      {item?.status_desc_th}
+                      {item?.status_desc_th} - ({item?.status_no})
                     </Badge>
                   </Td>
                   <Td>

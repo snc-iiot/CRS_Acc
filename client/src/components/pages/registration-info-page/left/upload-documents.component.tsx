@@ -6,13 +6,15 @@ import { FC, Fragment } from "react";
 const UploadDocuments: FC = () => {
   const { docByRegisId, registration } = useAtomStore();
 
-  const docList = Object?.entries(docByRegisId?.documents)?.map(
-    ([key, value]) => {
-      return { label: key, value };
-    },
-  );
+  // console.log(docList);
 
-  console.log(docList);
+  // if (UploadDocument(registration)?.length == 0) {
+  //   return (
+  //     <div>
+  //       <h5 className="text-center">ไม่มีเอกสารที่ต้องอัพโหลด</h5>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="mb-6 grid grid-cols-5 items-center gap-0.5 gap-y-0.5 pl-1 pr-4 text-xs">

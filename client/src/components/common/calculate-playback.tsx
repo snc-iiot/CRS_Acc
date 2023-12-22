@@ -89,8 +89,6 @@ const CalculatePlayback: FC = () => {
     setNumberOfPeriods(0);
   }, [isInvestment]);
 
-  console.log(payback);
-
   return (
     <Sheet>
       <SheetTrigger className="text-primary" asChild>

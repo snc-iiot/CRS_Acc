@@ -252,8 +252,6 @@ export const UploadDocument = (regisForm: TRegistrationForm) => {
     (item) => item.is_checked === true,
   );
 
-  console.log("certificateList", certificateList);
-
   const benefitList = benefit.filter((item) => item.is_checked === true);
 
   const companyPolicy = company_policy.filter(

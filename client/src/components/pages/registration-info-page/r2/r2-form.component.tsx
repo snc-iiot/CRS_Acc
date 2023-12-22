@@ -1,46 +1,52 @@
 // import { Icons } from "@/components/common/icons";
-import TableDBD, { ITableDBD } from "@/components/common/table-dbd";
+import TableDBD from "@/components/common/table-dbd";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-// import { Button } from "@/components/ui/button";
-// import { cn } from "@/lib/utils";
-import MockDBDData from "@/mock/dbd.mock.json";
-import { FC, useEffect, useState } from "react";
+import { useAtomStore } from "@/jotai/use-atom-store";
+import { FC } from "react";
 import { TableFinancialRatio } from "../../analytics";
 
 const R2Form: FC = () => {
-  // const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<ITableDBD[]>(MockDBDData);
+  const { dbdSyncList } = useAtomStore();
 
-  // const handleSyncDBD = () => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setData(MockDBDData);
-  //     setLoading(false);
-  //   }, 3000);
-  // };
+  const Financial = dbdSyncList?.financial_position?.map((item) => {
+    return {
+      Topic: item.topic_th,
+      Info: item?.info?.map((info) => {
+        return {
+          Year: info.year,
+          Amount: info.amount,
+          Change: info.change,
+        };
+      }),
+    };
+  });
 
-  useEffect(() => {
-    setData(MockDBDData);
-  }, []);
+  const Income = dbdSyncList?.income_statement?.map((item) => {
+    return {
+      Topic: item.topic_th,
+      Info: item?.info?.map((info) => {
+        return {
+          Year: info.year,
+          Amount: info.amount,
+          Change: info.change,
+        };
+      }),
+    };
+  });
 
-  // if (loading || data.length === 0) {
-  //   return (
-  //     <div className="flex w-full flex-col items-center justify-center gap-2">
-  //       <h3 className="text-lg font-bold">ดึงข้อมูลจากฐานข้อมูล DBD</h3>
-  //       <Button onClick={handleSyncDBD} variant="outline">
-  //         <Icons.refreshCcwIcon
-  //           className={cn(loading ? "animate-spin" : "", "mr-2")}
-  //         />
-  //         {loading ? "กำลังโหลดข้อมูล" : "Sync ข้อมูล DBD"}
-  //       </Button>
-  //     </div>
-  //   );
-  // }
+  if (!dbdSyncList.financial_position || !dbdSyncList.income_statement)
+    return (
+      <div className="flex w-full items-center justify-center">
+        <h2 className="text-center text-lg font-bold">
+          ไม่พบข้อมูล กรุณากดปุ่ม "Sync ข้อมูล DBD" เพื่อดำเนินการภายหลัง
+        </h2>
+      </div>
+    );
 
   return (
     <div className="pb-4">
@@ -49,7 +55,7 @@ const R2Form: FC = () => {
           รายงานข้อมูลทางการเงิน / Financial Report by DBD
         </h3>
         <h4 className="text-xs font-bold">
-          อัพเดทล่าสุดเมื่อ 01/01/2564 12:00 น.
+          อัพเดทล่าสุดเมื่อ {dbdSyncList?.created_at}
         </h4>
       </div>
       <Accordion type="multiple" defaultValue={["item-1", "item-2", "item-3"]}>
@@ -58,7 +64,7 @@ const R2Form: FC = () => {
             งบการเงิน / Statement of Financial Position
           </AccordionTrigger>
           <AccordionContent>
-            <TableDBD className="w-full" data={data} />
+            <TableDBD className="w-full" data={Financial} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
@@ -66,7 +72,7 @@ const R2Form: FC = () => {
             งบกำไรขาดทุน / Income Statement
           </AccordionTrigger>
           <AccordionContent>
-            <TableDBD className="w-full" data={data} />
+            <TableDBD className="w-full" data={Income} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">

@@ -13,8 +13,7 @@ import { useCallback, useEffect, useState } from "react";
  * returns the defaultValue provided as the second argument.
  */
 const getValueFromLocalStorage = (key: string, defaultValue: any) => {
-  if (typeof window === "undefined")
-    return defaultValue;
+  if (typeof window === "undefined") return defaultValue;
   try {
     const item = window.localStorage.getItem(key);
     return item ? JSON.parse(item) : defaultValue;
@@ -35,7 +34,7 @@ const getValueFromLocalStorage = (key: string, defaultValue: any) => {
  * @returns The `useLocalStorage` function returns an object with three properties: `storedValue`,
  * `setValue`, and `clearValue`.
  */
-const useLocalStorage = <T,>(key: string, initialValue: T) => {
+const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [storedValue, setStoredValue] = useState<T | null>(() =>
     getValueFromLocalStorage(key, initialValue),
   );
@@ -49,6 +48,8 @@ const useLocalStorage = <T,>(key: string, initialValue: T) => {
     [key],
   );
 
+  /* The `clearValue` function is a callback function that is used to remove the value associated with
+the given key from the local storage. It performs the following actions: */
   const clearValue = useCallback(() => {
     window.localStorage.removeItem(key);
     setStoredValue(null);

@@ -3,11 +3,14 @@ import {
   TBenefitsList,
   TBusinessTypeList,
   TCertificatedList,
+  TCommitList,
   TCompanyList,
   TCompanyPolicyList,
   TCountryCodeList,
+  TDBDSyncList,
   TDeliveryTermsList,
   TDocumentKeyList,
+  TFinancialRatio,
   TResponseAction,
 } from "@/types";
 import { APIService } from "./api.service";
@@ -108,6 +111,106 @@ export class UtilsService extends APIService {
     } catch (error: any) {
       console.error("UtilsService -> getCountryCodeList -> error", error);
       return [] as TCountryCodeList[];
+    }
+  };
+
+  getCommentList = async (regisId: string): Promise<TCommitList> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/assessment-comments?regis_id=${regisId}`,
+      );
+      return responseData?.data?.[0] ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> getCommentList -> error", error);
+      return {} as TCommitList;
+    }
+  };
+
+  getCommentR3List = async (regisId: string): Promise<TCommitList> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/financial-comments?regis_id=${regisId}`,
+      );
+      return responseData?.data?.[0] ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> getCommentR3List -> error", error);
+      return {} as TCommitList;
+    }
+  };
+
+  createComment = async (
+    regisId: string,
+    comments: string,
+  ): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.post(`/assessment-comments`, {
+        regis_id: regisId,
+        comments,
+      });
+      return responseData ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> createComment -> error", error);
+      return {
+        message: error?.response?.data?.message ?? "Create comment failed.",
+        status: "error",
+        data: [],
+      };
+    }
+  };
+
+  createCommentR3 = async (
+    regisId: string,
+    comments: string,
+  ): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.post(`/financial-comments`, {
+        regis_id: regisId,
+        comments,
+      });
+      return responseData ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> createCommentR3 -> error", error);
+      return {
+        message: error?.response?.data?.message ?? "Create comment failed.",
+        status: "error",
+        data: [],
+      };
+    }
+  };
+
+  getDBDSyncList = async (regisId: string): Promise<TDBDSyncList> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/dbd-financial-report/sync-by-id?regis_id=${regisId}`,
+      );
+      return responseData?.data?.[0] ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> getDBDSyncList -> error", error);
+      return {} as TDBDSyncList;
+    }
+  };
+
+  getDBDInfo = async (regisId: string): Promise<TDBDSyncList> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/dbd-financial-report/info?regis_id=${regisId}`,
+      );
+      return responseData?.data?.[0] ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> getDBDInfo -> error", error);
+      return {} as TDBDSyncList;
+    }
+  };
+
+  getFinancialRatio = async (regisId: string): Promise<TFinancialRatio> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/financial-ratio/info?regis_id=${regisId}`,
+      );
+      return responseData?.data?.[0] ?? {};
+    } catch (error: any) {
+      console.error("UtilsService -> getFinancialRatio -> error", error);
+      return {} as TFinancialRatio;
     }
   };
 }

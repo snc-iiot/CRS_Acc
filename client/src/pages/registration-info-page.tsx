@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/tooltip";
 import { MODE_CODE } from "@/helpers/common.helper";
 import { useSwal } from "@/hooks/use-swal";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn, COLORS_SERIES } from "@/lib/utils";
 import MockCompany from "@/mock/company.json";
 import { useForm, useUtils } from "@/services/";
@@ -54,18 +55,33 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 const RegistrationInfo: FC = () => {
   const { mutateGetApprovalsById, mutateGetTemplateGeneralAssessmentById } =
     useFormGeneral();
-  const { confirmSwal } = useSwal();
+  const { regisList, comment } = useAtomStore();
+  const { confirmSwal, showError, showLoading, closeSwal } = useSwal();
   const [searchParams] = useSearchParams();
   const { mutateGetRegisById } = useForm();
-  const { mutateGetDocByRegisId } = useUtils();
+  const {
+    mutateGetDocByRegisId,
+    mutateGetCommentByRegisId,
+    mutateCreateComment,
+    mutateGetDBDInfo,
+    mutateGetCommentByRegisIdR3,
+    mutateGetFinancialRatio,
+  } = useUtils();
   const RegisID = searchParams.get("RegisID");
   const navigate = useNavigate();
   const [viewPage, setViewPage] = useState<string>("2");
   const [activeTab, setActiveTab] = useState<string>("R1");
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
   const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
+  const [commentText, setCommentText] = useState<string>("");
 
-  const actionsTab = ["R2"];
+  const getStatusByRegisId = (regisId: string) => {
+    return regisList?.find((item) => item.regis_id === regisId);
+  };
+
+  const actionsTab =
+    getStatusByRegisId(RegisID as string)?.status_no === 2 ? ["R2"] : [""];
+
   const mainActions = [
     "R1",
     "R2",
@@ -146,13 +162,21 @@ const RegistrationInfo: FC = () => {
   ];
 
   const getInfoById = async () => {
+    showLoading("กำลังดึงข้อมูล", "กรุณารอสักครู่...");
     try {
-      await mutateGetDocByRegisId(RegisID as string);
-      await mutateGetRegisById(RegisID as string);
-      await mutateGetApprovalsById(RegisID as string);
-      await mutateGetTemplateGeneralAssessmentById(RegisID as string);
+      Promise.all([
+        mutateGetDocByRegisId(RegisID as string),
+        mutateGetRegisById(RegisID as string),
+        mutateGetApprovalsById(RegisID as string),
+        mutateGetTemplateGeneralAssessmentById(RegisID as string),
+        mutateGetCommentByRegisId(RegisID as string),
+        mutateGetDBDInfo(RegisID as string),
+        mutateGetCommentByRegisIdR3(RegisID as string),
+        mutateGetFinancialRatio(RegisID as string),
+      ]);
+      closeSwal();
     } catch (error) {
-      console.log(error);
+      showError("ไม่สามารถดึงข้อมูลได้", "เกิดข้อผิดพลาด");
     }
   };
 
@@ -214,6 +238,9 @@ const RegistrationInfo: FC = () => {
                 </Tooltip>
               </TooltipProvider>
             ))}
+            <h3 className="text-md ml-2 font-bold text-red-500">
+              {getStatusByRegisId(RegisID as string)?.status_desc_th ?? "-"}
+            </h3>
           </div>
         </header>
         <main className="h-[calc(100%-3rem)]">
@@ -378,27 +405,29 @@ const RegistrationInfo: FC = () => {
                     </section>
                     <section className="flex h-full w-full flex-col">
                       <div className="flex h-0 flex-grow flex-col gap-1 overflow-y-auto px-2 text-xs">
-                        {new Array(10).fill(0).map((_, i) => (
+                        {comment?.comments?.length === 0 && (
+                          <div className="flex justify-center">
+                            <p className="text-xs">
+                              ไม่มีข้อเสนอแนะ / No comments
+                            </p>
+                          </div>
+                        )}
+                        {comment?.comments?.map((item, i) => (
                           <div className="grid grid-cols-10 gap-2" key={i}>
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <p className="col-span-5 w-full text-xs">
-                                    ข้อเสนอแนะที่ {i + 1}
+                                    {item?.comments}
                                   </p>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                  <p>
-                                    ข้อเสนอแนะที่ {i + 1} ข้อเสนอแนะที่ {i + 1}
-                                  </p>
+                                  <p>{item?.comments}</p>
                                 </TooltipContent>
                               </Tooltip>
                             </TooltipProvider>
                             <p className="col-span-5 text-right text-xs">
-                              ผู้ให้ข้อเสนอแนะ{" "}
-                              {new Date().toLocaleDateString() +
-                                " " +
-                                new Date().toLocaleTimeString()}
+                              {item?.name_en} {item?.created_at}
                             </p>
                           </div>
                         ))}
@@ -417,9 +446,23 @@ const RegistrationInfo: FC = () => {
                             <h2 className="px-2 py-1 text-sm font-semibold underline">
                               เพิ่มข้อเสนอแนะ / Add Comments
                             </h2>
-                            <Textarea className="h-full w-full" />
+                            <Textarea
+                              className="h-full w-full"
+                              value={commentText}
+                              onChange={(e) => setCommentText(e.target.value)}
+                            />
                             <div className="text-end">
-                              <Button size="sm">บันทึก</Button>
+                              <Button
+                                size="sm"
+                                onClick={async () => {
+                                  mutateCreateComment({
+                                    regisId: RegisID as string,
+                                    comment: commentText,
+                                  });
+                                }}
+                              >
+                                บันทึก
+                              </Button>
                             </div>
                           </main>
                         </PopoverContent>

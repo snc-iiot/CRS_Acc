@@ -18,12 +18,12 @@ export const status = [
   {
     status_id: 2,
     status_name: "รอยืนยันข้อมูลทางการเงิน",
-    status_color: "bg-yellow-600 hover:bg-yellow-700",
+    status_color: "bg-blue-600 hover:bg-blue-700",
   },
   {
     status_id: 3,
     status_name: "รอการแก้ไข",
-    status_color: "bg-yellow-600 hover:bg-yellow-700",
+    status_color: "bg-orange-600 hover:bg-orange-700",
   },
   {
     status_id: 4,
@@ -33,7 +33,7 @@ export const status = [
   {
     status_id: 5,
     status_name: "ระงับชั่วคราว",
-    status_color: "bg-red-600 hover:bg-red-700",
+    status_color: "bg-gray-600 hover:bg-gray-700",
   },
   {
     status_id: 6,

@@ -1,7 +1,10 @@
 import { TRegistrationForm } from "@/types";
 
+// export const API_BASE_URL =
+//   "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
+
 export const API_BASE_URL =
-  "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
+  "http://10.1.8.94:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
 
 export const queryKey = {
   //! for register new customer
@@ -27,6 +30,27 @@ export const queryKey = {
   GET_APPROVALS_BY_ID: "GET_APPROVALS_BY_ID",
   GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID:
     "GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID",
+  CREATE_GENERAL_ASSESSMENT: "CREATE_GENERAL_ASSESSMENT",
+
+  //! Utils
+  GET_COMMENT_BY_REGIS_ID: "GET_COMMENT_BY_REGIS_ID",
+  GET_COMMENT_BY_REGIS_ID_R3: "GET_COMMENT_BY_REGIS_ID_R3",
+  CREATE_COMMENT: "CREATE_COMMENT",
+
+  //! DBD
+  GET_SYNC_DBD: "GET_SYNC_DBD",
+  CONFIRM_DBD_INFO: "CONFIRM_DBD_INFO",
+  GET_DBD_INFO: "GET_DBD_INFO",
+
+  //! R3
+  GET_FINANCIAL_RATIO: "GET_FINANCIAL_RATIO",
+
+  //! Approvals & Action
+  SENT_TO_EDIT: "SENT_TO_EDIT",
+  SENT_TO_SUSPEND: "SENT_TO_SUSPEND",
+  ENTER_CUSTOMER_CODE: "ENTER_CUSTOMER_CODE",
+  SENT_TO_APPROVE: "SENT_TO_APPROVE",
+  SENT_TO_REJECT: "SENT_TO_REJECT",
 };
 
 export const LatitudesLongitudes = {
@@ -62,3 +86,5 @@ export const CheckCustomerForeigner = (
   } = customerInfo;
   return is_thai ? false : true;
 };
+
+export const RAYONG_PLANT = [""];

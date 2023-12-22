@@ -1063,9 +1063,8 @@ const StandardInformationForm: FC = () => {
                       </option>
                       <option value="30-70">30/70 (%)</option>
                       <option value="50-50">50/50 (%)</option>
-                      <option value="60-40">60/40 (%)</option>
-                      <option value="70-30">70/30 (%)</option>
-                      <option value="other">อื่นๆ</option>
+                      <option value="100-0">100/0 (%)</option>
+                      {/* <option value="other">อื่นๆ</option> */}
                     </select>
                   </div>
                   <Input

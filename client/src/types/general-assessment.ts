@@ -25,7 +25,7 @@ export type TGeneralAssessmentForm = {
 
 export type TPriceConditions = {
   peroid: string;
-  value: string;
+  value: number;
 };
 
 export type TMachineProduce = {
