@@ -19,7 +19,7 @@ class FinancialAnalyzeCommentsController extends Controller
         $this->jwtUtils = new JWTUtils();
     }
 
-    //TODO [POST] /assessment-comments (create)
+    //TODO [POST] /financial-comments (create)
     function create(Request $request)
     {
         try {
@@ -50,8 +50,8 @@ class FinancialAnalyzeCommentsController extends Controller
             ], 400);
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [1, 2, 3, 4, 5])->get();
-            // $result = DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->whereIn("status_no", [1])->get();
+            $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [4])->get();
+            // $result = DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->whereIn("status_no", [4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
@@ -59,16 +59,15 @@ class FinancialAnalyzeCommentsController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            DB::table("tb_assessments_comments")->insert([
-                "regis_id" => $request->regis_id,
-                "comments" => $request->comments,
-                // "comments_type" => $request->comments_type,
-                "creator_id" => $decoded->user_id,
+            DB::table("tb_financial_analyze_comments")->insert([
+                "regis_id"      => $request->regis_id,
+                "comments"      => $request->comments,
+                "creator_id"    => $decoded->user_id,
             ]);
 
             return response()->json([
                 "status" => "success",
-                "message" => "บันทึกข้อเสนอแนะสำเร็จ",
+                "message" => "บันทึกข้อเสนอแนะทางการเงินสำเร็จ",
                 "data" => []
             ], 201);
         } catch (\Exception $e) {
@@ -81,7 +80,7 @@ class FinancialAnalyzeCommentsController extends Controller
     }
 
 
-    //* [GET] /assessment-comments (read)
+    //* [GET] /financial-comments (read)
     function getAllComments(Request $request)
     {
         try {
@@ -109,12 +108,11 @@ class FinancialAnalyzeCommentsController extends Controller
                 ]
             ], 400);
 
-            $result = DB::table("tb_assessments_comments as t1")->selectRaw(
+            $result = DB::table("tb_financial_analyze_comments as t1")->selectRaw(
                 "t1.regis_id
                 ,json_agg(json_build_object(
-                    'comments_id', t1.ass_comment_id,
+                    'comments_id', t1.fi_comment_id,
                     'comments', t1.comments,
-                    'comments_type', t1.comments_type,
                     'creator_id', t1.creator_id,
                     'created_at', t1.created_at::varchar(19),
                     'name_th', t2.name->>'th',
@@ -126,7 +124,7 @@ class FinancialAnalyzeCommentsController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "message" => "Data from Query",
+                "message" => "Data from query",
                 "data" => $result
             ], 201);
         } catch (\Exception $e) {

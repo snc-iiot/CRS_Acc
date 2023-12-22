@@ -126,7 +126,7 @@ class AssessmentCommentsController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "message" => "Data from Query",
+                "message" => "Data from query",
                 "data" => $result
             ], 201);
         } catch (\Exception $e) {

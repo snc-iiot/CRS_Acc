@@ -10,6 +10,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JsonTemplateController;
 use App\Http\Controllers\GeneralAssessmentController;
 use App\Http\Controllers\AssessmentCommentsController;
+use App\Http\Controllers\FinancialAnalyzeCommentsController;
 // use App\Models\Company;
 
 /*
@@ -60,6 +61,11 @@ Route::prefix('general-assessment')->controller(GeneralAssessmentController::cla
 });
 
 Route::prefix('assessment-comments')->controller(AssessmentCommentsController::class)->group(function () {
+    Route::post('/', 'create');
+    Route::get('/', 'getAllComments');
+});
+
+Route::prefix('financial-comments')->controller(FinancialAnalyzeCommentsController::class)->group(function () {
     Route::post('/', 'create');
     Route::get('/', 'getAllComments');
 });

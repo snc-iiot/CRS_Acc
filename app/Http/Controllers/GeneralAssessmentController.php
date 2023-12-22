@@ -383,7 +383,7 @@ class GeneralAssessmentController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "message" => "Data from Query",
+                "message" => "Data from query",
                 "data" => $result
             ]);
         } catch (\Exception $e) {
@@ -439,7 +439,7 @@ class GeneralAssessmentController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "message" => "Data from Query",
+                "message" => "Data from query",
                 "data" => $result
             ]);
         } catch (\Exception $e) {
