@@ -172,6 +172,16 @@ class RegistrationController extends Controller
 
             // return response()->json($request->all());
 
+            //! Block by status_no
+            $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [2, 4, 5, 6, 7, 8])->get();
+            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
+            if (\count($result) > 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
+                "data" => [],
+            ], 406);
+            //! ./Block by status_no
+
             $fileName = "documents->>'" . $docName . "'";
 
             $result = DB::table("tb_regis_documents")->selectRaw("document_id, folder_name, $fileName as path_name")->where(["regis_id" => $regisId])->take(1)->get();
@@ -305,6 +315,16 @@ class RegistrationController extends Controller
             $docName = $validator->validated()["doc_name"];
 
             // return response()->json($request->all());
+
+            //! Block by status_no
+            $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [2, 4, 5, 6, 7, 8])->get();
+            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
+            if (\count($result) > 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
+                "data" => [],
+            ], 406);
+            //! ./Block by status_no
 
             $fileName = "documents->>'" . $docName . "'";
 

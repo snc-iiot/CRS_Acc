@@ -126,7 +126,7 @@ class FinancialAnalyzeCommentsController extends Controller
                 "status" => "success",
                 "message" => "Data from query",
                 "data" => $result
-            ], 201);
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",

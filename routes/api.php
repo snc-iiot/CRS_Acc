@@ -11,6 +11,7 @@ use App\Http\Controllers\JsonTemplateController;
 use App\Http\Controllers\GeneralAssessmentController;
 use App\Http\Controllers\AssessmentCommentsController;
 use App\Http\Controllers\FinancialAnalyzeCommentsController;
+use App\Http\Controllers\DbdFinancialReportController;
 // use App\Models\Company;
 
 /*
@@ -68,6 +69,10 @@ Route::prefix('assessment-comments')->controller(AssessmentCommentsController::c
 Route::prefix('financial-comments')->controller(FinancialAnalyzeCommentsController::class)->group(function () {
     Route::post('/', 'create');
     Route::get('/', 'getAllComments');
+});
+
+Route::prefix('dbd-financial-report')->controller(DbdFinancialReportController::class)->group(function () {
+    Route::get('/sync-by-id', 'syncByID');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {
