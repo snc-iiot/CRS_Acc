@@ -73,6 +73,8 @@ Route::prefix('financial-comments')->controller(FinancialAnalyzeCommentsControll
 
 Route::prefix('dbd-financial-report')->controller(DbdFinancialReportController::class)->group(function () {
     Route::get('/sync-by-id', 'syncByID');
+    Route::patch('/confirm', 'confirm');
+    Route::get('/info', 'info');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {
