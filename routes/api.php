@@ -12,6 +12,7 @@ use App\Http\Controllers\GeneralAssessmentController;
 use App\Http\Controllers\AssessmentCommentsController;
 use App\Http\Controllers\FinancialAnalyzeCommentsController;
 use App\Http\Controllers\DbdFinancialReportController;
+use App\Http\Controllers\FinancialRatioAssessmentController;
 // use App\Models\Company;
 
 /*
@@ -74,6 +75,10 @@ Route::prefix('financial-comments')->controller(FinancialAnalyzeCommentsControll
 Route::prefix('dbd-financial-report')->controller(DbdFinancialReportController::class)->group(function () {
     Route::get('/sync-by-id', 'syncByID');
     Route::patch('/confirm', 'confirm');
+    Route::get('/info', 'info');
+});
+
+Route::prefix('financial-ratio')->controller(FinancialRatioAssessmentController::class)->group(function () {
     Route::get('/info', 'info');
 });
 

@@ -57,7 +57,7 @@ class FinancialRatioAssessmentController extends Controller
             $result = DB::table("tb_dbd_financial_reports")->selectRaw("regis_id,juristic_id
             ,financial_ratios
             ,start_year,last_year
-            ,created_at::varchar(19) as created_at")->where("regis_id", $request->regis_id);
+            ,created_at::varchar(19) as created_at")->where("regis_id", $request->regis_id)->get();
 
             foreach ($result as $row) $row->financial_ratios = \json_decode($row->financial_ratios);
 
