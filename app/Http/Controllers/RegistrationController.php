@@ -680,13 +680,13 @@ class RegistrationController extends Controller
                 "data" => \json_decode($cached),
             ]);
 
-            $result = DB::table("tb_regis_informations")->selectRaw(
-                "regis_id
-                    ,informant_name
-                    ,status_no
-                    ,created_at::varchar(19) as created_at
-                    ,updated_at::varchar(19) as updated_at"
-            )->get();
+            // $result = DB::table("tb_regis_informations")->selectRaw(
+            //     "regis_id
+            //         ,informant_name
+            //         ,status_no
+            //         ,created_at::varchar(19) as created_at
+            //         ,updated_at::varchar(19) as updated_at"
+            // )->get();
 
             $result = DB::table("tb_regis_informations as t1")->selectRaw(
                 "t1.regis_id
@@ -698,7 +698,8 @@ class RegistrationController extends Controller
                 ,t2.status_desc_th"
             )->leftJoin("tb_all_status as t2", "t1.status_no", "=", "t2.status_no")->whereIn("t1.company_information->company_admin", $decoded->company)->orderByDesc("created_at")->get(); //$decoded->company
 
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
+            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
+            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('30 seconds'));
 
             return response()->json([
                 "status" => "success",
