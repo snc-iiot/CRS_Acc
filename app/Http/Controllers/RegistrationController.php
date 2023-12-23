@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 
-// define("DOCS_BASE_PATH", "http://10.1.8.94:8081/dev/iCRS-ACC-All/docs/pdf/25e8b7b1-7fba-4162-911a-fb1dcd5b03b7/sEW4B1702893026.pdf");
 define("DOCS_BASE_PATH", "http://10.1.8.94:8081/dev/iCRS-ACC-All/docs/pdf/");
-// define("DOCS_BASE_PATH", "http://10.11.20.53:8081/dev/iCRS-ACC-All/docs/pdf/");
 // define("DOCS_BASE_PATH", "https://snc-services.sncformer.com/dev/icrs/docs/pdf/");
 
 class RegistrationController extends Controller

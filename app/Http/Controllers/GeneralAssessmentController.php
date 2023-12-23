@@ -343,30 +343,37 @@ class GeneralAssessmentController extends Controller
                 ]
             ], 400);
 
-            $result = DB::table("tb_general_assessments")->selectRaw(
-                "regis_id,
-                products,
-                orders,
-                quantity_per_year,
-                lead_time,
-                price_conditions,
-                machine_produce,
-                mold_use,
-                main_material,
-                transport_distance,
-                main_supplier_credit_terms,
-                main_mat_ratio,
-                ratio_of_raw_mat,
-                inventory_day,
-                approvals,
-                is_acc_cf,
-                acc_cf_at::varchar(19) as acc_cf_at,
-                customer_code,
-                filled_customer_code_at::varchar(19) as filled_customer_code_at,
-                creator_id,
-                created_at::varchar(19) as created_at,
-                updated_at::varchar(19) as updated_at"
-            )->where("regis_id", $request->regis_id)->get();
+            $result = DB::table("tb_general_assessments as t1")->selectRaw(
+                "t1.regis_id,
+                t1.products,
+                t1.orders,
+                t1.quantity_per_year,
+                t1.lead_time,
+                t1.price_conditions,
+                t1.machine_produce,
+                t1.mold_use,
+                t1.main_material,
+                t1.transport_distance,
+                t1.main_supplier_credit_terms,
+                t1.main_mat_ratio,
+                t1.ratio_of_raw_mat,
+                t1.inventory_day,
+                t1.approvals,
+                t1.is_acc_cf,
+                t1.acc_cf_at::varchar(19) as acc_cf_at,
+                t1.customer_code,
+                t1.filled_customer_code_at::varchar(19) as filled_customer_code_at,
+                t1.creator_id,
+                t1.created_at::varchar(19) as created_at,
+                t1.updated_at::varchar(19) as updated_at,
+                t2.status_no,
+                t3.status_desc_th"
+            )->leftJoin(
+                "tb_regis_informations as t2",
+                "t1.regis_id",
+                "=",
+                "t2.regis_id"
+            )->leftJoin("tb_all_status as t3", "t1.status_no", "=", "t3.status_no")->where("t1.regis_id", $request->regis_id)->get();
 
             foreach ($result as $row) {
                 $row->price_conditions              = \json_decode($row->price_conditions);
