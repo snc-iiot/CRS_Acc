@@ -61,4 +61,26 @@ export class FormGeneralService extends APIService {
       };
     }
   };
+
+  updateGeneralAssessment = async (
+    payload: TGeneralAssessmentForm,
+  ): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.put(
+        "/general-assessment",
+        payload,
+      );
+      return responseData;
+    } catch (error: any) {
+      console.error(
+        "FormGeneralService -> updateGeneralAssessment -> error",
+        error,
+      );
+      return {
+        message: "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
+        status: "error",
+        data: [],
+      };
+    }
+  };
 }

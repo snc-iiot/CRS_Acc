@@ -1,5 +1,7 @@
 import { sortByField } from "@/helpers/array.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
+import { cn } from "@/lib/utils";
+import { TApproval } from "@/types";
 import { FC } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Icons } from "./icons";
@@ -8,6 +10,12 @@ const StatusForm: FC = () => {
   const {
     generalAssessmentForm: { approvals },
   } = useAtomStore();
+
+  const IndexDisApprove = approvals?.findIndex(
+    (item) => item.is_approved === false,
+  );
+  console.log("IndexDisApprove", IndexDisApprove);
+  console.log("approvals", approvals);
 
   return (
     <Popover>
@@ -27,35 +35,60 @@ const StatusForm: FC = () => {
                   <p className="text-sm text-primary">ไม่มีข้อมูล</p>
                 </div>
               )}
-              {sortByField(approvals, "order_no")?.map((info, i) => (
+              {sortByField(approvals, "order_no")?.map((info: TApproval, i) => (
                 <div key={i}>
                   <div className="grid grid-cols-3 gap-2 rounded-md bg-secondary p-2">
                     <div className="flex items-center gap-2">
-                      {/* {info?.status === "approved" ? (
-                        <Icons.checkCircle2 className="h-6 w-6 text-green-600" />
-                      ) : info?.status === "rejected" ? (
-                        <Icons.xCircle className="h-6 w-6 text-red-600" />
-                      ) : info.status === "pending" ? (
-                        <Icons.loader className="h-6 w-6 animate-spin text-yellow-600" />
-                      ) : null} */}
                       {info.is_approved === null && (
-                        <Icons.loader className="h-6 w-6 animate-spin text-yellow-600" />
+                        <>
+                          <Icons.loader
+                            className={cn(
+                              "h-6 w-6 text-yellow-600",
+                              IndexDisApprove > -1 && i > IndexDisApprove
+                                ? "text-gray-500 line-through"
+                                : "",
+                            )}
+                          />
+                          <strong
+                            className={cn(
+                              "text-sm font-semibold",
+                              IndexDisApprove > -1 && i > IndexDisApprove
+                                ? "text-gray-500 line-through"
+                                : "",
+                            )}
+                          >
+                            รอพิจารณาอนุมัติ
+                          </strong>
+                        </>
                       )}
                       {info.is_approved === false && (
-                        <Icons.xCircle className="h-6 w-6 text-red-600" />
+                        <>
+                          <Icons.xCircle className="h-6 w-6 text-red-600" />
+                          <strong className="text-sm font-semibold">
+                            ไม่อนุมัติ
+                          </strong>
+                        </>
                       )}
                       {info.is_approved === true && (
-                        <Icons.checkCircle2 className="h-6 w-6 text-green-600" />
+                        <>
+                          <Icons.checkCircle className="h-6 w-6 text-green-600" />
+                          <strong className="text-sm font-semibold">
+                            อนุมัติ
+                          </strong>
+                        </>
                       )}
-                      <strong className="text-sm font-semibold">
-                        {info?.issued_at}
-                      </strong>
                     </div>
-                    <p className="flex items-center justify-center text-sm text-primary">
+                    {/* <p className="flex items-center justify-center text-sm text-primary">
                       ll
-                    </p>
-                    <div className="flex items-center justify-start text-sm text-primary">
-                      {info?.issued_by?.toLocaleUpperCase()} ({info?.position})
+                    </p> */}
+                    <div className="flex items-center justify-start gap-2 text-xs text-primary">
+                      <p className="whitespace-nowrap">
+                        โดย {info?.issued_by?.toLocaleUpperCase()} (
+                        {info?.position})
+                      </p>
+                      <p className="whitespace-nowrap text-xs text-primary">
+                        {info?.issued_at?.toLocaleString()}
+                      </p>
                     </div>
                   </div>
                 </div>

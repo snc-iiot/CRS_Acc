@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CopyToClipboardCustom } from "@/hooks/use-copy-to-clipboard";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC, Fragment } from "react";
 import {
   AssessmentDetailsSectionComponent,
@@ -26,18 +27,25 @@ import {
 } from "../../evaluate";
 
 const R4Form: FC = () => {
+  const { registration, companyList, generalAssessmentForm } = useAtomStore();
+
+  const findCompany = companyList?.find(
+    (item) =>
+      item?.company === registration?.company_information?.company_admin,
+  );
+
   const companyInformation: { label: string; value: string }[] = [
     {
       label: "บริษัทลูกค้า (Company Name)",
-      value: "Anuwat Technology Co., Ltd.",
+      value: registration?.company_information?.company_name ?? "-",
     },
     {
       label: "ขึ้นทะเบียนกับบริษัท (To Register With)",
-      value: "บริษัท เมอร์คิวรี่ ทรานส์ฟอร์ม จำกัด",
+      value: `[${findCompany?.company}] ${findCompany?.company_full_name_th}`,
     },
     {
       label: "สินค้า (Product)",
-      value: "เครื่องมือช่าง",
+      value: generalAssessmentForm?.products ?? "-",
     },
     {
       label: "ประเภทกิจการ (Type of Business)",
@@ -100,7 +108,6 @@ const R4Form: FC = () => {
                 delay={500}
                 className="h-3 w-3"
               />
-
               <p className="w-full truncate border-b text-primary">
                 {item?.value}
               </p>
@@ -178,19 +185,19 @@ const R4Form: FC = () => {
           <TableBody>
             {SummaryData?.map((item, i) => (
               <TableRow key={i} className="h-14">
-                <TableCell className="border text-center text-lg font-bold">
+                <TableCell className="border text-center text-lg font-bold text-primary">
                   {item?.section_1}
                 </TableCell>
-                <TableCell className="border text-center text-lg font-bold">
+                <TableCell className="border text-center text-lg font-bold text-primary">
                   {item?.section_2}
                 </TableCell>
-                <TableCell className="border text-center text-lg font-bold">
+                <TableCell className="border text-center text-lg font-bold text-primary">
                   {item?.summary}
                 </TableCell>
-                <TableCell className="border text-center text-lg font-bold">
+                <TableCell className="border text-center text-lg font-bold text-primary">
                   {item?.grade}
                 </TableCell>
-                <TableCell className="border text-center text-lg font-bold">
+                <TableCell className="border text-center text-lg font-bold text-primary">
                   {item?.result}
                 </TableCell>
               </TableRow>

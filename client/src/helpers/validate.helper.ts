@@ -133,6 +133,10 @@ export const validateGeneralAssessmentForm = (
     isValid = false;
     error_th = "กรุณาอัพโหลด เอกสารโครงสร้างราคา";
     error_en = "BOM and Process";
+  } else if (values?.approvals?.length === 0 || values?.approvals === null) {
+    isValid = false;
+    error_th = "กรุณาตั้งค่าสายอนุมัติ";
+    error_en = "Approvals";
   }
 
   return {

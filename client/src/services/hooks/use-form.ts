@@ -35,10 +35,11 @@ export const useForm = () => {
       queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
       closeSwal();
       if (data?.status === "success") {
-        showSuccess("ลงทะเบียนสำเร็จ", data?.message);
+        showSuccess(data?.message, "");
         setRegistration(InitialRegistration);
         navigate("/registrations");
       } else {
+        // showError("ลงทะเบียนไม่สำเร็จ", data?.message);
         showError("ลงทะเบียนไม่สำเร็จ", data?.message);
       }
     },
@@ -62,7 +63,7 @@ export const useForm = () => {
       queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
       closeSwal();
       if (data?.status === "success") {
-        showSuccess("แก้ไขข้อมูลสำเร็จ", data?.message);
+        showSuccess(data?.message, "");
         setRegistration(InitialRegistration);
         navigate("/registrations");
       } else {
@@ -182,8 +183,10 @@ export const useForm = () => {
       });
       closeSwal();
       if (data?.status === "success") {
-        showSuccess("ยืนยันข้อมูลสำเร็จ", data?.message);
-        navigate("/registrations");
+        showSuccess(data?.message, "");
+        setTimeout(() => {
+          navigate("/registrations");
+        }, 2000);
       } else {
         showError("ยืนยันข้อมูลไม่สำเร็จ", data?.message);
       }

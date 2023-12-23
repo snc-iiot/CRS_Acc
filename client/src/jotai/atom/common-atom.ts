@@ -5,7 +5,7 @@ interface ICommonAtom {
 }
 
 export const commonAtom = atom<ICommonAtom>({
-  isEditGeneralAssessmentForm: false,
+  isEditGeneralAssessmentForm: true,
 });
 
 if (process.env.NODE_ENV !== "production") {

@@ -47,6 +47,9 @@ export const generalAssessmentFormAtom = atom<TGeneralAssessmentForm>({
   creator_id: "978eccba-5de8-4111-8637-8e9e8e8a98bd",
   created_at: "2023-12-21 21:17:26",
   updated_at: "2023-12-21 21:17:26",
+  status_no: 0,
+  status_desc_th: "",
+  is_approver: false,
 } as TGeneralAssessmentForm);
 
 export const approvalListAtom = atom<TApprovalList[]>([]);

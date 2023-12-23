@@ -1,4 +1,3 @@
-import BusinessTypeList from "@/mock/business-type-list.json";
 import CountryList from "@/mock/country-list.json";
 import { ICompanyForm } from "@/types";
 
@@ -103,9 +102,6 @@ export const CompanyInfo: ICompanyForm[] = [
     type: "select",
     placeholder: "ประเภทกิจการตามใบอนุญาตประกอบการ",
     required: true,
-    options: BusinessTypeList?.map((business) => ({
-      value: business?.business_id,
-      label: business?.business_type,
-    })),
+    options: []
   },
 ];

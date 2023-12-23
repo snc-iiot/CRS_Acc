@@ -68,7 +68,36 @@ export const useFormGeneral = () => {
       });
       closeSwal();
       if (data.status === "success") {
-        showSuccess("บันทึกข้อมูลสำเร็จ", data.message);
+        showSuccess(data.message, "");
+        navigate("/registrations");
+      } else {
+        showError("เกิดข้อผิดพลาด", data.message);
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateUpdateGeneralAssessment } = useMutation<
+    TResponseAction,
+    Error,
+    TGeneralAssessmentForm
+  >({
+    mutationKey: [queryKey.UPDATE_GENERAL_ASSESSMENT],
+    mutationFn: (payload: TGeneralAssessmentForm) =>
+      formGeneralService.updateGeneralAssessment(payload),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [queryKey.GET_REGIS_LIST],
+      });
+      closeSwal();
+      if (data.status === "success") {
+        showSuccess(data.message, "");
         navigate("/registrations");
       } else {
         showError("เกิดข้อผิดพลาด", data.message);
@@ -84,5 +113,6 @@ export const useFormGeneral = () => {
     mutateGetApprovalsById,
     mutateGetTemplateGeneralAssessmentById,
     mutateCreateGeneralAssessment,
+    mutateUpdateGeneralAssessment,
   };
 };

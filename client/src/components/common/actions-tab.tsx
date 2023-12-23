@@ -54,7 +54,6 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
             );
             if (isConfirm) {
               await mutateConfirmDBDInfo(regisId as string);
-              closeSwal();
             }
           }}
         >

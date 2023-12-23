@@ -69,19 +69,18 @@ export const R1UpdateDocuments: FC = () => {
     Promise.all([
       mutateUploadFile(newReq),
       mutateGetDocByRegisId(regisId as string),
-    ]).then(() => {
-      document.getElementById(`${e.target.name}`)?.setAttribute("value", "");
-    });
-
+    ]);
+    document.getElementById(`${e.target.name}`)?.setAttribute("value", "");
     setTimeout(() => {
       setProgress(0);
     }, 3000);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
     const file = e.target.files?.[0];
     if (file) {
-      handleUploadFile(file, e);
+      await handleUploadFile(file, e);
     }
   };
 
@@ -121,20 +120,27 @@ export const R1UpdateDocuments: FC = () => {
                   showFileName={false}
                   name={item?.name}
                   className="cursor-pointer whitespace-nowrap text-primary hover:underline"
-                  onChange={(e) => {
-                    handleFileChange(e);
+                  onChange={async (e) => {
+                    console.log(e.target.files);
+                    await handleFileChange(e);
                     setName(e.target.name);
                   }}
                 >
                   <button className="cursor-pointer whitespace-nowrap text-xs text-primary hover:underline">
-                    อัพโหลดซ้ำ
+                    {/* อัพโหลดซ้ำ */}
+                    {item?.link ? "อัพโหลดซ้ำ" : "อัพโหลดเอกสาร"}
                     {progress > 0 && name == item?.name ? (
-                      <span className="text-xs text-primary">{progress}%</span>
+                      <span className="ml-2 text-xs text-red-500">
+                        {progress}%
+                      </span>
                     ) : null}
                   </button>
                 </UploadFile>
                 <button
-                  className="cursor-pointer whitespace-nowrap text-red-500 hover:underline"
+                  className={cn(
+                    "cursor-pointer whitespace-nowrap text-red-500 hover:underline",
+                    !item?.link && "hidden",
+                  )}
                   onClick={async () => {
                     await mutateDeleteDocById({
                       regis_id: regisId as string,

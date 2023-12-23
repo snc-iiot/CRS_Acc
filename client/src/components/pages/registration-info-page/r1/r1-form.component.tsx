@@ -6,7 +6,7 @@ const R1Form: FC = () => {
   return (
     <div className="item-center flex flex-col pb-4">
       <h3 className="text-md font-bold">
-        แบฟอร์มประเมินลูกค้า / Customer Assessemnt Form
+        แบบฟอร์มประเมินลูกค้า / Customer Assessemnt Form
       </h3>
       <div className="mb-1 flex items-center gap-2 text-xs">
         <p className="font-semibold">หมายเหตุ:</p>

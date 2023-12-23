@@ -45,6 +45,11 @@ export const status = [
     status_name: "ไม่อนุมัติ",
     status_color: "bg-red-600 hover:bg-red-700",
   },
+  {
+    status_id: 8,
+    status_name: "ดำเนินการเสร็จสิ้น",
+    status_color: "bg-green-600 hover:bg-green-700",
+  },
 ];
 
 export const statusHelper = (status_id: number): IStatus => {

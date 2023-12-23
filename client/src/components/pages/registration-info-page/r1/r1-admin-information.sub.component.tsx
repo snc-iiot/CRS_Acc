@@ -1280,7 +1280,7 @@ export const R1AdminInformation: FC = () => {
                         : "hidden",
                     )}
                   >
-                    <input
+                    {/* <input
                       type="text"
                       placeholder="โปรดระบุ"
                       className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
@@ -1309,7 +1309,44 @@ export const R1AdminInformation: FC = () => {
                           ?.country?.value || ""
                       }
                       readOnly={!common?.isEditGeneralAssessmentForm}
-                    />
+                    /> */}
+                    <select
+                      className="w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black"
+                      onChange={(e) => {
+                        setGeneralAssessmentForm((prev) => ({
+                          ...prev,
+                          main_supplier_credit_terms:
+                            prev?.main_supplier_credit_terms?.map(
+                              (item, index) => {
+                                if (index === i) {
+                                  return {
+                                    ...item,
+                                    country: {
+                                      ...item?.country,
+                                      value: e.target.value,
+                                    },
+                                  };
+                                }
+                                return item;
+                              },
+                            ),
+                        }));
+                      }}
+                      value={
+                        generalAssessmentForm?.main_supplier_credit_terms?.[i]
+                          ?.country?.value || ""
+                      }
+                      disabled={!common?.isEditGeneralAssessmentForm}
+                    >
+                      <option value="">โปรดระบุประเทศ</option>
+                      {countryCodeList
+                        .filter((item) => item?.alpha2 !== "TH")
+                        .map((info, i) => (
+                          <option key={i} value={info.alpha2}>
+                            {info?.country}
+                          </option>
+                        ))}
+                    </select>
                   </div>
                 </div>
               </div>

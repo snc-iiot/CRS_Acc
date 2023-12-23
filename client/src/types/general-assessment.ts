@@ -21,6 +21,9 @@ export type TGeneralAssessmentForm = {
   creator_id: string;
   created_at: string;
   updated_at: string;
+  status_no: number;
+  status_desc_th: string;
+  is_approver: boolean;
 };
 
 export type TPriceConditions = {

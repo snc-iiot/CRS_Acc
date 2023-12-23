@@ -167,7 +167,7 @@ export const useUtils = () => {
         closeSwal();
         if (data.status == "success") {
           mutateGetDocByRegisId(data?.data?.[0]?.regis_id || "");
-          showSuccess("สร้างฟอร์มผู้ลงทะเบียนสำเร็จ", data?.message);
+          showSuccess("สร้างฟอร์มผู้ลงทะเบียนสำเร็จ", "");
         } else {
           showError("สร้างฟอร์มผู้ลงทะเบียนไม่สำเร็จ", data?.message);
         }
@@ -223,7 +223,7 @@ export const useUtils = () => {
       closeSwal();
       if (data.status == "success") {
         mutateGetCommentByRegisId(regisId);
-        showSuccess("สร้างข้อเสนอแนะสำเร็จ", data?.message);
+        showSuccess(data?.message, "");
       } else {
         showError("สร้างข้อเสนอแนะไม่สำเร็จ", data?.message);
       }
@@ -250,9 +250,9 @@ export const useUtils = () => {
       if (data.status == "success") {
         mutateGetCommentByRegisId(regisId);
         mutateGetCommentByRegisIdR3(regisId);
-        showSuccess("สร้างข้อเสนอแนะสำเร็จ", data?.message);
+        showSuccess(data?.message, "");
       } else {
-        showError("สร้างข้อเสนอแนะไม่สำเร็จ", data?.message);
+        showError(data?.message, "");
       }
     },
     onError: (error) => {

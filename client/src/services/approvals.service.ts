@@ -78,7 +78,7 @@ export class ApprovalsService extends APIService {
     } catch (error: any) {
       console.error("FormGeneralService -> getApprovalsById -> error", error);
       return {
-        message: "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
+        message: error.response.data.message,
         status: "error",
         data: [],
       };

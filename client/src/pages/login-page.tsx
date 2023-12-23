@@ -94,7 +94,6 @@ const LoginPage: FC = () => {
               />
               <p className="text-sm">
                 บมจ. เอส เอ็น ซี ฟอร์เมอร์ และบริษัทในเครือฯ
-                asdfghjgfuicjhsdnjchdsn
               </p>
             </div>
           </div>

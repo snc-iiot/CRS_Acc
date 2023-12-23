@@ -39,12 +39,12 @@ const TableDBD: FC<ITableDBDProps> = ({
       {description ? (
         <p className="text-xs text-muted-foreground">{description ?? ""}</p>
       ) : null}
-      <Table className="w-full border-collapse border-spacing-0 border">
-        <TableHeader className="bg-primary-foreground">
+      <Table className="b-rde w-full border-collapse border-spacing-0 border">
+        <TableHeader className="bg-[#F7FAFC]">
           <TableRow className="text-xs">
             <TableHead
               rowSpan={2}
-              className="w-1/3 border text-center font-bold text-black"
+              className="w-1/3 border border-black text-center font-bold text-black"
             >
               Unit : Baht
             </TableHead>
@@ -52,7 +52,7 @@ const TableDBD: FC<ITableDBDProps> = ({
               <Fragment key={info.Year}>
                 <TableHead
                   colSpan={2}
-                  className="border text-center font-bold text-black"
+                  className="border border-black text-center font-bold text-black"
                 >
                   {info.Year}
                 </TableHead>
@@ -62,10 +62,10 @@ const TableDBD: FC<ITableDBDProps> = ({
           <TableRow className="text-xs">
             {data[0]?.Info?.map((info) => (
               <Fragment key={info.Year}>
-                <TableHead className="w-max border text-end font-bold text-black">
+                <TableHead className="w-max border border-b-black border-l-black text-end font-bold text-black">
                   Amount
                 </TableHead>
-                <TableHead className="w-max whitespace-nowrap border text-end font-bold text-black">
+                <TableHead className="w-max whitespace-nowrap border border-b-black border-r-black text-end font-bold text-black">
                   % Change
                 </TableHead>
               </Fragment>
@@ -82,15 +82,31 @@ const TableDBD: FC<ITableDBDProps> = ({
           ) : (
             data?.map((table) => (
               <Fragment key={table?.Topic ?? "-"}>
-                <TableRow className="text-xs hover:cursor-pointer hover:bg-secondary hover:text-secondary-foreground">
-                  <TableCell className="whitespace-nowrap border font-medium">
+                <TableRow
+                  className={cn(
+                    "text-xs hover:cursor-pointer hover:bg-[#d4eaf7]",
+                    table?.Topic === "สินทรัพย์รวม" ||
+                      table?.Topic === "หนี้สินรวม" ||
+                      table?.Topic === "หนี้สินรวมและส่วนของผู้ถือหุ้น" ||
+                      table?.Topic === "กำไร(ขาดทุน) ขั้นต้น" ||
+                      table?.Topic === "รายได้หลัก" ||
+                      table?.Topic === "กำไร(ขาดทุน) สุทธิ"
+                      ? "bg-[#d4eaf7]"
+                      : "",
+                  )}
+                >
+                  <TableCell
+                    className={
+                      "whitespace-nowrap border border-x-black font-medium"
+                    }
+                  >
                     {table?.Topic ?? "-"}
                   </TableCell>
                   {table.Info?.map((info) => (
                     <Fragment key={info.Year}>
                       <TableCell
                         className={cn(
-                          "border text-end",
+                          "border border-l-black text-end",
                           info.Amount < 0 ? "text-red-600" : "",
                         )}
                       >
@@ -100,15 +116,17 @@ const TableDBD: FC<ITableDBDProps> = ({
                       </TableCell>
                       <TableCell
                         className={cn(
-                          "whitespace-nowrap border text-end",
+                          "whitespace-nowrap border border-r-black text-end",
                           info.Change < 0
                             ? "font-semibold text-red-600"
                             : "font-semibold text-green-600",
                         )}
                       >
                         {info.Change < 0
-                          ? `(${Math.abs(info.Change).toFixed(2)})%`
-                          : `${info.Change}%`}
+                          ? `(${Number(
+                              Math.abs(info.Change).toFixed(2),
+                            )?.toLocaleString()})%`
+                          : `${info.Change?.toLocaleString()}%`}
                       </TableCell>
                     </Fragment>
                   ))}

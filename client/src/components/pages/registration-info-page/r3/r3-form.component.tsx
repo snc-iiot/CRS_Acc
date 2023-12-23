@@ -75,72 +75,77 @@ const R3Form: FC = () => {
           ผลประเมินอัตราส่วนทางการเงิน / Financial Ratio Assessment Report
         </h3>
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Table className="w-full border-collapse border-spacing-0 border">
-          <TableHeader
-            className={cn("top-0 z-10 bg-primary-foreground", "sticky")}
-          >
-            <TableRow className="text-xs ">
-              <TableHead
-                rowSpan={2}
-                className="border text-start font-bold text-black"
-              >
-                อัตราส่วน
-              </TableHead>
-            </TableRow>
-            <TableRow className="text-xs">
-              {financialRatio?.financial_ratios?.[0]?.info.map((data) => (
+      <div className="grid grid-cols-3 gap-2">
+        <div className="col-span-2">
+          <Table className="w-full border-collapse border-spacing-0 border border-black">
+            <TableHeader className={cn("top-0 z-10 bg-[#dee4e7]", "sticky")}>
+              <TableRow className="text-xs ">
                 <TableHead
-                  key={data?.year}
-                  className="border text-center font-bold text-black"
+                  rowSpan={2}
+                  className="border border-black text-start font-bold text-black"
                 >
-                  {data?.year}
+                  อัตราส่วน
                 </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          {data?.map((table, i) => (
-            <TableBody key={i}>
-              <TableRow className="text-xs">
-                <TableCell
-                  colSpan={
-                    financialRatio?.financial_ratios?.[0]?.info?.length + 1
-                  }
-                  className="border bg-secondary font-bold"
-                >
-                  {table?.topic}
-                </TableCell>
               </TableRow>
-              {financialRatio?.financial_ratios
-                .filter((item) => {
-                  return table?.short_key.includes(item?.short_key);
-                })
-                ?.map((info, index) => (
-                  <TableRow key={index} className="text-xs">
-                    <TableCell className="border text-start">
-                      {info?.topic_th}
-                    </TableCell>
-                    {info?.info?.map((data, i) => (
-                      <TableCell
-                        key={i}
-                        className={cn(
-                          "border text-center",
-                          data?.ratio < 0
-                            ? "font-semibold text-red-500"
-                            : "text-black",
-                        )}
-                        colSpan={1}
-                      >
-                        {data?.ratio < 0
-                          ? `(${Math.abs(data?.ratio)})`
-                          : data?.ratio}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+              <TableRow className="text-xs">
+                {financialRatio?.financial_ratios?.[0]?.info.map((data) => (
+                  <TableHead
+                    key={data?.year}
+                    className="border border-black text-center font-bold text-black"
+                  >
+                    {data?.year}
+                  </TableHead>
                 ))}
-            </TableBody>
-          ))}
-        </Table>
+              </TableRow>
+            </TableHeader>
+            {data?.map((table, i) => (
+              <TableBody key={i}>
+                <TableRow className="text-xs">
+                  <TableCell
+                    colSpan={
+                      financialRatio?.financial_ratios?.[0]?.info?.length + 1
+                    }
+                    className="whitespace-nowrap border border-black bg-[#dee4e7] font-bold"
+                  >
+                    {table?.topic}
+                  </TableCell>
+                </TableRow>
+                {financialRatio?.financial_ratios
+                  .filter((item) => {
+                    return table?.short_key.includes(item?.short_key);
+                  })
+                  ?.map((info, index) => (
+                    <TableRow key={index} className="text-xs">
+                      <TableCell
+                        className={cn("whitespace-nowrap  text-start")}
+                      >
+                        {info?.topic_th}
+                      </TableCell>
+                      {info?.info?.map((data, i) => (
+                        <TableCell
+                          key={i}
+                          className={cn(
+                            "border-x text-center",
+                            data?.ratio < 0
+                              ? "font-semibold text-red-500"
+                              : "text-black",
+                            i === info?.info?.length - 1
+                              ? "border-r-black"
+                              : "",
+                          )}
+                          colSpan={1}
+                        >
+                          {data?.ratio < 0
+                            ? `(${Math.abs(data?.ratio)})`
+                            : data?.ratio}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+              </TableBody>
+            ))}
+          </Table>
+        </div>
         <div className="flex h-96 max-h-96 w-full flex-col gap-2">
           <h2 className="text-base font-bold">วิเคราะห์ข้อมูลการเงิน</h2>
           <div className="flex h-full w-full flex-col rounded-md border border-dashed border-primary p-2">

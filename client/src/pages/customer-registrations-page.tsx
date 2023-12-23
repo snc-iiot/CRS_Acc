@@ -19,31 +19,76 @@ import {
   TableHeader as THead,
   TableRow as Tr,
 } from "@/components/ui/table";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { MODE_CODE } from "@/helpers/common.helper";
+import {
+  initialStateDocByRegisId,
+  initialStateGeneralAssessmentForm,
+  initialStateRegistrationForm,
+} from "@/helpers/initial-state.helper";
 import { InitialRegistration } from "@/helpers/register.helper";
 import { status, statusHelper } from "@/helpers/status.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { useUtils } from "@/services";
 import { useForm } from "@/services/hooks/use-form";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomerRegistrations: FC = () => {
   const { useGetRegisList } = useForm();
-  const { setRegistration, regisList, companyList } = useAtomStore();
+  const {
+    setRegistration,
+    regisList,
+    companyList,
+    setGeneralAssessmentForm,
+    setDocByRegisId,
+  } = useAtomStore();
   const { mutateGetRegisterId } = useUtils();
   const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [companySelect, setCompanySelect] = useState<string[]>([]);
   const [statusSelect, setStatusSelect] = useState<string[]>([]);
+  const [tabsSelected, setTabsSelected] = useState<string>("100");
   const { isLoading } = useGetRegisList();
 
-  const Status = status?.map((item) => ({
-    label: item?.status_name?.toUpperCase(),
-    value: item?.status_id?.toString(),
-  }));
+  // const tabsKey: {
+  //   status_no: number;
+  //   key: string;
+  //   label: string;
+  // }[] = [
+  //   {
+  //     status_no: 1,
+  //     key: "wait_for_approve",
+  //     label: "รอการตรวจสอบข้อมูล",
+  //   },
+  //   {
+  //     status_no: 2,
+  //     key: "wait_for_approve_by_acc",
+  //     label: "รอยืนยันข้อมูลการเงิน",
+  //   },
+  //   {
+  //     status_no: 3,
+  //     key: "wait_for_approve_by_acc",
+  //     label: "รอการแก้ไข",
+  //   },
+  //   {
+  //     status_no: 4,
+  //     key: "wait_for_approve_by_acc",
+  //     label: "รอพิจารณาอนุมัติ",
+  //   },
+  //   {
+  //     status_no: 5,
+  //     key: "wait_for_approve_by_acc",
+  //     label: "ระงับชัวคราว",
+  //   },
+  // ];
+
+  // const Status = status?.map((item) => ({
+  //   label: item?.status_name?.toUpperCase(),
+  //   value: item?.status_id?.toString(),
+  // }));
 
   const Company = companyList?.map((item) => ({
     value: item?.company?.toLowerCase(),
@@ -66,6 +111,10 @@ const CustomerRegistrations: FC = () => {
 
   const filterData = regisList
     ?.filter((item) => {
+      if (tabsSelected === "100") return true;
+      return item.status_no?.toString() === tabsSelected;
+    })
+    ?.filter((item) => {
       if (statusSelect.length === 0) return true;
       return statusSelect.includes(item.status_no?.toString());
     })
@@ -86,6 +135,12 @@ const CustomerRegistrations: FC = () => {
       }
     });
 
+  useEffect(() => {
+    setGeneralAssessmentForm(initialStateGeneralAssessmentForm);
+    setRegistration(initialStateRegistrationForm);
+    setDocByRegisId(initialStateDocByRegisId);
+  }, []);
+
   if (isLoading)
     return (
       <main className="flex h-[90dvh] flex-col items-center justify-center gap-2">
@@ -100,7 +155,9 @@ const CustomerRegistrations: FC = () => {
         <h2 className="text-xl font-bold">รายการลงทะเบียนลูกค้า</h2>
         <div className="flex items-center gap-x-1">
           <Button
-            className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]"
+            className={cn(
+              "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
+            )}
             onClick={getRegisterId}
           >
             <span>ลงทะเบียนลูกค้าใหม่</span>
@@ -183,12 +240,12 @@ const CustomerRegistrations: FC = () => {
                 setSearch(e.target.value);
               }}
             />
-            <FilterSelect
+            {/* <FilterSelect
               triggerText="สถานะ"
               options={Status}
               state={statusSelect}
               setState={setStatusSelect}
-            />
+            /> */}
             <FilterSelect
               triggerText="บริษัท"
               options={Company}
@@ -207,6 +264,44 @@ const CustomerRegistrations: FC = () => {
             </ClearButton>
           </FilterBar>
         </div>
+        <Tabs value={tabsSelected} className="w-[400px]">
+          <TabsList>
+            {status?.map((item) => (
+              <TabsTrigger
+                key={item?.status_id}
+                value={item?.status_id?.toString()}
+                onClick={() => {
+                  setTabsSelected(item?.status_id?.toString());
+                }}
+              >
+                {item?.status_name} &nbsp;
+                <Badge
+                  className={cn(
+                    tabsSelected === item?.status_id?.toString()
+                      ? `${item?.status_color} text-primary-foreground hover:${item?.status_color}`
+                      : "bg-primary-foreground text-primary",
+                  )}
+                >
+                  {
+                    regisList?.filter(
+                      (filter) =>
+                        filter?.status_no?.toString() ===
+                        item?.status_id?.toString(),
+                    )?.length
+                  }
+                </Badge>
+              </TabsTrigger>
+            ))}
+            <TabsTrigger
+              value="100"
+              onClick={() => {
+                setTabsSelected("100");
+              }}
+            >
+              ทั้งหมด
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
         <div className="w-full flex-grow overflow-x-auto overflow-y-auto rounded border">
           <Table className="relative w-full">
             <THead className="sticky top-0 z-10 whitespace-nowrap bg-primary-foreground text-sm">

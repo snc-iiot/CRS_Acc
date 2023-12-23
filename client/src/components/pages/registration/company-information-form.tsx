@@ -8,8 +8,13 @@ import CountryList from "@/mock/country-list.json";
 import { ChangeEvent, FC, useMemo } from "react";
 
 const CompanyInformationForm: FC = () => {
-  const { setRegistration, registration, thaiProvince, companyList } =
-    useAtomStore();
+  const {
+    setRegistration,
+    registration,
+    thaiProvince,
+    companyList,
+    businessTypeList,
+  } = useAtomStore();
   const { company_information } = registration;
   const { country } = company_information;
 
@@ -29,6 +34,14 @@ const CompanyInformationForm: FC = () => {
   const newCompanyInfo = CompanyInfo?.map((item) => {
     const { country, province, district } = registration.company_information;
     switch (item?.name) {
+      case "nature_of_business":
+        return {
+          ...item,
+          options: businessTypeList?.map((item) => ({
+            label: item?.business_type_th,
+            value: item?.business_type_id,
+          })),
+        };
       case "company_admin":
         return {
           ...item,

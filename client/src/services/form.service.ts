@@ -93,6 +93,18 @@ export class FormService extends APIService {
     }
   };
 
+  getRegisListByAccountId = async (): Promise<TRegisList[]> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/registration/your-approve-items`,
+      );
+      return responseData?.data ?? ([] as TRegisList[]);
+    } catch (error: any) {
+      console.error("FormService -> getRegisListByAccountId -> error", error);
+      return [] as TRegisList[];
+    }
+  };
+
   getRegisById = async (regisId: string): Promise<TRegistrationForm> => {
     try {
       const { data: responseData } = await this.get(

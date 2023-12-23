@@ -55,7 +55,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 const RegistrationInfo: FC = () => {
   const { mutateGetApprovalsById, mutateGetTemplateGeneralAssessmentById } =
     useFormGeneral();
-  const { regisList, comment } = useAtomStore();
+  const { comment, registration, generalAssessmentForm, setCommon } =
+    useAtomStore();
   const { confirmSwal, showError, showLoading, closeSwal } = useSwal();
   const [searchParams] = useSearchParams();
   const { mutateGetRegisById } = useForm();
@@ -75,12 +76,24 @@ const RegistrationInfo: FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
-  const getStatusByRegisId = (regisId: string) => {
-    return regisList?.find((item) => item.regis_id === regisId);
-  };
+  // const actionsTab =
+  //   getStatusByRegisId(RegisID as string)?.status_no === 2 ? ["R2"] : [""];
 
-  const actionsTab =
-    getStatusByRegisId(RegisID as string)?.status_no === 2 ? ["R2"] : [""];
+  //! สำหรับ sub action tab
+  const newActionTab = (status: number) => {
+    const condition = {
+      1: ["R1"],
+      2: ["R2"],
+      3: ["R1", "R2"],
+      4: [""],
+      5: ["R5"],
+      6: [""],
+      7: ["R7"],
+      8: ["R8"],
+      9: ["R9"],
+    };
+    return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+  };
 
   const mainActions = [
     "R1",
@@ -180,9 +193,27 @@ const RegistrationInfo: FC = () => {
     }
   };
 
+  //! Validate Action Tab
+  const validateActionTab = (
+    action: "R1" | "R2" | "R3" | "R4" | "R5",
+    status: number,
+  ) => {
+    const condition = {
+      R1: [1, 2, 3, 4, 5, 6, 7],
+      R2: [2, 3, 4, 5, 6, 7],
+      R3: [3, 4, 5, 6, 7],
+      R4: [4, 6, 7],
+      R5: [4, 7],
+    };
+    return condition[action].includes(status);
+  };
+
   useEffect(() => {
     if (!RegisID) navigate("/registration");
     getInfoById();
+    setCommon({
+      isEditGeneralAssessmentForm: false,
+    });
   }, [RegisID]);
 
   return (
@@ -239,7 +270,10 @@ const RegistrationInfo: FC = () => {
               </TooltipProvider>
             ))}
             <h3 className="text-md ml-2 font-bold text-red-500">
-              {getStatusByRegisId(RegisID as string)?.status_desc_th ?? "-"}
+              {generalAssessmentForm?.status_desc_th} &nbsp;
+              <span className="text-xs text-primary">
+                {registration?.regis_id}
+              </span>
             </h3>
           </div>
         </header>
@@ -320,7 +354,13 @@ const RegistrationInfo: FC = () => {
                 )}
               >
                 <Button
-                  className="bg-yellow-500 hover:bg-yellow-500/80"
+                  className={cn(
+                    "bg-yellow-500 hover:bg-yellow-500/80",
+                    registration?.status_no === 1 ||
+                      registration?.status_no === 2
+                      ? "block"
+                      : "hidden",
+                  )}
                   onClick={async () => {
                     const isConfirm = await confirmSwal(
                       "แก้ไขข้อมูลลูกค้า",
@@ -345,7 +385,18 @@ const RegistrationInfo: FC = () => {
             >
               <div
                 className={cn(
-                  actionsTab.includes(activeTab)
+                  newActionTab(
+                    registration?.status_no as
+                      | 1
+                      | 2
+                      | 3
+                      | 4
+                      | 5
+                      | 6
+                      | 7
+                      | 8
+                      | 9,
+                  ).includes(activeTab)
                     ? "h-[calc(66%-0.5rem)]"
                     : "h-[calc(73%-0.5rem)]",
                 )}
@@ -358,7 +409,16 @@ const RegistrationInfo: FC = () => {
                   <nav className="fixed right-1 top-2">
                     <TabsList>
                       {TabList.map((info, i) => (
-                        <TabsTrigger key={i} value={info?.value}>
+                        <TabsTrigger
+                          key={i}
+                          value={info?.value}
+                          disabled={
+                            !validateActionTab(
+                              info?.value as "R2" | "R3" | "R4" | "R5",
+                              registration?.status_no as number,
+                            )
+                          }
+                        >
                           {info.label}
                         </TabsTrigger>
                       ))}
@@ -387,7 +447,9 @@ const RegistrationInfo: FC = () => {
                 </Tabs>
               </div>
               {/* //! Action by user */}
-              {actionsTab.includes(activeTab) ? (
+              {newActionTab(registration?.status_no as number).includes(
+                activeTab,
+              ) ? (
                 <div className="flex h-[7%] items-center justify-between border border-b-0 px-2">
                   <ActionTab
                     activeTab={activeTab as "R2" | "R3" | "R4" | "R5"}
@@ -691,19 +753,7 @@ const RegistrationInfo: FC = () => {
               <div className="h-[7%] border border-t-0">
                 {mainActions.includes(activeTab) ? (
                   <MainActions
-                    activeTab={
-                      activeTab as
-                        | "R1"
-                        | "R2"
-                        | "R3"
-                        | "R4"
-                        | "R5"
-                        | "R6"
-                        | "R7"
-                        | "R8"
-                        | "R9"
-                        | "R10"
-                    }
+                    activeTab={activeTab as "R1" | "R2" | "R3" | "R4"}
                   />
                 ) : null}
               </div>

@@ -17,6 +17,7 @@ import {
   financialRatioAtom,
   generalAssessmentFormAtom,
   regisListAtom,
+  regisListByAccountAtom,
   registrationAtom,
   thaiProvinceAtom,
 } from "./atom";
@@ -39,6 +40,9 @@ export const useAtomStore = () => {
   const [docByRegisId, setDocByRegisId] = useAtom(docByRegisIdAtom);
   const [regisList, setRegisList] = useAtom(regisListAtom);
   const [common, setCommon] = useAtom(commonAtom);
+  const [regisListByAccount, setRegisListByAccount] = useAtom(
+    regisListByAccountAtom,
+  );
 
   //! for general form
   const [approvalList, setApprovalList] = useAtom(approvalListAtom);
@@ -80,6 +84,8 @@ export const useAtomStore = () => {
     setDocByRegisId,
     regisList,
     setRegisList,
+    setRegisListByAccount,
+    regisListByAccount,
     //! for general form
     approvalList,
     setApprovalList,

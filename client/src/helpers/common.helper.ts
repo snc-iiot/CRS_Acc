@@ -1,10 +1,10 @@
 import { TRegistrationForm } from "@/types";
 
-// export const API_BASE_URL =
-//   "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
-
 export const API_BASE_URL =
-  "http://10.1.8.94:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
+  "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
+
+// export const API_BASE_URL =
+//   "http://10.1.8.94:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
 
 export const queryKey = {
   //! for register new customer
@@ -25,12 +25,14 @@ export const queryKey = {
   GET_REGIS_BY_ID: "GET_REGIS_BY_ID",
   DELETE_DOC_BY_ID: "DELETE_DOC_BY_ID",
   UPDATE_REGIS_BY_ID: "UPDATE_REGIS_BY_ID",
+  GET_REGIS_BY_ACCOUNT_ID: "GET_REGIS_BY_ACCOUNT_ID",
 
   //! for general assessment
   GET_APPROVALS_BY_ID: "GET_APPROVALS_BY_ID",
   GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID:
     "GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID",
   CREATE_GENERAL_ASSESSMENT: "CREATE_GENERAL_ASSESSMENT",
+  UPDATE_GENERAL_ASSESSMENT: "UPDATE_GENERAL_ASSESSMENT",
 
   //! Utils
   GET_COMMENT_BY_REGIS_ID: "GET_COMMENT_BY_REGIS_ID",

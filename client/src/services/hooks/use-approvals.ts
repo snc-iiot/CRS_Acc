@@ -26,10 +26,10 @@ export const useApprovals = () => {
       queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
       closeSwal();
       if (data?.status === "success") {
-        showSuccess("ส่งกลับไปแก้ไขสำเร็จ", data?.message);
+        showSuccess(data?.message, "");
         navigate("/registrations");
       } else {
-        showError("ส่งกลับไปแก้ไขไม่สำเร็จ", data?.message);
+        showError(data?.message, "");
       }
     },
     onError: (error) => {
@@ -53,10 +53,10 @@ export const useApprovals = () => {
       queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
       closeSwal();
       if (data?.status === "success") {
-        showSuccess("ส่งกลับไปแก้ไขสำเร็จ", data?.message);
+        showSuccess(data?.message, "");
         navigate("/registrations");
       } else {
-        showError("ส่งกลับไปแก้ไขไม่สำเร็จ", data?.message);
+        showError(data?.message, "");
       }
     },
     onError: (error) => {
@@ -80,10 +80,68 @@ export const useApprovals = () => {
       queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
       closeSwal();
       if (data?.status === "success") {
-        showSuccess("บันทึกข้อมูลสำเร็จ", data?.message);
+        showSuccess(data?.message, "");
         navigate("/registrations");
       } else {
-        showError("บันทึกข้อมูลไม่สำเร็จ", data?.message);
+        showError(data?.message, "");
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError(error?.message, error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateSentToApprove } = useMutation<
+    TResponseAction,
+    Error,
+    { regis_id: string }
+  >({
+    mutationKey: [queryKey.SENT_TO_APPROVE],
+    mutationFn: (data: { regis_id: string }) =>
+      approvalsService.sendToApprove(data?.regis_id),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
+      closeSwal();
+      if (data?.status === "success") {
+        showSuccess(data?.message, "");
+        setTimeout(() => {
+          navigate("/registrations");
+        }, 1500);
+      } else {
+        showError(data?.message, "");
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError(error?.message, error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateSentToReject } = useMutation<
+    TResponseAction,
+    Error,
+    { regis_id: string; comments: string }
+  >({
+    mutationKey: [queryKey.SENT_TO_REJECT],
+    mutationFn: (data: { regis_id: string; comments: string }) =>
+      approvalsService.sendToReject(data),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [queryKey.GET_REGIS_LIST] });
+      closeSwal();
+      if (data?.status === "success") {
+        showSuccess(data?.message, "");
+        setTimeout(() => {
+          navigate("/registrations");
+        }, 1500);
+      } else {
+        showError(data?.message, "");
       }
     },
     onError: (error) => {
@@ -96,5 +154,7 @@ export const useApprovals = () => {
     mutateSendToEdit,
     mutateSendToSuspend,
     mutateEnterCustomerCode,
+    mutateSentToApprove,
+    mutateSentToReject,
   };
 };
