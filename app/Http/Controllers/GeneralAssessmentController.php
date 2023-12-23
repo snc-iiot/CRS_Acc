@@ -96,7 +96,7 @@ class GeneralAssessmentController extends Controller
 
                 "approvals.*.order_no" => "required|integer|min:1",
                 "approvals.*.position" => "required|string",
-                "approvals.*.issued_at" => "nullable|date_format:Y-m-d H:i:s",
+                "approvals.*.issued_at" => "nullable|string|date_format:Y-m-d H:i:s",
                 "approvals.*.issued_by" => "nullable|string",
                 "approvals.*.is_approved" => "nullable|boolean",
                 "approvals.*.issued_by_id" => "required|uuid",
@@ -262,13 +262,13 @@ class GeneralAssessmentController extends Controller
             // $result = DB::table("tb_general_assessments")->select(["approvals"])->where("regis_id", $request->regis_id)->whereIn("status_no", [3])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถแก้ไขข้อมูลการลงทะเบียนได้ (สถานะไม่ถูกต้อง)",
+                "message" => "ไม่สามารถทำรายการได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no
 
             $approvals = array();
-            if (!\is_null($result[0]->approvals)) {
+            if ($result[0]->approvals != "null") {
                 $approvals = \json_decode($result[0]->approvals);
                 foreach ($approvals as $item) {
                     $item->is_approved = null;
@@ -371,13 +371,15 @@ class GeneralAssessmentController extends Controller
                 t1.updated_at::varchar(19) as updated_at,
                 t2.status_no,
                 t3.status_desc_th,
-                (case when v1.approver_id='$userID'::uuid then true else false end) as is_approver"
+                (case when v1.approver_id is null then false 
+                when v1.approver_id='$userID'::uuid then true 
+                else false end) as is_approver"
             )->leftJoin(
                 "tb_regis_informations as t2",
                 "t1.regis_id",
                 "=",
                 "t2.regis_id"
-            )->leftJoin("tb_all_status as t3", "t1.status_no", "=", "t3.status_no")
+            )->leftJoin("tb_all_status as t3", "t2.status_no", "=", "t3.status_no")
                 ->leftJoin("vw_current_approvers as v1", "t1.regis_id", "=", "v1.regis_id")
                 ->where("t1.regis_id", $request->regis_id)->get();
 

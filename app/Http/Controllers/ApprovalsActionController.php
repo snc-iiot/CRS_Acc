@@ -53,14 +53,25 @@ class ApprovalsActionController extends Controller
             // return response()->json($validator->validated());
 
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [2, 4])->get();
+            $result = DB::table("tb_regis_informations")->select(["status_no"])->where("regis_id", $request->regis_id)->whereIn("status_no", [2, 4])->get();
             // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [2, 4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถส่งกลับไปแก้ไขข้อมูลได้ (สถานะไม่ถูกต้อง)",
+                "message" => "ไม่สามารถทำรายการได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no
+
+            if ($result[0]->status_no == 4) {
+                //! Block by approver_id
+                $result = DB::table("vw_current_approvers")->where("regis_id", $request->regis_id)->where("approver_id", $decoded->user_id)->get();
+                if (\count($result) == 0) return response()->json([
+                    "status" => "error",
+                    "message" => "ไม่สามารถทำรายการได้ (คุณไม่มีสิทธิในการส่งกลับแก้ไข)",
+                    "data" => [],
+                ], 406);
+                //! ./Block by approver_id
+            }
 
             DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->update([
                 "status_no"            => 3, //! รอการแก้ไข
@@ -121,19 +132,16 @@ class ApprovalsActionController extends Controller
 
             // return response()->json($validator->validated());
 
-            $regis_id = $request->regis_id;
-
-            //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
-            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
+            //! Block by approver_id
+            $result = DB::table("vw_current_approvers")->where("regis_id", $request->regis_id)->where("approver_id", $decoded->user_id)->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถระงับข้อมูลได้ (สถานะไม่ถูกต้อง)",
+                "message" => "ไม่สามารถทำรายการได้ (คุณไม่มีสิทธิในการระงับ)",
                 "data" => [],
             ], 406);
-            //! ./Block by status_no
+            //! ./Block by approver_id
 
-            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
+            DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->update([
                 "status_no"            => 5, //! ระงับชั่วคราว
             ]);
 
@@ -190,27 +198,28 @@ class ApprovalsActionController extends Controller
                 ]
             ], 400);
 
-            return response()->json($validator->validated());
+            // return response()->json($validator->validated());
 
             // $regis_id = $request->regis_id;
 
             //! Block by status_no
             $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [6])->get();
-            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถระงับข้อมูลได้ (สถานะไม่ถูกต้อง)",
+                "message" => "ไม่สามารถทำรายการได้ (สถานะไม่ถูกต้อง)",
                 "data" => [],
             ], 406);
             //! ./Block by status_no
 
+            DB::table("tb_general_assessments")->where("regis_id", $request->regis_id)->update([
+                "customer_code"             => $request->customer_code,
+                "filled_customer_code_at"   => DB::raw("now()"),
+                "updated_at"                => DB::raw("now()"),
+            ]);
+
             DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->update([
                 "status_no"            => 8, //! ระงับชั่วคราว
             ]);
-
-            // DB::table("tb_general_assessments")->where("regis_id", $regis_id)->update([
-            //     "status_no"            => 5, //! รอการแก้ไข
-            // ]);
 
             return response()->json([
                 "status" => "success",
@@ -258,22 +267,22 @@ class ApprovalsActionController extends Controller
 
             // return response()->json($validator->validated());
 
-            $regis_id = $request->regis_id;
-
-            //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
-            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
+            //! Block by approver_id
+            // ,fn_find_index_in_approvals(regis_id, order_no) as index"
+            $result = DB::table("vw_current_approvers")->selectRaw(
+                "regis_id,order_no,max_order,approver_id"
+            )->where("regis_id", $request->regis_id)->where("approver_id", $decoded->user_id)->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถระงับข้อมูลได้ (สถานะไม่ถูกต้อง)",
+                "message" => "ไม่สามารถทำรายการได้ (คุณไม่มีสิทธิในการไม่อนุมัติ)",
                 "data" => [],
             ], 406);
-            //! ./Block by status_no
+            //! ./Block by approver_id
 
-            //! ------------
-            // DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-            //     "status_no"            => 7, //! ไม่อนุมัติ
-            // ]);
+            $orderNo = $result[0]->order_no;
+
+            // $result = DB::select("call sp_approve(?, ?);", [$request->regis_id, $orderNo]);
+            DB::select("call sp_reject(?, ?);", [$request->regis_id, $orderNo]);
 
             //! Comments
             DB::table("tb_assessments_comments")->insert([
@@ -329,26 +338,33 @@ class ApprovalsActionController extends Controller
 
             // return response()->json($validator->validated());
 
-            $regis_id = $request->regis_id;
-
-            //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
-            // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [4])->get();
+            //! Block by approver_id
+            // ,fn_find_index_in_approvals(regis_id, order_no) as index"
+            $result = DB::table("vw_current_approvers")->selectRaw(
+                "regis_id,order_no,max_order,approver_id"
+            )->where("regis_id", $request->regis_id)->where("approver_id", $decoded->user_id)->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
-                "message" => "ไม่สามารถระงับข้อมูลได้ (สถานะไม่ถูกต้อง)",
+                "message" => "ไม่สามารถทำรายการได้ (คุณไม่มีสิทธิในการอนุมัติ)",
                 "data" => [],
             ], 406);
-            //! ./Block by status_no
+            //! ./Block by approver_id
 
-            //! ------------
-            // DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-            //     "status_no"            => 4, //! ไม่อนุมัติ
-            // ]);
+            $orderNo = $result[0]->order_no;
+            // $index = $result[0]->index;
+
+            // $result = DB::select("call sp_approve(?, ?);", [$request->regis_id, $orderNo]);
+            DB::select("call sp_approve(?, ?);", [$request->regis_id, $orderNo]);
+
+            //! Mail
+
+            //! Log
 
             return response()->json([
                 "status" => "success",
                 "message" => "อนุมัติสำเร็จ",
+                // "data" => [["regis_id" => $request->regis_id, "order_no" => $orderNo]],
+                // "data" => $result,
                 "data" => [],
             ], 201);
         } catch (\Exception $e) {
