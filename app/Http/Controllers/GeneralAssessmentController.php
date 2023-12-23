@@ -329,6 +329,7 @@ class GeneralAssessmentController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
+            $decoded = $jwt->decoded;
 
             $rules = ["regis_id" => "required|uuid|string"];
             $validator = Validator::make($request->all(), $rules);
@@ -342,6 +343,8 @@ class GeneralAssessmentController extends Controller
                     ]
                 ]
             ], 400);
+
+            $userID = $decoded->user_id;
 
             $result = DB::table("tb_general_assessments as t1")->selectRaw(
                 "t1.regis_id,
@@ -367,13 +370,16 @@ class GeneralAssessmentController extends Controller
                 t1.created_at::varchar(19) as created_at,
                 t1.updated_at::varchar(19) as updated_at,
                 t2.status_no,
-                t3.status_desc_th"
+                t3.status_desc_th,
+                (case when v1.approver_id='$userID'::uuid then true else false end) as is_approver"
             )->leftJoin(
                 "tb_regis_informations as t2",
                 "t1.regis_id",
                 "=",
                 "t2.regis_id"
-            )->leftJoin("tb_all_status as t3", "t1.status_no", "=", "t3.status_no")->where("t1.regis_id", $request->regis_id)->get();
+            )->leftJoin("tb_all_status as t3", "t1.status_no", "=", "t3.status_no")
+                ->leftJoin("vw_current_approvers as v1", "t1.regis_id", "=", "v1.regis_id")
+                ->where("t1.regis_id", $request->regis_id)->get();
 
             foreach ($result as $row) {
                 $row->price_conditions              = \json_decode($row->price_conditions);

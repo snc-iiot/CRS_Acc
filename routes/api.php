@@ -53,6 +53,7 @@ Route::prefix('registration')->controller(RegistrationController::class)->group(
     Route::get('/info', 'getInfo');
     Route::put('/', 'update');
     Route::get('/', 'getAll');
+    Route::get('/your-approve-items', 'yourApproveItems');
     Route::get('/get-documents-by-id', 'getDocumentsByID');
 });
 

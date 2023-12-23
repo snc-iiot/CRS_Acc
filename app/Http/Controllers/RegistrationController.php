@@ -479,11 +479,13 @@ class RegistrationController extends Controller
                 'relationship.relationship_name' => 'nullable|string',
                 // 'relationship.relationship_name' => 'required_if:relationship.is_relationship,true|string',
 
+                'standard.certificate.*.cer_id' => 'required|integer|min:1',
                 'standard.certificate.*.cer_name_th' => 'required|string',
                 'standard.certificate.*.cer_name_en' => 'required|string',
                 'standard.certificate.*.is_checked' => 'required|boolean',
                 'standard.certificate.*.value' => 'nullable|string',
                 'standard.certificate.*.exp' => 'nullable|string',
+                'standard.benefit.*.cer_id' => 'required|integer|min:1',
                 'standard.benefit.*.cer_name_th' => 'required|string',
                 'standard.benefit.*.cer_name_en' => 'required|string',
                 'standard.benefit.*.is_checked' => 'required|boolean',
@@ -498,6 +500,7 @@ class RegistrationController extends Controller
                 'payment_term.incoterm' => 'nullable|string',
                 'payment_term.lc_term.is_lc' => 'nullable|boolean',
                 'payment_term.lc_term.lc_type' => 'nullable|string',
+                'payment_term.delivery_term.*.cer_id' => 'required|integer|min:1',
                 'payment_term.delivery_term.*.cer_name_th' => 'required|string',
                 'payment_term.delivery_term.*.cer_name_en' => 'required|string',
                 'payment_term.delivery_term.*.is_checked' => 'required|boolean',
@@ -505,6 +508,7 @@ class RegistrationController extends Controller
                 'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
                 'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
+                'payment_term.company_policy.*.cer_id' => 'required|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
                 'payment_term.company_policy.*.is_checked' => 'required|boolean',
@@ -631,7 +635,7 @@ class RegistrationController extends Controller
             if (!\is_null($cachedID) && $cachedID == $request->id) {
                 $result = \json_decode($cachedValue);
             } else {
-                $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->selectRaw(
+                $result = DB::table("tb_regis_informations")->selectRaw(
                     "regis_id
                     ,company_information
                     ,share_holder
@@ -643,7 +647,7 @@ class RegistrationController extends Controller
                     ,status_no
                     ,created_at::varchar(19) as created_at
                     ,updated_at::varchar(19) as updated_at"
-                )->get();
+                )->where("regis_id", $request->regis_id)->get();
 
                 $ttl = \DateInterval::createFromDateString('1 minutes');
                 Cache::put($cacheKeyLastID, $request->id, $ttl);
@@ -734,6 +738,62 @@ class RegistrationController extends Controller
         }
     }
 
+    //* [GET] /registration/your-approve-items (read)
+    function yourApproveItems(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            $decoded = $jwt->decoded;
+
+            // $cacheKey = "/registration/get-all-" . \json_encode($decoded->company);
+
+            // $result = array();
+            // // return response()->json($validator->validated());
+
+            // $cached = Cache::get($cacheKey);
+            // if (!\is_null($cached)) return response()->json([
+            //     "status" => "success",
+            //     "message" => "Data from cached",
+            //     "data" => \json_decode($cached),
+            // ]);
+
+            $result = DB::table("vw_current_approvers as v1")->selectRaw(
+                "v1.regis_id
+                ,t1.company_information->>'juristic_id' as juristic_id
+                ,t1.company_information->>'company_name' as company_name
+                ,t1.company_information->>'company_admin' as company_admin
+                ,t1.created_at::varchar(19) as created_at
+                ,t1.status_no
+                ,t2.status_desc_th"
+            )->leftJoin("tb_regis_informations as t1", "v1.regis_id", "=", "t1.regis_id")
+                ->leftJoin("tb_all_status as t2", "t1.status_no", "=", "t2.status_no")->where(
+                    "v1.approver_id",
+                    $decoded->user_id
+                )->orderByDesc("created_at")->get(); //$decoded->company
+
+            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
+            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('30 seconds'));
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Data from query",
+                "data" => $result,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
     //? [PUT] /registration (update)
     function update(Request $request)
     {
@@ -782,11 +842,13 @@ class RegistrationController extends Controller
                 'relationship.relationship_name' => 'nullable|string',
                 // 'relationship.relationship_name' => 'required_if:relationship.is_relationship,true|string',
 
+                'standard.certificate.*.cer_id' => 'required|integer|min:1',
                 'standard.certificate.*.cer_name_th' => 'required|string',
                 'standard.certificate.*.cer_name_en' => 'required|string',
                 'standard.certificate.*.is_checked' => 'required|boolean',
                 'standard.certificate.*.value' => 'nullable|string',
                 'standard.certificate.*.exp' => 'nullable|string',
+                'standard.benefit.*.cer_id' => 'required|integer|min:1',
                 'standard.benefit.*.cer_name_th' => 'required|string',
                 'standard.benefit.*.cer_name_en' => 'required|string',
                 'standard.benefit.*.is_checked' => 'required|boolean',
@@ -801,6 +863,7 @@ class RegistrationController extends Controller
                 'payment_term.incoterm' => 'nullable|string',
                 'payment_term.lc_term.is_lc' => 'nullable|boolean',
                 'payment_term.lc_term.lc_type' => 'nullable|string',
+                'payment_term.delivery_term.*.cer_id' => 'required|integer|min:1',
                 'payment_term.delivery_term.*.cer_name_th' => 'required|string',
                 'payment_term.delivery_term.*.cer_name_en' => 'required|string',
                 'payment_term.delivery_term.*.is_checked' => 'required|boolean',
@@ -808,6 +871,7 @@ class RegistrationController extends Controller
                 'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
                 'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
+                'payment_term.company_policy.*.cer_id' => 'required|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
                 'payment_term.company_policy.*.is_checked' => 'required|boolean',
