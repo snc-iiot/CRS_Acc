@@ -94,6 +94,8 @@ Route::prefix('approvals-action')->controller(ApprovalsActionController::class)-
 });
 
 Route::prefix('assessment-result')->controller(OverallAssessmentController::class)->group(function () {
+    Route::get('/company-profile', 'companyProfile');
+    Route::get('/part1-score', 'part1Score');
     Route::get('/part2-score', 'part2Score');
 });
 
