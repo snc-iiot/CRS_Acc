@@ -97,6 +97,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
+    //! Mail OK
     //? [PATCH] /dbd-financial-report/confirm (update)
     function confirm(Request $request)
     {
@@ -148,6 +149,8 @@ class DbdFinancialReportController extends Controller
             ]);
 
             //! ส่งเมลเข้าสายอนุมัติ
+            //! Send Mail
+            DB::select("call sp_send_mail_to_first_approve(?);", [$request->regis_id]);
 
             return response()->json([
                 "status" => "success",

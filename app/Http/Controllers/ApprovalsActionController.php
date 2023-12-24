@@ -19,7 +19,7 @@ class ApprovalsActionController extends Controller
         $this->jwtUtils = new JWTUtils();
     }
 
-
+    //! Mail OK
     //? [PATCH] /approvals-action/send-to-edit (update)
     function sendToEdit(Request $request)
     {
@@ -86,6 +86,9 @@ class ApprovalsActionController extends Controller
             ]);
             //! ./Comments
 
+            //! Send mail
+            DB::select("call sp_send_mail_to_edit(?);", [$request->regis_id]);
+
             return response()->json([
                 "status" => "success",
                 "message" => "ส่งกลับไปแก้ไขสำเร็จ",
@@ -100,6 +103,7 @@ class ApprovalsActionController extends Controller
         }
     }
 
+    //! Mail OK
     //? [PATCH] /approvals-action/send-to-suspend (update)
     function sendToSuspend(Request $request)
     {
@@ -154,6 +158,9 @@ class ApprovalsActionController extends Controller
             ]);
             //! ./Comments
 
+            //! Send Mail
+            DB::select("call sp_send_mail_to_suspened(?);", [$request->regis_id]);
+
             return response()->json([
                 "status" => "success",
                 "message" => "ระงับรายการสำเร็จ",
@@ -168,6 +175,7 @@ class ApprovalsActionController extends Controller
         }
     }
 
+    //! Mail OK
     //? [PATCH] /approvals-action/enter-customer-code (update)
     function enterCustomerCode(Request $request)
     {
@@ -221,6 +229,9 @@ class ApprovalsActionController extends Controller
                 "status_no"            => 8, //! ระงับชั่วคราว
             ]);
 
+            //! Send Mail
+            DB::select("call sp_send_mail_to_fi(?);", [$request->regis_id]);
+
             return response()->json([
                 "status" => "success",
                 "message" => "กรอกรหัสลูกค้าสำเร็จ",
@@ -235,6 +246,7 @@ class ApprovalsActionController extends Controller
         }
     }
 
+    //! Mail OK
     //? [PATCH] /approvals-action/reject (update)
     function reject(Request $request)
     {
@@ -293,6 +305,9 @@ class ApprovalsActionController extends Controller
             ]);
             //! ./Comments
 
+            //! Send Mail
+            DB::select("call sp_send_mail_to_reject(?, ?);", [$request->regis_id, $orderNo]);
+
             return response()->json([
                 "status" => "success",
                 "message" => "ทำรายการสำเร็จ",
@@ -307,6 +322,7 @@ class ApprovalsActionController extends Controller
         }
     }
 
+    //! Mail OK
     //? [PATCH] /approvals-action/approve (update)
     function approve(Request $request)
     {
@@ -353,10 +369,13 @@ class ApprovalsActionController extends Controller
             $orderNo = $result[0]->order_no;
             // $index = $result[0]->index;
 
+            //! Send Mail (Before sp_approve for sp_send_mail_to_approve_v2)
+
             // $result = DB::select("call sp_approve(?, ?);", [$request->regis_id, $orderNo]);
             DB::select("call sp_approve(?, ?);", [$request->regis_id, $orderNo]);
 
-            //! Mail
+            //! Send Mail
+            DB::select("call sp_send_mail_to_approve(?, ?);", [$request->regis_id, $orderNo]);
 
             //! Log
 

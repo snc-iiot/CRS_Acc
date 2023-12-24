@@ -19,6 +19,7 @@ class GeneralAssessmentController extends Controller
         $this->jwtUtils = new JWTUtils();
     }
 
+    //! Mail OK
     //TODO [POST] /general-assessment (create)
     function create(Request $request)
     {
@@ -149,6 +150,8 @@ class GeneralAssessmentController extends Controller
             ]);
 
             //! ส่งเมลไปหา บัญชี
+            //! Send Mail
+            DB::select("call sp_send_mail_to_sync_dbd(?);", [$request->regis_id]);
 
             return response()->json([
                 "status" => "success",
@@ -164,6 +167,7 @@ class GeneralAssessmentController extends Controller
         }
     }
 
+    //! Mail OK
     //? [PUT] /general-assessment (update)
     function update(Request $request)
     {
@@ -303,6 +307,8 @@ class GeneralAssessmentController extends Controller
             ]);
 
             //! ส่งเมลไปหา บัญชี
+            //! Send Mail
+            DB::select("call sp_send_mail_to_sync_dbd(?);", [$request->regis_id]);
 
             return response()->json([
                 "status" => "success",
