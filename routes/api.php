@@ -14,6 +14,7 @@ use App\Http\Controllers\FinancialAnalyzeCommentsController;
 use App\Http\Controllers\DbdFinancialReportController;
 use App\Http\Controllers\FinancialRatioAssessmentController;
 use App\Http\Controllers\ApprovalsActionController;
+use App\Http\Controllers\OverallAssessmentController;
 // use App\Models\Company;
 
 /*
@@ -90,6 +91,10 @@ Route::prefix('approvals-action')->controller(ApprovalsActionController::class)-
     Route::patch('/enter-customer-code', 'enterCustomerCode');
     Route::patch('/reject', 'reject');
     Route::patch('/approve', 'approve');
+});
+
+Route::prefix('assessment-result')->controller(OverallAssessmentController::class)->group(function () {
+    Route::get('/part2-score', 'part2Score');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {
