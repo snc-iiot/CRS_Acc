@@ -121,7 +121,7 @@ export type TDepositTerm = {
 
 export type TProductWarranty = {
   is_warranty: boolean;
-  value: string;
+  value: number | null;
 };
 
 export type TCompanyPolicy = {

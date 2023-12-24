@@ -1,0 +1,372 @@
+[
+  {
+    "car_type": "รถจักรยานยนต์",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันเบนซิน 95",
+        "fuel_type_en": "Gasoline 95",
+        "fuel_name": "gasoline95"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ 95",
+        "fuel_type_en": "Gasohol 95",
+        "fuel_name": "gasohol95"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ 91",
+        "fuel_type_en": "Gasohol 91",
+        "fuel_name": "gasohol91"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ E20",
+        "fuel_type_en": "Gasohol E20",
+        "fuel_name": "gasoholE20"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ E85",
+        "fuel_type_en": "Gasohol E85",
+        "fuel_name": "gasoholE85"
+      }
+    ]
+  },
+  {
+    "car_type": "รถจักรยานยนต์ระบบไฟฟ้า",
+    "fuel_type": [
+      {
+        "fuel_type_th": "ชาร์จพลังงานไฟฟ้า",
+        "fuel_type_en": "Electricity",
+        "fuel_name": "electricity"
+      }
+    ]
+  },
+  {
+    "car_type": "รถยนต์ระบบสันดาป",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันเบนซิน 95",
+        "fuel_type_en": "Gasoline 95",
+        "fuel_name": "gasoline95"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ 95",
+        "fuel_type_en": "Gasohol 95",
+        "fuel_name": "gasohol95"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ 91",
+        "fuel_type_en": "Gasohol 91",
+        "fuel_name": "gasohol91"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ E20",
+        "fuel_type_en": "Gasohol E20",
+        "fuel_name": "gasoholE20"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ E85",
+        "fuel_type_en": "Gasohol E85",
+        "fuel_name": "gasoholE85"
+      },
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  },
+  {
+    "car_type": "รถยนต์ระบบไฮบริด",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันเบนซิน 95",
+        "fuel_type_en": "Gasoline 95",
+        "fuel_name": "gasoline95"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ 95",
+        "fuel_type_en": "Gasohol 95",
+        "fuel_name": "gasohol95"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ 91",
+        "fuel_type_en": "Gasohol 91",
+        "fuel_name": "gasohol91"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ E20",
+        "fuel_type_en": "Gasohol E20",
+        "fuel_name": "gasoholE20"
+      },
+      {
+        "fuel_type_th": "น้ำมันแก๊สโซฮอล์ E85",
+        "fuel_type_en": "Gasohol E85",
+        "fuel_name": "gasoholE85"
+      },
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  },
+  {
+    "car_type": "รถกระบะบรรทุก 4 ล้อ",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  },
+  {
+    "car_type": "รถตู้บรรทุก 4 ล้อ",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  },
+  {
+    "car_type": "รถกระบะบรรทุก 6 ล้อ",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  },
+  {
+    "car_type": "รถตู้บรรทุก 6 ล้อ",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  },
+  {
+    "car_type": "รถกระบะบรรทุก 10 ล้อ",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  },
+  {
+    "car_type": "รถตู้บรรทุก 10 ล้อ",
+    "fuel_type": [
+      {
+        "fuel_type_th": "น้ำมันพรีเมี่ยมดีเซล",
+        "fuel_type_en": "Premium Diesel",
+        "fuel_name": "premiumDiesel"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B7",
+        "fuel_type_en": "Biodiesel B7",
+        "fuel_name": "biodieselB7"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B10",
+        "fuel_type_en": "Biodiesel B10",
+        "fuel_name": "biodieselB10"
+      },
+      {
+        "fuel_type_th": "น้ำมันไบโอดีเซล B20",
+        "fuel_type_en": "Biodiesel B20",
+        "fuel_name": "biodieselB20"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (NGV)",
+        "fuel_type_en": "Natural Gas for Vehicle",
+        "fuel_name": "ngv"
+      },
+      {
+        "fuel_type_th": "ก๊าซธรรมชาติ (LPG)",
+        "fuel_type_en": "Liquefied Petroleum Gas",
+        "fuel_name": "lpg"
+      }
+    ]
+  }
+]

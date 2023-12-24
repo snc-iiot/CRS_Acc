@@ -5,39 +5,28 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { groupByField } from "@/helpers/array.helper";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC } from "react";
 
 const AssessmentDetailsSection: FC = () => {
-  // const Detail = {
-  //   section_1: [
-  //     "รายได้หลัก (Net Profit Margin)",
-  //     "กำไรสุทธิ (EAT)",
-  //     "อัตราส่วนหนี้สินต่อส่วนของผู้ถือหุ้น(D/E)",
-  //     "อัตราส่วนผลตอบแทนต่อส่วนของผู้ถือหุ้น (ROE)",
-  //   ],
-  //   section_2: ["ออร์เดอร์ / ปี (Order/Year)", "กำไรสุทธิ (EAT)"],
-  //   section_3: [
-  //     "เครดิตเทอมการจ่ายเงินของลูกค้า (Customer's Credit Term)",
-  //     "เครดิตเทอมการจ่ายเงินซัพพลายเออร์(Suplier's Credit Term)",
-  //     "ระยะสินค้าคงคลัง (Inventory Day)",
-  //   ],
-  //   section_4: [
-  //     "รายได้หลัก (Net Profit Margin)",
-  //     "กำไรสุทธิ (EAT)",
-  //     "อัตราส่วนหนี้สินต่อส่วนของผู้ถือหุ้น(D/E)",
-  //     "อัตราส่วนผลตอบแทนต่อส่วนของผู้ถือหุ้น (ROE)",
-  //   ],
-  // };
+  const { summaryPart1 } = useAtomStore();
+
+  const allSection = groupByField(summaryPart1, "topic_no_hint");
 
   const Section1: {
     label: string;
+    activeScore: number;
+    maxScore: number;
     data: {
       Topic: string;
       Score: number;
     }[];
   }[] = [
     {
-      label: "รายได้หลัก (Net Profit Margin)",
+      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection["1.1.1"]?.[0]?.label_th} (${allSection["1.1.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.1"]?.[0]?.score,
+      maxScore: allSection["1.1.1"]?.[0]?.max_score,
       data: [
         {
           Topic: "> 5,000 MB/Year",
@@ -58,7 +47,9 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: "กำไรสุทธิ (EAT)",
+      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection["1.1.2"]?.[0]?.label_th} (${allSection["1.1.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.2"]?.[0]?.score,
+      maxScore: allSection["1.1.2"]?.[0]?.max_score,
       data: [
         {
           Topic: "≥ 13",
@@ -73,13 +64,15 @@ const AssessmentDetailsSection: FC = () => {
           Score: 6,
         },
         {
-          Topic: "0",
+          Topic: "< 3",
           Score: 0,
         },
       ],
     },
     {
-      label: "อัตราส่วนหนี้สินต่อส่วนของผู้ถือหุ้น (D/E)",
+      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection["1.1.3"]?.[0]?.label_th} (${allSection["1.1.3"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.3"]?.[0]?.score,
+      maxScore: allSection["1.1.3"]?.[0]?.max_score,
       data: [
         {
           Topic: "≤ 1.4",
@@ -100,7 +93,9 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: "อัตราส่วนผลตอบแทนต่อส่วนของผู้ถือหุ้น (ROE)",
+      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection["1.1.4"]?.[0]?.label_th} (${allSection["1.1.4"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.4"]?.[0]?.score,
+      maxScore: allSection["1.1.4"]?.[0]?.max_score,
       data: [
         {
           Topic: "≥ 45",
@@ -124,13 +119,40 @@ const AssessmentDetailsSection: FC = () => {
 
   const Section2: {
     label: string;
+    activeScore: number;
+    maxScore: number;
     data: {
       Topic: string;
       Score: number;
     }[];
   }[] = [
     {
-      label: "ออร์เดอร์ / ปี (Order/Year)",
+      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection["1.2.1"]?.[0]?.label_th} (${allSection["1.2.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.2.1"]?.[0]?.score,
+      maxScore: allSection["1.2.1"]?.[0]?.max_score,
+      data: [
+        {
+          Topic: "≤ 65%",
+          Score: 10,
+        },
+        {
+          Topic: "> 65 - 75%",
+          Score: 8,
+        },
+        {
+          Topic: ">75 - 85%",
+          Score: 5,
+        },
+        {
+          Topic: "> 85%",
+          Score: 0,
+        },
+      ],
+    },
+    {
+      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection["1.2.2"]?.[0]?.label_th} (${allSection["1.2.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.2.2"]?.[0]?.score,
+      maxScore: allSection["1.2.2"]?.[0]?.max_score,
       data: [
         {
           Topic: "> 300MB/Year",
@@ -150,38 +172,21 @@ const AssessmentDetailsSection: FC = () => {
         },
       ],
     },
-    {
-      label: "กำไรสุทธิ (EAT)",
-      data: [
-        {
-          Topic: "≥ 13",
-          Score: 10,
-        },
-        {
-          Topic: "< 13 - 8",
-          Score: 8,
-        },
-        {
-          Topic: "< 8 - 3",
-          Score: 6,
-        },
-        {
-          Topic: "0",
-          Score: 0,
-        },
-      ],
-    },
   ];
 
   const Section3: {
     label: string;
+    activeScore: number;
+    maxScore: number;
     data: {
       Topic: string;
       Score: number;
     }[];
   }[] = [
     {
-      label: "เครดิตเทอมการจ่ายเงินของลูกค้า (Customer's Credit Term)",
+      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection["1.3.1"]?.[0]?.label_th} (${allSection["1.3.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.3.1"]?.[0]?.score,
+      maxScore: allSection["1.3.1"]?.[0]?.max_score,
       data: [
         {
           Topic: "เงินสด - 30 วัน",
@@ -202,7 +207,9 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: "เครดิตเทอมการจ่ายเงินซัพพลายเออร์(Suplier's Credit Term)",
+      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection["1.3.2"]?.[0]?.label_th} (${allSection["1.3.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.3.2"]?.[0]?.score,
+      maxScore: allSection["1.3.2"]?.[0]?.max_score,
       data: [
         {
           Topic: "> 90 วัน",
@@ -223,7 +230,9 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: "ระยะสินค้าคงคลัง (Inventory Day)",
+      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection["1.3.3"]?.[0]?.label_th} (${allSection["1.3.3"]?.[0]?.label_en})`,
+      activeScore: allSection["1.3.3"]?.[0]?.score,
+      maxScore: allSection["1.3.3"]?.[0]?.max_score,
       data: [
         {
           Topic: "3 วัน",
@@ -247,100 +256,88 @@ const AssessmentDetailsSection: FC = () => {
 
   const Section4: {
     label: string;
+    activeScore: number;
+    maxScore: number;
     data: {
       Topic: string;
       Score: number;
     }[];
   }[] = [
     {
-      label: "รายได้หลัก (Net Profit Margin)",
+      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection["1.4.1"]?.[0]?.label_th} (${allSection["1.4.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.4.1"]?.[0]?.score,
+      maxScore: allSection["1.4.1"]?.[0]?.max_score,
       data: [
         {
-          Topic: "> 5,000 MB/Year",
+          Topic: "มีเพียงพอ",
           Score: 10,
         },
         {
-          Topic: "> 1,000 - 5,000MB/Year",
+          Topic: "ใช้ของลูกค้า",
           Score: 8,
         },
         {
-          Topic: "> 500 - 1,000MB/Year",
-          Score: 5,
-        },
-        {
-          Topic: "≤ 500 MB/Year",
+          Topic: "ลงทุนเพิ่ม",
           Score: 0,
         },
       ],
     },
     {
-      label: "กำไรสุทธิ (EAT)",
+      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection["1.4.2"]?.[0]?.label_th} (${allSection["1.4.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.4.2"]?.[0]?.score,
+      maxScore: allSection["1.4.2"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≥ 13",
+          Topic: "ไม่ใช้แม่พิมพ์",
           Score: 10,
         },
         {
-          Topic: "< 13 - 8",
-          Score: 8,
-        },
-        {
-          Topic: "< 8 - 3",
-          Score: 6,
-        },
-        {
-          Topic: "0",
-          Score: 0,
-        },
-      ],
-    },
-    {
-      label: "อัตราส่วนหนี้สินต่อส่วนของผู้ถือหุ้น (D/E)",
-      data: [
-        {
-          Topic: "≤ 1.4",
+          Topic: "มีอยู่เพียงพอ",
           Score: 10,
         },
         {
-          Topic: "> 1.4 - 2.0",
-          Score: 8,
-        },
-        {
-          Topic: "> 2.0 - 2.5",
+          Topic: "ใช้ของลูกค้า",
           Score: 6,
         },
         {
-          Topic: "> 2.50",
-          Score: 0,
-        },
-      ],
-    },
-    {
-      label: "อัตราส่วนผลตอบแทนต่อส่วนของผู้ถือหุ้น (ROE)",
-      data: [
-        {
-          Topic: "≥ 45",
-          Score: 10,
-        },
-        {
-          Topic: "< 45 - 30",
-          Score: 8,
-        },
-        {
-          Topic: "< 30 - 15",
-          Score: 6,
-        },
-        {
-          Topic: "< 15",
+          Topic: "ลงทุนเพิ่ม",
           Score: 0,
         },
       ],
     },
   ];
 
+  const CalculateSection1 = () => {
+    const sumScore = Section1?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section1?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
+  const CalculateSection2 = () => {
+    const sumScore = Section2?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section2?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
+  const CalculateSection3 = () => {
+    const sumScore = Section3?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section3?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
+  const CalculateSection4 = () => {
+    const sumScore = Section4?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section4?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
   const AssessmentDetails = [
     {
-      label: "1.1 รายได้และผลตอบแทนผู้ถือหุ้น (10/10 คะแนน)",
+      label: "1.1 รายได้และผลตอบแทนผู้ถือหุ้น",
       component: (
         <div className="grid grid-cols-2 gap-2">
           {Section1.map((info, index) => (
@@ -349,7 +346,7 @@ const AssessmentDetailsSection: FC = () => {
               Header={info.label}
               className="w-full gap-0"
               TableHeaderText={["หัวข้อ / เงื่อนไข / เกณฑ์", "คะแนน"]}
-              activeScore={10}
+              activeScore={info?.activeScore}
               data={info.data}
             />
           ))}
@@ -357,7 +354,7 @@ const AssessmentDetailsSection: FC = () => {
       ),
     },
     {
-      label: "1.2 ออร์เดอร์และสัดส่วนวัตถุดิบ (10/10 คะแนน)",
+      label: "1.2 ออร์เดอร์และสัดส่วนวัตถุดิบ",
       component: (
         <div className="grid grid-cols-2 gap-2 ">
           {Section2.map((info, index) => (
@@ -366,7 +363,7 @@ const AssessmentDetailsSection: FC = () => {
               Header={info.label}
               className="w-full gap-0"
               TableHeaderText={["หัวข้อ / เงื่อนไข / เกณฑ์", "คะแนน"]}
-              activeScore={10}
+              activeScore={info?.activeScore}
               data={info.data}
             />
           ))}
@@ -374,7 +371,7 @@ const AssessmentDetailsSection: FC = () => {
       ),
     },
     {
-      label: "1.3 เครดิตเทอม และสินค้าคงคลัง (10/10 คะแนน)",
+      label: "1.3 เครดิตเทอม และสินค้าคงคลัง",
       component: (
         <div className="grid grid-cols-2 gap-2">
           {Section3.map((info, index) => (
@@ -383,7 +380,7 @@ const AssessmentDetailsSection: FC = () => {
               Header={info.label}
               className="w-full gap-0"
               TableHeaderText={["หัวข้อ / เงื่อนไข / เกณฑ์", "คะแนน"]}
-              activeScore={10}
+              activeScore={info.activeScore}
               data={info.data}
             />
           ))}
@@ -391,7 +388,7 @@ const AssessmentDetailsSection: FC = () => {
       ),
     },
     {
-      label: "1.4 การลงทุนเครื่องจักร และแม่พิมพ์ (10/10 คะแนน)",
+      label: "1.4 การลงทุนเครื่องจักร และแม่พิมพ์",
       component: (
         <div className="grid grid-cols-2 gap-2">
           {Section4.map((info, index) => (
@@ -400,7 +397,7 @@ const AssessmentDetailsSection: FC = () => {
               Header={info.label}
               className="w-full gap-0"
               TableHeaderText={["หัวข้อ / เงื่อนไข / เกณฑ์", "คะแนน"]}
-              activeScore={10}
+              activeScore={info?.activeScore}
               data={info.data}
             />
           ))}
@@ -409,13 +406,26 @@ const AssessmentDetailsSection: FC = () => {
     },
   ];
 
+  const labelScore: {
+    [key: number]: number;
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+  } = {
+    1: CalculateSection1(),
+    2: CalculateSection2(),
+    3: CalculateSection3(),
+    4: CalculateSection4(),
+  };
+
   return (
     <div>
       <Accordion type="multiple">
         {AssessmentDetails.map((item, index) => (
           <AccordionItem key={index} value={`item-${index}`}>
             <AccordionTrigger className="p-1 text-xs">
-              {item.label}
+              {item.label} ({labelScore[index + 1] as number}/10) คะแนน
             </AccordionTrigger>
             <AccordionContent className="px-6">
               {item.component}

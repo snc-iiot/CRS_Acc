@@ -97,7 +97,7 @@ export const registrationAtom = atom<TRegistrationForm>({
     },
     product_warranty: {
       is_warranty: false,
-      value: "",
+      value: 0,
     },
     company_policy: [],
     objective_purchasing: {

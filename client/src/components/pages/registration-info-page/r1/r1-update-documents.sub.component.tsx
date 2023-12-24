@@ -14,7 +14,7 @@ export const R1UpdateDocuments: FC = () => {
   const { mutateGetDocByRegisId } = useUtils();
   const { mutateUploadFile, mutateDeleteDocById } = useForm();
   const [progress, setProgress] = useState<number>(0);
-  const { docByRegisId } = useAtomStore();
+  const { docByRegisId, common } = useAtomStore();
   const [name, setName] = useState<string>("");
   const documentsInformation: {
     label: string;
@@ -66,10 +66,12 @@ export const R1UpdateDocuments: FC = () => {
       },
       setProgress: (progress: number) => setProgress(progress),
     };
-    Promise.all([
-      mutateUploadFile(newReq),
-      mutateGetDocByRegisId(regisId as string),
-    ]);
+    // Promise.all([
+    //   mutateUploadFile(newReq),
+    //   mutateGetDocByRegisId(regisId as string),
+    // ]);
+    await mutateUploadFile(newReq);
+    await mutateGetDocByRegisId(regisId as string);
     document.getElementById(`${e.target.name}`)?.setAttribute("value", "");
     setTimeout(() => {
       setProgress(0);
@@ -119,7 +121,10 @@ export const R1UpdateDocuments: FC = () => {
                   accept="application/pdf"
                   showFileName={false}
                   name={item?.name}
-                  className="cursor-pointer whitespace-nowrap text-primary hover:underline"
+                  className={cn(
+                    "cursor-pointer whitespace-nowrap text-primary hover:underline",
+                    !common?.isEditGeneralAssessmentForm ? "hidden" : "",
+                  )}
                   onChange={async (e) => {
                     console.log(e.target.files);
                     await handleFileChange(e);
@@ -127,7 +132,6 @@ export const R1UpdateDocuments: FC = () => {
                   }}
                 >
                   <button className="cursor-pointer whitespace-nowrap text-xs text-primary hover:underline">
-                    {/* อัพโหลดซ้ำ */}
                     {item?.link ? "อัพโหลดซ้ำ" : "อัพโหลดเอกสาร"}
                     {progress > 0 && name == item?.name ? (
                       <span className="ml-2 text-xs text-red-500">
@@ -140,6 +144,7 @@ export const R1UpdateDocuments: FC = () => {
                   className={cn(
                     "cursor-pointer whitespace-nowrap text-red-500 hover:underline",
                     !item?.link && "hidden",
+                    !common?.isEditGeneralAssessmentForm && "hidden",
                   )}
                   onClick={async () => {
                     await mutateDeleteDocById({

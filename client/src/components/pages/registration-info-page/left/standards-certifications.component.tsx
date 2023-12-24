@@ -96,19 +96,23 @@ const StandardsCertifications: FC = () => {
         <div className="grid grid-cols-4 items-center pl-1">
           <div className="flex items-center gap-x-1">
             <Icons.checkCircle className="h-3 w-3 text-primary" />
-            <p
-              className={cn(
-                payment_term?.credit_term?.name === "other-term" &&
-                  "text-primary",
-              )}
-            >
-              {payment_term?.credit_term?.name === "other-term"
+            <p className={cn("text-primary")}>
+              {payment_term?.credit_term?.name === "other"
                 ? "อื่นๆ"
-                : payment_term?.credit_term?.name}
+                : payment_term?.credit_term?.name === "credit"
+                ? "เครดิต"
+                : ""}
             </p>
           </div>
           <div className="px-1">
-            <p>{payment_term?.credit_term?.value} วัน</p>
+            <p
+              className={cn(
+                payment_term?.credit_term?.name === "other" &&
+                  "border-b text-primary",
+              )}
+            >
+              {payment_term?.credit_term?.value} วัน
+            </p>
           </div>
           <div />
           <div />
@@ -125,7 +129,7 @@ const StandardsCertifications: FC = () => {
             )}
             <p
               className={cn(
-                payment_term?.billing_term?.name === "other-term" &&
+                payment_term?.billing_term?.name === "transfer" &&
                   "text-primary",
               )}
             >

@@ -29,10 +29,23 @@ export const CompanyInfo: ICompanyForm[] = [
     label: "ประเทศ",
     type: "select",
     placeholder: "กรอกประเทศ",
+    // options: CountryList?.map((country) => ({
+    //   value: country?.alpha2,
+    //   label: country?.country,
+    // })),
+    // ถ้่า Country === th ให้ขึ้นเป็นตัวแรก
     options: CountryList?.map((country) => ({
       value: country?.alpha2,
       label: country?.country,
-    })),
+    })).sort((a, b) => {
+      if (a.value === "TH") {
+        return -1;
+      }
+      if (b.value === "TH") {
+        return 1;
+      }
+      return 0;
+    }),
     required: true,
   },
   {
@@ -102,6 +115,6 @@ export const CompanyInfo: ICompanyForm[] = [
     type: "select",
     placeholder: "ประเภทกิจการตามใบอนุญาตประกอบการ",
     required: true,
-    options: []
+    options: [],
   },
 ];

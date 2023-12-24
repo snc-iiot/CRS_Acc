@@ -11,3 +11,4 @@ export * from "./registration-atom";
 export * from "./general-form";
 export * from "./common-atom";
 export * from "./comment-atom";
+export * from "./summary-atom";

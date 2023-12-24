@@ -26,7 +26,7 @@ const CompanyInformationForm: FC = () => {
       ...prev,
       company_information: {
         ...prev?.company_information,
-        [name]: value,
+        [name]: name === "nature_of_business" ? Number(value) : value,
       },
     }));
   };
@@ -175,7 +175,7 @@ const CompanyInformationForm: FC = () => {
                       company_registration: {
                         ...prev.company_information.company_registration,
                         is_thai: value === "thai-company",
-                        country: "",
+                        country: "-",
                       },
                     },
                   }));

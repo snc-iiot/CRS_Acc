@@ -156,27 +156,29 @@ export const useUtils = () => {
     },
   });
 
-  const { mutateAsync: mutateGetRegisterId, data: dataGetRegisterId } =
-    useMutation<TResponseAction, Error>({
-      mutationKey: [queryKey.CREATE_REGISTER_ID],
-      mutationFn: utilsService.createRegisterId,
-      onMutate: () => {
-        showLoading("กำลังสร้างฟอร์มผู้ลงทะเบียน", "กรุณารอสักครู่");
-      },
-      onSuccess: (data) => {
-        closeSwal();
-        if (data.status == "success") {
-          mutateGetDocByRegisId(data?.data?.[0]?.regis_id || "");
-          showSuccess("สร้างฟอร์มผู้ลงทะเบียนสำเร็จ", "");
-        } else {
-          showError("สร้างฟอร์มผู้ลงทะเบียนไม่สำเร็จ", data?.message);
-        }
-      },
-      onError: (error) => {
-        closeSwal();
-        showError("เกิดข้อผิดพลาด", error?.message);
-      },
-    });
+  const { mutateAsync: mutateGetRegisterId } = useMutation<
+    TResponseAction,
+    Error
+  >({
+    mutationKey: [queryKey.CREATE_REGISTER_ID],
+    mutationFn: utilsService.createRegisterId,
+    onMutate: () => {
+      showLoading("กำลังสร้างฟอร์มผู้ลงทะเบียน", "กรุณารอสักครู่");
+    },
+    onSuccess: (data) => {
+      closeSwal();
+      if (data.status == "success") {
+        mutateGetDocByRegisId(data?.data?.[0]?.regis_id || "");
+        showSuccess("สร้างฟอร์มผู้ลงทะเบียนสำเร็จ", "");
+      } else {
+        showError("สร้างฟอร์มผู้ลงทะเบียนไม่สำเร็จ", data?.message);
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
 
   const { mutateAsync: mutateGetCommentByRegisId } = useMutation<
     TCommitList,
@@ -315,7 +317,6 @@ export const useUtils = () => {
     useGetCompanyPolicyList,
     useGetCompanyList,
     mutateGetRegisterId,
-    dataGetRegisterId,
     useGetCountryCodeList,
     mutateGetDocByRegisId,
     mutateGetCommentByRegisId,

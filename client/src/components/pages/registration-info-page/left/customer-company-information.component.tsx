@@ -9,6 +9,8 @@ const CustomerDetails: FC = () => {
   const { registration, businessTypeList } = useAtomStore();
   const { company_information } = registration;
 
+  console.log("company_information", company_information);
+
   return (
     <div className="grid grid-cols-4 pl-1 pr-4 text-xs">
       {CompanyInfo?.filter(
@@ -20,7 +22,7 @@ const CustomerDetails: FC = () => {
           <h4 className="truncate font-semibold">{item?.label}</h4>
           <div className="col-span-3 flex items-center gap-x-1">
             <CopyToClipboardCustom
-              text={item?.label}
+              text={item?.name}
               delay={500}
               className="h-3 w-3"
             />

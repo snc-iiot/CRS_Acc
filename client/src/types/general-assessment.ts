@@ -124,3 +124,14 @@ export type TApprovalList = {
   business_unit: string;
   approvals: TApproval[];
 };
+
+export type TCompanyProfile = {
+  regis_id: string;
+  company_name: string;
+  company_admin: string;
+  company_full_name_th: string;
+  company_full_name_en: string;
+  products: string;
+  business_type_id: number;
+  business_type_th: string;
+};

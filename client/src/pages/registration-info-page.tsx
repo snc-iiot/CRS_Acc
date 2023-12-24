@@ -10,12 +10,6 @@ import {
   R2Form,
   R3Form,
   R4Form,
-  // R5Form,
-  // R6Form,
-  // R7Form,
-  // R8Form,
-  // R9Form,
-  // R10Form,
   Relationship,
   ShareholderProportion,
   StandardsCertifications,
@@ -27,6 +21,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -43,6 +38,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { MODE_CODE } from "@/helpers/common.helper";
+import { DisableTabs, PermissionSubAction } from "@/helpers/permission.helper";
+import { status } from "@/helpers/status.helper";
+import { CommentType } from "@/helpers/utils.helpers";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn, COLORS_SERIES } from "@/lib/utils";
@@ -53,8 +51,13 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationInfo: FC = () => {
-  const { mutateGetApprovalsById, mutateGetTemplateGeneralAssessmentById } =
-    useFormGeneral();
+  const {
+    mutateGetApprovalsById,
+    mutateGetTemplateGeneralAssessmentById,
+    mutateGetSummaryPart1,
+    mutateGetSummaryPart2,
+    mutateGetCompanyProfile,
+  } = useFormGeneral();
   const { comment, registration, generalAssessmentForm, setCommon } =
     useAtomStore();
   const { confirmSwal, showError, showLoading, closeSwal } = useSwal();
@@ -76,24 +79,36 @@ const RegistrationInfo: FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
-  // const actionsTab =
-  //   getStatusByRegisId(RegisID as string)?.status_no === 2 ? ["R2"] : [""];
+  // //! สำหรับ sub action tab
+  // const newActionTab = (status: number) => {
+  //   const condition = {
+  //     1: ["R1"],
+  //     2: ["R2"],
+  //     3: [""],
+  //     4: [""],
+  //     5: ["R5"],
+  //     6: [""],
+  //     7: ["R7"],
+  //     8: ["R8"],
+  //     9: ["R9"],
+  //   };
+  //   return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+  // };
 
-  //! สำหรับ sub action tab
-  const newActionTab = (status: number) => {
-    const condition = {
-      1: ["R1"],
-      2: ["R2"],
-      3: ["R1", "R2"],
-      4: [""],
-      5: ["R5"],
-      6: [""],
-      7: ["R7"],
-      8: ["R8"],
-      9: ["R9"],
-    };
-    return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
-  };
+  // //! Validate Action Tab
+  // const validateActionTab = (
+  //   action: "R1" | "R2" | "R3" | "R4" | "R5",
+  //   status: number,
+  // ) => {
+  //   const condition = {
+  //     R1: [1, 2, 3, 4, 5, 6, 7],
+  //     R2: [2, 3, 4, 5, 6, 7],
+  //     R3: [4, 5, 6, 7],
+  //     R4: [4, 6, 7],
+  //     R5: [4, 7],
+  //   };
+  //   return condition[action].includes(status);
+  // };
 
   const mainActions = [
     "R1",
@@ -175,9 +190,9 @@ const RegistrationInfo: FC = () => {
   ];
 
   const getInfoById = async () => {
-    showLoading("กำลังดึงข้อมูล", "กรุณารอสักครู่...");
     try {
-      Promise.all([
+      showLoading("กำลังโหลดข้อมูล", "กรุณารอสักครู่");
+      await Promise.all([
         mutateGetDocByRegisId(RegisID as string),
         mutateGetRegisById(RegisID as string),
         mutateGetApprovalsById(RegisID as string),
@@ -186,35 +201,31 @@ const RegistrationInfo: FC = () => {
         mutateGetDBDInfo(RegisID as string),
         mutateGetCommentByRegisIdR3(RegisID as string),
         mutateGetFinancialRatio(RegisID as string),
+        mutateGetSummaryPart2(RegisID as string),
+        mutateGetCompanyProfile(RegisID as string),
+        mutateGetSummaryPart1(RegisID as string),
       ]);
-      closeSwal();
+      setTimeout(() => {
+        closeSwal();
+      }, 1000);
     } catch (error) {
       showError("ไม่สามารถดึงข้อมูลได้", "เกิดข้อผิดพลาด");
     }
   };
 
-  //! Validate Action Tab
-  const validateActionTab = (
-    action: "R1" | "R2" | "R3" | "R4" | "R5",
-    status: number,
-  ) => {
-    const condition = {
-      R1: [1, 2, 3, 4, 5, 6, 7],
-      R2: [2, 3, 4, 5, 6, 7],
-      R3: [3, 4, 5, 6, 7],
-      R4: [4, 6, 7],
-      R5: [4, 7],
-    };
-    return condition[action].includes(status);
-  };
-
   useEffect(() => {
     if (!RegisID) navigate("/registration");
     getInfoById();
-    setCommon({
-      isEditGeneralAssessmentForm: false,
-    });
   }, [RegisID]);
+
+  useEffect(() => {
+    if (registration?.status_no === 1) {
+      setCommon((prev) => ({
+        ...prev,
+        isEditGeneralAssessmentForm: true,
+      }));
+    }
+  }, [registration?.status_no]);
 
   return (
     <FadeIn>
@@ -269,12 +280,19 @@ const RegistrationInfo: FC = () => {
                 </Tooltip>
               </TooltipProvider>
             ))}
-            <h3 className="text-md ml-2 font-bold text-red-500">
+            <Badge
+              className={cn(
+                "text-md ml-2 font-bold",
+                status?.find(
+                  (item) => item?.status_id === registration?.status_no,
+                )?.status_color,
+              )}
+            >
               {generalAssessmentForm?.status_desc_th} &nbsp;
-              <span className="text-xs text-primary">
+              {/* <span className="text-xs text-primary">
                 {registration?.regis_id}
-              </span>
-            </h3>
+              </span> */}
+            </Badge>
           </div>
         </header>
         <main className="h-[calc(100%-3rem)]">
@@ -355,9 +373,10 @@ const RegistrationInfo: FC = () => {
               >
                 <Button
                   className={cn(
-                    "bg-yellow-500 hover:bg-yellow-500/80",
+                    "flex items-center whitespace-nowrap bg-yellow-500 text-sm hover:bg-yellow-500/80",
                     registration?.status_no === 1 ||
-                      registration?.status_no === 2
+                      registration?.status_no === 2 ||
+                      registration?.status_no === 3
                       ? "block"
                       : "hidden",
                   )}
@@ -372,7 +391,8 @@ const RegistrationInfo: FC = () => {
                       );
                   }}
                 >
-                  <Icons.edit className="mr-2 h-5 w-5" /> แก้ไขข้อมูลลูกค้า
+                  <Icons.edit className="mr-2 inline-block h-5 w-5" />
+                  <p className="inline-block">แก้ไขข้อมูลลูกค้า</p>
                 </Button>
               </div>
             </div>
@@ -385,7 +405,7 @@ const RegistrationInfo: FC = () => {
             >
               <div
                 className={cn(
-                  newActionTab(
+                  PermissionSubAction(
                     registration?.status_no as
                       | 1
                       | 2
@@ -413,7 +433,7 @@ const RegistrationInfo: FC = () => {
                           key={i}
                           value={info?.value}
                           disabled={
-                            !validateActionTab(
+                            !DisableTabs(
                               info?.value as "R2" | "R3" | "R4" | "R5",
                               registration?.status_no as number,
                             )
@@ -447,7 +467,7 @@ const RegistrationInfo: FC = () => {
                 </Tabs>
               </div>
               {/* //! Action by user */}
-              {newActionTab(registration?.status_no as number).includes(
+              {PermissionSubAction(registration?.status_no as number).includes(
                 activeTab,
               ) ? (
                 <div className="flex h-[7%] items-center justify-between border border-b-0 px-2">
@@ -460,10 +480,35 @@ const RegistrationInfo: FC = () => {
               <div className="grid h-[20%] grid-cols-2">
                 <div className="h-full border border-r-0">
                   <main className="flex h-full w-full flex-col overflow-hidden">
-                    <section>
+                    <section className="flex items-center px-2 py-1">
                       <h2 className="px-2 py-1 text-sm font-semibold underline">
                         ข้อเสนอแนะ / Comments
                       </h2>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Icons.helpCircle className="h-4 w-4 text-primary" />
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="p-2"
+                          side="bottom"
+                          align="start"
+                        >
+                          <h3 className="text-xs font-semibold">
+                            หมายเหตุ / Note
+                          </h3>
+                          {CommentType?.map((item, i) => (
+                            <li key={i} className="flex items-center gap-1">
+                              <div
+                                className={cn(
+                                  "inline-block h-2 w-2 rounded-full text-primary",
+                                  item?.color,
+                                )}
+                              />
+                              <p className="text-xs">{item?.label}</p>
+                            </li>
+                          ))}
+                        </PopoverContent>
+                      </Popover>
                     </section>
                     <section className="flex h-full w-full flex-col">
                       <div className="flex h-0 flex-grow flex-col gap-1 overflow-y-auto px-2 text-xs">
@@ -479,9 +524,20 @@ const RegistrationInfo: FC = () => {
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger asChild>
-                                  <p className="col-span-5 w-full text-xs">
-                                    {item?.comments}
-                                  </p>
+                                  <div className="col-span-5 flex w-full  items-center gap-1">
+                                    <div
+                                      className={cn(
+                                        "inline-block h-2 w-2 rounded-full text-primary",
+                                        CommentType?.find(
+                                          (type) =>
+                                            type?.name === item?.comments_type,
+                                        )?.color,
+                                      )}
+                                    />
+                                    <p className="w-full text-xs">
+                                      {item?.comments}
+                                    </p>
+                                  </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                   <p>{item?.comments}</p>

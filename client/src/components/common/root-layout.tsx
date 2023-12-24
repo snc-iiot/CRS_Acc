@@ -42,7 +42,7 @@ const RootLayout: FC = () => {
     useGetDocumentKeyList,
   } = useUtils();
 
-  const { useGetRegisList } = useForm();
+  const { useGetRegisList, useGetRegisListByAccountId } = useForm();
 
   useGetBenefitsList();
   useGetBusinessTypeList();
@@ -55,6 +55,7 @@ const RootLayout: FC = () => {
 
   //? Get Regis List
   useGetRegisList();
+  useGetRegisListByAccountId();
 
   return (
     <ReqAuth>
@@ -108,7 +109,7 @@ const RootLayout: FC = () => {
                         <Avatar className="h-6 w-6 cursor-pointer">
                           <AvatarImage src="" />
                           <AvatarFallback className="bg-primary/10 uppercase">
-                            {profile?.name?.en?.at(0)}
+                            {profile?.name?.en?.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <p className="text-sm font-semibold uppercase">

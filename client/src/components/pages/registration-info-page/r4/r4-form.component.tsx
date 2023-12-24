@@ -18,80 +18,254 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { groupByField } from "@/helpers/array.helper";
 import { CopyToClipboardCustom } from "@/hooks/use-copy-to-clipboard";
 import { useAtomStore } from "@/jotai/use-atom-store";
-import { FC, Fragment } from "react";
+import { cn } from "@/lib/utils";
+import { FC, Fragment, useMemo } from "react";
 import {
   AssessmentDetailsSectionComponent,
   EvaluateFormComponent,
 } from "../../evaluate";
 
 const R4Form: FC = () => {
-  const { registration, companyList, generalAssessmentForm } = useAtomStore();
+  const { summaryPart2, companyProfile, summaryPart1 } = useAtomStore();
+  const allSection = groupByField(summaryPart1, "topic_no_hint");
 
-  const findCompany = companyList?.find(
-    (item) =>
-      item?.company === registration?.company_information?.company_admin,
-  );
+  const Section1: {
+    label: string;
+    activeScore: number;
+    maxScore: number;
+  }[] = [
+    {
+      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection["1.1.1"]?.[0]?.label_th} (${allSection["1.1.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.1"]?.[0]?.score,
+      maxScore: allSection["1.1.1"]?.[0]?.max_score,
+    },
+    {
+      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection["1.1.2"]?.[0]?.label_th} (${allSection["1.1.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.2"]?.[0]?.score,
+      maxScore: allSection["1.1.2"]?.[0]?.max_score,
+    },
+    {
+      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection["1.1.3"]?.[0]?.label_th} (${allSection["1.1.3"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.3"]?.[0]?.score,
+      maxScore: allSection["1.1.3"]?.[0]?.max_score,
+    },
+    {
+      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection["1.1.4"]?.[0]?.label_th} (${allSection["1.1.4"]?.[0]?.label_en})`,
+      activeScore: allSection["1.1.4"]?.[0]?.score,
+      maxScore: allSection["1.1.4"]?.[0]?.max_score,
+    },
+  ];
+
+  const Section2: {
+    label: string;
+    activeScore: number;
+    maxScore: number;
+  }[] = [
+    {
+      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection["1.2.1"]?.[0]?.label_th} (${allSection["1.2.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.2.1"]?.[0]?.score,
+      maxScore: allSection["1.2.1"]?.[0]?.max_score,
+    },
+    {
+      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection["1.2.2"]?.[0]?.label_th} (${allSection["1.2.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.2.2"]?.[0]?.score,
+      maxScore: allSection["1.2.2"]?.[0]?.max_score,
+    },
+  ];
+
+  const Section3: {
+    label: string;
+    activeScore: number;
+    maxScore: number;
+  }[] = [
+    {
+      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection["1.3.1"]?.[0]?.label_th} (${allSection["1.3.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.3.1"]?.[0]?.score,
+      maxScore: allSection["1.3.1"]?.[0]?.max_score,
+    },
+    {
+      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection["1.3.2"]?.[0]?.label_th} (${allSection["1.3.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.3.2"]?.[0]?.score,
+      maxScore: allSection["1.3.2"]?.[0]?.max_score,
+    },
+    {
+      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection["1.3.3"]?.[0]?.label_th} (${allSection["1.3.3"]?.[0]?.label_en})`,
+      activeScore: allSection["1.3.3"]?.[0]?.score,
+      maxScore: allSection["1.3.3"]?.[0]?.max_score,
+    },
+  ];
+
+  const Section4: {
+    label: string;
+    activeScore: number;
+    maxScore: number;
+  }[] = [
+    {
+      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection["1.4.1"]?.[0]?.label_th} (${allSection["1.4.1"]?.[0]?.label_en})`,
+      activeScore: allSection["1.4.1"]?.[0]?.score,
+      maxScore: allSection["1.4.1"]?.[0]?.max_score,
+    },
+    {
+      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection["1.4.2"]?.[0]?.label_th} (${allSection["1.4.2"]?.[0]?.label_en})`,
+      activeScore: allSection["1.4.2"]?.[0]?.score,
+      maxScore: allSection["1.4.2"]?.[0]?.max_score,
+    },
+  ];
+
+  const CalculateSection1 = () => {
+    const sumScore = Section1?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section1?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
+  const CalculateSection2 = () => {
+    const sumScore = Section2?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section2?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
+  const CalculateSection3 = () => {
+    const sumScore = Section3?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section3?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
+  const CalculateSection4 = () => {
+    const sumScore = Section4?.reduce((a, b) => a + b?.activeScore, 0);
+    const sumMaxScore = Section4?.reduce((a, b) => a + b?.maxScore, 0);
+    const result = (sumScore / sumMaxScore) * 10;
+    return Math.floor(result);
+  };
+
+  const labelScore: {
+    [key: number]: number;
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+  } = {
+    1: CalculateSection1(),
+    2: CalculateSection2(),
+    3: CalculateSection3(),
+    4: CalculateSection4(),
+  };
 
   const companyInformation: { label: string; value: string }[] = [
     {
       label: "บริษัทลูกค้า (Company Name)",
-      value: registration?.company_information?.company_name ?? "-",
+      value: companyProfile?.company_name ?? "-",
     },
     {
       label: "ขึ้นทะเบียนกับบริษัท (To Register With)",
-      value: `[${findCompany?.company}] ${findCompany?.company_full_name_th}`,
+      value: `[${companyProfile?.company_admin ?? "-"}] ${
+        companyProfile?.company_full_name_th ?? "-"
+      }`,
     },
     {
       label: "สินค้า (Product)",
-      value: generalAssessmentForm?.products ?? "-",
+      value: companyProfile?.products ?? "-",
     },
     {
       label: "ประเภทกิจการ (Type of Business)",
-      value: "ผู้ผลิต",
+      value: companyProfile?.business_type_th ?? "-",
     },
   ];
 
-  const SummaryData = [
-    {
-      section_1: "40",
-      section_2: "60",
-      summary: "100",
-      grade: "A",
-      result: "ผ่าน",
-    },
-  ];
+  const CalculatePart1 = useMemo(() => {
+    const sumScore = Object.values(labelScore).reduce((a, b) => a + b, 0);
+    return sumScore;
+  }, [labelScore]);
 
-  const AssessmentDetails = [
-    {
-      label: "ส่วนที่ 1: การเงินและการลงทุน (40/40 คะแนน)",
-      component: <AssessmentDetailsSectionComponent />,
-    },
-    {
-      label: "ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย (60/60 คะแนน)",
-      component: <EvaluateFormComponent />,
-    },
-  ];
+  const CalculatePart2 = () => {
+    const sumScore = summaryPart2?.reduce((a, b) => a + b?.score, 0);
+    const sumMaxScore = summaryPart2?.reduce((a, b) => a + b?.max_score, 0);
+    const result = (sumScore / sumMaxScore) * 60;
+    return Math.floor(result);
+  };
 
   const GradeDetail = [
     {
       label: "A",
-      value: ">80 - 100",
+      value: "80 - 100",
     },
     {
       label: "B",
-      value: "<80 - 80",
+      value: "60 - 79.99",
     },
     {
       label: "C",
-      value: "<60 - 50",
+      value: "50 - 59.99",
     },
     {
       label: "D",
-      value: "<50",
+      value: "0 - 49.99",
     },
   ];
+
+  const CalculateGrade = (score: number) => {
+    if (score >= 80) {
+      return "A";
+    } else if (score >= 60 && score <= 79.99) {
+      return "B";
+    } else if (score >= 50 && score <= 59.99) {
+      return "C";
+    } else {
+      return "D";
+    }
+  };
+
+  const Result = (grade: string) => {
+    if (grade === "D") {
+      return "ไม่ขาย";
+    }
+    return "ขาย";
+  };
+
+  const SummaryData = [
+    {
+      section_1: CalculatePart1,
+      section_2: CalculatePart2() ?? "-",
+      summary: CalculatePart1 + CalculatePart2(),
+      grade: CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2())),
+      result: Result(
+        CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2())),
+      ),
+    },
+  ];
+
+  // useMemo(() => {
+  //   const sumScore = Object.values(labelScore).reduce((a, b) => a + b, 0);
+  //   setCalculatePart1(sumScore);
+  // }, [labelScore]);
+
+  // cal part2: (Σ score / Σ max_score) x 60
+
+  const AssessmentDetails = [
+    {
+      label: `ส่วนที่ 1: การเงินและการลงทุน (${CalculatePart1}/40 คะแนน)`,
+      component: <AssessmentDetailsSectionComponent />,
+    },
+    {
+      label: `ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย (${CalculatePart2()}/60 คะแนน)`,
+      component: <EvaluateFormComponent />,
+    },
+  ];
+
+  if (summaryPart1.length === 0 || summaryPart2.length === 0) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <p className="text-2xl font-bold text-gray-400">
+          ไม่มีข้อมูลการประเมิน
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex w-full flex-col gap-4">
@@ -197,7 +371,14 @@ const R4Form: FC = () => {
                 <TableCell className="border text-center text-lg font-bold text-primary">
                   {item?.grade}
                 </TableCell>
-                <TableCell className="border text-center text-lg font-bold text-primary">
+                <TableCell
+                  className={cn(
+                    "border text-center text-lg font-bold",
+                    item?.result === "ไม่ขาย"
+                      ? "text-red-500"
+                      : "text-green-500",
+                  )}
+                >
                   {item?.result}
                 </TableCell>
               </TableRow>
@@ -213,7 +394,7 @@ const R4Form: FC = () => {
           <Accordion type="multiple">
             {AssessmentDetails?.map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="p-1 text-xs font-bold">
+                <AccordionTrigger className={cn("p-1 text-xs font-bold")}>
                   {item?.label}
                 </AccordionTrigger>
                 <AccordionContent className="px-6">

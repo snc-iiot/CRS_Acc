@@ -51,11 +51,21 @@ const ShareholderInformationForm: FC = () => {
                   value={hight_nationalities?.nationalities}
                   required
                 >
-                  {countryCodeList?.map((item, i) => (
-                    <option key={i} value={item?.alpha2}>
-                      {item.country}
-                    </option>
-                  ))}
+                  {countryCodeList
+                    .sort((a, b) => {
+                      if (a.value === "TH") {
+                        return -1;
+                      }
+                      if (b.value === "TH") {
+                        return 1;
+                      }
+                      return 0;
+                    })
+                    ?.map((item, i) => (
+                      <option key={i} value={item?.alpha2}>
+                        {item.country}
+                      </option>
+                    ))}
                 </Select>
               </div>
             </div>

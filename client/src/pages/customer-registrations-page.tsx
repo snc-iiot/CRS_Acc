@@ -3,14 +3,14 @@ import { Icons } from "@/components/common/icons";
 import { Spinner } from "@/components/common/spinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+// import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   ClearButton,
   FilterBar,
   FilterBarInput,
   FilterSelect,
 } from "@/components/ui/filter-bar";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody as TBody,
@@ -20,7 +20,7 @@ import {
   TableRow as Tr,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 import { MODE_CODE } from "@/helpers/common.helper";
 import {
   initialStateDocByRegisId,
@@ -33,10 +33,14 @@ import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { useUtils } from "@/services";
 import { useForm } from "@/services/hooks/use-form";
+import { useProfile } from "@/services/hooks/use-profile";
 import { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomerRegistrations: FC = () => {
+  const {
+    profile: { role },
+  } = useProfile();
   const { useGetRegisList } = useForm();
   const {
     setRegistration,
@@ -44,13 +48,15 @@ const CustomerRegistrations: FC = () => {
     companyList,
     setGeneralAssessmentForm,
     setDocByRegisId,
+    setCommon,
+    regisListByAccount,
   } = useAtomStore();
   const { mutateGetRegisterId } = useUtils();
   const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [companySelect, setCompanySelect] = useState<string[]>([]);
   const [statusSelect, setStatusSelect] = useState<string[]>([]);
-  const [tabsSelected, setTabsSelected] = useState<string>("100");
+  const [tabsSelected, setTabsSelected] = useState<string>("4");
   const { isLoading } = useGetRegisList();
 
   // const tabsKey: {
@@ -85,11 +91,6 @@ const CustomerRegistrations: FC = () => {
   //   },
   // ];
 
-  // const Status = status?.map((item) => ({
-  //   label: item?.status_name?.toUpperCase(),
-  //   value: item?.status_id?.toString(),
-  // }));
-
   const Company = companyList?.map((item) => ({
     value: item?.company?.toLowerCase(),
     label: item?.company?.toUpperCase(),
@@ -109,15 +110,18 @@ const CustomerRegistrations: FC = () => {
     }
   };
 
-  const filterData = regisList
-    ?.filter((item) => {
-      if (tabsSelected === "100") return true;
-      return item.status_no?.toString() === tabsSelected;
-    })
-    ?.filter((item) => {
-      if (statusSelect.length === 0) return true;
-      return statusSelect.includes(item.status_no?.toString());
-    })
+  const RegisData = regisList?.filter((item) => item?.status_no !== 4);
+  const Data =
+    tabsSelected === "100"
+      ? RegisData
+      : tabsSelected === "4"
+      ? regisListByAccount
+      : RegisData?.filter((item) => item?.status_no === parseInt(tabsSelected));
+
+  const filterData = Data?.filter((item) => {
+    if (statusSelect.length === 0) return true;
+    return statusSelect.includes(item.status_no?.toString());
+  })
     ?.filter((item) => {
       if (companySelect.length === 0) return true;
       return companySelect.includes(item.company_admin?.toLowerCase());
@@ -139,6 +143,10 @@ const CustomerRegistrations: FC = () => {
     setGeneralAssessmentForm(initialStateGeneralAssessmentForm);
     setRegistration(initialStateRegistrationForm);
     setDocByRegisId(initialStateDocByRegisId);
+    setCommon((prev) => ({
+      ...prev,
+      isEditGeneralAssessmentForm: false,
+    }));
   }, []);
 
   if (isLoading)
@@ -157,13 +165,14 @@ const CustomerRegistrations: FC = () => {
           <Button
             className={cn(
               "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
+              role !== "admin" && role !== "acc" ? "hidden" : "flex",
             )}
             onClick={getRegisterId}
           >
             <span>ลงทะเบียนลูกค้าใหม่</span>
             <Icons.plus className="h-8 w-8 font-bold" />
           </Button>
-          <Dialog>
+          {/* <Dialog>
             <DialogTrigger asChild>
               <Button className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]">
                 <span>ลงทะเบียนลูกค้าใหม่ (ส่งเมล)</span>
@@ -229,79 +238,97 @@ const CustomerRegistrations: FC = () => {
                 </article>
               </section>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
         </div>
-        <div>
-          <FilterBar>
-            <FilterBarInput
-              placeholder="ค้นหา"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-            />
-            {/* <FilterSelect
-              triggerText="สถานะ"
-              options={Status}
-              state={statusSelect}
-              setState={setStatusSelect}
-            /> */}
-            <FilterSelect
-              triggerText="บริษัท"
-              options={Company}
-              state={companySelect}
-              setState={setCompanySelect}
-            />
-            <ClearButton
-              className="text-red-600 hover:text-red-600"
-              onClick={() => {
-                setSearch("");
-                setCompanySelect([]);
-                setStatusSelect([]);
-              }}
-            >
-              ล้าง
-            </ClearButton>
-          </FilterBar>
-        </div>
-        <Tabs value={tabsSelected} className="w-[400px]">
-          <TabsList>
-            {status?.map((item) => (
+
+        <div className="flex w-full items-center justify-between">
+          <Tabs value={tabsSelected} className="w-[400px]">
+            <TabsList>
               <TabsTrigger
-                key={item?.status_id}
-                value={item?.status_id?.toString()}
+                value="4"
                 onClick={() => {
-                  setTabsSelected(item?.status_id?.toString());
+                  setTabsSelected("4");
                 }}
               >
-                {item?.status_name} &nbsp;
-                <Badge
-                  className={cn(
-                    tabsSelected === item?.status_id?.toString()
-                      ? `${item?.status_color} text-primary-foreground hover:${item?.status_color}`
-                      : "bg-primary-foreground text-primary",
-                  )}
-                >
-                  {
-                    regisList?.filter(
-                      (filter) =>
-                        filter?.status_no?.toString() ===
-                        item?.status_id?.toString(),
-                    )?.length
-                  }
-                </Badge>
+                รอพิจารณาอนุมัติ
+                {regisListByAccount?.filter((item) => item?.status_no === 4)
+                  ?.length > 0
+                  ? ` (${regisListByAccount?.filter(
+                      (item) => item?.status_no === 4,
+                    )?.length})`
+                  : ""}
               </TabsTrigger>
-            ))}
-            <TabsTrigger
-              value="100"
-              onClick={() => {
-                setTabsSelected("100");
-              }}
-            >
-              ทั้งหมด
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+              <TabsTrigger
+                value="2"
+                onClick={() => {
+                  setTabsSelected("2");
+                }}
+              >
+                รอยืนยันข้อมูลการเงิน
+                {regisList?.filter((item) => item?.status_no === 2)?.length > 0
+                  ? ` (${regisList?.filter((item) => item?.status_no === 2)
+                      ?.length})`
+                  : ""}
+              </TabsTrigger>
+              <TabsTrigger
+                value="3"
+                onClick={() => {
+                  setTabsSelected("3");
+                }}
+              >
+                รอการแก้ไข
+                {regisList?.filter((item) => item?.status_no === 3)?.length > 0
+                  ? ` (${regisList?.filter((item) => item?.status_no === 3)
+                      ?.length})`
+                  : ""}
+              </TabsTrigger>
+              <TabsTrigger
+                value="100"
+                onClick={() => {
+                  setTabsSelected("100");
+                }}
+              >
+                ทั้งหมด
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <div>
+            <FilterBar>
+              <FilterBarInput
+                placeholder="ค้นหา"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
+              <FilterSelect
+                triggerText="สถานะ"
+                options={status?.map((item) => ({
+                  value: item?.status_id?.toString(),
+                  label: item?.status_name?.toString(),
+                }))}
+                state={statusSelect}
+                setState={setStatusSelect}
+              />
+              <FilterSelect
+                triggerText="บริษัท"
+                options={Company}
+                state={companySelect}
+                setState={setCompanySelect}
+              />
+              <ClearButton
+                className="text-red-600 hover:text-red-600"
+                onClick={() => {
+                  setSearch("");
+                  setCompanySelect([]);
+                  setStatusSelect([]);
+                }}
+              >
+                ล้าง
+              </ClearButton>
+            </FilterBar>
+          </div>
+        </div>
         <div className="w-full flex-grow overflow-x-auto overflow-y-auto rounded border">
           <Table className="relative w-full">
             <THead className="sticky top-0 z-10 whitespace-nowrap bg-primary-foreground text-sm">
@@ -334,7 +361,15 @@ const CustomerRegistrations: FC = () => {
                 </Tr>
               )}
               {filterData?.map((item, i) => (
-                <Tr key={i} className="whitespace-nowrap border-b text-xs">
+                <Tr
+                  key={i}
+                  className="cursor-pointer whitespace-nowrap border-b text-sm"
+                  onDoubleClick={() => {
+                    navigate(
+                      "/registrations/customer/info?RegisID=" + item?.regis_id,
+                    );
+                  }}
+                >
                   <Td>{i + 1}</Td>
                   <Td>{item?.juristic_id}</Td>
                   <Td>{item?.company_name}</Td>
@@ -344,9 +379,10 @@ const CustomerRegistrations: FC = () => {
                     <Badge
                       className={cn(
                         statusHelper(item?.status_no)?.status_color,
+                        "text-center text-sm",
                       )}
                     >
-                      {item?.status_desc_th} - ({item?.status_no})
+                      {item?.status_desc_th}
                     </Badge>
                   </Td>
                   <Td>

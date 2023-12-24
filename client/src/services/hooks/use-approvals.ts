@@ -11,6 +11,8 @@ export const useApprovals = () => {
   const { showLoading, showError, showSuccess, closeSwal } = useSwal();
   const approvalsService = new ApprovalsService();
 
+  /* The code is creating a mutation function called `mutateSendToEdit` using the `useMutation` hook from
+the `react-query` library. */
   const { mutateAsync: mutateSendToEdit } = useMutation<
     TResponseAction,
     Error,

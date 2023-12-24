@@ -1,4 +1,8 @@
-import { TApprovalList, TGeneralAssessmentForm } from "@/types";
+import {
+  TApprovalList,
+  TCompanyProfile,
+  TGeneralAssessmentForm,
+} from "@/types";
 import { atom } from "jotai";
 
 export const generalAssessmentFormAtom = atom<TGeneralAssessmentForm>({
@@ -54,7 +58,19 @@ export const generalAssessmentFormAtom = atom<TGeneralAssessmentForm>({
 
 export const approvalListAtom = atom<TApprovalList[]>([]);
 
+export const companyProfileAtom = atom<TCompanyProfile>({
+  regis_id: "",
+  company_name: "",
+  company_admin: "",
+  company_full_name_th: "",
+  company_full_name_en: "",
+  products: "",
+  business_type_id: 0,
+  business_type_th: "",
+} as TCompanyProfile);
+
 if (process.env.NODE_ENV !== "production") {
   approvalListAtom.debugLabel = "approvalListAtom";
   generalAssessmentFormAtom.debugLabel = "generalAssessmentFormAtom";
+  companyProfileAtom.debugLabel = "companyProfile";
 }

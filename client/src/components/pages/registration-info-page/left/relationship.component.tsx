@@ -1,5 +1,6 @@
 import { Icons } from "@/components/common/icons";
 import { useAtomStore } from "@/jotai/use-atom-store";
+import { cn } from "@/lib/utils";
 import { FC } from "react";
 
 const Relationship: FC = () => {
@@ -17,7 +18,11 @@ const Relationship: FC = () => {
           ) : (
             <Icons.circle className="h-3 w-3" />
           )}
-          <p className="text-primary">มี</p>
+          <p
+            className={cn(relationship?.is_relationship ? "text-primary" : "")}
+          >
+            มี
+          </p>
         </div>
         {relationship?.relationship_name && (
           <div className="col-span-3 h-full w-full border-b pl-1 text-primary">
@@ -30,7 +35,11 @@ const Relationship: FC = () => {
           ) : (
             <Icons.circle className="h-3 w-3" />
           )}
-          <p>ไม่มี</p>
+          <p
+            className={cn(!relationship?.is_relationship ? "text-primary" : "")}
+          >
+            ไม่มี
+          </p>
         </div>
       </div>
     </div>

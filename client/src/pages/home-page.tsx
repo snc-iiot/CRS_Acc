@@ -34,7 +34,12 @@ const HomePage: FC = () => {
   })).sort((a, b) => b.value - a.value);
 
   return (
-    <main className="flex h-full w-full flex-col gap-2">
+    <main className="relative flex h-full w-full flex-col gap-2">
+      <div className="absolute inset-0 z-20 bg-[rgba(0,0,0,0.6)] from-primary" />
+      <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 text-center text-2xl font-bold text-white lg:text-4xl">
+        <h2 className="text-4xl">หน่วยงาน SNC-CoDE อยู่ระหว่างพัฒนาฟังก์ชัน</h2>
+        <h2 className="text-3xl">ขออภัยในความไม่สะดวก</h2>
+      </div>
       <section className="flex items-center justify-between gap-2">
         <h1 className="text-xl font-semibold">
           ภาพรวมของการขึ้นทะเบียนผู้ซื้อ

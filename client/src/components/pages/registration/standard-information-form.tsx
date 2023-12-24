@@ -1,3 +1,4 @@
+import RequiredTopic from "@/components/common/required-topic";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +23,7 @@ const StandardInformationForm: FC = () => {
   const refCertification = useRef<HTMLDivElement>(null);
   const [depositType, setDepositType] = useState<string>("");
   const [warranty, setWarranty] = useState<string>("");
+  const [creditTerm, setCreditTerm] = useState<string>("");
   const {
     registration,
     certificatedList,
@@ -69,6 +71,23 @@ const StandardInformationForm: FC = () => {
     mode,
   ]);
 
+  useEffect(() => {
+    if (mode?.toLowerCase() === "edit") {
+      setDepositType(
+        registration?.payment_term?.deposit_term?.deposit_type ?? "",
+      );
+      setCreditTerm(registration?.payment_term?.credit_term?.name ?? "");
+      setWarranty(
+        registration?.payment_term?.product_warranty?.value !== 1 &&
+          registration?.payment_term?.product_warranty?.value !== 2 &&
+          registration?.payment_term?.product_warranty?.value !== 3 &&
+          registration?.payment_term?.product_warranty?.value !== 5
+          ? "other"
+          : "",
+      );
+    }
+  }, []);
+
   return (
     <section id="standard-certification-info" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -86,7 +105,7 @@ const StandardInformationForm: FC = () => {
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  การรับรองที่ได้รับ / Certifications
+                  การรับรองที่ได้รับ / Certifications <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-6 flex justify-start">
@@ -516,13 +535,14 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-6" />
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  เครดิตเทอมการจ่ายเงิน / Credit Term
+                  เครดิตเทอมการจ่ายเงิน / Credit Term <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-6 flex flex-col justify-start">
                 <RadioGroup
                   className="flex flex-col gap-1"
                   onValueChange={(e) => {
+                    setCreditTerm(e);
                     setRegistration((prev) => ({
                       ...prev,
                       payment_term: {
@@ -539,7 +559,7 @@ const StandardInformationForm: FC = () => {
                     e.preventDefault();
                   }}
                   required
-                  value={registration?.payment_term?.credit_term?.name}
+                  value={creditTerm}
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="credit" id="credit" />
@@ -549,12 +569,12 @@ const StandardInformationForm: FC = () => {
                     >
                       เครดิตเทอม
                     </label>
-                    <div className="flex items-center gap-2">
+                    <div className={cn("flex items-center gap-2")}>
                       <select
                         className="w-full rounded-sm border px-2 py-[0.1rem] text-sm"
                         disabled={
-                          registration?.payment_term?.credit_term?.name !==
-                          "credit"
+                          registration?.payment_term?.credit_term?.name ===
+                          "other"
                         }
                         required={
                           registration?.payment_term?.credit_term?.name ===
@@ -564,22 +584,35 @@ const StandardInformationForm: FC = () => {
                           registration?.payment_term?.credit_term?.value ?? ""
                         }
                         onChange={(e) => {
-                          setRegistration((prev) => ({
-                            ...prev,
-                            payment_term: {
-                              ...prev.payment_term,
-                              credit_term: {
-                                ...prev.payment_term?.credit_term,
-                                value: Number(e.target.value),
+                          if (e.target.value === "0") {
+                            setRegistration((prev) => ({
+                              ...prev,
+                              payment_term: {
+                                ...prev.payment_term,
+                                credit_term: {
+                                  name: "cash",
+                                  value: 0,
+                                },
                               },
-                            },
-                          }));
+                            }));
+                          } else {
+                            setRegistration((prev) => ({
+                              ...prev,
+                              payment_term: {
+                                ...prev.payment_term,
+                                credit_term: {
+                                  name: "credit",
+                                  value: Number(e.target.value),
+                                },
+                              },
+                            }));
+                          }
                         }}
                       >
                         <option value="" className="text-sm">
                           โปรดเลือกจำนวนวัน
                         </option>
-                        <option value="1000000">เงินสด</option>
+                        <option value="0">เงินสด</option>
                         <option value="30">30 วัน</option>
                         <option value="60">60 วัน</option>
                         <option value="75">75 วัน</option>
@@ -588,9 +621,9 @@ const StandardInformationForm: FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="other-term" id="other-term" />
+                    <RadioGroupItem value="other" id="other" />
                     <label
-                      htmlFor="other-term"
+                      htmlFor="other"
                       className="whitespace-nowrap text-sm font-medium"
                     >
                       อื่นๆ
@@ -602,10 +635,7 @@ const StandardInformationForm: FC = () => {
                   placeholder="โปรดระบุ จำนวนวัน"
                   className={cn(
                     "w-full",
-                    registration?.payment_term?.credit_term?.name !==
-                      "other-term"
-                      ? "hidden"
-                      : "",
+                    creditTerm !== "other" ? "hidden" : "",
                   )}
                   variant="flushed"
                   onChange={(e) => {
@@ -616,16 +646,15 @@ const StandardInformationForm: FC = () => {
                         ...prev.payment_term,
                         credit_term: {
                           ...prev.payment_term?.credit_term,
-                          value: parseInt(e.target.value),
+                          value: isNaN(e.target.valueAsNumber)
+                            ? 0
+                            : e.target.valueAsNumber,
                         },
                       },
                     }));
                   }}
                   value={registration?.payment_term?.credit_term?.value || ""}
-                  required={
-                    registration?.payment_term?.credit_term?.name ===
-                    "other-term"
-                  }
+                  required={creditTerm === "other"}
                 />
               </div>
             </article>
@@ -635,7 +664,7 @@ const StandardInformationForm: FC = () => {
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  ระเบียบการวางบิล / Billing Terms
+                  ระเบียบการวางบิล / Billing Terms <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-6 flex flex-col justify-start">
@@ -759,7 +788,7 @@ const StandardInformationForm: FC = () => {
                       : "",
                   )}
                 >
-                  Incoterm
+                  Incoterm <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-4 flex justify-start">
@@ -814,7 +843,7 @@ const StandardInformationForm: FC = () => {
                       : "",
                   )}
                 >
-                  เงื่อนไขการเปิด L/C หรือ L/C Terms
+                  เงื่อนไขการเปิด L/C หรือ L/C Terms <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-4 flex justify-start">
@@ -932,7 +961,7 @@ const StandardInformationForm: FC = () => {
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  เงื่อนไขการขนส่งสินค้า / Delivery Terms
+                  เงื่อนไขการขนส่งสินค้า / Delivery Terms <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-6 flex justify-start">
@@ -984,13 +1013,8 @@ const StandardInformationForm: FC = () => {
           <article>
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
-                <h3
-                  className={cn(
-                    "text-sm font-bold",
-                    !isForeigner ? "opacity-50" : "",
-                  )}
-                >
-                  เงื่อนไขในการวางเงินมัดจำ / Deposit Terms
+                <h3 className={cn("text-sm font-bold")}>
+                  เงื่อนไขในการวางเงินมัดจำ / Deposit Terms <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-4 flex justify-start">
@@ -1015,7 +1039,6 @@ const StandardInformationForm: FC = () => {
                     }));
                   }}
                   className="flex w-full flex-col gap-1"
-                  disabled={!isForeigner}
                 >
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center space-x-2">
@@ -1024,7 +1047,7 @@ const StandardInformationForm: FC = () => {
                         htmlFor="deposit"
                         className={cn(
                           "whitespace-nowrap text-sm font-medium",
-                          !isForeigner ? "opacity-50" : "",
+                          // !isForeigner ? "opacity-50" : "",
                         )}
                       >
                         มี
@@ -1033,7 +1056,6 @@ const StandardInformationForm: FC = () => {
                     <select
                       className="rounded-sm border px-2 py-[0.1rem] text-sm"
                       disabled={
-                        !isForeigner ||
                         !registration?.payment_term?.deposit_term?.is_deposit
                       }
                       required={
@@ -1100,10 +1122,7 @@ const StandardInformationForm: FC = () => {
                     <RadioGroupItem value="none-deposit" id="none-deposit" />
                     <label
                       htmlFor="none-deposit"
-                      className={cn(
-                        "whitespace-nowrap text-sm font-medium",
-                        !isForeigner ? "opacity-50" : "",
-                      )}
+                      className={cn("whitespace-nowrap text-sm font-medium")}
                     >
                       ไม่มี
                     </label>
@@ -1136,7 +1155,7 @@ const StandardInformationForm: FC = () => {
                         ...prev.payment_term,
                         product_warranty: {
                           is_warranty: e === "warranty",
-                          value: "",
+                          value: 0,
                         },
                       },
                     }));
@@ -1177,10 +1196,7 @@ const StandardInformationForm: FC = () => {
                             ...prev.payment_term,
                             product_warranty: {
                               ...prev.payment_term?.product_warranty,
-                              value:
-                                e.target.value === "other"
-                                  ? ""
-                                  : e.target.value,
+                              value: Number(e.target.value),
                             },
                           },
                         }));
@@ -1197,7 +1213,7 @@ const StandardInformationForm: FC = () => {
                     </select>
                   </div>
                   <Input
-                    type="text"
+                    type="number"
                     placeholder="โปรดระบุ ปี"
                     variant="flushed"
                     className={cn(
@@ -1217,12 +1233,14 @@ const StandardInformationForm: FC = () => {
                           ...prev.payment_term,
                           product_warranty: {
                             ...prev.payment_term?.product_warranty,
-                            value: e.target.value,
+                            value: Number(e.target.value),
                           },
                         },
                       }));
                     }}
-                    value={registration?.payment_term?.product_warranty?.value}
+                    value={
+                      registration?.payment_term?.product_warranty?.value || ""
+                    }
                   />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-warranty" id="none-warranty" />
@@ -1248,7 +1266,17 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-6 grid grid-cols-1 gap-1">
                 {registration.payment_term.company_policy?.map((item, i) => (
                   <div key={i} className="flex justify-between">
-                    <Label>{item.cer_name_th}</Label>
+                    <Label>
+                      {item.cer_name_th}
+                      {item?.cer_id === 1 ||
+                      item?.cer_id === 2 ||
+                      item?.cer_id === 3 ||
+                      item?.cer_id === 4 ||
+                      item?.cer_id === 5 ||
+                      item?.cer_id === 6 ? (
+                        <RequiredTopic />
+                      ) : null}
+                    </Label>
                     <div className="flex flex-col gap-1">
                       <RadioGroup
                         className="flex gap-5"

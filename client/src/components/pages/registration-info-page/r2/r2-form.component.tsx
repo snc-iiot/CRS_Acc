@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getDateThai } from "@/helpers/calendar.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC } from "react";
 import { TableFinancialRatio } from "../../analytics";
@@ -43,7 +44,8 @@ const R2Form: FC = () => {
     return (
       <div className="flex w-full items-center justify-center">
         <h2 className="text-center text-lg font-bold">
-          ไม่พบข้อมูล กรุณากดปุ่ม "Sync ข้อมูล DBD" เพื่อดำเนินการภายหลัง
+          ไม่พบข้อมูล กรุณากดปุ่ม "Sync ข้อมูล DBD" เพื่อดำเนินการตรวจสอบข้อมูล
+          และยืนยันข้อมูลการเงิน
         </h2>
       </div>
     );
@@ -55,7 +57,7 @@ const R2Form: FC = () => {
           รายงานข้อมูลทางการเงิน / Financial Report by DBD
         </h3>
         <h4 className="text-xs font-bold">
-          อัพเดทล่าสุดเมื่อ {dbdSyncList?.created_at}
+          อัพเดทล่าสุดเมื่อ {getDateThai(dbdSyncList?.created_at).dateTime}
         </h4>
       </div>
       <Accordion type="multiple" defaultValue={["item-1", "item-2", "item-3"]}>

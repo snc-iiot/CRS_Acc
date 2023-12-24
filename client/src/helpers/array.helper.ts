@@ -60,6 +60,14 @@ export const checkIfArraysHaveSameElements = (
 
 type GroupedItems<T> = { [key: string]: T[] };
 
+/**
+ * The `groupByField` function takes an array of objects and a field name, and returns an object where
+ * the keys are unique values of the specified field and the values are arrays of objects that have
+ * that field value.
+ * @param {T[]} array - An array of objects of type T.
+ * @param field - The `field` parameter is the key of the object `T` that you want to group the array
+ * by. It is used to access the value of that key in each item of the array.
+ */
 export const groupByField = <T>(array: T[], field: keyof T): GroupedItems<T> =>
   array.reduce((grouped: GroupedItems<T>, item: T) => {
     const key = String(item[field]);
@@ -67,11 +75,29 @@ export const groupByField = <T>(array: T[], field: keyof T): GroupedItems<T> =>
     return grouped;
   }, {});
 
+/**
+ * The function `sortByField` takes an array of objects and a field name, and sorts the array based on
+ * the values of that field in each object.
+ * @param {any[]} array - The "array" parameter is an array of objects that you want to sort. Each
+ * object in the array should have a field that you want to sort by.
+ * @param {string} field - The "field" parameter is a string that represents the field or property of
+ * the objects in the array that you want to sort by.
+ */
 export const sortByField = (array: any[], field: string): any[] =>
   array.sort((a, b) =>
     a[field] < b[field] ? -1 : a[field] > b[field] ? 1 : 0,
   );
 
+/**
+ * The function `orderGroupedDataByField` takes in grouped data and an order by field, and returns the
+ * grouped data sorted by the specified field.
+ * @param groupedData - The `groupedData` parameter is an object that represents grouped items. Each
+ * key in the object represents a group, and the value associated with each key is an array of items
+ * belonging to that group.
+ * @param orderBy - The `orderBy` parameter is the field by which you want to order the grouped data.
+ * It should be a key of the objects in the grouped data.
+ * @returns the `groupedData` object after sorting each group by the specified `orderBy` field.
+ */
 export const orderGroupedDataByField = <T>(
   groupedData: GroupedItems<T>,
   orderBy: keyof T,
@@ -89,6 +115,16 @@ export const orderGroupedDataByField = <T>(
   return groupedData;
 };
 
+/**
+ * The `buildTree` function takes an array of objects with a `parent` property and recursively builds a
+ * tree structure based on the parent-child relationships.
+ * @param {any[]} array - The `array` parameter is an array of objects. Each object represents a node
+ * in the tree and has properties such as `id` and `parent`. The `id` property uniquely identifies the
+ * node, and the `parent` property specifies the parent node's `id`.
+ * @param [parent=null] - The `parent` parameter is used to specify the parent node of the current item
+ * in the array. It is initially set to `null` when the function is called.
+ * @returns The function `buildTree` returns an array of objects representing a tree structure.
+ */
 export const buildTree = (array: any[], parent = null) => {
   const tree: any[] = [];
 

@@ -9,6 +9,7 @@ import {
   commonAtom,
   companyListAtom,
   companyPolicyListAtom,
+  companyProfileAtom,
   countryCodeListAtom,
   dbdSyncListAtom,
   deliveryTermsListAtom,
@@ -19,6 +20,8 @@ import {
   regisListAtom,
   regisListByAccountAtom,
   registrationAtom,
+  summaryAtomPart1,
+  summaryAtomPart2,
   thaiProvinceAtom,
 } from "./atom";
 
@@ -59,6 +62,11 @@ export const useAtomStore = () => {
 
   //! R3
   const [financialRatio, setFinancialRatio] = useAtom(financialRatioAtom);
+
+  //! summary
+  const [summaryPart1, setSummaryPart1] = useAtom(summaryAtomPart1);
+  const [summaryPart2, setSummaryPart2] = useAtom(summaryAtomPart2);
+  const [companyProfile, setCompanyProfile] = useAtom(companyProfileAtom);
 
   return {
     benefitsList,
@@ -109,5 +117,13 @@ export const useAtomStore = () => {
     //! financialRatio
     financialRatio,
     setFinancialRatio,
+
+    //! summary
+    summaryPart1,
+    setSummaryPart1,
+    summaryPart2,
+    setSummaryPart2,
+    companyProfile,
+    setCompanyProfile,
   };
 };

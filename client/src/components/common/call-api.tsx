@@ -13,7 +13,7 @@ const CallApi: FC = () => {
     useGetDocumentKeyList,
   } = useUtils();
 
-  const { useGetRegisList } = useForm();
+  const { useGetRegisList, useGetRegisListByAccountId } = useForm();
 
   useGetBenefitsList();
   useGetBusinessTypeList();
@@ -24,7 +24,7 @@ const CallApi: FC = () => {
   useGetDeliveryTermsList();
   useGetDocumentKeyList();
 
-  //? Get Regis List
+  useGetRegisListByAccountId();
   useGetRegisList();
   return <div style={{ display: "none" }} />;
 };

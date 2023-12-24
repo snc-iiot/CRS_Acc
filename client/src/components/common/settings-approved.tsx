@@ -10,7 +10,7 @@ import {
 import { orderArrayBy } from "@/helpers/array.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 // import * as SheetPrimitive from "@radix-ui/react-dialog";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Button } from "../ui/button";
 import { Select } from "../ui/select-custom";
 import { Icons } from "./icons";
@@ -22,6 +22,8 @@ interface Props {
 const SettingsApproved: FC<Props> = ({ closeButton }) => {
   const { approvalList, generalAssessmentForm, setGeneralAssessmentForm } =
     useAtomStore();
+
+  const [approvalSetId, setApprovalSetId] = useState<string | null>(null);
 
   const Header = ["ลำดับ", "ชื่อ-นามสกุล", "ตำแหน่ง"];
 
@@ -53,12 +55,13 @@ const SettingsApproved: FC<Props> = ({ closeButton }) => {
                 const approval = approvalList?.find(
                   (info) => info?.approvals_set_id === e.target.value,
                 );
-
                 setGeneralAssessmentForm((prev) => ({
                   ...prev,
                   approvals: approval ? approval?.approvals : [],
                 }));
+                setApprovalSetId(e.target.value);
               }}
+              value={approvalSetId ?? ""}
             >
               {approvalList?.map((info, i) => (
                 <option value={info?.approvals_set_id} key={i}>

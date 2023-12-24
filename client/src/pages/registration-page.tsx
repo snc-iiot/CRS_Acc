@@ -23,7 +23,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationPage: FC = () => {
   const { mutateGetDocByRegisId } = useUtils();
-  const { confirmSwal, showError } = useSwal();
+  const { confirmSwal, showError, showLoading, closeSwal } = useSwal();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("RegisID");
   const mode = searchParams.get("mode");
@@ -143,11 +143,13 @@ const RegistrationPage: FC = () => {
   }, [id]);
 
   const getRegisById = async () => {
+    showLoading("กำลังโหลดข้อมูลลงทะเบียน", "กรุณารอสักครู่");
     try {
-      Promise.all([
+      await Promise.all([
         mutateGetDocByRegisId(id as string),
         mutateGetRegisById(id as string),
       ]);
+      closeSwal();
     } catch (error) {
       showError("ไม่พบข้อมูลลงทะเบียน", "ไม่พบข้อมูลลงทะเบียน");
     }
@@ -206,8 +208,10 @@ const RegistrationPage: FC = () => {
             <h1 className="text-2xl font-bold">
               {HeaderConditions[MODE]?.title}
             </h1>
-            <p className="text-sm text-muted-foreground">
-              {HeaderConditions[MODE]?.description}
+
+            <p className="text-sm font-semibold">
+              หมายเหตุ: เครื่องหมาย <span className="text-red-500">**</span>{" "}
+              ใช้สำหรับการประเมินคะแนนลูกค้า
             </p>
           </section>
           <Separator />

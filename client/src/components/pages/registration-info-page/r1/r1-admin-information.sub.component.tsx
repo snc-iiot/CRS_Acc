@@ -1,12 +1,10 @@
-// import CalculatePlayback from "@/components/common/calculate-playback";
-// import CalculateRoa from "@/components/common/calculate-roa";
-// import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
 import { LatitudesLongitudes } from "@/helpers/common.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
+import MockCarType from "@/mock/car-list.json";
 import { FC, useEffect, useState } from "react";
 
 export const R1AdminInformation: FC = () => {
@@ -23,40 +21,7 @@ export const R1AdminInformation: FC = () => {
     "thailand" | "other" | ""
   >("");
 
-  const [priceConditions, setPriceConditions] = useState<{
-    period: string;
-    value: number;
-  }>({
-    period: "month",
-    value: 0,
-  });
-
-  const [priceAdjustmentConditions, setPriceAdjustmentConditions] = useState<
-    { label: string; value: number }[]
-  >([
-    { label: "ทุก 1 เดือน", value: 1 },
-    { label: "ทุก 3 เดือน", value: 3 },
-    { label: "ทุก 6 เดือน", value: 6 },
-    { label: "อื่นๆ", value: generalAssessmentForm?.price_conditions?.value },
-  ]);
-
-  useEffect(() => {
-    if (generalAssessmentForm?.price_conditions?.value) {
-      setPriceConditions({
-        period: "month",
-        value: generalAssessmentForm?.price_conditions?.value,
-      });
-      setPriceAdjustmentConditions([
-        { label: "ทุก 1 เดือน", value: 1 },
-        { label: "ทุก 3 เดือน", value: 3 },
-        { label: "ทุก 6 เดือน", value: 6 },
-        {
-          label: "อื่นๆ",
-          value: generalAssessmentForm?.price_conditions?.value,
-        },
-      ]);
-    }
-  }, [generalAssessmentForm.price_conditions]);
+  const [priceConditions, setPriceConditions] = useState("");
 
   useEffect(() => {
     if (generalAssessmentForm?.transport_distance?.transport) {
@@ -67,6 +32,26 @@ export const R1AdminInformation: FC = () => {
       );
     }
   }, [generalAssessmentForm?.transport_distance?.transport]);
+
+  //! For initial value
+  const companyAdmin = registration?.company_information?.company_admin;
+  const Plant = companyList?.find((item) => item?.company === companyAdmin);
+  const PlantLatLong =
+    LatitudesLongitudes?.[
+      Plant?.province as keyof typeof LatitudesLongitudes
+    ] || LatitudesLongitudes?.RAYONG;
+
+  useEffect(() => {
+    setGeneralAssessmentForm((prev) => ({
+      ...prev,
+      transport_distance: {
+        ...prev?.transport_distance,
+        origin: `${PlantLatLong?.latitude},${PlantLatLong?.longitude}`,
+      },
+    }));
+  }, [registration?.company_information?.company_admin, companyList]);
+
+  if (!generalAssessmentForm) return null;
 
   return (
     <div className="pl-1 text-xs">
@@ -91,7 +76,9 @@ export const R1AdminInformation: FC = () => {
           />
         </div>
 
-        <h4 className="whitespace-nowrap">2. ออเดอร์ ต่อ/ปี</h4>
+        <h4 className="whitespace-nowrap">
+          2. ออเดอร์ ต่อ/ปี <RequiredTopic />
+        </h4>
         <div className="col-span-3">
           <div className="flex items-center gap-x-1">
             <input
@@ -139,7 +126,7 @@ export const R1AdminInformation: FC = () => {
           4. ระยะเวลา (Lead Time) การสั่งซื้อ
         </h4>
         <div className="col-span-3">
-          <div className="flex items-center gap-x-1">
+          <div className={cn("flex items-center gap-x-1")}>
             <input
               type="number"
               placeholder="โปรดระบุ"
@@ -167,65 +154,80 @@ export const R1AdminInformation: FC = () => {
               placeholder="เลือกเงื่อนไขการปรับราคา"
               className={cn(
                 "w-[15rem] border-b text-primary focus:outline-0 [&_option:not(:checked)]:text-black",
-                // "[&_option:checked]:hidden",
               )}
-              value={priceConditions?.value || ""}
               onChange={(e) => {
+                if (e.target.value === "other") {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    price_conditions: {
+                      peroid: "month",
+                      value: 7,
+                    },
+                  }));
+                  setPriceConditions("other");
+                }
+                setPriceConditions(e.target.value);
                 setGeneralAssessmentForm((prev) => ({
                   ...prev,
                   price_conditions: {
                     peroid: "month",
-                    value: Number(e.target.value),
+                    value: isNaN(+e.target.value) ? 0 : +e.target.value,
                   },
                 }));
-                setPriceConditions({
-                  period: "month",
-                  value: Number(e.target.value),
-                });
               }}
+              value={
+                generalAssessmentForm?.price_conditions?.value === 1 ||
+                generalAssessmentForm?.price_conditions?.value === 3 ||
+                generalAssessmentForm?.price_conditions?.value === 6
+                  ? generalAssessmentForm?.price_conditions?.value
+                  : priceConditions
+              }
               disabled={!common?.isEditGeneralAssessmentForm}
               required
             >
               <option value="">เลือกเงื่อนไขการปรับราคา</option>
-              {priceAdjustmentConditions?.map((item, i) => (
-                <option key={i} value={item?.value}>
-                  {item?.label}
-                </option>
-              ))}
+              <option value={"1"}>ทุก 1 เดือน</option>
+              <option value={"3"}>ทุก 3 เดือน</option>
+              <option value={"6"}>ทุก 6 เดือน</option>
+              <option value={"other"}>อื่นๆ</option>
             </select>
-            {priceConditions?.value !== 1 &&
-              priceConditions?.value !== 3 &&
-              priceConditions?.value !== 6 && (
-                <input
-                  type="number"
-                  placeholder="โปรดระบุ ระยะเวลา (เดือน)"
-                  value={
-                    generalAssessmentForm?.price_conditions?.value ||
-                    priceConditions?.value ||
-                    ""
+            {priceConditions === "other" && (
+              <input
+                type="number"
+                placeholder="โปรดระบุ ระยะเวลา (เดือน)"
+                value={
+                  generalAssessmentForm?.price_conditions?.value === 1 ||
+                  generalAssessmentForm?.price_conditions?.value === 3 ||
+                  generalAssessmentForm?.price_conditions?.value === 6
+                    ? ""
+                    : generalAssessmentForm?.price_conditions?.value || ""
+                }
+                onChange={(e) => {
+                  const price = [1, 3, 6];
+                  const value = isNaN(+e.target.value) ? 0 : +e.target.value;
+                  if (price.includes(value)) {
+                    setPriceConditions(value.toString());
                   }
-                  onChange={(e) => {
-                    setGeneralAssessmentForm((prev) => ({
-                      ...prev,
-                      price_conditions: {
-                        peroid: "month",
-                        value: isNaN(+e.target.value) ? 0 : +e.target.value,
-                      },
-                    }));
-                  }}
-                  readOnly={!common?.isEditGeneralAssessmentForm}
-                  required
-                  className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
-                />
-              )}
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    price_conditions: {
+                      peroid: "month",
+                      value: isNaN(+e.target.value) ? 0 : +e.target.value,
+                    },
+                  }));
+                }}
+                readOnly={!common?.isEditGeneralAssessmentForm}
+                required
+                className="w-[15rem] border-0 border-b  p-0.5 text-primary outline-0"
+              />
+            )}
           </div>
         </div>
-
         <h4 className="whitespace-nowrap">
-          6. เครื่องจักรที่ใช้ผลิต (ระบุอย่างน้อย 1 รายการ)
+          6. เครื่องจักรที่ใช้ผลิต <RequiredTopic />
         </h4>
         <div className="col-span-4 select-none pl-1">
-          {generalAssessmentForm?.machine_produce?.map((item, i) => (
+          {/* {generalAssessmentForm?.machine_produce?.map((item, i) => (
             <div className="mb-1 flex items-center gap-x-1" key={i}>
               <input
                 type="checkbox"
@@ -258,7 +260,53 @@ export const R1AdminInformation: FC = () => {
                     }),
                   }));
                 }}
+                disabled={!common?.isEditGeneralAssessmentForm}
+              />
+              <label htmlFor={item?.id} className="cursor-pointer">
+                {item?.label_th}
+              </label>
+            </div>
+          ))} */}
+          {generalAssessmentForm?.machine_produce?.map((item, i) => (
+            <div className="mb-1 flex items-center gap-x-1" key={i}>
+              <input
+                type="radio"
+                name="machine_produce"
+                id={item?.id}
+                className="cursor-pointer [&:checked+label]:text-primary"
+                checked={item?.is_checked}
                 readOnly={!common?.isEditGeneralAssessmentForm}
+                onChange={(e) => {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    machine_produce: prev?.machine_produce?.map((item) => {
+                      if (item?.id === e.target.id) {
+                        const initialValue = {
+                          amount: 0,
+                          ROI: 0,
+                          ROA: 0,
+                          payback: 0,
+                        };
+                        return {
+                          ...item,
+                          is_checked: e.target.checked,
+                          value:
+                            item.id === "machine-produce-id-3" &&
+                            e.target.checked
+                              ? initialValue
+                              : null,
+                        };
+                      }
+                      return {
+                        ...item,
+                        is_checked: false,
+                        value: null,
+                      };
+                    }),
+                  }));
+                }}
+                disabled={!common?.isEditGeneralAssessmentForm}
+                value={item?.is_checked ? "true" : ""}
               />
               <label htmlFor={item?.id} className="cursor-pointer">
                 {item?.label_th}
@@ -430,9 +478,11 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">7. แม่พิมพ์ที่ใช้</h4>
+        <h4 className="whitespace-nowrap">
+          7. แม่พิมพ์ที่ใช้ <RequiredTopic />
+        </h4>
         <div className="col-span-4 select-none pl-1">
-          {generalAssessmentForm?.mold_use?.map((item, i) => (
+          {/* {generalAssessmentForm?.mold_use?.map((item, i) => (
             <div className="mb-1 flex items-center gap-x-1" key={i}>
               <input
                 type="checkbox"
@@ -441,9 +491,11 @@ export const R1AdminInformation: FC = () => {
                 value={item?.is_checked ? "true" : ""}
                 checked={item?.is_checked}
                 disabled={
-                  generalAssessmentForm?.mold_use?.find(
+                  (generalAssessmentForm?.mold_use?.find(
                     (item) => item?.id === "mold-use-id-1",
-                  )?.is_checked && item?.id !== "mold-use-id-1"
+                  )?.is_checked &&
+                    item?.id !== "mold-use-id-1") ||
+                  !common?.isEditGeneralAssessmentForm
                 }
                 onChange={(e) => {
                   if (item.id === "mold-use-id-1") {
@@ -494,8 +546,77 @@ export const R1AdminInformation: FC = () => {
                 {item?.label_th}
               </label>
             </div>
+          ))} */}
+          {generalAssessmentForm?.mold_use?.map((item, i) => (
+            <div className="mb-1 flex items-center gap-x-1" key={i}>
+              <input
+                type="radio"
+                name="mold_use"
+                id={item?.id}
+                checked={item?.is_checked}
+                className="cursor-pointer [&:checked+label]:text-primary"
+                onChange={(e) => {
+                  if (item.id === "mold-use-id-1") {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      mold_use: prev?.mold_use?.map((item) => {
+                        if (item?.id === "mold-use-id-1") {
+                          return {
+                            ...item,
+                            is_checked: e.target.checked,
+                            value: null,
+                          };
+                        }
+                        return {
+                          ...item,
+                          is_checked: false,
+                          value: null,
+                        };
+                      }),
+                    }));
+                  }
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    mold_use: prev?.mold_use?.map((item) => {
+                      if (item?.id === e.target.id) {
+                        const initialValue = {
+                          amount: 0,
+                          ROI: 0,
+                          ROA: 0,
+                          payback: 0,
+                        };
+                        return {
+                          ...item,
+                          is_checked: e.target.checked,
+                          value:
+                            item.id === "mold-use-id-4" && e.target.checked
+                              ? initialValue
+                              : null,
+                        };
+                      }
+                      return {
+                        ...item,
+                        is_checked: false,
+                        value: null,
+                      };
+                    }),
+                  }));
+                }}
+                value={item?.is_checked ? "true" : ""}
+                readOnly={!common?.isEditGeneralAssessmentForm}
+                disabled={
+                  (generalAssessmentForm?.mold_use?.find(
+                    (item) => item?.id === "mold-use-id-1",
+                  )?.is_checked &&
+                    item?.id !== "mold-use-id-1") ||
+                  !common?.isEditGeneralAssessmentForm
+                }
+              />
+              <label htmlFor={item?.id} className={cn("cursor-pointer")}>
+                {item?.label_th}
+              </label>
+            </div>
           ))}
-
           <div
             className={cn(
               generalAssessmentForm?.mold_use?.find(
@@ -657,6 +778,7 @@ export const R1AdminInformation: FC = () => {
               </div>
               {/* <CalculatePlayback />  */}
             </div>
+            Ii
           </div>
         </div>
 
@@ -691,6 +813,7 @@ export const R1AdminInformation: FC = () => {
                       }));
                     }}
                     value={item?.is_checked ? "true" : ""}
+                    disabled={!common?.isEditGeneralAssessmentForm}
                     readOnly={!common?.isEditGeneralAssessmentForm}
                   />
                   <label htmlFor={item?.id} className="cursor-pointer">
@@ -750,9 +873,7 @@ export const R1AdminInformation: FC = () => {
                 const Plant = companyList?.find(
                   (item) => item?.company === companyAdmin,
                 );
-
                 setTransportDistance(e.target.value as "thailand" | "other");
-
                 const PlantLatLong =
                   LatitudesLongitudes?.[
                     Plant?.province as keyof typeof LatitudesLongitudes
@@ -771,6 +892,7 @@ export const R1AdminInformation: FC = () => {
                   },
                 }));
               }}
+              disabled={!common?.isEditGeneralAssessmentForm}
               readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <label htmlFor="thailand" className="cursor-pointer" id="thailand">
@@ -813,6 +935,7 @@ export const R1AdminInformation: FC = () => {
                   },
                 }));
               }}
+              disabled={!common?.isEditGeneralAssessmentForm}
             />
             <label className="cursor-pointer" htmlFor="other" id="other">
               ขนส่งไปต่างประเทศ
@@ -836,10 +959,7 @@ export const R1AdminInformation: FC = () => {
             >
               <option value="">โปรดระบุประเทศปลายทาง</option>
               {countryCodeList
-                .sort((a) => {
-                  if (a.alpha2 === "TH") return -1;
-                  return 0;
-                })
+                .filter((item) => item.alpha2 !== "TH")
                 .map((info, i) => (
                   <option key={i} value={info.alpha2}>
                     {info?.country}
@@ -958,15 +1078,16 @@ export const R1AdminInformation: FC = () => {
                     transport_distance: {
                       ...prev?.transport_distance,
                       car_type: e.target.value,
+                      fuel_type: "",
                     },
                   }));
                 }}
                 disabled={!common?.isEditGeneralAssessmentForm}
               >
                 <option value="">เลือกประเภทรถ</option>
-                {new Array(3).fill(0).map((_, i) => (
-                  <option key={i} value={"car-type-" + (i + 1)}>
-                    ประเภทรถที่ {i + 1}
+                {MockCarType?.map((item, i) => (
+                  <option key={i} value={item?.car_type}>
+                    {item?.car_type}
                   </option>
                 ))}
               </select>
@@ -993,12 +1114,18 @@ export const R1AdminInformation: FC = () => {
                 value={
                   generalAssessmentForm?.transport_distance?.fuel_type || ""
                 }
-                disabled={!common?.isEditGeneralAssessmentForm}
+                disabled={
+                  !common?.isEditGeneralAssessmentForm || !transportDistance
+                }
               >
                 <option value="">เลือกประเภทเชื่อเพลิงที่ใช้</option>
-                {new Array(3).fill(0).map((_, i) => (
-                  <option key={i} value={"fuel-type-" + (i + 1)}>
-                    ประเภทเชื่อเพลิงที่ใช้ {i + 1}
+                {MockCarType?.find(
+                  (item) =>
+                    item?.car_type ===
+                    generalAssessmentForm?.transport_distance?.car_type,
+                )?.fuel_type.map((info, i) => (
+                  <option key={i} value={info?.fuel_name}>
+                    {info?.fuel_type_th}
                   </option>
                 ))}
               </select>
@@ -1085,7 +1212,9 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div> */}
 
-        <h4 className="whitespace-nowrap">10. เครดิตเทอม ซัพพลายเออร์หลัก</h4>
+        <h4 className="whitespace-nowrap">
+          10. เครดิตเทอม ซัพพลายเออร์หลัก <RequiredTopic />
+        </h4>
         <div className="col-span-4 pl-1">
           {generalAssessmentForm?.main_supplier_credit_terms.map((_, i) => {
             return (
@@ -1210,7 +1339,7 @@ export const R1AdminInformation: FC = () => {
                                     ...item,
                                     country: {
                                       label: e.target.value,
-                                      value: "",
+                                      value: "TH",
                                     },
                                   };
                                 }
@@ -1223,6 +1352,7 @@ export const R1AdminInformation: FC = () => {
                         generalAssessmentForm?.main_supplier_credit_terms?.[i]
                           ?.country?.label === "thailand-credit"
                       }
+                      disabled={!common?.isEditGeneralAssessmentForm}
                       readOnly={!common?.isEditGeneralAssessmentForm}
                     />
                     <label
@@ -1237,6 +1367,7 @@ export const R1AdminInformation: FC = () => {
                       type="radio"
                       value="other-credit"
                       id={`other-credit-${i}`}
+                      disabled={!common?.isEditGeneralAssessmentForm}
                       className="cursor-pointer [&:checked+label]:text-primary"
                       onChange={(e) => {
                         setGeneralAssessmentForm((prev) => ({
@@ -1249,7 +1380,7 @@ export const R1AdminInformation: FC = () => {
                                     ...item,
                                     country: {
                                       label: e.target.value,
-                                      value: "",
+                                      value: "-",
                                     },
                                   };
                                 }
@@ -1400,7 +1531,9 @@ export const R1AdminInformation: FC = () => {
           </div>
         </div>
 
-        <h4 className="whitespace-nowrap">11. สัดส่วนการซื้อวัตถุดิบหลัก</h4>
+        <h4 className="whitespace-nowrap">
+          11. สัดส่วนการซื้อวัตถุดิบหลัก <RequiredTopic />
+        </h4>
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">ซื้อในประเทศไทย</p>
@@ -1452,11 +1585,14 @@ export const R1AdminInformation: FC = () => {
               value={generalAssessmentForm?.ratio_of_raw_mat?.RM || ""}
               onChange={(e) => {
                 const RM = isNaN(+e.target.value) ? 0 : +e.target.value;
+                const GP = generalAssessmentForm?.ratio_of_raw_mat?.GP || 0;
+                const COGS = 100 - (RM + GP) < 0 ? 0 : 100 - (RM + GP);
                 setGeneralAssessmentForm((prev) => ({
                   ...prev,
                   ratio_of_raw_mat: {
                     ...prev?.ratio_of_raw_mat,
                     RM: RM > 100 ? 100 : RM,
+                    COGS: COGS > 100 ? 100 : COGS,
                   },
                 }));
               }}
@@ -1474,12 +1610,13 @@ export const R1AdminInformation: FC = () => {
               onChange={(e) => {
                 const RM = generalAssessmentForm?.ratio_of_raw_mat?.RM || 0;
                 const COGS = isNaN(+e.target.value) ? 0 : +e.target.value;
+                const GP = 100 - (RM + COGS) < 0 ? 0 : 100 - (RM + COGS);
                 setGeneralAssessmentForm((prev) => ({
                   ...prev,
                   ratio_of_raw_mat: {
                     ...prev?.ratio_of_raw_mat,
                     COGS: COGS > 100 ? 100 : COGS,
-                    GP: 100 - (RM + COGS) < 0 ? 0 : 100 - (RM + COGS),
+                    GP: GP > 100 ? 100 : GP,
                   },
                 }));
               }}
@@ -1494,6 +1631,18 @@ export const R1AdminInformation: FC = () => {
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
               value={generalAssessmentForm?.ratio_of_raw_mat?.GP || ""}
+              onChange={(e) => {
+                const RM = generalAssessmentForm?.ratio_of_raw_mat?.RM || 0;
+                const GP = isNaN(+e.target.value) ? 0 : +e.target.value;
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  ratio_of_raw_mat: {
+                    ...prev?.ratio_of_raw_mat,
+                    GP: GP > 100 ? 100 : GP,
+                    COGS: 100 - (RM + GP) < 0 ? 0 : 100 - (RM + GP),
+                  },
+                }));
+              }}
               readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>%</span>

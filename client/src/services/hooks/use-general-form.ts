@@ -3,8 +3,11 @@ import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import {
   TApprovalList,
+  TCompanyProfile,
   TGeneralAssessmentForm,
   TResponseAction,
+  TSummaryPart1,
+  TSummaryPart2,
 } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +16,13 @@ import { FormGeneralService } from "..";
 export const useFormGeneral = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { setApprovalList, setGeneralAssessmentForm } = useAtomStore();
+  const {
+    setApprovalList,
+    setGeneralAssessmentForm,
+    setSummaryPart2,
+    setCompanyProfile,
+    setSummaryPart1,
+  } = useAtomStore();
   const { showError, closeSwal, showSuccess, showLoading } = useSwal();
   const formGeneralService = new FormGeneralService();
 
@@ -109,10 +118,64 @@ export const useFormGeneral = () => {
     },
   });
 
+  const { mutateAsync: mutateGetSummaryPart1 } = useMutation<
+    TSummaryPart1[],
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_SUMMARY_BY_REGIS_ID_PART_1],
+    mutationFn: (regisId: string) =>
+      formGeneralService.getSummaryByRegisIdPart1(regisId),
+    onSuccess: (data) => {
+      setSummaryPart1(data);
+    },
+    onError: (error) => {
+      closeSwal();
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateGetSummaryPart2 } = useMutation<
+    TSummaryPart2[],
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_SUMMARY_BY_REGIS_ID_PART_2],
+    mutationFn: (regisId: string) =>
+      formGeneralService.getSummaryByRegisIdPart2(regisId),
+    onSuccess: (data) => {
+      setSummaryPart2(data);
+    },
+    onError: (error) => {
+      closeSwal();
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
+  const { mutateAsync: mutateGetCompanyProfile } = useMutation<
+    TCompanyProfile,
+    Error,
+    string
+  >({
+    mutationKey: [queryKey.GET_COMPANY_PROFILE],
+    mutationFn: (regisId: string) =>
+      formGeneralService.getCompanyProfile(regisId),
+    onSuccess: (data) => {
+      setCompanyProfile(data);
+    },
+    onError: (error) => {
+      closeSwal();
+      showError("เกิดข้อผิดพลาด", error?.message);
+    },
+  });
+
   return {
     mutateGetApprovalsById,
     mutateGetTemplateGeneralAssessmentById,
     mutateCreateGeneralAssessment,
     mutateUpdateGeneralAssessment,
+    mutateGetSummaryPart2,
+    mutateGetCompanyProfile,
+    mutateGetSummaryPart1,
   };
 };

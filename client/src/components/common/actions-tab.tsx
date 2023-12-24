@@ -36,7 +36,10 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
         <div className="flex gap-2">
           <Button
             onClick={async () => {
-              showLoading();
+              showLoading(
+                "กำลังดำเนินการ Sync ข้อมูล DBD",
+                "กรุณารอสักครู่...",
+              );
               await mutateSyncDBD(regisId as string);
               closeSwal();
             }}

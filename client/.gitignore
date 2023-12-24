@@ -29,3 +29,4 @@ dist-ssr
 *.mov
 *.mp3
 *.mp4
+.vercel

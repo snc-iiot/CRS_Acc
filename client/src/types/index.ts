@@ -9,3 +9,5 @@ export * from "./regis-list.ts";
 export * from "./general-assessment.ts";
 export * from "./comment.ts";
 export * from "./dbd.ts";
+export * from "./summary.ts";
+export * from "./car.ts";

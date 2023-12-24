@@ -1,4 +1,5 @@
 import { Icons } from "@/components/common/icons";
+// import RequiredTopic from "@/components/common/required-topic";
 import { UploadFile } from "@/components/common/upload-file";
 import { Button } from "@/components/ui/button";
 import { Base64Helpers } from "@/helpers/base64.helper";
@@ -62,7 +63,10 @@ const DocumentUploadForm: FC = () => {
               key={i}
             >
               <div className="col-span-4 flex justify-end">
-                <h3 className="text-sm">{item?.label}</h3>
+                <h3 className="text-sm">
+                  {item?.label}
+                  {/* <RequiredTopic /> */}
+                </h3>
               </div>
               <div className="col-span-6 flex items-center">
                 <UploadFile

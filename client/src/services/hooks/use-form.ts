@@ -14,7 +14,8 @@ import { AccService, FormService } from "..";
 
 export const useForm = () => {
   const accService = new AccService();
-  const { setRegisList, setRegistration } = useAtomStore();
+  const { setRegisList, setRegistration, setRegisListByAccount } =
+    useAtomStore();
   const queryClient = useQueryClient();
   const formService = new FormService();
   const { closeSwal, showError, showSuccess, showLoading } = useSwal();
@@ -77,11 +78,27 @@ export const useForm = () => {
   });
 
   const useGetRegisList = () => {
+    console.log("useGetRegisList");
     return useQuery({
       queryKey: [queryKey.GET_REGIS_LIST],
       queryFn: (): Promise<TRegisList[]> => formService.getRegisList(),
       select(data) {
         setRegisList(data);
+        return data;
+      },
+      refetchOnWindowFocus: false,
+      refetchInterval: 10000,
+    });
+  };
+
+  const useGetRegisListByAccountId = () => {
+    console.log("useGetRegisListByAccountId");
+    return useQuery({
+      queryKey: [queryKey.GET_REGIS_BY_ACCOUNT_ID],
+      queryFn: (): Promise<TRegisList[]> =>
+        formService.getRegisListByAccountId(),
+      select(data) {
+        setRegisListByAccount(data);
         return data;
       },
       refetchOnWindowFocus: false,
@@ -121,11 +138,11 @@ export const useForm = () => {
   >({
     mutationKey: [queryKey.GET_REGIS_BY_ID],
     mutationFn: (data: string) => formService.getRegisById(data),
-    onMutate: () => {
-      showLoading("กำลังโหลดข้อมูล...");
-    },
+    // onMutate: () => {
+    //   showLoading("กำลังโหลดข้อมูล...");
+    // },
     onSuccess: (data) => {
-      closeSwal();
+      // closeSwal();
       setRegistration({
         ...data,
         regis_id: data?.regis_id ?? "",
@@ -205,5 +222,6 @@ export const useForm = () => {
     mutateDeleteDocById,
     mutateUpdateCustomer,
     mutateConfirmDBDInfo,
+    useGetRegisListByAccountId,
   };
 };

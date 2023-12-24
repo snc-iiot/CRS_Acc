@@ -71,8 +71,19 @@ const FilterSelect = React.forwardRef<
           role="combobox"
           className={cn("border-dashed", classNameTrigger)}
         >
-          <PlusCircledIcon className="mr-2 h-4 w-4" />
-          {props.triggerText || "เพิ่มตัวกรอง"}
+          {/* <PlusCircledIcon className="mr-2 h-4 w-4" />
+          {props.triggerText || "เพิ่มตัวกรอง"} */}
+          {state?.length ? (
+            <span className="text-primary">
+              {state?.length} ตัวกรอง
+              <span className="sr-only">, กดเพื่อเปิดตัวกรอง</span>
+            </span>
+          ) : (
+            <>
+              <PlusCircledIcon className="mr-2 h-4 w-4" />
+              {props.triggerText || "เพิ่มตัวกรอง"}
+            </>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent

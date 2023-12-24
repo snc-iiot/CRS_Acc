@@ -30,16 +30,9 @@ const TableAssessmentSummary: FC<TableAssessmentSummaryProps> = ({
   // activeOnly = false,
 }) => {
   const getScoreColor = (activeScore: number, score: number) => {
-    if (activeScore === score && score === 10) {
-      return "text-green-600 hover:text-green-700 font-bold";
-    } else if (activeScore === score && score === 8) {
-      return "text-yellow-500 hover:text-yellow-500/80 font-bold";
-    } else if (activeScore === score && score === 5) {
-      return "text-red-600  hover:text-red-700/80 font-bold";
-    } else if (activeScore === score && score === 0) {
-      return "text-gray-500 hover:text-gray-500/80 font-bold";
+    if (activeScore === score) {
+      return "text-red-600 hover:text-red-700/80 font-bold bg-red-100";
     }
-    return "";
   };
 
   return (

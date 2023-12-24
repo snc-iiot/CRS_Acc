@@ -1,8 +1,11 @@
 import { API_BASE_URL } from "@/helpers/common.helper";
 import {
   TApprovalList,
+  TCompanyProfile,
   TGeneralAssessmentForm,
   TResponseAction,
+  TSummaryPart1,
+  TSummaryPart2,
 } from "@/types";
 import { APIService } from ".";
 
@@ -36,6 +39,7 @@ export class FormGeneralService extends APIService {
         "FormGeneralService -> getTemplateGeneralAssessmentById -> error",
         error,
       );
+      window.location.href = "/404";
       return {} as TGeneralAssessmentForm;
     }
   };
@@ -81,6 +85,52 @@ export class FormGeneralService extends APIService {
         status: "error",
         data: [],
       };
+    }
+  };
+
+  getSummaryByRegisIdPart1 = async (
+    regis_id: string,
+  ): Promise<TSummaryPart1[]> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/assessment-result/part1-score?regis_id=${regis_id}`,
+      );
+      return responseData?.data ?? ([] as TSummaryPart1[]);
+    } catch (error: any) {
+      console.error(
+        "FormGeneralService -> getSummaryByRegisIdPart1 -> error",
+        error,
+      );
+      return [] as TSummaryPart1[];
+    }
+  };
+
+  getSummaryByRegisIdPart2 = async (
+    regis_id: string,
+  ): Promise<TSummaryPart2[]> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/assessment-result/part2-score?regis_id=${regis_id}`,
+      );
+      return responseData?.data ?? ([] as TSummaryPart2[]);
+    } catch (error: any) {
+      console.error(
+        "FormGeneralService -> getSummaryByRegisIdPart2 -> error",
+        error,
+      );
+      return [] as TSummaryPart2[];
+    }
+  };
+
+  getCompanyProfile = async (regis_id: string): Promise<TCompanyProfile> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/assessment-result/company-profile?regis_id=${regis_id}`,
+      );
+      return responseData?.data?.[0] ?? ({} as TCompanyProfile);
+    } catch (error: any) {
+      console.error("FormGeneralService -> getCompanyProfile -> error", error);
+      return {} as TCompanyProfile;
     }
   };
 }
