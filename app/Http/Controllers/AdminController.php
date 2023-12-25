@@ -73,4 +73,40 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
+    //!Country Amount
+    function regisCount(Request $request)
+    {
+        try {
+
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+
+            $request->all();
+
+            $data = DB::table("tb_regis_old_count")->get();
+            if (\count($data) == 0) return response()->json([
+                "status" => "error",
+                "message" => "There is no data country in the iCRS system",
+                "data" => []
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "data output success",
+                "data" => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => []
+            ], 500);
+        }
+    }
 }
