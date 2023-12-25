@@ -6,6 +6,7 @@ import {
   HomePage,
   LoginPage,
   NotFoundPage,
+  PrintPage,
   Registration,
   RegistrationInfo,
   ServerErrorPage,
@@ -38,6 +39,7 @@ function App() {
             path="/registrations/customer/info"
             element={<RegistrationInfo />}
           />
+          <Route path="/print" element={<PrintPage />} />
           <Route path="/server-error" element={<ServerErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

@@ -47,8 +47,10 @@ import { cn, COLORS_SERIES } from "@/lib/utils";
 import MockCompany from "@/mock/company.json";
 import { useForm, useUtils } from "@/services/";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
+import { PrintPage } from ".";
 
 const RegistrationInfo: FC = () => {
   const {
@@ -122,6 +124,12 @@ const RegistrationInfo: FC = () => {
     "R9",
     "R10",
   ];
+
+  const componentRef = useRef<HTMLDivElement>(null);
+  const handlePrint = useReactToPrint({
+    pageStyle: "@page { size: A4; }",
+    content: () => componentRef.current,
+  });
 
   const TabList = [
     {
@@ -252,7 +260,7 @@ const RegistrationInfo: FC = () => {
           </TooltipProvider>
         </div>
         <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2 py-2">
-          <div className="flex items-center justify-start px-4">
+          <div className="flex items-center justify-start gap-2 px-4">
             {showSplitScreen?.map((item, i) => (
               <TooltipProvider key={i}>
                 <Tooltip>
@@ -282,7 +290,7 @@ const RegistrationInfo: FC = () => {
             ))}
             <Badge
               className={cn(
-                "text-md ml-2 font-bold",
+                "text-md ml-2 h-9 font-bold",
                 status?.find(
                   (item) => item?.status_id === registration?.status_no,
                 )?.status_color,
@@ -293,8 +301,24 @@ const RegistrationInfo: FC = () => {
                 {registration?.regis_id}
               </span> */}
             </Badge>
+            <Button
+              variant="outline"
+              onClick={() => {
+                handlePrint();
+              }}
+            >
+              <Icons.printer className="h-5 w-5" />
+              Print PDF
+            </Button>
           </div>
         </header>
+        <div
+          style={{
+            display: "none",
+          }}
+        >
+          <PrintPage ref={componentRef} />
+        </div>
         <main className="h-[calc(100%-3rem)]">
           <div
             className={cn(

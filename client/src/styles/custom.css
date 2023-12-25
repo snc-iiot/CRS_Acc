@@ -66,3 +66,30 @@ body {
     box-shadow: none;
   }
 }
+
+@media print {
+  .pagebreak {
+    page-break-before: always;
+  }
+  .watermark {
+    display: block;
+    counter-increment: page;
+    position: fixed;
+  }
+  @page {
+    @bottom-left {
+      content: counter(page) "/" counter(pages);
+    }
+  }
+}
+
+.watermark {
+  display: block;
+  top: 50vh;
+  z-index: -9;
+  width: 100vw;
+  page-break-after: always;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.1;
+}
