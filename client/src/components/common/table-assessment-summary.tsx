@@ -31,7 +31,7 @@ const TableAssessmentSummary: FC<TableAssessmentSummaryProps> = ({
 }) => {
   const getScoreColor = (activeScore: number, score: number) => {
     if (activeScore === score) {
-      return "text-red-600 hover:text-red-700/80 font-bold bg-red-100";
+      return "font-bold bg-[#d4eaf7]";
     }
   };
 

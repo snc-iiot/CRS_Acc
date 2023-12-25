@@ -425,7 +425,12 @@ const AssessmentDetailsSection: FC = () => {
         {AssessmentDetails.map((item, index) => (
           <AccordionItem key={index} value={`item-${index}`}>
             <AccordionTrigger className="p-1 text-xs">
-              {item.label} ({labelScore[index + 1] as number}/10) คะแนน
+              <p>
+                {item.label}{" "}
+                <span className="text-primary">
+                  ({labelScore[index + 1] as number}/10) คะแนน
+                </span>
+              </p>
             </AccordionTrigger>
             <AccordionContent className="px-6">
               {item.component}

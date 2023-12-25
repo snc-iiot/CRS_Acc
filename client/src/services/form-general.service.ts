@@ -39,7 +39,8 @@ export class FormGeneralService extends APIService {
         "FormGeneralService -> getTemplateGeneralAssessmentById -> error",
         error,
       );
-      window.location.href = "/404";
+      error?.response?.status === 500 &&
+        window.location.replace("/server-error");
       return {} as TGeneralAssessmentForm;
     }
   };

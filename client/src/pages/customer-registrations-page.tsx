@@ -20,6 +20,7 @@ import {
   TableRow as Tr,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { orderArrayBy } from "@/helpers/array.helper";
 // import { Textarea } from "@/components/ui/textarea";
 import { MODE_CODE } from "@/helpers/common.helper";
 import {
@@ -34,6 +35,7 @@ import { cn } from "@/lib/utils";
 import { useUtils } from "@/services";
 import { useForm } from "@/services/hooks/use-form";
 import { useProfile } from "@/services/hooks/use-profile";
+import { TRegisList } from "@/types";
 import { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -58,6 +60,9 @@ const CustomerRegistrations: FC = () => {
   const [statusSelect, setStatusSelect] = useState<string[]>([]);
   const [tabsSelected, setTabsSelected] = useState<string>("4");
   const { isLoading } = useGetRegisList();
+  const [sortByDate, setSortByDate] = useState<"ascending" | "descending">(
+    "ascending",
+  );
 
   // const tabsKey: {
   //   status_no: number;
@@ -339,13 +344,32 @@ const CustomerRegistrations: FC = () => {
                 <Th className="w-[200px]">
                   <span className="flex cursor-pointer items-center gap-x-1">
                     ขึ้นทะเบียนกับบริษัท
-                    <Icons.arrowUpWideNarrow className="h-4 w-4" />
                   </span>
                 </Th>
                 <Th className="w-[10rem]">
                   <span className="flex cursor-pointer items-center gap-x-1">
                     เวลาขึ้นทะเบียน
-                    <Icons.arrowUpWideNarrow className="h-4 w-4" />
+                    {/* <Icons.arrowUpWideNarrow
+                      className="h-4 w-4"
+                      onClick={() => {
+                        setSortByDate("ascending");
+                      }}
+                    /> */}
+                    {sortByDate === "ascending" ? (
+                      <Icons.arrowUpWideNarrow
+                        className="h-4 w-4"
+                        onClick={() => {
+                          setSortByDate("descending");
+                        }}
+                      />
+                    ) : (
+                      <Icons.arrowDownWideNarrow
+                        className="h-4 w-4"
+                        onClick={() => {
+                          setSortByDate("ascending");
+                        }}
+                      />
+                    )}
                   </span>
                 </Th>
                 <Th className="w-[10rem]">สถานะ</Th>
@@ -360,43 +384,47 @@ const CustomerRegistrations: FC = () => {
                   </Td>
                 </Tr>
               )}
-              {filterData?.map((item, i) => (
-                <Tr
-                  key={i}
-                  className="cursor-pointer whitespace-nowrap border-b text-sm"
-                  onDoubleClick={() => {
-                    navigate(
-                      "/registrations/customer/info?RegisID=" + item?.regis_id,
-                    );
-                  }}
-                >
-                  <Td>{i + 1}</Td>
-                  <Td>{item?.juristic_id}</Td>
-                  <Td>{item?.company_name}</Td>
-                  <Td>{item?.company_admin}</Td>
-                  <Td>{item?.created_at}</Td>
-                  <Td>
-                    <Badge
-                      className={cn(
-                        statusHelper(item?.status_no)?.status_color,
-                        "text-center text-sm",
-                      )}
-                    >
-                      {item?.status_desc_th}
-                    </Badge>
-                  </Td>
-                  <Td>
-                    <Link
-                      to={
-                        "/registrations/customer/info?RegisID=" + item?.regis_id
-                      }
-                      className="flex items-center gap-x-1 text-primary hover:underline"
-                    >
-                      <Icons.eye className="h-4 w-4" /> <span>ดูละเอียด</span>
-                    </Link>
-                  </Td>
-                </Tr>
-              ))}
+              {orderArrayBy(filterData, "created_at", sortByDate)?.map(
+                (item: TRegisList, i) => (
+                  <Tr
+                    key={i}
+                    className="cursor-pointer whitespace-nowrap border-b text-sm"
+                    onDoubleClick={() => {
+                      navigate(
+                        "/registrations/customer/info?RegisID=" +
+                          item?.regis_id,
+                      );
+                    }}
+                  >
+                    <Td>{i + 1}</Td>
+                    <Td>{item?.juristic_id}</Td>
+                    <Td>{item?.company_name}</Td>
+                    <Td>{item?.company_admin}</Td>
+                    <Td>{item?.created_at}</Td>
+                    <Td>
+                      <Badge
+                        className={cn(
+                          statusHelper(item?.status_no)?.status_color,
+                          "text-center text-sm",
+                        )}
+                      >
+                        {item?.status_desc_th}
+                      </Badge>
+                    </Td>
+                    <Td>
+                      <Link
+                        to={
+                          "/registrations/customer/info?RegisID=" +
+                          item?.regis_id
+                        }
+                        className="flex items-center gap-x-1 text-primary hover:underline"
+                      >
+                        <Icons.eye className="h-4 w-4" /> <span>ดูละเอียด</span>
+                      </Link>
+                    </Td>
+                  </Tr>
+                ),
+              )}
             </TBody>
           </Table>
         </div>

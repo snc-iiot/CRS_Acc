@@ -355,10 +355,6 @@ const EvaluateForm: FC = () => {
   //   },
   // ];
 
-  console.log("====================================");
-  console.log("summaryPart2", summaryPart2);
-  console.log("====================================");
-
   return (
     <div className="flex flex-col gap-2">
       {/* <h3 className="text-sm font-bold underline">ผลการประเมินคะแนน</h3> */}
@@ -367,10 +363,11 @@ const EvaluateForm: FC = () => {
           (evaluate: TSummaryPart2, i) => (
             <div
               key={i}
-              className="flex w-[75%] items-center justify-between gap-2"
+              className="flex w-full items-center justify-between gap-2"
             >
               <h2 className="whitespace-nowrap">
-                {i + 1}. {evaluate?.label_th}
+                {i + 1}. {evaluate?.label_th}{" "}
+                {evaluate?.label_en !== "" ? `(${evaluate?.label_en})` : null}
               </h2>
               <div className="overflow-hidden">
                 {new Array(400).fill(0).map((_, i) => (

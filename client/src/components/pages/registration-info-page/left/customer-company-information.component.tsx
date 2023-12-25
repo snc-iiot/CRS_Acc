@@ -22,7 +22,11 @@ const CustomerDetails: FC = () => {
           <h4 className="truncate font-semibold">{item?.label}</h4>
           <div className="col-span-3 flex items-center gap-x-1">
             <CopyToClipboardCustom
-              text={item?.name}
+              text={
+                company_information[
+                  item?.name as keyof typeof company_information
+                ] as string
+              }
               delay={500}
               className="h-3 w-3"
             />

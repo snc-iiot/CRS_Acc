@@ -25,7 +25,15 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
   const { registration } = useAtomStore();
 
   const actionButton = (status_no: number) => {
-    if (status_no === 1) {
+    if (status_no === 0) {
+      //! สถานะ รออัพโหลดเอกสาร
+      return {
+        ["R1"]: <ActionButtonR2 />,
+        ["R2"]: <ActionButtonR2 />,
+        ["R3"]: <ActionButtonR2 />,
+        ["R4"]: <ActionButtonR2 />,
+      };
+    } else if (status_no === 1) {
       //! สถานะ รอตรวจสอบข้อมูล
       return {
         ["R1"]: <ActionButtonR2 />,

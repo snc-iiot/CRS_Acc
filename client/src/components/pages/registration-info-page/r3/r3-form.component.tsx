@@ -68,6 +68,8 @@ const R3Form: FC = () => {
     },
   ];
 
+  if (!financialRatio?.financial_ratios) return <div>loading...</div>;
+
   return (
     <div className="relative flex w-full flex-col gap-2">
       <div>
@@ -181,8 +183,8 @@ const R3Form: FC = () => {
                     size="sm"
                     onClick={async () => {
                       const isConfirm = await confirmSwal(
-                        "บันทึกความคิดเห็น",
-                        "คุณต้องการบันทึกความคิดเห็นใช่หรือไม่",
+                        "บันทึกข้อเสนอแนะทางการเงิน",
+                        "คุณต้องการบันทึกข้อเสนอแนะทางการเงินหรือไม่",
                       );
                       if (isConfirm) {
                         await mutateCreateCommentR3({

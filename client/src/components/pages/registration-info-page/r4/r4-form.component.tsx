@@ -248,11 +248,11 @@ const R4Form: FC = () => {
 
   const AssessmentDetails = [
     {
-      label: `ส่วนที่ 1: การเงินและการลงทุน (${CalculatePart1}/40 คะแนน)`,
+      label: `ส่วนที่ 1: การเงินและการลงทุน`,
       component: <AssessmentDetailsSectionComponent />,
     },
     {
-      label: `ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย (${CalculatePart2()}/60 คะแนน)`,
+      label: `ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย`,
       component: <EvaluateFormComponent />,
     },
   ];
@@ -395,7 +395,15 @@ const R4Form: FC = () => {
             {AssessmentDetails?.map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
                 <AccordionTrigger className={cn("p-1 text-xs font-bold")}>
-                  {item?.label}
+                  {/* {item?.label} */}
+                  <p>
+                    {item?.label}
+                    <span className="text-primary">
+                      {i === 0
+                        ? ` (${CalculatePart1}/40 คะแนน)`
+                        : ` (${CalculatePart2()}/60 คะแนน)`}
+                    </span>
+                  </p>
                 </AccordionTrigger>
                 <AccordionContent className="px-6">
                   {item?.component}

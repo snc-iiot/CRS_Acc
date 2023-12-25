@@ -8,6 +8,7 @@ import {
   NotFoundPage,
   Registration,
   RegistrationInfo,
+  ServerErrorPage,
   SettingPage,
   TestPage,
 } from "./pages";
@@ -37,6 +38,7 @@ function App() {
             path="/registrations/customer/info"
             element={<RegistrationInfo />}
           />
+          <Route path="/server-error" element={<ServerErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

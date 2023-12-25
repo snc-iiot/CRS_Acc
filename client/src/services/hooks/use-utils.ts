@@ -245,7 +245,7 @@ export const useUtils = () => {
     mutationFn: ({ regisId, comment }) =>
       utilsService.createCommentR3(regisId, comment),
     onMutate: () => {
-      showLoading("กำลังสร้างข้อเสนอแนะ", "กรุณารอสักครู่");
+      showLoading("กำลังบันทึกข้อเสนอแนะ", "กรุณารอสักครู่...");
     },
     onSuccess: (data) => {
       closeSwal();

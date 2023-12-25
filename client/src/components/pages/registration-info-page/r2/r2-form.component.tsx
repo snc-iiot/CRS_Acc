@@ -60,7 +60,7 @@ const R2Form: FC = () => {
           อัพเดทล่าสุดเมื่อ {getDateThai(dbdSyncList?.created_at).dateTime}
         </h4>
       </div>
-      <Accordion type="multiple" defaultValue={["item-1", "item-2", "item-3"]}>
+      <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
         <AccordionItem value="item-1">
           <AccordionTrigger className="p-1 text-xs font-bold">
             งบการเงิน / Statement of Financial Position

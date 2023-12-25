@@ -5,7 +5,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "@/styles/index.css";
 import "@/styles/custom.css";
-import { DevTools } from "jotai-devtools";
+
+// import { DevTools } from "jotai-devtools";
 
 // import { TailwindIndicator } from "./tailwind-indicators.tsx";
 
@@ -16,7 +17,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
       <Provider>
         <App />
-        <DevTools />
       </Provider>
     </React.StrictMode>
   </QueryClientProvider>,

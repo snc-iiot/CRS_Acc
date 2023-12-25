@@ -78,7 +78,6 @@ export const useForm = () => {
   });
 
   const useGetRegisList = () => {
-    console.log("useGetRegisList");
     return useQuery({
       queryKey: [queryKey.GET_REGIS_LIST],
       queryFn: (): Promise<TRegisList[]> => formService.getRegisList(),
@@ -92,7 +91,6 @@ export const useForm = () => {
   };
 
   const useGetRegisListByAccountId = () => {
-    console.log("useGetRegisListByAccountId");
     return useQuery({
       queryKey: [queryKey.GET_REGIS_BY_ACCOUNT_ID],
       queryFn: (): Promise<TRegisList[]> =>

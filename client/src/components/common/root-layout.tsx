@@ -20,7 +20,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Icons } from "./icons";
 import { Header } from "./site-header";
 import Sidebar from "./site-sidebar";
-import ThemeToggle from "./theme-toggle";
+
+// import ThemeToggle from "./theme-toggle";
 
 const RootLayout: FC = () => {
   const { profile } = useProfile();
@@ -130,22 +131,22 @@ const RootLayout: FC = () => {
                           {profile?.name?.en}
                         </p>
                       </DropdownMenuLabel>
-                      <DropdownMenuItem
+                      {/* <DropdownMenuItem
                         onClick={() => {
                           navigate("/settings/profile");
                         }}
                       >
                         <Icons.userCircle2 className="h-5 w-5" />
                         <p className="ml-2">Profile</p>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
+                      </DropdownMenuItem> */}
+                      {/* <DropdownMenuItem
                         onClick={() => {
                           navigate("/settings");
                         }}
                       >
                         <Icons.settings className="h-5 w-5" />
                         <p className="ml-2">Settings</p>
-                      </DropdownMenuItem>
+                      </DropdownMenuItem> */}
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         onClick={() => {
@@ -157,12 +158,12 @@ const RootLayout: FC = () => {
                         }}
                       >
                         <Icons.logOut className="h-5 w-5 text-red-500" />
-                        <p className="ml-2 text-red-500">Logout</p>
+                        <p className="ml-2 text-red-500">ออกจากระบบ</p>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                <ThemeToggle />
+                {/* <ThemeToggle /> */}
               </div>
             }
           />
