@@ -8,3 +8,4 @@ export { default as CustomerRegistrations } from "./customer-registrations-page"
 export { default as SettingPage } from "./setting-page";
 export { default as EvaluationConfigPage } from "./evaluation-config-page";
 export { default as ServerErrorPage } from "./server-error-page";
+export { default as PrintPage } from "./print-page";

@@ -82,8 +82,8 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
   const maxTextWidth = useMemo(
     () =>
       data.reduce((acc, cur) => {
-        const value = cur[keyMap[0] as keyof typeof cur];
-        const width = measureText14HelveticaNeue(value.toLocaleString());
+        const value = cur[keyMap?.[0] as keyof typeof cur];
+        const width = measureText14HelveticaNeue(value?.toLocaleString());
         if (width > acc) {
           return width;
         }
@@ -144,12 +144,12 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
                     className="h-3 w-3 rounded-full"
                     style={{ backgroundColor: payload[0]?.payload?.color }}
                   />
-                  <p className="text-sm">{payload[0].payload.name}</p>
-                  {payload.map((item: any, index: number) => (
+                  <p className="text-sm">{payload?.[0]?.payload?.name}</p>
+                  {payload?.map((item: any, index: number) => (
                     <div key={index} className="flex items-center gap-3">
                       <p className="intro text-sm">
                         :{" "}
-                        {Number(item.value).toLocaleString(undefined, {
+                        {Number(item?.value)?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}{" "}
                         {unitTooltip}
@@ -174,7 +174,7 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
               fontWeight: 500,
               fill: "#1F2C57",
             }}
-            tickFormatter={(value) => value.toLocaleString()}
+            tickFormatter={(value) => value?.toLocaleString()}
           />
         )}
         {!isLabelInside && (
@@ -189,17 +189,17 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
               fontWeight: 500,
               fill: "#1F2C57",
             }}
-            tickFormatter={(value) => value.toLocaleString()}
+            tickFormatter={(value) => value?.toLocaleString()}
           />
         )}
         <YAxis
           orientation="right"
           yAxisId={1}
-          dataKey={keyMap[0]}
+          dataKey={keyMap?.[0]}
           type="category"
           axisLine={false}
           tickLine={false}
-          tickFormatter={(value) => `${value.toLocaleString()} ${label}`}
+          tickFormatter={(value) => `${value?.toLocaleString()} ${label}`}
           mirror
           tick={{
             transform: `translate(${maxTextWidth + BAR_AXIS_SPACE}, 0)`,
@@ -208,7 +208,7 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
           }}
         />
         <Bar
-          dataKey={keyMap[0]}
+          dataKey={keyMap?.[0]}
           yAxisId={1}
           barSize={32}
           isAnimationActive={false}
@@ -221,7 +221,7 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
                   position: "right",
                   offset: 10,
                   formatter: (value: { toLocaleString: () => any }) =>
-                    `${value.toLocaleString()} ${label}`,
+                    `${value?.toLocaleString()} ${label}`,
                   fill: "#1F2C57",
                   fontSize: 12,
                 }
@@ -229,17 +229,17 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
         >
           {isLabelInside && (
             <LabelList
-              dataKey={keyMap[0]}
+              dataKey={keyMap?.[0]}
               position="right"
               offset={10}
               formatter={(value: { toLocaleString: () => any }) =>
-                `${value.toLocaleString()} ${label}`
+                `${value?.toLocaleString()} ${label}`
               }
               fill="#1F2C57"
               fontSize={10}
             />
           )}
-          {data.map((d, idx) => {
+          {data?.map((d, idx) => {
             return (
               <Cell
                 key={d[keyXAxis as keyof typeof d]}

@@ -17,9 +17,13 @@ import {
   documentKeyListAtom,
   financialRatioAtom,
   generalAssessmentFormAtom,
+  mainCustomerRatioAtom,
+  objectivePurchasingRatioAtom,
+  regisCountAtom,
   regisListAtom,
   regisListByAccountAtom,
   registrationAtom,
+  shareHolderRatioAtom,
   summaryAtomPart1,
   summaryAtomPart2,
   thaiProvinceAtom,
@@ -67,6 +71,12 @@ export const useAtomStore = () => {
   const [summaryPart1, setSummaryPart1] = useAtom(summaryAtomPart1);
   const [summaryPart2, setSummaryPart2] = useAtom(summaryAtomPart2);
   const [companyProfile, setCompanyProfile] = useAtom(companyProfileAtom);
+
+  //! home
+  const [dataRegisCount, setDataRegisCount] = useAtom(regisCountAtom);
+  const [dataMainCustomerRatio, setDataMainCustomerRatio] = useAtom(mainCustomerRatioAtom);
+  const [dataShareHolderRatio, setDataShareHolderRatio] = useAtom(shareHolderRatioAtom);
+  const [dataObjectivePurchasingRatio, setDataObjectivePurchasingRatio] = useAtom(objectivePurchasingRatioAtom);
 
   return {
     benefitsList,
@@ -125,5 +135,15 @@ export const useAtomStore = () => {
     setSummaryPart2,
     companyProfile,
     setCompanyProfile,
+
+    //! home
+    dataRegisCount, 
+    setDataRegisCount,
+    dataMainCustomerRatio, 
+    setDataMainCustomerRatio,
+    dataShareHolderRatio, 
+    setDataShareHolderRatio,
+    dataObjectivePurchasingRatio, 
+    setDataObjectivePurchasingRatio,
   };
 };

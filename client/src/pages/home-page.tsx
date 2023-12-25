@@ -1,37 +1,92 @@
+import BarChart from "@/components/common/chart/bar-chart";
 import BarChartHorizontal from "@/components/common/chart/bar-chart-horizontal";
 import PieChartComponents from "@/components/common/chart/pi-chart";
-import { Icons } from "@/components/common/icons";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Select } from "@/components/ui/select-custom";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { COLORS_SERIES } from "@/lib/utils";
-import MockCompany from "@/mock/company.json";
+import { useHome } from "@/services/hooks/use-home";
 import { FC } from "react";
 
 const HomePage: FC = () => {
-  const PieChartData = [
+  const {
+    dataRegisCount,
+    dataMainCustomerRatio,
+    dataObjectivePurchasingRatio,
+    dataShareHolderRatio,
+  } = useAtomStore();
+  const { isFetchingRegisCount, isFetchingMainCustomerRatio } = useHome();
+
+  const Datanationality = dataShareHolderRatio
+    ?.map(({ country, percent }, i) => ({
+      id: country,
+      label: country,
+      value: Number(percent),
+      color: COLORS_SERIES[10 + i],
+    }))
+    ?.sort((a, b) => b?.value - a?.value);
+
+  const DataObjectivePurchasingRatio = [
     {
-      id: "XXX",
-      label: "XXX",
-      value: 555,
+      name: "ซื้อมาขายไป",
+      value:
+        dataObjectivePurchasingRatio?.filter(
+          ({ objective_purchasing }) => objective_purchasing === "trade",
+        )?.[0]?.amount ?? 10,
+      datetime: "ซื้อมาขายไป",
+    },
+    {
+      name: "ผลิตงาน",
+      value:
+        dataObjectivePurchasingRatio?.filter(
+          ({ objective_purchasing }) => objective_purchasing === "produce",
+        )?.[0]?.amount ?? 17,
+      datetime: "ผลิตงาน",
+    },
+    {
+      name: "อื่นๆ",
+      value:
+        dataObjectivePurchasingRatio?.filter(
+          ({ objective_purchasing }) => objective_purchasing === "other",
+        )?.[0]?.amount ?? 0,
+      datetime: "อื่นๆ",
+    },
+  ]?.sort((a, b) => b?.value - a?.value);
+
+  const DataMainCustomers = [
+    {
+      id: "ลูกค้าในประเทศไทย",
+      label: "ลูกค้าในประเทศไทย",
+      value:
+        dataMainCustomerRatio?.filter(
+          ({ main_customer }) => main_customer === "internal",
+        )?.[0]?.amount ?? 0,
       color: "#1F2C57",
     },
     {
-      id: "YYY",
-      label: "YYY",
-      value: 344,
+      id: "ลูกค้าต่างประเทศ",
+      label: "ลูกค้าต่างประเทศ",
+      value:
+        dataMainCustomerRatio?.filter(
+          ({ main_customer }) => main_customer === "foreign",
+        )?.[0]?.amount ?? 0,
       color: "#F2C94C",
     },
   ];
 
-  const data = MockCompany.map((item, i) => ({
-    name: item?.Company,
-    value: Math.floor(Math.random() * 100),
-    color: COLORS_SERIES[9 + i],
-  })).sort((a, b) => b.value - a.value);
+  const data = dataRegisCount
+    ?.filter(({ company }) => company !== "Undefine" && company !== "SNC")
+    ?.map(({ company, regis_count }, i) => ({
+      name: company,
+      value: regis_count,
+      color: COLORS_SERIES[9 + i],
+    }))
+    ?.sort((a, b) => b?.value - a?.value);
+
+  const dataBarChart = [] as {
+    name: string;
+    value: number;
+    datetime: string;
+  }[];
 
   return (
     <main className="relative flex h-full w-full flex-col gap-2">
@@ -54,9 +109,22 @@ const HomePage: FC = () => {
           </Select>
         </div>
       </section>
-      <section className="grid h-full grid-cols-8 grid-rows-2 gap-2">
-        <article className="col-span-6 row-span-1 rounded-md border p-2">
-          <h3 className="text-md font-bold">Dashboard 0</h3>
+      <section className="grid h-full grid-cols-8 grid-rows-2 gap-2 overflow-clip">
+        <article className="col-span-6 row-span-1 h-full overflow-clip rounded-md border p-2">
+          <h3 className="text-md h-[8%] font-bold">สถิติการลงทะเบียน</h3>
+          {dataBarChart?.length === 0 ? (
+            <article className="flex h-[92%] w-full flex-col items-center justify-center">
+              <text className="text-sm">
+                {isFetchingRegisCount
+                  ? "กำลังโหลดข้อมูล..."
+                  : "ยังไม่มีข้อมูลการลงทะเบียน"}
+              </text>
+            </article>
+          ) : (
+            <article className="flex h-[92%] w-full flex-col">
+              <BarChart data={dataBarChart} domain={[0, 100]} />
+            </article>
+          )}
         </article>
         <article className="col-span-2 row-span-1 rounded-md border p-2">
           <section className="flex h-full w-full flex-col gap-2">
@@ -65,31 +133,73 @@ const HomePage: FC = () => {
                 สัดส่วนลูกค้า แบ่งตามสัญชาติ
               </h3>
             </article>
-            <article className="flex h-full w-full flex-col">
-              <PieChartComponents
-                data={PieChartData}
-                enableArcLinkLabels={true}
-                isShowLegend={false}
-                scheme="custom"
-                arcLabelsTextColorMode="brighter"
-                arcLabelsTextColor="#ffffff"
-                unit="รายการ"
-              />
-            </article>
+            {dataMainCustomerRatio?.length === 0 ? (
+              <article className="flex h-full w-full flex-col items-center justify-center">
+                <text className="text-sm">
+                  {isFetchingMainCustomerRatio
+                    ? "กำลังโหลดข้อมูล..."
+                    : "ยังไม่มีข้อมูลการลงทะเบียน"}
+                </text>
+              </article>
+            ) : (
+              <article className="relative flex h-full w-full flex-col items-center justify-center">
+                <article className="flex h-[80%] w-full flex-col  items-center justify-center">
+                  <PieChartComponents
+                    data={Datanationality}
+                    enableArcLinkLabels={true}
+                    isShowLegend={false}
+                    scheme="custom"
+                    arcLabelsTextColorMode="brighter"
+                    arcLabelsTextColor="#ffffff"
+                    unit="รายการ"
+                  />
+                </article>
+                <article className="absolute bottom-0 right-0">
+                  {Datanationality?.slice(0, 5)?.map(({ id, color }, i) => (
+                    <article
+                      key={i}
+                      className="flex flex-row items-center justify-start gap-2"
+                    >
+                      <div
+                        className={"h-3 w-3 rounded-full"}
+                        style={{
+                          backgroundColor: color,
+                        }}
+                      />
+                      <h6 className="text-xs font-bold">{id}</h6>
+                    </article>
+                  ))}
+                  {Datanationality?.length > 5 && (
+                    <h6 className="mt-[-6px] w-full text-center text-xs font-bold">
+                      ...
+                    </h6>
+                  )}
+                </article>
+              </article>
+            )}
           </section>
         </article>
-        <article className="col-span-2 row-span-1 rounded-md border p-2">
+
+        <article className="col-span-2 row-span-1 flex flex-col gap-4 rounded-md border p-2">
           <h3 className="text-md font-bold">
             ประเภทลูกค้าแบ่งตามวัตถุประสงค์การซื้อสินค้า
           </h3>
-        </article>
-        <article className="col-span-2 row-span-1 rounded-md border p-2">
-          <h3 className="text-md font-bold">
-            ลูกค้าหลักของบริษัทที่ขึ้นทะเบียน
-          </h3>
+          {dataObjectivePurchasingRatio?.length === 0 ? (
+            <article className="flex h-[92%] w-full flex-col items-center justify-center">
+              <text className="text-sm">
+                {isFetchingRegisCount
+                  ? "กำลังโหลดข้อมูล..."
+                  : "ยังไม่มีข้อมูลการลงทะเบียน"}
+              </text>
+            </article>
+          ) : (
+            <article className="flex h-[80%] w-full flex-col">
+              <BarChart data={DataObjectivePurchasingRatio} unitYAxis="" />
+            </article>
+          )}
         </article>
         <article className="relative col-span-4 row-span-1 rounded-md border">
-          <Popover>
+          {/* <Popover>
             <PopoverTrigger className="absolute right-2 top-2">
               <Icons.filter className="h-4 w-4 text-primary" />
             </PopoverTrigger>
@@ -136,27 +246,81 @@ const HomePage: FC = () => {
                 </div>
               </section>
             </PopoverContent>
-          </Popover>
+          </Popover> */}
           <section className="flex h-full w-full flex-col gap-2 p-2">
             <article>
               <h3 className="text-md font-bold">
                 ประวัติขึ้นทะเบียนผู้ซื้อแบ่งตามบริษัท{" "}
-                <span className="text-xs text-muted-foreground">
+                {/* <span className="text-xs text-muted-foreground">
                   (อัพเดทล่าสุด วันที่ 01/01/2021)
-                </span>
+                </span> */}
               </h3>
             </article>
-            <article className="flex h-full w-full flex-col">
-              <BarChartHorizontal
-                data={data}
-                keyMap={["value", "name"]}
-                label="รายการ"
-                keyXAxis="name"
-                keyYAxis="value"
-                isLabelInside={true}
-              />
-            </article>
+            {data?.length === 0 ? (
+              <article className="flex h-full w-full flex-col items-center justify-center">
+                <text className="text-sm">
+                  {isFetchingRegisCount
+                    ? "กำลังโหลดข้อมูล..."
+                    : "ยังไม่มีข้อมูลการลงทะเบียน"}
+                </text>
+              </article>
+            ) : (
+              <article className="flex h-full w-full flex-col">
+                <BarChartHorizontal
+                  data={data}
+                  keyMap={["value", "name"]}
+                  label="รายการ"
+                  keyXAxis="name"
+                  keyYAxis="value"
+                  isLabelInside={true}
+                />
+              </article>
+            )}
           </section>
+        </article>
+        <article className="col-span-2 row-span-1 rounded-md border p-2">
+          <h3 className="text-md font-bold">
+            ลูกค้าหลักของบริษัทที่ขึ้นทะเบียน
+          </h3>
+          {dataMainCustomerRatio?.length === 0 ? (
+            <article className="flex h-full w-full flex-col items-center justify-center">
+              <text className="text-sm">
+                {isFetchingMainCustomerRatio
+                  ? "กำลังโหลดข้อมูล..."
+                  : "ยังไม่มีข้อมูลการลงทะเบียน"}
+              </text>
+            </article>
+          ) : (
+            <article className="relative flex h-full w-full flex-col items-center justify-center">
+              <article className="flex h-[80%] w-full flex-col  items-center justify-center">
+                <PieChartComponents
+                  data={DataMainCustomers}
+                  enableArcLinkLabels={true}
+                  isShowLegend={false}
+                  scheme="custom"
+                  arcLabelsTextColorMode="brighter"
+                  arcLabelsTextColor="#ffffff"
+                  unit="รายการ"
+                />
+              </article>
+              <article className="absolute bottom-6 right-0">
+                {DataMainCustomers?.map(({ id, color }, i) => (
+                  <article
+                    key={i}
+                    className="flex flex-row items-center justify-start gap-2"
+                  >
+                    <div
+                      className={"h-3 w-3 rounded-full"}
+                      style={{
+                        backgroundColor: color,
+                      }}
+                    />
+                    <h6 className="text-xs font-bold">{id}</h6>
+                  </article>
+                ))}
+              </article>
+            </article>
+          )}
         </article>
       </section>
     </main>

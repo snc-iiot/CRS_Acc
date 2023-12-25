@@ -45,6 +45,7 @@ interface PieChartProps {
   arcLinkLabelsTextColor?: string;
   arcLabelsTextColorMode?: "darker" | "brighter";
   unit?: string;
+  isLegend?: boolean;
 }
 
 const PieChart: FC<PieChartProps> = ({
@@ -56,12 +57,13 @@ const PieChart: FC<PieChartProps> = ({
   // arcLabelsTextColorMode = "darker",
   // arcLabelsTextColor = "#ffffff",
   unit = "",
+  isLegend = false,
 }) => {
   return (
     <>
       <ResponsivePie
         data={data}
-        margin={{ top: 25, right: 40, bottom: 80, left: 40 }}
+        margin={{ top: 40, right: 50, bottom: 80, left: 40 }}
         innerRadius={0.5}
         padAngle={1.5}
         cornerRadius={3}
@@ -82,6 +84,9 @@ const PieChart: FC<PieChartProps> = ({
         arcLinkLabel={(d) => {
           const All = data.reduce((a, b) => a + b.value, 0);
           const Percent = ((d.value / All) * 100).toFixed(2);
+          if (isLegend) {
+            return `(${Percent}%)`;
+          }
           return `${d.id} (${Percent}%)`;
         }}
         arcLabel={(d) => {

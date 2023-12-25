@@ -28,7 +28,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Select } from "@/components/ui/select-custom";
+// import { Select } from "@/components/ui/select-custom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -44,11 +44,12 @@ import { CommentType } from "@/helpers/utils.helpers";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn, COLORS_SERIES } from "@/lib/utils";
-import MockCompany from "@/mock/company.json";
 import { useForm, useUtils } from "@/services/";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
+import { PrintPage } from ".";
 
 const RegistrationInfo: FC = () => {
   const {
@@ -58,8 +59,13 @@ const RegistrationInfo: FC = () => {
     mutateGetSummaryPart2,
     mutateGetCompanyProfile,
   } = useFormGeneral();
-  const { comment, registration, generalAssessmentForm, setCommon } =
-    useAtomStore();
+  const {
+    comment,
+    registration,
+    generalAssessmentForm,
+    setCommon,
+    dataRegisCount,
+  } = useAtomStore();
   const { confirmSwal, showError, showLoading, closeSwal } = useSwal();
   const [searchParams] = useSearchParams();
   const { mutateGetRegisById } = useForm();
@@ -122,6 +128,12 @@ const RegistrationInfo: FC = () => {
     "R9",
     "R10",
   ];
+
+  const componentRef = useRef<HTMLDivElement>(null);
+  const handlePrint = useReactToPrint({
+    pageStyle: "@page { size: A4; }",
+    content: () => componentRef.current,
+  });
 
   const TabList = [
     {
@@ -252,7 +264,7 @@ const RegistrationInfo: FC = () => {
           </TooltipProvider>
         </div>
         <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2 py-2">
-          <div className="flex items-center justify-start px-4">
+          <div className="flex items-center justify-start gap-2 px-4">
             {showSplitScreen?.map((item, i) => (
               <TooltipProvider key={i}>
                 <Tooltip>
@@ -282,7 +294,7 @@ const RegistrationInfo: FC = () => {
             ))}
             <Badge
               className={cn(
-                "text-md ml-2 font-bold",
+                "text-md ml-2 h-9 font-bold",
                 status?.find(
                   (item) => item?.status_id === registration?.status_no,
                 )?.status_color,
@@ -293,8 +305,29 @@ const RegistrationInfo: FC = () => {
                 {registration?.regis_id}
               </span> */}
             </Badge>
+            <Button
+              variant="outline"
+              onClick={() => {
+                handlePrint();
+              }}
+              className={cn(
+                registration?.status_no !== 8
+                  ? "hidden"
+                  : "flex items-center gap-2",
+              )}
+            >
+              <Icons.printer className="h-5 w-5" />
+              Print PDF
+            </Button>
           </div>
         </header>
+        <div
+          style={{
+            display: "none",
+          }}
+        >
+          <PrintPage ref={componentRef} />
+        </div>
         <main className="h-[calc(100%-3rem)]">
           <div
             className={cn(
@@ -589,7 +622,7 @@ const RegistrationInfo: FC = () => {
                   </main>
                 </div>
                 <div className="relative h-full border">
-                  <Popover>
+                  {/* <Popover>
                     <PopoverTrigger className="absolute right-2 top-2">
                       <Icons.filter className="h-4 w-4 text-primary" />
                     </PopoverTrigger>
@@ -641,7 +674,7 @@ const RegistrationInfo: FC = () => {
                         </div>
                       </section>
                     </PopoverContent>
-                  </Popover>
+                  </Popover> */}
                   <main className="flex h-full w-full flex-col overflow-hidden ">
                     <section>
                       <h2 className="px-2 py-1 text-sm font-semibold underline">
@@ -651,14 +684,20 @@ const RegistrationInfo: FC = () => {
                         </span>
                       </h2>
                     </section>
-                    <section className="grid h-full w-full grid-cols-3">
-                      <div className="col-span-2 h-full flex-grow overflow-y-auto px-2">
+                    <section className="grid h-full w-full grid-cols-2">
+                      <div className="col-span-2 h-full w-full flex-grow overflow-y-auto px-2">
                         <BarChartHorizontal
-                          data={MockCompany?.slice(0, 6)?.map((item, i) => ({
-                            name: item?.Company,
-                            value: 89,
-                            color: COLORS_SERIES[9 + i],
-                          }))}
+                          data={dataRegisCount
+                            ?.filter(
+                              ({ company }) =>
+                                company !== "Undefine" && company !== "SNC",
+                            )
+                            ?.map(({ company, regis_count }, i) => ({
+                              name: company,
+                              value: regis_count,
+                              color: COLORS_SERIES[9 + i],
+                            }))
+                            ?.sort((a, b) => b?.value - a?.value)}
                           keyMap={["value", "name"]}
                           label="รายการ"
                           keyXAxis="name"
@@ -666,7 +705,7 @@ const RegistrationInfo: FC = () => {
                           isLabelInside={true}
                         />
                       </div>
-                      <div className="relative flex h-full w-full flex-col">
+                      {/* <div className="relative flex h-full w-full flex-col">
                         <h5 className="px-2 text-xs font-semibold underline">
                           รวมลูกค้าทั้งหมด
                         </h5>
@@ -800,7 +839,7 @@ const RegistrationInfo: FC = () => {
                             </PopoverContent>
                           </Popover>
                         </div>
-                      </div>
+                      </div> */}
                     </section>
                   </main>
                 </div>

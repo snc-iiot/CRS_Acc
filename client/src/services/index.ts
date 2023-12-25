@@ -4,6 +4,7 @@ export * from "./user.service";
 export * from "./utils.service";
 export * from "./form.service";
 export * from "./form-general.service";
+export * from "./home.service";
 export * from "./acc.service";
 
 //? for hooks

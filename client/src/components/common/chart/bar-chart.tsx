@@ -1,0 +1,147 @@
+import { FC, useEffect, useState } from "react";
+import {
+  Bar,
+  BarChart as BarChartRechart,
+  CartesianGrid,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+interface Props {
+  data?: { name: string; value: number; datetime: string }[];
+  domain?: [number, number];
+  unitYAxis?: string;
+}
+
+const BarChart: FC<Props> = ({
+  data = [
+    {
+      name: "Mahingsa@3666",
+      value: 78.54,
+      datetime: "25-12-2023 09:00:00",
+    },
+  ],
+  domain = [0, 0],
+  unitYAxis = "%",
+}) => {
+  const [average, setAverage] = useState<number>(0);
+
+  const averageBar = () => {
+    const arr: number[] = data?.map((info) => Number(info["value"]) ?? 0);
+    if (data?.length != 0) {
+      setAverage(Number(arr?.reduce((pre, cur) => pre + cur, 0)) / arr?.length);
+    }
+  };
+
+  useEffect(() => {
+    averageBar();
+  }, [data]);
+
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChartRechart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 0,
+          right: 0,
+          left: -20,
+          bottom: -10,
+        }}
+        barSize={20}
+      >
+        <Tooltip
+          content={(props: any) => {
+            const { active, payload } = props;
+            if (active) {
+              return (
+                <div className="items-start justify-start rounded-md bg-white px-4 py-2 font-bold shadow-md">
+                  <p className="text-sm">{payload?.[0]?.payload?.datetime}</p>
+                  <div className="flex w-full items-center justify-start gap-0">
+                    <div
+                      className="mr-2 h-3 w-3 rounded-full"
+                      style={{ backgroundColor: "#3C5A99" }}
+                    />
+                    <p className="text-sm font-normal">
+                      {payload?.[0]?.payload.name}
+                    </p>
+                    {payload?.map((item: any, index: number) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 font-normal"
+                      >
+                        <p className="intro text-sm">
+                          :{" "}
+                          {Number(item?.value)?.toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}{" "}
+                          {unitYAxis}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          }}
+        />
+        <XAxis
+          dataKey="datetime"
+          scale="point"
+          fontSize={"0.7rem"}
+          padding={{ left: 10, right: 10 }}
+        />
+        <YAxis
+          fontSize={"0.7rem"}
+          tickFormatter={(tick) =>
+            `${tick.toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+            })} ${unitYAxis}`
+          }
+          domain={
+            domain[0] === 0 && domain[1] === 0
+              ? [
+                  0,
+                  (dataMax: number) =>
+                    (dataMax + (dataMax / 100) * 10)?.toFixed(0),
+                ]
+              : domain
+          }
+        />
+        <Tooltip />
+        {/* <Legend /> */}
+        <CartesianGrid strokeDasharray="3 3" />
+        <Bar
+          dataKey="value"
+          fill="#3C5A99"
+          label={{ position: "top", fontSize: "0.8rem" }}
+        />
+
+        <ReferenceLine
+          y={average}
+          label={{
+            value: `Avg: ${parseFloat(String(average))?.toLocaleString(
+              undefined,
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              },
+            )}`,
+            fill: "#000000",
+            fontSize: "0.8rem",
+            fontWeight: "bold",
+          }}
+          strokeWidth={1.5}
+          stroke={"#00000020"}
+        />
+      </BarChartRechart>
+    </ResponsiveContainer>
+  );
+};
+
+export default BarChart;
