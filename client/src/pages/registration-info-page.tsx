@@ -306,6 +306,11 @@ const RegistrationInfo: FC = () => {
               onClick={() => {
                 handlePrint();
               }}
+              className={cn(
+                registration?.status_no !== 8
+                  ? "hidden"
+                  : "flex items-center gap-2",
+              )}
             >
               <Icons.printer className="h-5 w-5" />
               Print PDF
