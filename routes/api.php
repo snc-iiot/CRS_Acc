@@ -45,6 +45,7 @@ Route::prefix('json-template')->controller(JsonTemplateController::class)->group
 
 Route::prefix('admin')->controller(AdminController::class)->group(function () {
     Route::post('/company-detail', 'companyDetail');
+    Route::get('/regis-count', 'regisCount');
 });
 
 Route::prefix('company')->controller(CompanyController::class)->group(function () {
