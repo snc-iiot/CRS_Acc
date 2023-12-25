@@ -604,13 +604,7 @@ export const R1AdminInformation: FC = () => {
                 }}
                 value={item?.is_checked ? "true" : ""}
                 readOnly={!common?.isEditGeneralAssessmentForm}
-                disabled={
-                  (generalAssessmentForm?.mold_use?.find(
-                    (item) => item?.id === "mold-use-id-1",
-                  )?.is_checked &&
-                    item?.id !== "mold-use-id-1") ||
-                  !common?.isEditGeneralAssessmentForm
-                }
+                disabled={!common?.isEditGeneralAssessmentForm}
               />
               <label htmlFor={item?.id} className={cn("cursor-pointer")}>
                 {item?.label_th}
