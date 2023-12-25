@@ -96,7 +96,7 @@ class GeneralAssessmentController extends Controller
                 "inventory_day.inventory" => "required|numeric|min:0",
 
                 "approvals.*.order_no" => "required|integer|min:1",
-                "approvals.*.position" => "required|string",
+                "approvals.*.position" => "nullable|string",
                 "approvals.*.issued_at" => "nullable|string|date_format:Y-m-d H:i:s",
                 "approvals.*.issued_by" => "nullable|string",
                 "approvals.*.is_approved" => "nullable|boolean",

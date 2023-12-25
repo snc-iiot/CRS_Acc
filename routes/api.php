@@ -15,6 +15,7 @@ use App\Http\Controllers\DbdFinancialReportController;
 use App\Http\Controllers\FinancialRatioAssessmentController;
 use App\Http\Controllers\ApprovalsActionController;
 use App\Http\Controllers\OverallAssessmentController;
+use App\Http\Controllers\DashboardController;
 // use App\Models\Company;
 
 /*
@@ -97,6 +98,15 @@ Route::prefix('assessment-result')->controller(OverallAssessmentController::clas
     Route::get('/company-profile', 'companyProfile');
     Route::get('/part1-score', 'part1Score');
     Route::get('/part2-score', 'part2Score');
+});
+
+Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
+    Route::get('/main-customer-ratio', 'mainCustomerRatio');
+    Route::get('/share-holder-ratio', 'shareHolderRatio');
+    Route::get('/objective-purchasing-ratio', 'objectivePurchasingRatio');
+    Route::get('/regis-count', 'regisCount');
+    // Route::get('/part1-score', 'part1Score');
+    // Route::get('/part2-score', 'part2Score');
 });
 
 // Route::prefix('home')->controller(HomePageController::class)->group(function () {
