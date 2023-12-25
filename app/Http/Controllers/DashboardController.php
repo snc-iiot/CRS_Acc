@@ -141,4 +141,33 @@ class DashboardController extends Controller
             ], 500);
         }
     }
+
+    //* [GET] /dashboard/regis-stat (read)
+    function regisStat(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $result = DB::table("vw_regis_stat")->get();
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Data from query",
+                "data" => $result
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
 }

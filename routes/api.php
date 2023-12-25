@@ -104,6 +104,7 @@ Route::prefix('dashboard')->controller(DashboardController::class)->group(functi
     Route::get('/main-customer-ratio', 'mainCustomerRatio');
     Route::get('/share-holder-ratio', 'shareHolderRatio');
     Route::get('/objective-purchasing-ratio', 'objectivePurchasingRatio');
+    Route::get('/regis-stat', 'regisStat');
     Route::get('/regis-count', 'regisCount');
     // Route::get('/part1-score', 'part1Score');
     // Route::get('/part2-score', 'part2Score');
