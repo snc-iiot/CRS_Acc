@@ -97,6 +97,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
+    //! Block Role OK
     //! Mail OK
     //? [PATCH] /dbd-financial-report/confirm (update)
     function confirm(Request $request)
@@ -125,6 +126,14 @@ class DbdFinancialReportController extends Controller
                     ]
                 ]
             ], 400);
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             //! Block by status_no
             $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [2])->get();

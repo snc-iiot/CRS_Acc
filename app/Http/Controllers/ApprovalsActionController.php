@@ -175,6 +175,7 @@ class ApprovalsActionController extends Controller
         }
     }
 
+    //! Block Role OK
     //! Mail OK
     //? [PATCH] /approvals-action/enter-customer-code (update)
     function enterCustomerCode(Request $request)
@@ -187,7 +188,7 @@ class ApprovalsActionController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $rules = [
                 'regis_id'      => 'required|uuid|string',
@@ -209,6 +210,14 @@ class ApprovalsActionController extends Controller
             // return response()->json($validator->validated());
 
             // $regis_id = $request->regis_id;
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'sap-code'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             //! Block by status_no
             $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [6])->get();

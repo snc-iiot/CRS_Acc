@@ -80,7 +80,6 @@ class AssessmentCommentsController extends Controller
         }
     }
 
-
     //* [GET] /assessment-comments (read)
     function getAllComments(Request $request)
     {

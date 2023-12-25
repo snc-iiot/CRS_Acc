@@ -34,6 +34,7 @@ class RegistrationController extends Controller
         return \implode($pass); //turn the array into a string
     }
 
+    //! Block Role OK
     //TODO [POST] /registration/create-regis-id
     function createRegisID(Request $request)
     {
@@ -46,6 +47,15 @@ class RegistrationController extends Controller
                 "data" => [],
             ], 401);
             $decoded = $jwt->decoded;
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
+
             $regisId = Str::uuid()->toString();
 
             DB::table("tb_run_registrations")->insert([
@@ -75,6 +85,7 @@ class RegistrationController extends Controller
         }
     }
 
+    //! Block Role OK
     //? [PATCH] /registration/upload-document
     function uploadDocument(Request $request)
     {
@@ -86,7 +97,7 @@ class RegistrationController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $docNames = [
                 'anti_corruption_policy',
@@ -170,6 +181,14 @@ class RegistrationController extends Controller
 
             // return response()->json($request->all());
 
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
+
             //! Block by status_no
             $result = DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->whereIn("status_no", [2, 4, 5, 6, 7, 8])->get();
             // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
@@ -229,6 +248,7 @@ class RegistrationController extends Controller
         }
     }
 
+    //! Block Role OK
     //! [DELETE] /registration/delete-document
     function deleteDocument(Request $request)
     {
@@ -240,7 +260,7 @@ class RegistrationController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $docNames = [
                 'anti_corruption_policy',
@@ -311,6 +331,14 @@ class RegistrationController extends Controller
 
             $regisId = $validator->validated()["regis_id"];
             $docName = $validator->validated()["doc_name"];
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             // return response()->json($request->all());
 
@@ -430,6 +458,7 @@ class RegistrationController extends Controller
         }
     }
 
+    //! Block Role OK
     //TODO [POST] /registration (create)
     function create(Request $request)
     {
@@ -459,8 +488,8 @@ class RegistrationController extends Controller
                 'company_information.website' => 'required|string|url',
                 'company_information.nature_of_business' => 'required|integer|min:0',
                 'company_information.company_registration.is_thai' => 'required|boolean',
-                'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
-                // 'company_information.company_registration.country' => 'sometimes|string|nullable',
+                // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
+                'company_information.company_registration.country' => 'sometimes|string|nullable',
                 // 'company_information.company_registration.country' => 'nullable|string',
                 // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
 
@@ -508,6 +537,7 @@ class RegistrationController extends Controller
                 'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
                 'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
+                // 'payment_term.product_warranty.value' => 'nullable|integer',
                 'payment_term.company_policy.*.cer_id' => 'required|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
@@ -531,6 +561,14 @@ class RegistrationController extends Controller
                     ]
                 ]
             ], 400);
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             $regis_id = $request->regis_id;
 
@@ -794,6 +832,7 @@ class RegistrationController extends Controller
         }
     }
 
+    //! Block Role OK
     //? [PUT] /registration (update)
     function update(Request $request)
     {
@@ -805,7 +844,7 @@ class RegistrationController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $rules = [
                 'regis_id' => 'required|uuid|string',
@@ -822,8 +861,8 @@ class RegistrationController extends Controller
                 'company_information.website' => 'required|string|url',
                 'company_information.nature_of_business' => 'required||integer|min:0',
                 'company_information.company_registration.is_thai' => 'required|boolean',
-                'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
-                // 'company_information.company_registration.country' => 'sometimes|string|nullable',
+                // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
+                'company_information.company_registration.country' => 'sometimes|string|nullable',
                 // 'company_information.company_registration.country' => 'nullable|string',
                 // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
 
@@ -871,6 +910,7 @@ class RegistrationController extends Controller
                 'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
                 'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
+                // 'payment_term.product_warranty.value' => 'nullable|integer',
                 'payment_term.company_policy.*.cer_id' => 'required|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
                 'payment_term.company_policy.*.cer_name_en' => 'required|string',
@@ -894,6 +934,14 @@ class RegistrationController extends Controller
             ], 400);
 
             // return response()->json($validator->validated());
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             $regis_id               = $request->regis_id;
             $company_information    = \json_encode($request->company_information);
