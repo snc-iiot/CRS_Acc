@@ -872,35 +872,37 @@ const PrintPage = forwardRef((_, ref: any) => {
               )}
             >
               <article className="grid w-full grid-cols-5 gap-2">
-                {approvals?.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`relative col-span-1 flex h-[8rem] flex-col gap-2 border border-black`}
-                  >
+                {approvals
+                  ?.sort((a, b) => a?.order_no - b?.order_no)
+                  ?.map((item, index) => (
                     <div
-                      style={{ fontSize: NORMAL_SIZE }}
-                      className="flex flex-col items-center gap-1"
+                      key={index}
+                      className={`relative col-span-1 flex h-[8rem] flex-col gap-2 border border-black`}
                     >
-                      <p className="w-full border-b border-black p-1 text-center font-bold">
-                        {item.issued_by}:{" "}
-                      </p>
-                      <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center gap-1 font-normal">
-                        <p className="w-full border-black p-1 text-center text-[12px]">
-                          {item.is_approved === true
-                            ? `${item.issued_by}`
-                            : item.is_approved === false
-                            ? `${item.issued_by} (ไม่อนุมัติ)`
-                            : item?.is_approved === null
-                            ? `${item.issued_by} (รออนุมัติ)`
-                            : null}
+                      <div
+                        style={{ fontSize: NORMAL_SIZE }}
+                        className="flex flex-col items-center gap-1"
+                      >
+                        <p className="w-full border-b border-black p-1 text-center font-bold">
+                          {item.issued_by}:{" "}
                         </p>
+                        <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center gap-1 font-normal">
+                          <p className="w-full border-black p-1 text-center text-[12px]">
+                            {item.is_approved === true
+                              ? `${item.issued_by}`
+                              : item.is_approved === false
+                              ? `${item.issued_by} (ไม่อนุมัติ)`
+                              : item?.is_approved === null
+                              ? `${item.issued_by} (รออนุมัติ)`
+                              : null}
+                          </p>
+                        </div>
                       </div>
+                      <p className="absolute bottom-0 w-full border-black p-1 text-center text-[8px] font-bold">
+                        {item?.issued_at}
+                      </p>
                     </div>
-                    <p className="absolute bottom-0 w-full border-black p-1 text-center text-[8px] font-bold">
-                      {item?.issued_at}
-                    </p>
-                  </div>
-                ))}
+                  ))}
               </article>
             </section>
           </div>
