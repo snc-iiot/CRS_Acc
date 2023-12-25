@@ -48,7 +48,7 @@ class DashboardController extends Controller
         }
     }
 
-    //* [GET] /dashboard/share-holder-ratio (read)
+    //* [GET] /dashboard/regis-count (read)
     function regisCount(Request $request)
     {
         try {
