@@ -152,16 +152,22 @@ const R3Form: FC = () => {
           <h2 className="text-base font-bold">วิเคราะห์ข้อมูลการเงิน</h2>
           <div className="flex h-full w-full flex-col rounded-md border border-dashed border-primary p-2">
             <div className="flex h-0 flex-grow flex-col gap-2 overflow-auto">
-              {commentR3?.comments?.map((info, i) => (
-                <div className="grid grid-cols-10" key={i}>
-                  <p className="col-span-6 text-xs text-black">
-                    {info?.comments ?? "-"}
-                  </p>
-                  <p className="col-span-4 text-xs text-black">
-                    : {info?.name_en ?? "-"} {info?.created_at ?? "-"}
-                  </p>
-                </div>
-              ))}
+              {commentR3?.comments
+                ?.sort(
+                  (a, b) =>
+                    new Date(a?.created_at)?.getTime() -
+                    new Date(b?.created_at)?.getTime(),
+                )
+                ?.map((info, i) => (
+                  <div className="grid grid-cols-10" key={i}>
+                    <p className="col-span-6 text-xs text-black">
+                      {info?.comments ?? "-"}
+                    </p>
+                    <p className="col-span-4 text-xs text-black">
+                      : {info?.name_en ?? "-"} {info?.created_at ?? "-"}
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
           <Popover>

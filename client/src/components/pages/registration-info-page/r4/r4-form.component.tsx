@@ -441,8 +441,8 @@ const R4Form: FC = () => {
                   className={cn(
                     "border text-center text-lg font-bold",
                     item?.result === "ไม่ขาย"
-                      ? "text-red-500"
-                      : "text-green-500",
+                      ? "text-red-600"
+                      : "text-green-600",
                   )}
                 >
                   {item?.result}

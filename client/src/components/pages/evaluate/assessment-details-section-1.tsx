@@ -354,16 +354,12 @@ const AssessmentDetailsSection: FC = () => {
       maxScore: allSection["1.4.2"]?.[0]?.max_score,
       data: [
         {
-          Topic: "ไม่ใช้แม่พิมพ์",
-          Score: 10,
-        },
-        {
-          Topic: "มีอยู่เพียงพอ",
+          Topic: "ไม่ใช้แม่พิมพ์ / มีอยู่เพียงพอ",
           Score: 10,
         },
         {
           Topic: "ใช้ของลูกค้า",
-          Score: 6,
+          Score: 8,
         },
         {
           Topic: "ลงทุนเพิ่ม",

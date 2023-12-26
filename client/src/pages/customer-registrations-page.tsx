@@ -61,7 +61,7 @@ const CustomerRegistrations: FC = () => {
   const [tabsSelected, setTabsSelected] = useState<string>("4");
   const { isLoading } = useGetRegisList();
   const [sortByDate, setSortByDate] = useState<"ascending" | "descending">(
-    "ascending",
+    "descending",
   );
 
   // const tabsKey: {
