@@ -46,6 +46,7 @@ interface PieChartProps {
   arcLabelsTextColorMode?: "darker" | "brighter";
   unit?: string;
   isLegend?: boolean;
+  isPercent?: boolean;
 }
 
 const PieChart: FC<PieChartProps> = ({
@@ -58,6 +59,7 @@ const PieChart: FC<PieChartProps> = ({
   // arcLabelsTextColor = "#ffffff",
   unit = "",
   isLegend = false,
+  isPercent = false,
 }) => {
   return (
     <>
@@ -87,7 +89,7 @@ const PieChart: FC<PieChartProps> = ({
           if (isLegend) {
             return `(${Percent}%)`;
           }
-          return `${d.id} (${Percent}%)`;
+          return `${d?.id} ${isPercent ? "" : `(${Percent}%)`} `;
         }}
         arcLabel={(d) => {
           return `${d.value?.toLocaleString() ?? "-"}`;
@@ -106,39 +108,21 @@ const PieChart: FC<PieChartProps> = ({
               />
               <span className="text-sm font-bold">{d.datum.id}</span>
               <span className="text-sm font-bold">
-                {d.datum.value?.toLocaleString() ?? "-"} {unit}
+                {d.datum.value?.toLocaleString() ?? "-"}{" "}
+                {isPercent ? "%" : unit}
               </span>
-              <span className="text-sm font-bold">({Percent}%)</span>
+              {!isPercent && (
+                <span className="text-sm font-bold">({Percent}%)</span>
+              )}
             </div>
           );
         }}
-        arcLinkLabelsSkipAngle={1}
+        arcLinkLabelsSkipAngle={10}
         arcLinkLabelsTextColor={arcLinkLabelsTextColor}
         arcLinkLabelsThickness={2}
         arcLinkLabelsColor={{ from: "color" }}
         arcLabelsSkipAngle={10}
         arcLabelsComponent={({ label, style, datum }) => (
-          // <animated.g
-          //   transform={style.transform}
-          //   style={{
-          //     pointerEvents: "none",
-          //     background: "#ff6d6d",
-          //   }}
-          // >
-          //   <text
-          //     textAnchor="middle"
-          //     dominantBaseline="central"
-          //     fill={arcLabelsTextColor}
-          //     style={{
-          //       fontSize: 10,
-          //       fontWeight: 600,
-          //       whiteSpace: "pre",
-          //     }}
-          //   >
-          //     {label}&nbsp;
-          //     {unit}
-          //   </text>
-          // </animated.g>
           <animated.g
             transform={style.transform}
             style={{
@@ -173,7 +157,7 @@ const PieChart: FC<PieChartProps> = ({
                 fontWeight: 800,
               }}
             >
-              {label} {unit}
+              {label} {isPercent ? "%" : unit}
             </text>
           </animated.g>
         )}

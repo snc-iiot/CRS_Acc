@@ -3,6 +3,7 @@ import {
   DataMainCustomerRatioType,
   DataObjectivePurchasingRatioType,
   DataRegisCountType,
+  DataRegisStatType,
   DataShareHolderRatioType,
 } from "@/types";
 import { APIService } from "./api.service";
@@ -49,6 +50,16 @@ export class HomeService extends APIService {
     } catch (error: any) {
       console.error("HomeService -> getObjectivePurchasingRatio -> error", error);
       return [] as DataObjectivePurchasingRatioType[];
+    }
+  };
+
+  getRegisStat = async (): Promise<DataRegisStatType[]> => {
+    try {
+      const { data: responseData } = await this.get(`/dashboard/regis-stat`);
+      return responseData?.data ?? [] as DataRegisStatType[];
+    } catch (error: any) {
+      console.error("HomeService -> getRegisStat -> error", error);
+      return [] as DataRegisStatType[];
     }
   };
 

@@ -19,22 +19,22 @@ const R5Form: FC = () => {
     {
       Grade: "A",
       Score: "10",
-      Note: "> 5,000 MB/Year",
+      Note: "> 5,000.00 MB/Year",
     },
     {
       Grade: "B",
       Score: "8",
-      Note: "> 1,000 - 5,000MB/Year",
+      Note: "1,000.01 – 5,000.00 MB/Year",
     },
     {
       Grade: "C",
       Score: "5",
-      Note: "> 500 - 1,000MB/Year",
+      Note: "500.01 – 1000.00 MB/Year",
     },
     {
       Grade: "D",
       Score: "0",
-      Note: "≤ 500 MB/Year",
+      Note: "≤ 500.00 MB/Year",
     },
   ];
 

@@ -170,7 +170,7 @@ const CustomerRegistrations: FC = () => {
           <Button
             className={cn(
               "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
-              role !== "admin" && role !== "acc" ? "hidden" : "flex",
+              role !== "admin" && role !== "user" ? "hidden" : "flex",
             )}
             onClick={getRegisterId}
           >

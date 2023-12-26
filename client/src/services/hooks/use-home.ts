@@ -1,11 +1,11 @@
 import { queryKey } from "@/helpers/common.helper";
 import { useQuery } from "@tanstack/react-query";
 import { HomeService } from "..";
-import { DataMainCustomerRatioType, DataObjectivePurchasingRatioType, DataRegisCountType, DataShareHolderRatioType } from "@/types";
+import { DataMainCustomerRatioType, DataObjectivePurchasingRatioType, DataRegisCountType, DataRegisStatType, DataShareHolderRatioType } from "@/types";
 import { useAtomStore } from "@/jotai/use-atom-store";
 
 export const useHome = () => {
-    const { setDataRegisCount, setDataMainCustomerRatio, setDataShareHolderRatio, setDataObjectivePurchasingRatio } = useAtomStore();
+    const { setDataRegisCount, setDataMainCustomerRatio, setDataShareHolderRatio, setDataObjectivePurchasingRatio, setDataRegisStat } = useAtomStore();
     const homeService = new HomeService();
 
     const { data: dataRegisCount, isFetching: isFetchingRegisCount, refetch: refetchRegisCount } = useQuery<DataRegisCountType[], Error>({
@@ -14,7 +14,7 @@ export const useHome = () => {
         const result = await homeService.getRegisCount();
         setDataRegisCount(result);
         return result;
-      },})
+      },refetchInterval: 60000})
 
     const { data: dataMainCustomerRatio, isFetching: isFetchingMainCustomerRatio, refetch: refetchMainCustomerRatio } = useQuery<DataMainCustomerRatioType[], Error>({
       queryKey: [queryKey.GET_MAIN_CUSTOMER_RATIO],
@@ -22,7 +22,7 @@ export const useHome = () => {
         const result = await homeService.getMainCustomerRatio();
         setDataMainCustomerRatio(result);
         return result;
-      },})
+      },refetchInterval: 60000})
 
     const { data: dataShareHolderRatio, isFetching: isFetchingShareHolderRatio, refetch: refetchShareHolderRatio } = useQuery<DataShareHolderRatioType[], Error>({
       queryKey: [queryKey.GET_SHARE_HOLDER_RATIO],
@@ -30,7 +30,7 @@ export const useHome = () => {
         const result = await homeService.getShareHolderRatio();
         setDataShareHolderRatio(result);
         return result;
-      },})
+      },refetchInterval: 60000})
 
     const { data: dataObjectivePurchasingRatio, isFetching: isFetchingObjectivePurchasingRatio, refetch: refetchObjectivePurchasingRatio } = useQuery<DataObjectivePurchasingRatioType[], Error>({
       queryKey: [queryKey.GET_OBJECTIVE_PURCHASING_RATIO],
@@ -38,7 +38,15 @@ export const useHome = () => {
         const result = await homeService.getObjectivePurchasingRatio();
         setDataObjectivePurchasingRatio(result);
         return result;
-      },})
+      },refetchInterval: 60000})
+
+    const { data: dataRegisStat, isFetching: isFetchingRegisStat, refetch: refetchRegisStat } = useQuery<DataRegisStatType[], Error>({
+      queryKey: [queryKey.GET_REGIS_STAT],
+      queryFn: async () => {
+        const result = await homeService.getRegisStat();
+        setDataRegisStat(result);
+        return result;
+      },refetchInterval: 60000})
 
 
   return {
@@ -46,5 +54,6 @@ export const useHome = () => {
       dataMainCustomerRatio, isFetchingMainCustomerRatio, refetchMainCustomerRatio,
       dataShareHolderRatio, isFetchingShareHolderRatio, refetchShareHolderRatio,
       dataObjectivePurchasingRatio, isFetchingObjectivePurchasingRatio, refetchObjectivePurchasingRatio,
+      dataRegisStat, isFetchingRegisStat, refetchRegisStat,
   };
 };

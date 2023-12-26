@@ -22,6 +22,7 @@ import {
   regisCountAtom,
   regisListAtom,
   regisListByAccountAtom,
+  regisStatAtom,
   registrationAtom,
   shareHolderRatioAtom,
   summaryAtomPart1,
@@ -77,6 +78,7 @@ export const useAtomStore = () => {
   const [dataMainCustomerRatio, setDataMainCustomerRatio] = useAtom(mainCustomerRatioAtom);
   const [dataShareHolderRatio, setDataShareHolderRatio] = useAtom(shareHolderRatioAtom);
   const [dataObjectivePurchasingRatio, setDataObjectivePurchasingRatio] = useAtom(objectivePurchasingRatioAtom);
+  const [dataRegisStat, setDataRegisStat] = useAtom(regisStatAtom);
 
   return {
     benefitsList,
@@ -145,5 +147,7 @@ export const useAtomStore = () => {
     setDataShareHolderRatio,
     dataObjectivePurchasingRatio, 
     setDataObjectivePurchasingRatio,
+    dataRegisStat, 
+    setDataRegisStat,
   };
 };

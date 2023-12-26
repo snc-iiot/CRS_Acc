@@ -13,8 +13,15 @@ const HomePage: FC = () => {
     dataMainCustomerRatio,
     dataObjectivePurchasingRatio,
     dataShareHolderRatio,
+    dataRegisStat,
   } = useAtomStore();
-  const { isFetchingRegisCount, isFetchingMainCustomerRatio } = useHome();
+  const {
+    isFetchingRegisCount,
+    isFetchingMainCustomerRatio,
+    isFetchingShareHolderRatio,
+    isFetchingObjectivePurchasingRatio,
+    isFetchingRegisStat,
+  } = useHome();
 
   const Datanationality = dataShareHolderRatio
     ?.map(({ country, percent }, i) => ({
@@ -24,6 +31,18 @@ const HomePage: FC = () => {
       color: COLORS_SERIES[10 + i],
     }))
     ?.sort((a, b) => b?.value - a?.value);
+
+  // const DataRegisStat = dataRegisStat
+  //   ?.sort(
+  //     (a, b) =>
+  //       new Date(b?.approved_at)?.getTime() -
+  //       new Date(a?.approved_at)?.getTime(),
+  //   )
+  //   ?.map(({ company_name, score, approved_at }, i) => ({
+  //     name: company_name,
+  //     value: score,
+  //     datetime: approved_at + i,
+  //   }));
 
   const DataObjectivePurchasingRatio = [
     {
@@ -82,12 +101,6 @@ const HomePage: FC = () => {
     }))
     ?.sort((a, b) => b?.value - a?.value);
 
-  const dataBarChart = [] as {
-    name: string;
-    value: number;
-    datetime: string;
-  }[];
-
   return (
     <main className="relative flex h-full w-full flex-col gap-2">
       {/* <div className="absolute inset-0 z-20 bg-[rgba(0,0,0,0.6)] from-primary" />
@@ -111,18 +124,25 @@ const HomePage: FC = () => {
       </section>
       <section className="grid h-full grid-cols-8 grid-rows-2 gap-2 overflow-clip">
         <article className="col-span-6 row-span-1 h-full overflow-clip rounded-md border p-2">
-          <h3 className="text-md h-[8%] font-bold">สถิติการลงทะเบียน</h3>
-          {dataBarChart?.length === 0 ? (
+          <h3 className="text-md h-[8%] font-bold">
+            สถิติการลงทะเบียน (คะแนน)
+          </h3>
+          {dataRegisStat?.length === 0 ? (
             <article className="flex h-[92%] w-full flex-col items-center justify-center">
               <text className="text-sm">
-                {isFetchingRegisCount
+                {isFetchingRegisStat
                   ? "กำลังโหลดข้อมูล..."
                   : "ยังไม่มีข้อมูลการลงทะเบียน"}
               </text>
             </article>
           ) : (
             <article className="flex h-[92%] w-full flex-col">
-              <BarChart data={dataBarChart} domain={[0, 100]} />
+              {/* <BarChart
+                data={DataRegisStat}
+                unitYAxis="คะแนน"
+                domain={[0, 100]}
+                isBrush
+              /> */}
             </article>
           )}
         </article>
@@ -136,14 +156,14 @@ const HomePage: FC = () => {
             {dataMainCustomerRatio?.length === 0 ? (
               <article className="flex h-full w-full flex-col items-center justify-center">
                 <text className="text-sm">
-                  {isFetchingMainCustomerRatio
+                  {isFetchingShareHolderRatio
                     ? "กำลังโหลดข้อมูล..."
                     : "ยังไม่มีข้อมูลการลงทะเบียน"}
                 </text>
               </article>
             ) : (
               <article className="relative flex h-full w-full flex-col items-center justify-center">
-                <article className="flex h-[80%] w-full flex-col  items-center justify-center">
+                <article className="flex h-[100%] w-full flex-col  items-center justify-center">
                   <PieChartComponents
                     data={Datanationality}
                     enableArcLinkLabels={true}
@@ -152,6 +172,7 @@ const HomePage: FC = () => {
                     arcLabelsTextColorMode="brighter"
                     arcLabelsTextColor="#ffffff"
                     unit="รายการ"
+                    isPercent={true}
                   />
                 </article>
                 <article className="absolute bottom-0 right-0">
@@ -184,17 +205,21 @@ const HomePage: FC = () => {
           <h3 className="text-md font-bold">
             ประเภทลูกค้าแบ่งตามวัตถุประสงค์การซื้อสินค้า
           </h3>
+
           {dataObjectivePurchasingRatio?.length === 0 ? (
             <article className="flex h-[92%] w-full flex-col items-center justify-center">
               <text className="text-sm">
-                {isFetchingRegisCount
+                {isFetchingObjectivePurchasingRatio
                   ? "กำลังโหลดข้อมูล..."
                   : "ยังไม่มีข้อมูลการลงทะเบียน"}
               </text>
             </article>
           ) : (
             <article className="flex h-[80%] w-full flex-col">
-              <BarChart data={DataObjectivePurchasingRatio} unitYAxis="" />
+              <BarChart
+                data={DataObjectivePurchasingRatio}
+                unitYAxis="รายการ"
+              />
             </article>
           )}
         </article>
@@ -292,7 +317,7 @@ const HomePage: FC = () => {
             </article>
           ) : (
             <article className="relative flex h-full w-full flex-col items-center justify-center">
-              <article className="flex h-[80%] w-full flex-col  items-center justify-center">
+              <article className="flex h-[95%] w-full flex-col  items-center justify-center">
                 <PieChartComponents
                   data={DataMainCustomers}
                   enableArcLinkLabels={true}

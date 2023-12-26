@@ -24,66 +24,84 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection["1.1.1"]?.[0]?.label_th} (${allSection["1.1.1"]?.[0]?.label_en})`,
+      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection[
+        "1.1.1"
+      ]?.[0]?.label_th} ${
+        allSection["1.1.1"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.1.1"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.1.1"]?.[0]?.score,
       maxScore: allSection["1.1.1"]?.[0]?.max_score,
       data: [
         {
-          Topic: "> 5,000 MB/Year",
+          Topic: "> 5,000.00 MB/Year",
           Score: 10,
         },
         {
-          Topic: "> 1,000 - 5,000MB/Year",
+          Topic: "1,000.01 – 5,000.00 MB/Year",
           Score: 8,
         },
         {
-          Topic: "> 500 - 1,000MB/Year",
+          Topic: "500.01 – 1000.00 MB/Year",
           Score: 5,
         },
         {
-          Topic: "≤ 500 MB/Year",
+          Topic: "≤ 500.00 MB/Year",
           Score: 0,
         },
       ],
     },
     {
-      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection["1.1.2"]?.[0]?.label_th} (${allSection["1.1.2"]?.[0]?.label_en})`,
+      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection[
+        "1.1.2"
+      ]?.[0]?.label_th} ${
+        allSection["1.1.2"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.1.2"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.1.2"]?.[0]?.score,
       maxScore: allSection["1.1.2"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≥ 13",
+          Topic: "≥ 13.00",
           Score: 10,
         },
         {
-          Topic: "< 13 - 8",
+          Topic: "8.00 - 12.99",
           Score: 8,
         },
         {
-          Topic: "< 8 - 3",
+          Topic: "3.00 – 7.99",
           Score: 6,
         },
         {
-          Topic: "< 3",
+          Topic: "0 – 2.99",
           Score: 0,
         },
       ],
     },
     {
-      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection["1.1.3"]?.[0]?.label_th} (${allSection["1.1.3"]?.[0]?.label_en})`,
+      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection[
+        "1.1.3"
+      ]?.[0]?.label_th} ${
+        allSection["1.1.3"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.1.3"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.1.3"]?.[0]?.score,
       maxScore: allSection["1.1.3"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≤ 1.4",
+          Topic: "≤ 1.40",
           Score: 10,
         },
         {
-          Topic: "> 1.4 - 2.0",
+          Topic: "1.41 – 2.00",
           Score: 8,
         },
         {
-          Topic: "> 2.0 - 2.5",
+          Topic: "2.01 – 2.50",
           Score: 6,
         },
         {
@@ -93,24 +111,30 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection["1.1.4"]?.[0]?.label_th} (${allSection["1.1.4"]?.[0]?.label_en})`,
+      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection[
+        "1.1.4"
+      ]?.[0]?.label_th} ${
+        allSection["1.1.4"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.1.4"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.1.4"]?.[0]?.score,
       maxScore: allSection["1.1.4"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≥ 45",
+          Topic: "≥ 45.00",
           Score: 10,
         },
         {
-          Topic: "< 45 - 30",
+          Topic: "30.00 – 44.99",
           Score: 8,
         },
         {
-          Topic: "< 30 - 15",
+          Topic: "15.00 – 29.99",
           Score: 6,
         },
         {
-          Topic: "< 15",
+          Topic: "< 15.00",
           Score: 0,
         },
       ],
@@ -127,47 +151,59 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection["1.2.1"]?.[0]?.label_th} (${allSection["1.2.1"]?.[0]?.label_en})`,
+      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection[
+        "1.2.1"
+      ]?.[0]?.label_th} ${
+        allSection["1.2.1"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.2.1"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.2.1"]?.[0]?.score,
       maxScore: allSection["1.2.1"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≤ 65%",
+          Topic: "≤ 65.00%",
           Score: 10,
         },
         {
-          Topic: "> 65 - 75%",
+          Topic: "65.01 - 75.00%",
           Score: 8,
         },
         {
-          Topic: ">75 - 85%",
+          Topic: "75.01 - 85.00%",
           Score: 5,
         },
         {
-          Topic: "> 85%",
+          Topic: "> 85.00%",
           Score: 0,
         },
       ],
     },
     {
-      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection["1.2.2"]?.[0]?.label_th} (${allSection["1.2.2"]?.[0]?.label_en})`,
+      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection[
+        "1.2.2"
+      ]?.[0]?.label_th} ${
+        allSection["1.2.2"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.2.2"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.2.2"]?.[0]?.score,
       maxScore: allSection["1.2.2"]?.[0]?.max_score,
       data: [
         {
-          Topic: "> 300MB/Year",
+          Topic: "> 300.00 MB/Year",
           Score: 10,
         },
         {
-          Topic: "> 80 - 300MB/Year",
+          Topic: "80.01 – 300.00 MB/Year",
           Score: 8,
         },
         {
-          Topic: "> 20 - 80MB/Year",
+          Topic: "20.01 – 80.00 MB/Year",
           Score: 5,
         },
         {
-          Topic: "≤ 20MB/Year",
+          Topic: "≤ 20.00 MB/Year",
           Score: 0,
         },
       ],
@@ -184,7 +220,13 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection["1.3.1"]?.[0]?.label_th} (${allSection["1.3.1"]?.[0]?.label_en})`,
+      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection[
+        "1.3.1"
+      ]?.[0]?.label_th} ${
+        allSection["1.3.1"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.3.1"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.3.1"]?.[0]?.score,
       maxScore: allSection["1.3.1"]?.[0]?.max_score,
       data: [
@@ -193,21 +235,27 @@ const AssessmentDetailsSection: FC = () => {
           Score: 10,
         },
         {
-          Topic: "> 30 - 60 วัน",
+          Topic: "31 - 60 วัน",
           Score: 8,
         },
         {
-          Topic: "> 60 - 90 วัน",
+          Topic: "61 - 90 วัน",
           Score: 5,
         },
         {
-          Topic: "> 90 วัน",
+          Topic: "90 วัน",
           Score: 0,
         },
       ],
     },
     {
-      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection["1.3.2"]?.[0]?.label_th} (${allSection["1.3.2"]?.[0]?.label_en})`,
+      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection[
+        "1.3.2"
+      ]?.[0]?.label_th} ${
+        allSection["1.3.2"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.3.2"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.3.2"]?.[0]?.score,
       maxScore: allSection["1.3.2"]?.[0]?.max_score,
       data: [
@@ -216,34 +264,40 @@ const AssessmentDetailsSection: FC = () => {
           Score: 10,
         },
         {
-          Topic: "> 60 - 90 วัน",
+          Topic: "61 - 90 วัน",
           Score: 8,
         },
         {
-          Topic: "> 30 - 60 วัน",
+          Topic: "31 - 60 วัน",
           Score: 5,
         },
         {
-          Topic: "≤ 30 วัน - เงินสด",
+          Topic: "30 วัน - เงินสด",
           Score: 0,
         },
       ],
     },
     {
-      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection["1.3.3"]?.[0]?.label_th} (${allSection["1.3.3"]?.[0]?.label_en})`,
+      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection[
+        "1.3.3"
+      ]?.[0]?.label_th} ${
+        allSection["1.3.3"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.3.3"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.3.3"]?.[0]?.score,
       maxScore: allSection["1.3.3"]?.[0]?.max_score,
       data: [
         {
-          Topic: "3 วัน",
+          Topic: "0 - 3 วัน",
           Score: 10,
         },
         {
-          Topic: "> 4 - 7 วัน",
+          Topic: "4 - 7 วัน",
           Score: 8,
         },
         {
-          Topic: "> 8 - 10 วัน",
+          Topic: "8 - 10 วัน",
           Score: 5,
         },
         {
@@ -264,7 +318,13 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection["1.4.1"]?.[0]?.label_th} (${allSection["1.4.1"]?.[0]?.label_en})`,
+      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection[
+        "1.4.1"
+      ]?.[0]?.label_th} ${
+        allSection["1.4.1"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.4.1"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.4.1"]?.[0]?.score,
       maxScore: allSection["1.4.1"]?.[0]?.max_score,
       data: [
@@ -283,7 +343,13 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection["1.4.2"]?.[0]?.label_th} (${allSection["1.4.2"]?.[0]?.label_en})`,
+      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection[
+        "1.4.2"
+      ]?.[0]?.label_th} ${
+        allSection["1.4.2"]?.[0]?.label_en === ""
+          ? ""
+          : `(${allSection["1.4.2"]?.[0]?.label_en})`
+      }`,
       activeScore: allSection["1.4.2"]?.[0]?.score,
       maxScore: allSection["1.4.2"]?.[0]?.max_score,
       data: [

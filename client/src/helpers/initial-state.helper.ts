@@ -3,6 +3,7 @@ import {
   TGeneralAssessmentForm,
   TRegistrationForm,
 } from "@/types";
+import { LatitudesLongitudes } from "./common.helper";
 
 export const initialStateGeneralAssessmentForm: TGeneralAssessmentForm = {
   regis_id: "",
@@ -18,8 +19,8 @@ export const initialStateGeneralAssessmentForm: TGeneralAssessmentForm = {
   mold_use: [],
   main_material: [],
   transport_distance: {
-    transport: "",
-    origin: "",
+    transport: `${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`,
+    origin: `${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`,
     destination: "",
     distance: 0,
     car_type: "",

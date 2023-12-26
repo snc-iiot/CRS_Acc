@@ -1,4 +1,4 @@
-import { queryKey } from "@/helpers/common.helper";
+import { LatitudesLongitudes, queryKey } from "@/helpers/common.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import {
@@ -55,7 +55,10 @@ export const useFormGeneral = () => {
     mutationFn: (regisId: string) =>
       formGeneralService.getTemplateGeneralAssessmentById(regisId),
     onSuccess: (data) => {
-      setGeneralAssessmentForm(data);
+      setGeneralAssessmentForm({...data, 
+        transport_distance: { ...data.transport_distance, 
+          origin: `${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`}
+      });
     },
     onError: (error) => {
       closeSwal();

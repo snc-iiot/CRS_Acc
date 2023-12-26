@@ -20,7 +20,13 @@ export const validateRegisterForm = (values: TRegistrationForm) => {
     isValid = false;
     error_th = "กรุณาระบุมาตรฐานการรับรองที่ได้รับ";
     error_en = "Standard certificate";
-  } else if (
+  }  else if (
+    values?.company_information?.juristic_id?.length < 13 || values?.company_information?.juristic_id?.length > 13
+  ) {
+    isValid = false;
+    error_th = "กรุณาตรวจสอบเลขประจำตัวผู้เสียภาษี (13 หลัก)";
+    error_en = "Tax identification number";
+  }  else if (
     values?.standard?.benefit.every((item) => item.is_checked === false)
   ) {
     isValid = false;
@@ -34,7 +40,33 @@ export const validateRegisterForm = (values: TRegistrationForm) => {
     isValid = false;
     error_th = "กรุณาระบุเงื่อนไขการขนส่งสินค้า";
     error_en = "Delivery term";
+  } else if (
+    values?.payment_term.credit_term.name === ""
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุเครดิตเทอมการจ่ายเงิน";
+    error_en = "Credit term";
+  } else if (
+    values?.payment_term.billing_term.name === ""
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุระเบียบการวางบิล";
+    error_en = "Billing terms";
+  } else if (
+    values?.payment_term.objective_purchasing.name === ""
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุวัตถุประสงค์หลักการซื้อสินค้า";
+    error_en = "The objective of purchasing";
+  }  else if (
+    values?.payment_term.main_customer.name === ""
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุลูกค้าหลักของลูกค้า";
+    error_en = "Main customer of customer";
   }
+
+
   return {
     isValid,
     error_th,

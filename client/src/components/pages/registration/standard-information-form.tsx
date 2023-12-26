@@ -1396,7 +1396,8 @@ const StandardInformationForm: FC = () => {
             <section className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  วัตถุประสงค์หลักการซื้อสินค้า / The objective of purchasing
+                  วัตถุประสงค์หลักการซื้อสินค้า / The objective of purchasing{" "}
+                  <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-6 flex flex-col justify-start">
@@ -1457,7 +1458,8 @@ const StandardInformationForm: FC = () => {
             <section className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  ลูกค้าหลักของลูกค้า / Main customer of customer
+                  ลูกค้าหลักของลูกค้า / Main customer of customer{" "}
+                  <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-4 flex items-center justify-start gap-2">

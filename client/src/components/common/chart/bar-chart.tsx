@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import {
   Bar,
   BarChart as BarChartRechart,
+  Brush,
   CartesianGrid,
   ReferenceLine,
   ResponsiveContainer,
@@ -14,6 +15,7 @@ interface Props {
   data?: { name: string; value: number; datetime: string }[];
   domain?: [number, number];
   unitYAxis?: string;
+  isBrush?: boolean;
 }
 
 const BarChart: FC<Props> = ({
@@ -26,6 +28,7 @@ const BarChart: FC<Props> = ({
   ],
   domain = [0, 0],
   unitYAxis = "%",
+  isBrush = false,
 }) => {
   const [average, setAverage] = useState<number>(0);
 
@@ -50,7 +53,7 @@ const BarChart: FC<Props> = ({
           top: 0,
           right: 0,
           left: -20,
-          bottom: -10,
+          bottom: 0,
         }}
         barSize={20}
       >
@@ -60,7 +63,9 @@ const BarChart: FC<Props> = ({
             if (active) {
               return (
                 <div className="items-start justify-start rounded-md bg-white px-4 py-2 font-bold shadow-md">
-                  <p className="text-sm">{payload?.[0]?.payload?.datetime}</p>
+                  <p className="text-sm">
+                    {payload?.[0]?.payload?.datetime?.slice(0, 16)}
+                  </p>
                   <div className="flex w-full items-center justify-start gap-0">
                     <div
                       className="mr-2 h-3 w-3 rounded-full"
@@ -93,39 +98,48 @@ const BarChart: FC<Props> = ({
         <XAxis
           dataKey="datetime"
           scale="point"
-          fontSize={"0.7rem"}
+          fontSize={"0.6rem"}
           padding={{ left: 10, right: 10 }}
+          tickFormatter={(tick) => `${tick?.slice(0, 16)}`}
         />
         <YAxis
-          fontSize={"0.7rem"}
+          fontSize={"0.6rem"}
           tickFormatter={(tick) =>
             `${tick.toLocaleString(undefined, {
               minimumFractionDigits: 0,
-            })} ${unitYAxis}`
+            })}`
           }
           domain={
             domain[0] === 0 && domain[1] === 0
               ? [
                   0,
                   (dataMax: number) =>
-                    (dataMax + (dataMax / 100) * 10)?.toFixed(0),
+                    (dataMax + (dataMax / 100) * 25)?.toFixed(1),
                 ]
               : domain
           }
         />
         <Tooltip />
         {/* <Legend /> */}
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="0 3" />
         <Bar
           dataKey="value"
           fill="#3C5A99"
           label={{ position: "top", fontSize: "0.8rem" }}
         />
+        {isBrush && (
+          <Brush
+            dataKey="name1"
+            stroke="#448aff"
+            height={10}
+            fontSize={"0.6rem"}
+          />
+        )}
 
         <ReferenceLine
           y={average}
           label={{
-            value: `Avg: ${parseFloat(String(average))?.toLocaleString(
+            value: `ค่าเฉลี่ย: ${parseFloat(String(average))?.toLocaleString(
               undefined,
               {
                 minimumFractionDigits: 2,

@@ -637,7 +637,7 @@ const ActionButtonR2 = () => {
                 <SheetClose className="flex items-center gap-2" asChild>
                   <Button>
                     <Icons.save className="h-5 w-5" />
-                    บันทึการตั้งค่าสายอนุมัติและปิดหน้าต่าง
+                    บันทึกการตั้งค่าสายอนุมัติและปิดหน้าต่าง
                   </Button>
                 </SheetClose>
               }

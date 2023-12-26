@@ -969,7 +969,7 @@ export const R1AdminInformation: FC = () => {
                 placeholder="โปรดระบุ ละติจูด,ลองจิจูด"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
                 readOnly
-                value={generalAssessmentForm?.transport_distance?.origin || ""}
+                value={generalAssessmentForm?.transport_distance?.origin ?? ""}
               />
               <span className="flex items-center gap-x-1">GPS</span>
               <button
@@ -1002,7 +1002,7 @@ export const R1AdminInformation: FC = () => {
                 placeholder="โปรดระบุ ละติจูด,ลองจิจูด"
                 className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
                 value={
-                  generalAssessmentForm?.transport_distance?.destination || ""
+                  generalAssessmentForm?.transport_distance?.destination ?? ""
                 }
                 onChange={(e) => {
                   setGeneralAssessmentForm((prev) => ({
@@ -1019,14 +1019,23 @@ export const R1AdminInformation: FC = () => {
               <button
                 type="button"
                 className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
-                onClick={() =>
+                onClick={() => {
+                  const PlantLatLong =
+                    LatitudesLongitudes?.[
+                      Plant?.province as keyof typeof LatitudesLongitudes
+                    ] || LatitudesLongitudes?.RAYONG;
                   window.open(
-                    `https://www.google.com/maps/place/${generalAssessmentForm?.transport_distance?.destination}`,
-                  )
-                }
-                disabled={
-                  !generalAssessmentForm?.transport_distance?.destination
-                }
+                    `https://www.google.com/maps/place/${
+                      generalAssessmentForm?.transport_distance?.destination ===
+                      ""
+                        ? `${PlantLatLong?.latitude},${PlantLatLong?.longitude}`
+                        : generalAssessmentForm?.transport_distance?.destination
+                    }`,
+                  );
+                }}
+                // disabled={
+                //   !generalAssessmentForm?.transport_distance?.destination
+                // }
               >
                 <Icons.mapPin className="h-3 w-3" /> ดูแผนที่
               </button>
@@ -1489,7 +1498,7 @@ export const R1AdminInformation: FC = () => {
                   credit_terms: 0,
                   country: {
                     label: "thailand-credit",
-                    value: "",
+                    value: "TH",
                   },
                 };
                 setGeneralAssessmentForm((prev) => ({
