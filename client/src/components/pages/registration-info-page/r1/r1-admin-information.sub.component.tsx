@@ -772,10 +772,8 @@ export const R1AdminInformation: FC = () => {
               </div>
               {/* <CalculatePlayback />  */}
             </div>
-            Ii
           </div>
         </div>
-
         <h4 className="whitespace-nowrap">
           8. วัตถุดิบหลักในการผลิตสินค้า{" "}
           <span>(สามารถเลือกได้มากกว่า 1 ข้อ)</span>
