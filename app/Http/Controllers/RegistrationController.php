@@ -864,7 +864,7 @@ class RegistrationController extends Controller
                 'company_information.sub_district' => 'required|string',
                 'company_information.zip_code' => 'required|string',
                 'company_information.phone_number' => 'required|string',
-                // 'company_information.juristic_id' => 'required|string',
+                'company_information.juristic_id' => 'required|string',
                 'company_information.website' => 'required|string|url',
                 'company_information.nature_of_business' => 'required|integer|min:0',
                 'company_information.company_registration.is_thai' => 'required|boolean',
