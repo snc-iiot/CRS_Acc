@@ -651,8 +651,8 @@ class RegistrationController extends Controller
 
             $validator = Validator::make($request->all(), $rules);
 
-            $cacheKeyLastID = "/registration/info/last-regis-id";
-            $cacheKeyLastValue = "/registration/info/last-value";
+            // $cacheKeyLastID = "/registration/info/last-regis-id";
+            // $cacheKeyLastValue = "/registration/info/last-value";
 
             if ($validator->fails()) return response()->json([
                 "status" => "error",
@@ -667,14 +667,14 @@ class RegistrationController extends Controller
             $result = array();
             // return response()->json($validator->validated());
 
-            $cachedID = Cache::get($cacheKeyLastID);
-            $cachedValue = Cache::get($cacheKeyLastValue);
-            $message = "Data from cached";
-            if (!\is_null($cachedID) && $cachedID == $request->id) {
-                $result = \json_decode($cachedValue);
-            } else {
-                $result = DB::table("tb_regis_informations")->selectRaw(
-                    "regis_id
+            // $cachedID = Cache::get($cacheKeyLastID);
+            // $cachedValue = Cache::get($cacheKeyLastValue);
+            // $message = "Data from cached";
+            // if (!\is_null($cachedID) && $cachedID == $request->id) {
+            //     $result = \json_decode($cachedValue);
+            // } else {
+            $result = DB::table("tb_regis_informations")->selectRaw(
+                "regis_id
                     ,company_information
                     ,share_holder
                     ,contact_person
@@ -685,13 +685,13 @@ class RegistrationController extends Controller
                     ,status_no
                     ,created_at::varchar(19) as created_at
                     ,updated_at::varchar(19) as updated_at"
-                )->where("regis_id", $request->regis_id)->get();
+            )->where("regis_id", $request->regis_id)->get();
 
-                $ttl = \DateInterval::createFromDateString('1 minutes');
-                Cache::put($cacheKeyLastID, $request->id, $ttl);
-                Cache::put($cacheKeyLastValue, \json_encode($result), $ttl);
-                $message = "Data from query";
-            }
+            // $ttl = \DateInterval::createFromDateString('1 minutes');
+            // Cache::put($cacheKeyLastID, $request->id, $ttl);
+            // Cache::put($cacheKeyLastValue, \json_encode($result), $ttl);
+            $message = "Data from query";
+            // }
 
             foreach ($result as $row) {
                 $row->company_information   = \json_decode($row->company_information);
@@ -729,17 +729,17 @@ class RegistrationController extends Controller
             ], 401);
             $decoded = $jwt->decoded;
 
-            $cacheKey = "/registration/get-all-" . \json_encode($decoded->company);
+            // $cacheKey = "/registration/get-all-" . \json_encode($decoded->company);
 
-            $result = array();
+            // $result = array();
             // return response()->json($validator->validated());
 
-            $cached = Cache::get($cacheKey);
-            if (!\is_null($cached)) return response()->json([
-                "status" => "success",
-                "message" => "Data from cached",
-                "data" => \json_decode($cached),
-            ]);
+            // $cached = Cache::get($cacheKey);
+            // if (!\is_null($cached)) return response()->json([
+            //     "status" => "success",
+            //     "message" => "Data from cached",
+            //     "data" => \json_decode($cached),
+            // ]);
 
             // $result = DB::table("tb_regis_informations")->selectRaw(
             //     "regis_id
@@ -760,7 +760,7 @@ class RegistrationController extends Controller
             )->leftJoin("tb_all_status as t2", "t1.status_no", "=", "t2.status_no")->whereIn("t1.company_information->company_admin", $decoded->company)->orderByDesc("created_at")->get(); //$decoded->company
 
             // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('30 seconds'));
+            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('30 seconds'));
 
             return response()->json([
                 "status" => "success",
