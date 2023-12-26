@@ -109,7 +109,7 @@ export const R1UpdateDocuments: FC = () => {
                     !item?.link && "cursor-not-allowed opacity-50",
                   )}
                   onClick={() =>
-                    window.open(`${docByRegisId?.file_path}${item?.link}.pdf}`)
+                    window.open(`${docByRegisId?.file_path}${item?.link}}`)
                   }
                   disabled={!item?.link}
                 >

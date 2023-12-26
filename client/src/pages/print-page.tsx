@@ -792,7 +792,7 @@ const PrintPage = forwardRef((_, ref: any) => {
               className={cn(
                 "flex w-full flex-col items-start justify-start gap-1",
                 "pagebreak",
-                index === 1 && "hidden",
+                index === 0 ? "" : "hidden",
               )}
             >
               <h1
@@ -868,7 +868,7 @@ const PrintPage = forwardRef((_, ref: any) => {
             <section
               className={cn(
                 "flex w-full flex-col items-center justify-start gap-1",
-                index === 1 && "hidden",
+                index === 0 ? "" : "hidden",
               )}
             >
               <article className="grid w-full grid-cols-5 gap-2">
@@ -906,6 +906,22 @@ const PrintPage = forwardRef((_, ref: any) => {
               </article>
             </section>
           </div>
+          {index === 1 && (
+            <div
+              style={{
+                height: "1500px",
+                width: "100%",
+              }}
+              className="pagebreak relative"
+            >
+              <p className="absolute bottom-0  right-0 text-xs">page 1 of 2</p>
+            </div>
+          )}
+          {index === 0 && (
+            <p className={cn("absolute  right-0 text-xs", "bottom-0")}>
+              page 1 of 1
+            </p>
+          )}
         </div>
       ))}
     </div>
