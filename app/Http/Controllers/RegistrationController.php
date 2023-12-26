@@ -13,6 +13,9 @@ use Illuminate\Validation\Rule;
 
 // define("DOCS_BASE_PATH", "http://10.1.8.94:8081/dev/iCRS-ACC-All/docs/pdf/");
 define("DOCS_BASE_PATH", "https://snc-services.sncformer.com/dev/icrs/docs/pdf/");
+// define("DOCS_BASE_PATH", "https://snc-services.sncformer.com/dev/icrs/dev/docs/pdf/");
+// define("DOCS_BASE_PATH", "https://snc-services.sncformer.com/dev/icrs/uat/docs/pdf/");
+// define("DOCS_BASE_PATH", "https://snc-services.sncformer.com/dev/icrs/prd/docs/pdf/");
 
 class RegistrationController extends Controller
 {
@@ -533,10 +536,13 @@ class RegistrationController extends Controller
                 'payment_term.delivery_term.*.cer_name_th' => 'required|string',
                 'payment_term.delivery_term.*.cer_name_en' => 'required|string',
                 'payment_term.delivery_term.*.is_checked' => 'required|boolean',
-                'payment_term.deposit_term.is_deposit' => 'required_if:company_information.company_registration.is_thai,true|boolean',
-                'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
+                // 'payment_term.deposit_term.is_deposit' => 'required_if:company_information.company_registration.is_thai,true|boolean',
+                'payment_term.deposit_term.is_deposit' => 'required_if:payment_term.deposit_term.is_deposit,true|boolean',
+                // 'payment_term.deposit_term.deposit_type' => 'required_if:payment_term.deposit_term.is_deposit,true|string|in:30-70,50-50,60-40,70-30',
+                // 'payment_term.deposit_term.deposit_type' => 'required_if:payment_term.deposit_term.is_deposit,true|string',
+                'payment_term.deposit_term.deposit_type' => 'nullable|string',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
-                'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
+                'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:0',
                 // 'payment_term.product_warranty.value' => 'nullable|integer',
                 'payment_term.company_policy.*.cer_id' => 'required|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
@@ -848,6 +854,7 @@ class RegistrationController extends Controller
 
             $rules = [
                 'regis_id' => 'required|uuid|string',
+                'informant_name' => 'required|string',
                 'company_information.company_admin' => 'required|string',
                 'company_information.company_name' => 'required|string',
                 'company_information.address' => 'required|string',
@@ -859,7 +866,7 @@ class RegistrationController extends Controller
                 'company_information.phone_number' => 'required|string',
                 'company_information.juristic_id' => 'required|string',
                 'company_information.website' => 'required|string|url',
-                'company_information.nature_of_business' => 'required||integer|min:0',
+                'company_information.nature_of_business' => 'required|integer|min:0',
                 'company_information.company_registration.is_thai' => 'required|boolean',
                 // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
                 'company_information.company_registration.country' => 'sometimes|string|nullable',
@@ -906,10 +913,13 @@ class RegistrationController extends Controller
                 'payment_term.delivery_term.*.cer_name_th' => 'required|string',
                 'payment_term.delivery_term.*.cer_name_en' => 'required|string',
                 'payment_term.delivery_term.*.is_checked' => 'required|boolean',
-                'payment_term.deposit_term.is_deposit' => 'required_if:company_information.company_registration.is_thai,true|boolean',
-                'payment_term.deposit_term.deposit_type' => 'required_if:company_information.company_registration.is_thai,true|string|in:30-70,50-50,60-40,70-30',
+                // 'payment_term.deposit_term.is_deposit' => 'required_if:company_information.company_registration.is_thai,true|boolean',
+                'payment_term.deposit_term.is_deposit' => 'required_if:payment_term.deposit_term.is_deposit,true|boolean',
+                // 'payment_term.deposit_term.deposit_type' => 'required_if:payment_term.deposit_term.is_deposit,true|string|in:30-70,50-50,60-40,70-30',
+                // 'payment_term.deposit_term.deposit_type' => 'required_if:payment_term.deposit_term.is_deposit,true|string',
+                'payment_term.deposit_term.deposit_type' => 'nullable|string',
                 'payment_term.product_warranty.is_warranty' => 'required|boolean',
-                'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:1',
+                'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:0',
                 // 'payment_term.product_warranty.value' => 'nullable|integer',
                 'payment_term.company_policy.*.cer_id' => 'required|integer|min:1',
                 'payment_term.company_policy.*.cer_name_th' => 'required|string',
