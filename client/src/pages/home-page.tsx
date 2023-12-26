@@ -103,56 +103,40 @@ const HomePage: FC = () => {
 
   return (
     <main className="relative flex h-full w-full flex-col gap-2">
-      {/* <div className="absolute inset-0 z-20 bg-[rgba(0,0,0,0.6)] from-primary" />
-      <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 text-center text-2xl font-bold text-white lg:text-4xl">
-        <h2 className="text-4xl">หน่วยงาน SNC-CoDE อยู่ระหว่างพัฒนาฟังก์ชัน</h2>
-        <h2 className="text-3xl">ขออภัยในความไม่สะดวก</h2>
-      </div> */}
       <section className="flex items-center justify-between gap-2">
         <h1 className="text-xl font-semibold">
           ภาพรวมของการขึ้นทะเบียนผู้ซื้อ
         </h1>
         <div className="w-44">
-          <Select
-            className="text-xs shadow-none"
-            defaultValue="2023"
-            placeholder="เลือกปี"
-          >
+          <Select className="text-xs shadow-none" defaultValue="2023">
             <option value="2023">Y2023</option>
           </Select>
         </div>
       </section>
       <section className="grid h-full grid-cols-8 grid-rows-2 gap-2 overflow-clip">
-        <article className="col-span-6 row-span-1 h-full overflow-clip rounded-md border p-2">
-          <h3 className="text-md h-[8%] font-bold">
-            สถิติการลงทะเบียน (คะแนน)
-          </h3>
-          {dataRegisStat?.length === 0 ? (
-            <article className="flex h-[92%] w-full flex-col items-center justify-center">
-              <text className="text-sm">
-                {isFetchingRegisStat
-                  ? "กำลังโหลดข้อมูล..."
-                  : "ยังไม่มีข้อมูลการลงทะเบียน"}
-              </text>
-            </article>
-          ) : (
-            <article className="flex h-[92%] w-full flex-col">
-              {/* <BarChart
-                data={DataRegisStat}
-                unitYAxis="คะแนน"
-                domain={[0, 100]}
-                isBrush
-              /> */}
-            </article>
-          )}
+        <article className="col-span-6 row-span-1 flex h-full flex-col overflow-clip rounded-md border p-2">
+          <section>
+            <h3 className="text-md font-bold">สถิติการลงทะเบียน (คะแนน)</h3>
+          </section>
+          <section className="flex h-full w-full flex-col">
+            {dataRegisStat?.length === 0 ? (
+              <article className="flex h-full w-full flex-col items-center justify-center">
+                <text className="text-sm">
+                  {isFetchingRegisStat
+                    ? "กำลังโหลดข้อมูล..."
+                    : "ยังไม่มีข้อมูลการลงทะเบียน"}
+                </text>
+              </article>
+            ) : (
+              <article className="flex h-full w-full flex-col"></article>
+            )}
+          </section>
         </article>
-        <article className="col-span-2 row-span-1 rounded-md border p-2">
-          <section className="flex h-full w-full flex-col gap-2">
-            <article>
-              <h3 className="text-md font-bold">
-                สัดส่วนลูกค้า แบ่งตามสัญชาติ
-              </h3>
-            </article>
+        <article className="col-span-2 row-span-1 flex h-full flex-col rounded-md border p-2">
+          <section>
+            <h3 className="text-md font-bold">สัดส่วนลูกค้า แบ่งตามสัญชาติ</h3>
+          </section>
+          <section className="relative flex h-full w-full flex-col">
             {dataMainCustomerRatio?.length === 0 ? (
               <article className="flex h-full w-full flex-col items-center justify-center">
                 <text className="text-sm">
@@ -162,8 +146,8 @@ const HomePage: FC = () => {
                 </text>
               </article>
             ) : (
-              <article className="relative flex h-full w-full flex-col items-center justify-center">
-                <article className="flex h-[100%] w-full flex-col  items-center justify-center">
+              <>
+                <article className="flex h-[99%] w-full flex-col  items-center justify-center">
                   <PieChartComponents
                     data={Datanationality}
                     enableArcLinkLabels={true}
@@ -196,16 +180,14 @@ const HomePage: FC = () => {
                     </h6>
                   )}
                 </article>
-              </article>
+              </>
             )}
           </section>
         </article>
-
         <article className="col-span-2 row-span-1 flex flex-col gap-4 rounded-md border p-2">
           <h3 className="text-md font-bold">
             ประเภทลูกค้าแบ่งตามวัตถุประสงค์การซื้อสินค้า
           </h3>
-
           {dataObjectivePurchasingRatio?.length === 0 ? (
             <article className="flex h-[92%] w-full flex-col items-center justify-center">
               <text className="text-sm">
@@ -224,61 +206,10 @@ const HomePage: FC = () => {
           )}
         </article>
         <article className="relative col-span-4 row-span-1 rounded-md border">
-          {/* <Popover>
-            <PopoverTrigger className="absolute right-2 top-2">
-              <Icons.filter className="h-4 w-4 text-primary" />
-            </PopoverTrigger>
-            <PopoverContent align="end" className="h-60 w-72 p-0 shadow-sm">
-              <section className="flex h-full w-full flex-col gap-2 overflow-hidden p-1">
-                <h2 className="px-2 py-1 text-sm font-semibold underline">
-                  ตัวกรอง
-                </h2>
-                <div>
-                  <p className="px-2 py-1 text-xs font-semibold">เลือกปี</p>
-                  <Select
-                    placeholder="เลือกปี"
-                    className="text-xs shadow-none"
-                    defaultValue="2023"
-                  >
-                    <option value="2023">Y2023</option>
-                  </Select>
-                </div>
-                <div>
-                  <p className="px-2 py-1 text-xs font-semibold">
-                    รูปแบบการแสดงผล
-                  </p>
-                  <Select
-                    defaultValue="quarter"
-                    placeholder="รูปแบบการแสดงผล"
-                    className="text-xs shadow-none"
-                  >
-                    <option value="quarter">ไตรมาส</option>
-                    <option value="month">เดือน</option>
-                    <option value="year">ปี</option>
-                  </Select>
-                </div>
-                <div>
-                  <p className="px-2 py-1 text-xs font-semibold">
-                    รูปแบบการแสดงผล
-                  </p>
-                  <Select
-                    defaultValue="quarter-1"
-                    placeholder="รูปแบบการแสดงผล"
-                    className="text-xs shadow-none"
-                  >
-                    <option value="quarter-1">ไตรมาส 1</option>
-                  </Select>
-                </div>
-              </section>
-            </PopoverContent>
-          </Popover> */}
           <section className="flex h-full w-full flex-col gap-2 p-2">
             <article>
               <h3 className="text-md font-bold">
                 ประวัติขึ้นทะเบียนผู้ซื้อแบ่งตามบริษัท{" "}
-                {/* <span className="text-xs text-muted-foreground">
-                  (อัพเดทล่าสุด วันที่ 01/01/2021)
-                </span> */}
               </h3>
             </article>
             {data?.length === 0 ? (
@@ -303,7 +234,7 @@ const HomePage: FC = () => {
             )}
           </section>
         </article>
-        <article className="col-span-2 row-span-1 rounded-md border p-2">
+        <article className="col-span-2 row-span-1 flex h-full flex-col rounded-md border p-2">
           <h3 className="text-md font-bold">
             ลูกค้าหลักของบริษัทที่ขึ้นทะเบียน
           </h3>

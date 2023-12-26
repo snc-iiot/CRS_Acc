@@ -164,20 +164,23 @@ const CustomerRegistrations: FC = () => {
 
   return (
     <FadeIn>
-      <main className="flex h-[90dvh] flex-col gap-2 px-1">
-        <h2 className="text-xl font-bold">รายการลงทะเบียนลูกค้า</h2>
-        <div className="flex items-center gap-x-1">
-          <Button
-            className={cn(
-              "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
-              role !== "admin" && role !== "user" ? "hidden" : "flex",
-            )}
-            onClick={getRegisterId}
-          >
-            <span>ลงทะเบียนลูกค้าใหม่</span>
-            <Icons.plus className="h-8 w-8 font-bold" />
-          </Button>
-          {/* <Dialog>
+      <main className="flex h-full flex-col gap-2  px-1">
+        <section>
+          <h2 className="text-xl font-bold">รายการลงทะเบียนลูกค้า</h2>
+        </section>
+        <section>
+          <div className="flex items-center gap-x-1">
+            <Button
+              className={cn(
+                "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
+                role !== "admin" && role !== "user" ? "hidden" : "flex",
+              )}
+              onClick={getRegisterId}
+            >
+              <span>ลงทะเบียนลูกค้าใหม่</span>
+              <Icons.plus className="h-8 w-8 font-bold" />
+            </Button>
+            {/* <Dialog>
             <DialogTrigger asChild>
               <Button className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]">
                 <span>ลงทะเบียนลูกค้าใหม่ (ส่งเมล)</span>
@@ -244,9 +247,9 @@ const CustomerRegistrations: FC = () => {
               </section>
             </DialogContent>
           </Dialog> */}
-        </div>
-
-        <div className="flex w-full items-center justify-between">
+          </div>
+        </section>
+        <section className="flex w-full items-center justify-between">
           <Tabs value={tabsSelected} className="w-[400px]">
             <TabsList>
               <TabsTrigger
@@ -333,101 +336,106 @@ const CustomerRegistrations: FC = () => {
               </ClearButton>
             </FilterBar>
           </div>
-        </div>
-        <div className="w-full flex-grow overflow-x-auto overflow-y-auto rounded border">
-          <Table className="relative w-full">
-            <THead className="sticky top-0 z-10 whitespace-nowrap bg-primary-foreground text-sm">
-              <Tr>
-                <Th className="w-[100px]">ลำดับ</Th>
-                <Th className="w-[10rem]">หมายเลขนิติบุคคล</Th>
-                <Th>บริษัทลูกค้า</Th>
-                <Th className="w-[200px]">
-                  <span className="flex cursor-pointer items-center gap-x-1">
-                    ขึ้นทะเบียนกับบริษัท
-                  </span>
-                </Th>
-                <Th className="w-[10rem]">
-                  <span className="flex cursor-pointer items-center gap-x-1">
-                    เวลาขึ้นทะเบียน
-                    {/* <Icons.arrowUpWideNarrow
+        </section>
+        <section className="h-full overflow-y-auto overflow-x-hidden border">
+          <article className="flex h-full grow flex-col gap-2 overflow-auto">
+            <section className="flex h-0 grow flex-col">
+              <Table className="relative w-full">
+                <THead className="sticky top-0 z-10 whitespace-nowrap bg-primary-foreground text-sm">
+                  <Tr>
+                    <Th className="w-[100px]">ลำดับ</Th>
+                    <Th className="w-[10rem]">หมายเลขนิติบุคคล</Th>
+                    <Th>บริษัทลูกค้า</Th>
+                    <Th className="w-[200px]">
+                      <span className="flex cursor-pointer items-center gap-x-1">
+                        ขึ้นทะเบียนกับบริษัท
+                      </span>
+                    </Th>
+                    <Th className="w-[10rem]">
+                      <span className="flex cursor-pointer items-center gap-x-1">
+                        เวลาขึ้นทะเบียน
+                        {/* <Icons.arrowUpWideNarrow
                       className="h-4 w-4"
                       onClick={() => {
                         setSortByDate("ascending");
                       }}
                     /> */}
-                    {sortByDate === "ascending" ? (
-                      <Icons.arrowUpWideNarrow
-                        className="h-4 w-4"
-                        onClick={() => {
-                          setSortByDate("descending");
-                        }}
-                      />
-                    ) : (
-                      <Icons.arrowDownWideNarrow
-                        className="h-4 w-4"
-                        onClick={() => {
-                          setSortByDate("ascending");
-                        }}
-                      />
-                    )}
-                  </span>
-                </Th>
-                <Th className="w-[10rem]">สถานะ</Th>
-                <Th className="w-[150px]"></Th>
-              </Tr>
-            </THead>
-            <TBody className="text-sm">
-              {filterData?.length === 0 && (
-                <Tr>
-                  <Td colSpan={7} className="text-center">
-                    ไม่พบข้อมูล
-                  </Td>
-                </Tr>
-              )}
-              {orderArrayBy(filterData, "created_at", sortByDate)?.map(
-                (item: TRegisList, i) => (
-                  <Tr
-                    key={i}
-                    className="cursor-pointer whitespace-nowrap border-b text-sm"
-                    onDoubleClick={() => {
-                      navigate(
-                        "/registrations/customer/info?RegisID=" +
-                          item?.regis_id,
-                      );
-                    }}
-                  >
-                    <Td>{i + 1}</Td>
-                    <Td>{item?.juristic_id}</Td>
-                    <Td>{item?.company_name}</Td>
-                    <Td>{item?.company_admin}</Td>
-                    <Td>{item?.created_at}</Td>
-                    <Td>
-                      <Badge
-                        className={cn(
-                          statusHelper(item?.status_no)?.status_color,
-                          "text-center text-sm",
+                        {sortByDate === "ascending" ? (
+                          <Icons.arrowUpWideNarrow
+                            className="h-4 w-4"
+                            onClick={() => {
+                              setSortByDate("descending");
+                            }}
+                          />
+                        ) : (
+                          <Icons.arrowDownWideNarrow
+                            className="h-4 w-4"
+                            onClick={() => {
+                              setSortByDate("ascending");
+                            }}
+                          />
                         )}
-                      >
-                        {item?.status_desc_th}
-                      </Badge>
-                    </Td>
-                    <Td>
-                      <Link
-                        to={
-                          "/registrations/customer/info?RegisID=" +
-                          item?.regis_id
-                        }
-                        className="flex items-center gap-x-1 text-primary hover:underline"
-                      >
-                        <Icons.eye className="h-4 w-4" /> <span>ดูละเอียด</span>
-                      </Link>
-                    </Td>
+                      </span>
+                    </Th>
+                    <Th className="w-[10rem]">สถานะ</Th>
+                    <Th className="w-[150px]"></Th>
                   </Tr>
-                ),
-              )}
-            </TBody>
-          </Table>
-        </div>
+                </THead>
+                <TBody className="text-sm">
+                  {filterData?.length === 0 && (
+                    <Tr>
+                      <Td colSpan={7} className="text-center">
+                        ไม่พบข้อมูล
+                      </Td>
+                    </Tr>
+                  )}
+                  {orderArrayBy(filterData, "created_at", sortByDate)?.map(
+                    (item: TRegisList, i) => (
+                      <Tr
+                        key={i}
+                        className="cursor-pointer whitespace-nowrap border-b text-sm"
+                        onDoubleClick={() => {
+                          navigate(
+                            "/registrations/customer/info?RegisID=" +
+                              item?.regis_id,
+                          );
+                        }}
+                      >
+                        <Td>{i + 1}</Td>
+                        <Td>{item?.juristic_id}</Td>
+                        <Td>{item?.company_name}</Td>
+                        <Td>{item?.company_admin}</Td>
+                        <Td>{item?.created_at}</Td>
+                        <Td>
+                          <Badge
+                            className={cn(
+                              statusHelper(item?.status_no)?.status_color,
+                              "text-center text-sm",
+                            )}
+                          >
+                            {item?.status_desc_th}
+                          </Badge>
+                        </Td>
+                        <Td>
+                          <Link
+                            to={
+                              "/registrations/customer/info?RegisID=" +
+                              item?.regis_id
+                            }
+                            className="flex items-center gap-x-1 text-primary hover:underline"
+                          >
+                            <Icons.eye className="h-4 w-4" />{" "}
+                            <span>ดูละเอียด</span>
+                          </Link>
+                        </Td>
+                      </Tr>
+                    ),
+                  )}
+                </TBody>
+              </Table>
+            </section>
+          </article>
+        </section>
       </main>
     </FadeIn>
   );

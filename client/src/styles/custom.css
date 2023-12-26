@@ -66,3 +66,61 @@ body {
     box-shadow: none;
   }
 }
+
+@media print {
+  .pagebreak {
+    page-break-before: always;
+  }
+  @page {
+    size: A4;
+    margin: 5mm 5mm 5mm 5mm;
+  }
+
+  .watermark {
+    display: block;
+    counter-increment: page;
+    position: fixed;
+    /* color: #eaeaea !important; */
+    z-index: -1000;
+  }
+
+  div.page-footer,
+  div.footer-info {
+    display: block;
+  }
+  .date-footer {
+    display: block;
+    counter-increment: page;
+    position: fixed;
+    bottom: -3px;
+    right: 0;
+    text-align: end;
+    font-size: 10px;
+    opacity: 0.8;
+  }
+
+  .exporter-footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    text-align: end;
+    font-size: 10px;
+    opacity: 0.8;
+  }
+
+  div.page-number {
+    display: block;
+    counter-increment: page;
+    position: fixed;
+    bottom: -5;
+    right: 0;
+    text-align: end;
+    font-size: 10px;
+    opacity: 0.8;
+  }
+
+  .page-number::after {
+    content: counter(page);
+  }
+}

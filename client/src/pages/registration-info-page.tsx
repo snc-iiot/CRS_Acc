@@ -46,12 +46,16 @@ import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn, COLORS_SERIES } from "@/lib/utils";
 import { useForm, useUtils } from "@/services/";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
+import { useProfile } from "@/services/hooks/use-profile";
 import { FC, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { PrintPage } from ".";
 
 const RegistrationInfo: FC = () => {
+  const {
+    profile: { role },
+  } = useProfile();
   const {
     mutateGetApprovalsById,
     mutateGetTemplateGeneralAssessmentById,
@@ -84,37 +88,6 @@ const RegistrationInfo: FC = () => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
   const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
   const [commentText, setCommentText] = useState<string>("");
-
-  // //! สำหรับ sub action tab
-  // const newActionTab = (status: number) => {
-  //   const condition = {
-  //     1: ["R1"],
-  //     2: ["R2"],
-  //     3: [""],
-  //     4: [""],
-  //     5: ["R5"],
-  //     6: [""],
-  //     7: ["R7"],
-  //     8: ["R8"],
-  //     9: ["R9"],
-  //   };
-  //   return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
-  // };
-
-  // //! Validate Action Tab
-  // const validateActionTab = (
-  //   action: "R1" | "R2" | "R3" | "R4" | "R5",
-  //   status: number,
-  // ) => {
-  //   const condition = {
-  //     R1: [1, 2, 3, 4, 5, 6, 7],
-  //     R2: [2, 3, 4, 5, 6, 7],
-  //     R3: [4, 5, 6, 7],
-  //     R4: [4, 6, 7],
-  //     R5: [4, 7],
-  //   };
-  //   return condition[action].includes(status);
-  // };
 
   const mainActions = [
     "R1",
@@ -238,6 +211,19 @@ const RegistrationInfo: FC = () => {
       }));
     }
   }, [registration?.status_no]);
+
+  useEffect(() => {
+    if (!role) return;
+    if (role === "admin") {
+      setActiveTab("R1");
+    } else if (role === "user") {
+      setActiveTab("R2");
+    } else if (role === "approver") {
+      setActiveTab("R4");
+    } else {
+      setActiveTab("R1");
+    }
+  }, [role]);
 
   return (
     <FadeIn>
