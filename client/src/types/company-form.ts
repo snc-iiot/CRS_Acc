@@ -13,7 +13,7 @@ export type ICompanyForm = {
     | "time"
     | "url";
   placeholder: string;
-  options?: { value: string; label: string }[];
+  options?: { value: any; label: string }[];
   required: boolean;
   disabled?: boolean;
   pattern?: string;

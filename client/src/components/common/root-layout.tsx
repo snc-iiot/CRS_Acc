@@ -1,11 +1,31 @@
 import { Header } from "@/components/common/site-heder";
 import { Separator } from "@/components/ui/separator";
+import { useUtils } from "@/services/hooks/use-utils";
 import { FC } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import ThemeToggle from "./theme-toggle";
 
 const RootLayout: FC = () => {
+  const {
+    useGetBusinessTypeList,
+    useGetCertificatedList,
+    useGetBenefitsList,
+    useGetDeliveryTermsList,
+    useGetCompanyPolicyList,
+    useGetCompanyList,
+    useGetCountryCodeList,
+  } = useUtils();
+
   const navigate = useNavigate();
+
+  useGetBusinessTypeList();
+  useGetCertificatedList();
+  useGetBenefitsList();
+  useGetDeliveryTermsList();
+  useGetCompanyPolicyList();
+  useGetCompanyList();
+  useGetCountryCodeList();
+
   return (
     <div className="relative flex h-screen w-full overflow-hidden">
       <main className="relative flex h-full w-full flex-col overflow-hidden">

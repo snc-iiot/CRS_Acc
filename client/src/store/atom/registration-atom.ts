@@ -2,6 +2,8 @@ import { TRegistrationForm } from "@/types";
 import { atom } from "jotai";
 
 export const registrationAtom = atom<TRegistrationForm>({
+  regis_id: "",
+  informant_name: "",
   company_information: {
     company_admin: "",
     company_name: "",
@@ -14,7 +16,7 @@ export const registrationAtom = atom<TRegistrationForm>({
     phone_number: "",
     juristic_id: "",
     website: "",
-    nature_of_business: "",
+    nature_of_business: 0,
     company_registration: {
       is_thai: true,
       country: "",
@@ -76,7 +78,7 @@ export const registrationAtom = atom<TRegistrationForm>({
   payment_term: {
     credit_term: {
       name: "",
-      value: "",
+      value: 0,
     },
     billing_term: {
       name: "",
@@ -95,7 +97,7 @@ export const registrationAtom = atom<TRegistrationForm>({
     },
     product_warranty: {
       is_warranty: false,
-      value: "",
+      value: 0,
     },
     company_policy: [],
     objective_purchasing: {
@@ -105,9 +107,11 @@ export const registrationAtom = atom<TRegistrationForm>({
     main_customer: {
       name: "",
       value: "",
+      name_helper: "",
     },
   },
 });
+
 if (process.env.NODE_ENV !== "production") {
   registrationAtom.debugLabel = "registrationAtom";
 }

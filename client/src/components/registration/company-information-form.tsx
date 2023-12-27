@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CompanyInfo } from "@/helpers/company.helper";
 import { ConditionalInput, Sections } from "@/helpers/register.helper";
@@ -5,10 +6,15 @@ import { cn } from "@/lib/utils";
 import CountryList from "@/mocks/country-list-th.json";
 import { useAtomStore } from "@/store/use-atom-store";
 import { ChangeEvent, FC, useMemo } from "react";
-import { Label } from "../ui/label";
 
 const CompanyInformationForm: FC = () => {
-  const { setRegistration, registration, thaiProvince } = useAtomStore();
+  const {
+    setRegistration,
+    registration,
+    thaiProvince,
+    companyList,
+    businessTypeList,
+  } = useAtomStore();
   const { company_information } = registration;
   const { country } = company_information;
 
@@ -19,18 +25,31 @@ const CompanyInformationForm: FC = () => {
     setRegistration((prev) => ({
       ...prev,
       company_information: {
-        ...prev.company_information,
-        [name]:
-          e.target.type == "tel"
-            ? value.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")
-            : value,
+        ...prev?.company_information,
+        [name]: name === "nature_of_business" ? Number(value) : value,
       },
     }));
   };
 
   const newCompanyInfo = CompanyInfo?.map((item) => {
-    const { country, province, district } = registration?.company_information;
+    const { country, province, district } = registration.company_information;
     switch (item?.name) {
+      case "nature_of_business":
+        return {
+          ...item,
+          options: businessTypeList?.map((item) => ({
+            label: item?.business_type_th,
+            value: item?.business_type_id,
+          })),
+        };
+      case "company_admin":
+        return {
+          ...item,
+          options: companyList?.map((item) => ({
+            label: `[${item?.company}] ${item?.company_full_name_en}`,
+            value: item.company,
+          })),
+        };
       case "province":
         return {
           ...item,
@@ -90,7 +109,7 @@ const CompanyInformationForm: FC = () => {
       setRegistration((prev) => ({
         ...prev,
         company_information: {
-          ...prev.company_information,
+          ...prev?.company_information,
           province: "",
           district: "",
           sub_district: "",
@@ -98,7 +117,7 @@ const CompanyInformationForm: FC = () => {
         },
       }));
     }
-  }, [country]);
+  }, [country, setRegistration]);
 
   return (
     <section id="company-info" className="pr-4">
@@ -126,7 +145,7 @@ const CompanyInformationForm: FC = () => {
                 {ConditionalInput(
                   item,
                   handleOnChange,
-                  registration.company_information,
+                  registration?.company_information,
                 )}
               </div>
               <div className="col-span-2 flex justify-end">
@@ -156,7 +175,7 @@ const CompanyInformationForm: FC = () => {
                       company_registration: {
                         ...prev.company_information.company_registration,
                         is_thai: value === "thai-company",
-                        country: "",
+                        country: "-",
                       },
                     },
                   }));
@@ -178,7 +197,13 @@ const CompanyInformationForm: FC = () => {
                     จดทะเบียนนอกประเทศ
                   </Label>
                   <select
-                    className="w-full border-b text-sm focus:border-blue-500 focus:outline-none"
+                    className={cn(
+                      "w-full border-b text-sm focus:border-blue-500 focus:outline-none",
+                      registration?.company_information?.company_registration
+                        ?.is_thai
+                        ? "hidden"
+                        : "",
+                    )}
                     onChange={(e) => {
                       const { name, value } = e.target;
                       setRegistration((prev) => ({
@@ -201,11 +226,23 @@ const CompanyInformationForm: FC = () => {
                       registration?.company_information?.company_registration
                         ?.is_thai
                     }
+                    required={
+                      !registration?.company_information?.company_registration
+                        ?.is_thai
+                    }
                   >
                     <option value="">เลือกประเทศ</option>
-                    {CountryList?.map((item, index) => (
+                    {CountryList?.filter((item) => {
+                      if (
+                        !registration?.company_information?.company_registration
+                          ?.is_thai
+                      ) {
+                        return item?.alpha2 !== "TH";
+                      }
+                      return item;
+                    })?.map((item, index) => (
                       <option key={index} value={item?.alpha2}>
-                        {item?.name}
+                        {item?.country}
                       </option>
                     ))}
                   </select>

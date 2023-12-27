@@ -1,9 +1,9 @@
+import { Input } from "@/components/ui/input";
 import { ContactInfo } from "@/helpers/contract.helper";
 import { Sections } from "@/helpers/register.helper";
 import { useAtomStore } from "@/store/use-atom-store";
 import { TContactPerson } from "@/types";
 import { FC, Fragment } from "react";
-import { Input } from "../ui/input";
 
 const ContractInformationForm: FC = () => {
   const { setRegistration, registration } = useAtomStore();

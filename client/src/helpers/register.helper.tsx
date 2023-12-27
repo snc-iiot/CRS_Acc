@@ -115,6 +115,8 @@ export const ConditionalInput = (
               | undefined
           }
           disabled={item?.disabled}
+          minLength={item?.name === "juristic_id" ? 13 : undefined}
+          maxLength={item?.name === "juristic_id" ? 13 : undefined}
         />
       );
     }

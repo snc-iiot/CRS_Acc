@@ -1,5 +1,15 @@
 import { useAtom } from "jotai";
-import { businessTypeAtom, registrationAtom, utilsAtom } from "./atom";
+import {
+  benefitsListAtom,
+  businessTypeAtom,
+  certificatedListAtom,
+  companyListAtom,
+  companyPolicyListAtom,
+  countryCodeListAtom,
+  deliveryTermsListAtom,
+  registrationAtom,
+  utilsAtom,
+} from "./atom";
 import { thaiProvinceAtom } from "./atom/thai-province-atom";
 
 export const useAtomStore = () => {
@@ -7,6 +17,17 @@ export const useAtomStore = () => {
   const [thaiProvince, setThaiProvince] = useAtom(thaiProvinceAtom);
   const [businessTypeList, setBusinessTypeList] = useAtom(businessTypeAtom);
   const [utils, setUtils] = useAtom(utilsAtom);
+
+  const [certificatedList, setCertificatedList] = useAtom(certificatedListAtom);
+  const [companyList, setCompanyList] = useAtom(companyListAtom);
+  const [companyPolicyList, setCompanyPolicyList] = useAtom(
+    companyPolicyListAtom,
+  );
+  const [deliveryTermsList, setDeliveryTermsList] = useAtom(
+    deliveryTermsListAtom,
+  );
+  const [benefitsList, setBenefitsList] = useAtom(benefitsListAtom);
+  const [countryCodeList, setCountryCodeList] = useAtom(countryCodeListAtom);
 
   return {
     registration,
@@ -17,5 +38,17 @@ export const useAtomStore = () => {
     setBusinessTypeList,
     utils,
     setUtils,
+    certificatedList,
+    setCertificatedList,
+    companyList,
+    setCompanyList,
+    companyPolicyList,
+    setCompanyPolicyList,
+    deliveryTermsList,
+    setDeliveryTermsList,
+    benefitsList,
+    setBenefitsList,
+    countryCodeList,
+    setCountryCodeList,
   };
 };

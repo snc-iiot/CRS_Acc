@@ -10,8 +10,8 @@ export const CompanyInfo: ICompanyForm[] = [
     type: "select",
     placeholder: "เลือกบริษัท",
     options: CompanyList?.map((company: TCompanyList) => ({
-      value: company?.Company,
-      label: `[${company?.Company}] ${company?.CompanyFullNameEN} `,
+      value: company?.company,
+      label: `[${company?.company}] ${company?.company_full_name_th} `,
     })),
     required: true,
   },
@@ -34,9 +34,14 @@ export const CompanyInfo: ICompanyForm[] = [
     label: "ประเทศ",
     type: "select",
     placeholder: "กรอกประเทศ",
-    options: CountryList?.map((country) => ({
+    options: CountryList?.sort((a) => {
+      if (a?.alpha2 === "TH") {
+        return -1;
+      }
+      return 1;
+    })?.map((country) => ({
       value: country?.alpha2,
-      label: country?.name,
+      label: country?.country,
     })),
     required: true,
   },
@@ -90,7 +95,7 @@ export const CompanyInfo: ICompanyForm[] = [
   {
     name: "juristic_id",
     label: "เลขประจำตัวผู้เสียภาษี",
-    type: "number",
+    type: "text",
     placeholder: "กรอกเลขประจำตัวผู้เสียภาษี",
     required: true,
   },

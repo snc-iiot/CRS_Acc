@@ -12,7 +12,7 @@ export class CustomerService extends APIService {
   ): Promise<TResponseAction> => {
     try {
       const { data: responseData } = await this.post(
-        "/customer/register",
+        "/registration/external",
         data,
       );
       return responseData;

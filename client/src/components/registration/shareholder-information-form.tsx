@@ -1,19 +1,15 @@
+import { Input, InputGroup, InputRightAddon } from "@/components/ui/input";
+import { Select } from "@/components/ui/select-custom";
 import { Sections } from "@/helpers/register.helper";
 import { cn } from "@/lib/utils";
-import CountryList from "@/mocks/country-list-th.json";
 import { useAtomStore } from "@/store/use-atom-store";
-import { TCountryList } from "@/types";
 import { FC } from "react";
-import { Input, InputGroup, InputRightAddon } from "../ui/input";
-import { Select } from "../ui/select-custom";
 
 const ShareholderInformationForm: FC = () => {
-  const { registration, setRegistration } = useAtomStore();
+  const { registration, setRegistration, countryCodeList } = useAtomStore();
 
   const { hight_nationalities, thai_nationalities, other_nationalities } =
-    registration?.share_holder;
-
-  const countryList: TCountryList[] = CountryList;
+    registration.share_holder;
 
   return (
     <section id="shareholder-info" className="pr-4">
@@ -55,11 +51,21 @@ const ShareholderInformationForm: FC = () => {
                   value={hight_nationalities?.nationalities}
                   required
                 >
-                  {countryList?.map((item, i) => (
-                    <option key={i} value={item?.alpha2}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {countryCodeList
+                    .sort((a, b) => {
+                      if (a.country === "TH") {
+                        return -1;
+                      }
+                      if (b.country === "TH") {
+                        return 1;
+                      }
+                      return 0;
+                    })
+                    ?.map((item, i) => (
+                      <option key={i} value={item?.alpha2}>
+                        {item.country}
+                      </option>
+                    ))}
                 </Select>
               </div>
             </div>
@@ -71,12 +77,6 @@ const ShareholderInformationForm: FC = () => {
                   className="text-sm"
                   max={"100"}
                   min={"0"}
-                  // disabled={
-                  //   thai_nationalities === 100 ||
-                  //   other_nationalities === 100 ||
-                  //   thai_nationalities + other_nationalities === 100 ||
-                  //   hight_nationalities?.nationalities === "TH"
-                  // }
                   onChange={(e) => {
                     const max =
                       100 -
@@ -95,7 +95,6 @@ const ShareholderInformationForm: FC = () => {
                     }));
                   }}
                   value={hight_nationalities?.percentage || ""}
-                  required
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -135,7 +134,10 @@ const ShareholderInformationForm: FC = () => {
                     }));
                   }}
                   value={thai_nationalities || ""}
-                  required
+                  disabled={
+                    hight_nationalities?.nationalities === "TH" ||
+                    hight_nationalities?.percentage === 100
+                  }
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -154,11 +156,6 @@ const ShareholderInformationForm: FC = () => {
                   type="number"
                   placeholder="กรอกสัดส่วนผู้ถือหุ้น"
                   className="text-sm"
-                  disabled={
-                    hight_nationalities?.percentage === 100 ||
-                    thai_nationalities === 100 ||
-                    hight_nationalities?.percentage + thai_nationalities === 100
-                  }
                   onChange={(e) => {
                     const max =
                       100 -
@@ -174,7 +171,11 @@ const ShareholderInformationForm: FC = () => {
                     }));
                   }}
                   value={other_nationalities || ""}
-                  required
+                  // disabled={
+                  //   hight_nationalities?.percentage === 100 ||
+                  //   thai_nationalities === 100 ||
+                  //   hight_nationalities?.percentage + thai_nationalities === 100
+                  // }
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -207,7 +208,6 @@ const ShareholderInformationForm: FC = () => {
                     thai_nationalities +
                     other_nationalities
                   }
-                  required
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -231,7 +231,6 @@ const ShareholderInformationForm: FC = () => {
                   รวมสัดส่วนผู้ถือหุ้นไม่เท่ากับ 100% กรุณาตรวจสอบ อีกครั้ง
                 </p>
               ) : null}
-
               <p className="text-sm text-red-500">*</p>
             </div>
           </div>

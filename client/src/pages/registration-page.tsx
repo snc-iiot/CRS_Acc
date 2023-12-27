@@ -1,4 +1,3 @@
-import { Icons } from "@/components/common/icons";
 import {
   CompanyInformationForm,
   ConsentForm,
@@ -11,14 +10,23 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { getParsedToken, IDecodedToken } from "@/helpers/jwt.helper";
 import { HeaderConditions, Sections } from "@/helpers/register.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { cn } from "@/lib/utils";
 import { useCustomer } from "@/services/hooks";
 import { useAtomStore } from "@/store/use-atom-store";
 import { FC, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const RegistrationPage: FC = () => {
+  const [isAcceptConsent, setIsAcceptConsent] = useState({
+    consent_1: false,
+    consent_2: false,
+    consent_3: false,
+  });
+  const [searchParams] = useSearchParams();
+  const key = searchParams.get("key");
   const { mutateRegisterCustomer } = useCustomer();
   const { confirmSwal } = useSwal();
   const { registration } = useAtomStore();
@@ -80,6 +88,35 @@ const RegistrationPage: FC = () => {
     };
   }, []);
 
+  const checkToken = (payload: IDecodedToken): boolean => {
+    if (payload.exp < Date.now()) {
+      return false;
+    }
+    return true;
+  };
+
+  const checkConfirm = async (payLoad: IDecodedToken) => {
+    const isConfirm = await confirmSwal(
+      "ลิงก์หมดอายุ",
+      `กรุณาติดต่อเจ้าหน้าที่ได้ที่
+        Email: ${payLoad.email}`,
+      "ตกลง",
+      undefined,
+      false,
+    );
+    if (isConfirm) {
+      window.open("mailto:" + payLoad.email, "_blank");
+    }
+  };
+
+  useEffect(() => {
+    const payLoad = getParsedToken(key as string) as IDecodedToken;
+    localStorage.setItem("payload-icrs", JSON.stringify(payLoad));
+    if (!checkToken(payLoad)) {
+      checkConfirm(payLoad);
+    }
+  }, [key]);
+
   return (
     <div className="container relative h-full w-full overflow-y-auto py-2">
       <form
@@ -129,10 +166,10 @@ const RegistrationPage: FC = () => {
                       {item.title}
                     </span>
                   </a>
-                  <Icons.checkCircle2
+                  <div
                     className={cn(
-                      "h-4 w-4 text-muted-foreground",
-                      activeSection === item.id && "text-green-500",
+                      "h-2 w-2 text-muted-foreground",
+                      activeSection === item.id && "rounded-full bg-primary",
                     )}
                   />
                 </div>
@@ -154,7 +191,10 @@ const RegistrationPage: FC = () => {
                     <RelationshipInformationForm />
                     <StandardInformationForm />
                     <DocumentUploadForm />
-                    <ConsentForm />
+                    <ConsentForm
+                      isAcceptConsent={isAcceptConsent}
+                      setIsAcceptConsent={setIsAcceptConsent}
+                    />
                     <ScrollBar />
                   </ScrollArea>
                 </section>
@@ -166,7 +206,16 @@ const RegistrationPage: FC = () => {
             <Button variant="secondary" type="button">
               ยกเลิก
             </Button>
-            <Button type="submit">ลงทะเบียน</Button>
+            <Button
+              type="submit"
+              disabled={
+                !isAcceptConsent.consent_1 ||
+                !isAcceptConsent.consent_2 ||
+                !isAcceptConsent.consent_3
+              }
+            >
+              ลงทะเบียน
+            </Button>
           </section>
         </main>
       </form>

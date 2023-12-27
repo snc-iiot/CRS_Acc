@@ -19,14 +19,14 @@ export const useCustomer = () => {
     onSuccess(data) {
       closeSwal();
       if (data.status === "success") {
-        showSuccess("ลงทะเบียนสำเร็จ", data.message);
+        showSuccess(data.message, "");
       } else {
-        showError("ลงทะเบียนไม่สำเร็จ", data.message);
+        showError(data.message, "");
       }
     },
     onError(error) {
       closeSwal();
-      showError("ลงทะเบียนไม่สำเร็จ", error.message);
+      showError(error.message, "");
     },
   });
   return {

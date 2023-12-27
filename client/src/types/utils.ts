@@ -1,6 +1,8 @@
 export type TBusinessTypeList = {
-  business_id: string;
-  business_type: string;
+  business_type_id: number;
+  business_type_th: string;
+  business_type_en: string;
+  value: string;
 };
 
 export type TResponseAction = {
@@ -27,36 +29,50 @@ export type TDocumentKeyList = {
 };
 
 export type TCertificatedList = {
-  [key: string]: string;
-  cer_id: string;
+  cer_id: number;
   cer_name_th: string;
   cer_name_en: string;
+  is_checked: boolean;
+  value: string;
+  exp: string;
 };
 
 export type TBenefitsList = {
-  [key: string]: string;
-  cer_id: string;
+  cer_id: number;
   cer_name_th: string;
   cer_name_en: string;
+  is_checked: boolean;
+  value: string;
+  exp: string;
 };
 
 export type TDeliveryTermsList = {
-  [key: string]: string;
-  cer_id: string;
+  cer_id: number;
   cer_name_th: string;
   cer_name_en: string;
+  is_checked: boolean;
+  value: string;
+  exp: string;
 };
 
 export type TCompanyPolicyList = {
-  [key: string]: string;
-  cer_id: string;
+  cer_id: number;
   cer_name_th: string;
   cer_name_en: string;
+  is_checked: boolean;
+  value: string;
+  exp: string;
 };
 
 export type TCompanyList = {
-  [key: string]: string;
   company: string;
   company_full_name_th: string;
   company_full_name_en: string;
+};
+
+export type TCountryCodeList = {
+  country: string;
+  alpha2: string;
+  alpha3: string;
+  numeric: string;
 };

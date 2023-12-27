@@ -1,10 +1,15 @@
 export type TRegistrationForm = {
+  regis_id: string;
+  informant_name: string;
   company_information: TCompanyInformation;
   share_holder: TShareHolder;
   contact_person: TContactPerson[];
   relationship: TRelationship;
   standard: TStandard;
   payment_term: TPaymentTerm;
+  status_no?: number;
+  created_at?: string;
+  updated_at?: string;
 };
 
 export type TCompanyInformation = {
@@ -19,7 +24,7 @@ export type TCompanyInformation = {
   phone_number: string;
   juristic_id: string;
   website: string;
-  nature_of_business: string;
+  nature_of_business: number;
   company_registration: {
     is_thai: boolean;
     country: string;
@@ -46,7 +51,7 @@ export type TContactPerson = {
 };
 
 export type TRelationship = {
-  is_relationship: boolean;
+  is_relationship: boolean | null;
   relationship_name: string;
 };
 
@@ -56,18 +61,18 @@ export type TStandard = {
 };
 
 export type TCertificate = {
-  cer_id: string;
-  label_th: string;
-  label_en: string;
+  cer_id: number;
+  cer_name_th: string;
+  cer_name_en: string;
   is_checked: boolean;
   value: string;
   exp: string | null;
 };
 
 export type TBenefit = {
-  cer_id: string;
-  label_th: string;
-  label_en: string;
+  cer_id: number;
+  cer_name_th: string;
+  cer_name_en: string;
   is_checked: boolean;
   value: string;
   exp: string | null;
@@ -89,7 +94,7 @@ export type TPaymentTerm = {
 
 export type TCreditTerm = {
   name: string;
-  value: string;
+  value: number | null;
 };
 
 export type TBillingTerm = {
@@ -103,10 +108,12 @@ export type TLCTerm = {
 };
 
 export type TDeliveryTerm = {
-  cer_id: string;
-  label_th: string;
-  label_en: string;
+  cer_id: number;
+  cer_name_th: string;
+  cer_name_en: string;
   is_checked: boolean | null;
+  value: string;
+  exp: string;
 };
 
 export type TDepositTerm = {
@@ -116,14 +123,16 @@ export type TDepositTerm = {
 
 export type TProductWarranty = {
   is_warranty: boolean;
-  value: string;
+  value: number | null;
 };
 
 export type TCompanyPolicy = {
-  cer_id: string;
-  label_th: string;
-  label_en: string;
-  is_checked: boolean;
+  cer_id: number;
+  cer_name_th: string;
+  cer_name_en: string;
+  is_checked: boolean | null;
+  value: string;
+  exp: string;
 };
 
 export type TObjectivePurchasing = {
@@ -134,4 +143,11 @@ export type TObjectivePurchasing = {
 export type TMainCustomer = {
   name: string;
   value: string;
+  name_helper: string;
+};
+
+export type TUploadFile = {
+  regis_id: string;
+  doc_name: string;
+  content: string;
 };

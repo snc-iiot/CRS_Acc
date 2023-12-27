@@ -1,9 +1,9 @@
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Sections } from "@/helpers/register.helper";
 import { cn } from "@/lib/utils";
 import { useAtomStore } from "@/store/use-atom-store";
 import { FC } from "react";
-import { Label } from "../ui/label";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 const RelationshipInformationForm: FC = () => {
   const { registration, setRegistration } = useAtomStore();
@@ -67,7 +67,9 @@ const RelationshipInformationForm: FC = () => {
                         },
                       }));
                     }}
-                    required={registration?.relationship?.is_relationship}
+                    required={
+                      registration?.relationship?.is_relationship || false
+                    }
                   />
                 </div>
                 <div className="flex items-center space-x-2">

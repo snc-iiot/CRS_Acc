@@ -34,6 +34,7 @@
     "date-fns": "^2.30.0",
     "jotai": "^2.5.1",
     "jotai-devtools": "^0.7.0",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.244.0",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
