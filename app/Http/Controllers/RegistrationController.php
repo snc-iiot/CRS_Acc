@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Libraries\JWT\JWTUtils;
+use App\Http\Libraries\JWT\JWTUtils2;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Rules\Base64;
@@ -20,9 +21,11 @@ define("DOCS_BASE_PATH", "https://snc-services.sncformer.com/dev/icrs/docs/pdf/"
 class RegistrationController extends Controller
 {
     private $jwtUtils;
+    private $jwtUtils2;
     public function __construct()
     {
         $this->jwtUtils = new JWTUtils();
+        $this->jwtUtils2 = new JWTUtils2();
     }
 
     private function randomName(int $length = 10)
@@ -68,8 +71,6 @@ class RegistrationController extends Controller
 
             DB::table("tb_regis_documents")->insert([
                 "regis_id" => $regisId,
-                // "folder_name" => $regisId,
-                // "documents" => '{"anti_corruption_policy":"","vat_license":"","business_registration":"","fi_statement":"","invoice":"","organization_chart":"","sale_contract":"","factory_visit":"","machine_condition":"","company_map":"","other_document1":"","other_document2":"","other_document3":""}',
             ]);
 
             return response()->json([
@@ -78,6 +79,143 @@ class RegistrationController extends Controller
                 "data" => [
                     ["regis_id" => $regisId]
                 ],
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //! Customer
+    //! Block Role OK
+    //TODO [POST] /registration/create-regis-id-external
+    function createRegisIDExternal(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "ไม่ได้รับอนุญาต",
+                "data" => [],
+            ], 401);
+            $decoded = $jwt->decoded;
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
+
+            $regisId = Str::uuid()->toString();
+
+            \date_default_timezone_set('Asia/Bangkok');
+            $dt = new \DateTime();
+            $payload = array(
+                "regis_id" => $regisId,
+                "creator_id" => $decoded->user_id,
+                "email" => $decoded->email,
+                "iat" => $dt->getTimestamp(),
+                "exp" => $dt->modify('+ 7days')->getTimestamp(),
+            );
+            // return response()->json(["payload" => $payload, "type" => gettype($payload)]);
+
+            $token = $this->jwtUtils2->generateToken($payload);
+
+            DB::table("tb_run_registrations")->insert([
+                "regis_id" => $regisId,
+                "regis_token" => $token,
+                "creator_id" => $decoded->user_id,
+            ]);
+
+            DB::table("tb_regis_documents")->insert([
+                "regis_id" => $regisId,
+            ]);
+
+            $data = [
+                [
+                    "regis_id" => $regisId,
+                    "token" => $token,
+                ]
+            ];
+
+            return response()->json([
+                "status" => "success",
+                "message" => "สร้างการลงทะเบียนสำเร็จ",
+                "data" => $data,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //! Send mail to Customer
+    //TODO [POST] /registration/send-mail-to-customer
+    function sendMailToCustomer(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "ไม่ได้รับอนุญาต",
+                "data" => [],
+            ], 401);
+            $decoded = $jwt->decoded;
+
+            $rules = [
+                'regis_id'      => "required|uuid|string",
+                'to_email'      => "required|string",
+                'subject'       => "required|string",
+                'dear_th'       => "required|string",
+                'company_th'    => "required|string",
+                'dear_en'       => "required|string",
+                'company_en'    => "required|string",
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['admin', 'user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
+
+            return response()->json($validator->validated());
+
+            DB::table("tb_mail_notifications")->insert([
+                "regis_id" => $request->regis_id,
+                "to_email" => \json_encode([$request->to_email]),
+                "template_no" => 0,
+                "subject" => $request->subject,
+                "receiver_name" => \json_encode([$request->dear_th, $request->dear_en]),
+                "company_name" => \json_encode([$request->company_th, $request->company_en]),
+            ]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "ส่งคำเชิญลงทะเบียนสำเร็จ",
+                "data" => [],
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -623,6 +761,162 @@ class RegistrationController extends Controller
             Cache::put($cacheKey, $regis_id, \DateInterval::createFromDateString('30 seconds'));
 
             DB::table("tb_run_registrations")->where("regis_id", $regis_id)->update(["is_used" => true]);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "ลงทะเบียนสำเร็จ",
+                "data" => [],
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //! for Customer
+    //TODO [POST] /registration/by-customer (create)
+    function createByCustomer(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils2->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = [
+                'regis_id' => 'required|uuid|string',
+                'informant_name' => 'required|string',
+                'company_information.company_admin' => 'required|string',
+                'company_information.company_name' => 'required|string',
+                'company_information.address' => 'required|string',
+                'company_information.country' => 'required|string',
+                'company_information.province' => 'required|string',
+                'company_information.district' => 'required|string',
+                'company_information.sub_district' => 'required|string',
+                'company_information.zip_code' => 'required|string',
+                'company_information.phone_number' => 'required|string',
+                'company_information.juristic_id' => 'required|string',
+                'company_information.website' => 'required|string|url',
+                'company_information.nature_of_business' => 'required|integer|min:0',
+                'company_information.company_registration.is_thai' => 'required|boolean',
+                // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
+                'company_information.company_registration.country' => 'sometimes|string|nullable',
+                // 'company_information.company_registration.country' => 'nullable|string',
+                // 'company_information.company_registration.country' => 'required_if:company_information.company_registration.is_thai,false|string',
+
+                'share_holder.hight_nationalities.nationalities' => 'required|string',
+                'share_holder.hight_nationalities.percentage' => 'required|integer|min:0|max:100',
+                'share_holder.thai_nationalities' => 'required|integer|min:0|max:100',
+                'share_holder.other_nationalities' => 'required|integer|min:0|max:100',
+
+                'contact_person.*.position_th' => 'required|string',
+                'contact_person.*.position_en' => 'required|string',
+                'contact_person.*.name' => 'required|string',
+                'contact_person.*.tel' => 'required|string',
+                'contact_person.*.email' => 'required|email',
+
+                'relationship.is_relationship' => 'required|boolean',
+                'relationship.relationship_name' => 'nullable|string',
+                // 'relationship.relationship_name' => 'required_if:relationship.is_relationship,true|string',
+
+                'standard.certificate.*.cer_id' => 'required|integer|min:1',
+                'standard.certificate.*.cer_name_th' => 'required|string',
+                'standard.certificate.*.cer_name_en' => 'required|string',
+                'standard.certificate.*.is_checked' => 'required|boolean',
+                'standard.certificate.*.value' => 'nullable|string',
+                'standard.certificate.*.exp' => 'nullable|string',
+                'standard.benefit.*.cer_id' => 'required|integer|min:1',
+                'standard.benefit.*.cer_name_th' => 'required|string',
+                'standard.benefit.*.cer_name_en' => 'required|string',
+                'standard.benefit.*.is_checked' => 'required|boolean',
+                'standard.benefit.*.value' => 'nullable|string',
+                'standard.benefit.*.exp' => 'nullable|string',
+
+                'payment_term.credit_term.name' => 'nullable|string',
+                'payment_term.credit_term.value' => 'nullable|integer',
+                'payment_term.billing_term.name' => 'nullable|string',
+                'payment_term.billing_term.value' => 'nullable|string',
+                'payment_term.currency' => 'nullable|string',
+                'payment_term.incoterm' => 'nullable|string',
+                'payment_term.lc_term.is_lc' => 'nullable|boolean',
+                'payment_term.lc_term.lc_type' => 'nullable|string',
+                'payment_term.delivery_term.*.cer_id' => 'required|integer|min:1',
+                'payment_term.delivery_term.*.cer_name_th' => 'required|string',
+                'payment_term.delivery_term.*.cer_name_en' => 'required|string',
+                'payment_term.delivery_term.*.is_checked' => 'required|boolean',
+                // 'payment_term.deposit_term.is_deposit' => 'required_if:company_information.company_registration.is_thai,true|boolean',
+                'payment_term.deposit_term.is_deposit' => 'required_if:payment_term.deposit_term.is_deposit,true|boolean',
+                // 'payment_term.deposit_term.deposit_type' => 'required_if:payment_term.deposit_term.is_deposit,true|string|in:30-70,50-50,60-40,70-30',
+                // 'payment_term.deposit_term.deposit_type' => 'required_if:payment_term.deposit_term.is_deposit,true|string',
+                'payment_term.deposit_term.deposit_type' => 'nullable|string',
+                'payment_term.product_warranty.is_warranty' => 'required|boolean',
+                'payment_term.product_warranty.value' => 'required_if:payment_term.product_warranty.is_warranty,true|integer|min:0',
+                // 'payment_term.product_warranty.value' => 'nullable|integer',
+                'payment_term.company_policy.*.cer_id' => 'required|integer|min:1',
+                'payment_term.company_policy.*.cer_name_th' => 'required|string',
+                'payment_term.company_policy.*.cer_name_en' => 'required|string',
+                'payment_term.company_policy.*.is_checked' => 'required|boolean',
+                'payment_term.objective_purchasing.name' => 'required|string|in:trade,produce,other',
+                'payment_term.objective_purchasing.value' => 'nullable|string',
+                'payment_term.main_customer.name' => 'required|string|in:internal,foreign', //foreign
+                'payment_term.main_customer.value' => 'nullable|string',
+            ];
+
+            // $cacheKey = "/registration/create/last-regis-id";
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            $result = DB::table("tb_regis_informations")->select(["regis_id"])->where("regis_id", $request->regis_id)->get();
+            if (\count($result) > 0) return response()->json([
+                "status" => "error",
+                "message" => "regis_id นี้มีอยู่แล้ว",
+                "data" => [],
+            ]);
+
+            // return response()->json($validator->validated());
+
+            $informant_name         = $request->informant_name;
+            $company_information    = \json_encode($request->company_information);
+            $share_holder           = \json_encode($request->share_holder);
+            $contact_person         = \json_encode($request->contact_person);
+            $standard               = \json_encode($request->standard);
+            $relationship           = \json_encode($request->relationship);
+            $payment_term           = \json_encode($request->payment_term);
+
+            // $result = Company::insert([
+            DB::table("tb_regis_informations")->insert([
+                "regis_id"              => $request->regis_id,
+                "informant_name"        => $informant_name,
+                "company_information"   => $company_information,
+                "share_holder"          => $share_holder,
+                "contact_person"        => $contact_person,
+                "standard"              => $standard,
+                "relationship"          => $relationship,
+                "payment_term"          => $payment_term,
+                "status_no"             => 0, //! รอตรวจสอบข้อมูล
+                // "creator_id"            => $decoded->user_id,
+            ]);
+
+            DB::table("tb_general_assessments")->insert([
+                "regis_id"              => $request->regis_id,
+            ]);
 
             return response()->json([
                 "status" => "success",

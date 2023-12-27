@@ -57,6 +57,9 @@ Route::prefix('registration')->controller(RegistrationController::class)->group(
     Route::get('/', 'getAll');
     Route::get('/your-approve-items', 'yourApproveItems');
     Route::get('/get-documents-by-id', 'getDocumentsByID');
+    Route::post('/create-regis-id-for-customer', 'createRegisIDExternal');
+    Route::post('/send-mail-to-customer', 'sendMailToCustomer');
+    Route::post('/by-customer', 'createByCustomer');
 });
 
 Route::prefix('general-assessment')->controller(GeneralAssessmentController::class)->group(function () {
@@ -80,6 +83,9 @@ Route::prefix('dbd-financial-report')->controller(DbdFinancialReportController::
     Route::get('/sync-by-id', 'syncByID');
     Route::patch('/confirm', 'confirm');
     Route::get('/info', 'info');
+    Route::post('/import-excel/financial-position', 'financialPosition');
+    Route::post('/import-excel/icome-statement', 'icomeStatement');
+    Route::post('/import-excel/financial-ratios', 'financialRatios');
 });
 
 Route::prefix('financial-ratio')->controller(FinancialRatioAssessmentController::class)->group(function () {

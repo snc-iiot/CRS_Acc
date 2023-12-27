@@ -256,4 +256,130 @@ class DbdFinancialReportController extends Controller
             ], 500);
         }
     }
+
+    //TODO [POST] /dbd-financial-report/import-excel/financial-position
+    function financialPosition(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = [
+                "regis_id"      => "required|uuid|string",
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "นำเข้าเอกสารงบแสดงฐานะการเงินสำเร็จ",
+                "data" => []
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //TODO [POST] /dbd-financial-report/import-excel/icome-statement
+    function icomeStatement(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = [
+                "regis_id"      => "required|uuid|string",
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "นำเข้าเอกสารงบกำไรขาดทุนสำเร็จ",
+                "data" => []
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
+
+    //TODO [POST] /dbd-financial-report/import-excel/financial-ratios
+    function financialRatios(Request $request)
+    {
+        try {
+            $header = $request->header('Authorization');
+            $jwt = $this->jwtUtils->verifyToken($header);
+            if (!$jwt->state) return response()->json([
+                "status" => "error",
+                "message" => "Unauthorized",
+                "data" => [],
+            ], 401);
+            // $decoded = $jwt->decoded;
+
+            $rules = [
+                "regis_id"      => "required|uuid|string",
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) return response()->json([
+                "status" => "error",
+                "message" => "การร้องขอล้มเหลว",
+                "data" => [
+                    [
+                        "validator" => $validator->errors()
+                    ]
+                ]
+            ], 400);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "นำเข้าเอกสารอัตราส่วนทางการเงินที่สำคัญสำเร็จ",
+                "data" => []
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => $e->getMessage(),
+                "data" => [],
+            ], 500);
+        }
+    }
 }

@@ -81,6 +81,7 @@ class UserController extends Controller
                 "username" => $username,
                 "name" => $name->en,
                 "company" => $company,
+                "email" => $user[0]->email,
                 "role" => $user[0]->role,
                 "iat" => $dt->getTimestamp(),
                 "exp" => $dt->modify('+ 3000hours')->getTimestamp(),
