@@ -266,8 +266,6 @@ const RegistrationInfo: FC = () => {
       setActiveTab("R2");
     } else if (role === "approver") {
       setActiveTab("R4");
-    } else {
-      setActiveTab("R1");
     }
   }, [role]);
 

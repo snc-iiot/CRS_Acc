@@ -45,7 +45,7 @@ export const DisableTabs = (
  */
 export const PermissionSubAction = (status: number) => {
   const condition = {
-    1: ["R1"],
+    1: [""],
     2: ["R2"],
     3: [""],
     4: [""],

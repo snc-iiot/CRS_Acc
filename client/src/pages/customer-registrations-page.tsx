@@ -194,7 +194,6 @@ const CustomerRegistrations: FC = () => {
               )}
               onClick={async () => {
                 const res = await mutateGetRegisIdExternal();
-
                 if (res.status === "success") {
                   setOpenDialogInvite(true);
                 }
@@ -599,11 +598,9 @@ const CustomerRegistrations: FC = () => {
                         className="cursor-pointer whitespace-nowrap border-b text-sm"
                         onDoubleClick={() => {
                           navigate(
-                            // "/registrations/customer/info?RegisID=" +
-                            //   item?.regis_id,
                             `/registrations/customer/${
-                              item?.status_no == 0 ? "register" : "info"
-                            }?RegisID=${item?.regis_id}&mode=EDIT`,
+                              item?.status_no === 0 ? "register" : "info"
+                            }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`,
                           );
                         }}
                       >
@@ -625,8 +622,8 @@ const CustomerRegistrations: FC = () => {
                         <Td>
                           <Link
                             to={`/registrations/customer/${
-                              item?.status_no == 0 ? "register" : "info"
-                            }?RegisID=${item?.regis_id}&mode=EDIT`}
+                              item?.status_no === 0 ? "register" : "info"
+                            }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`}
                             className="flex items-center gap-x-1 text-primary hover:underline"
                           >
                             <Icons.eye className="h-4 w-4" />{" "}

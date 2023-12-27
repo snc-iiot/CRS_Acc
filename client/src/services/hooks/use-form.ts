@@ -18,10 +18,15 @@ export const useForm = () => {
   const [searchParams] = useSearchParams();
   const regis_id = searchParams.get("RegisID");
   const accService = new AccService();
-  const { setRegisList, setRegistration, setRegisListByAccount, setSendInvite } =
-    useAtomStore();
+  const {
+    setRegisList,
+    setRegistration,
+    setRegisListByAccount,
+    setSendInvite,
+  } = useAtomStore();
   const queryClient = useQueryClient();
   const formService = new FormService();
+  const form = searchParams.get("form");
   const { closeSwal, showError, showSuccess, showLoading } = useSwal();
   const navigate = useNavigate();
 
@@ -70,14 +75,19 @@ export const useForm = () => {
       if (data?.status === "success") {
         showSuccess(data?.message, "");
         setRegistration(InitialRegistration);
-        // navigate("/registrations");
-        setTimeout(() => {
-          navigate("/registrations/customer/info?RegisID=" + regis_id, {
-            state: {
-              form_mode: "edit",
-            },
+        if (form === "customer") {
+          setTimeout(() => {
+            navigate("/registrations");
           });
-        }, 2000);
+        } else {
+          setTimeout(() => {
+            navigate("/registrations/customer/info?RegisID=" + regis_id, {
+              state: {
+                form_mode: "edit",
+              },
+            });
+          }, 2000);
+        }
       } else {
         showError("แก้ไขข้อมูลไม่สำเร็จ", data?.message);
       }
@@ -223,7 +233,7 @@ export const useForm = () => {
     },
   });
 
-    const { mutateAsync: mutateGetRegisIdExternal } = useMutation<
+  const { mutateAsync: mutateGetRegisIdExternal } = useMutation<
     TResponseAction,
     Error
   >({
@@ -249,7 +259,7 @@ export const useForm = () => {
     },
   });
 
-   const { mutateAsync: mutateSendInvite } = useMutation<
+  const { mutateAsync: mutateSendInvite } = useMutation<
     TResponseAction,
     Error,
     TSendInvite

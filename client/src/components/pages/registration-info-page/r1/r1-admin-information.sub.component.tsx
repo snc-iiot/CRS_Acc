@@ -1,3 +1,6 @@
+import CalculatePlayback from "@/components/common/calculate-playback";
+import CalculateRoa from "@/components/common/calculate-roa";
+import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
@@ -359,7 +362,7 @@ export const R1AdminInformation: FC = () => {
                   disabled={!common?.isEditGeneralAssessmentForm}
                   className="w-full border-0 border-b p-0.5 text-primary outline-0"
                 />
-                <span>MB</span>
+                <span>Baht</span>
               </div>
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
@@ -397,7 +400,35 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
-              {/* <CalculateRoi /> */}
+              {common?.isEditGeneralAssessmentForm ? (
+                <CalculateRoi
+                  mode="machine"
+                  totalInvestment={
+                    generalAssessmentForm?.machine_produce?.find(
+                      (item) => item?.id === "machine-produce-id-3",
+                    )?.value?.amount || 0
+                  }
+                  setTotalInvestment={(value) => {
+                    setGeneralAssessmentForm((prev) => ({
+                      ...prev,
+                      machine_produce: prev?.machine_produce?.map((item) => {
+                        if (item?.id === "machine-produce-id-3") {
+                          return {
+                            ...item,
+                            value: {
+                              amount: value,
+                              ROA: item?.value?.ROA || 0,
+                              payback: item?.value?.payback || 0,
+                              ROI: item?.value?.ROI || 0,
+                            },
+                          };
+                        }
+                        return item;
+                      }),
+                    }));
+                  }}
+                />
+              ) : null}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
@@ -434,7 +465,9 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
-              {/* <CalculateRoa /> */}
+              {common?.isEditGeneralAssessmentForm ? (
+                <CalculateRoa mode="machine" />
+              ) : null}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
@@ -473,7 +506,9 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>ปี</span>
               </div>
-              {/* <CalculatePlayback /> */}
+              {common?.isEditGeneralAssessmentForm ? (
+                <CalculatePlayback mode="machine" />
+              ) : null}
             </div>
           </div>
         </div>
@@ -694,7 +729,9 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
-              {/* <CalculateRoi /> */}
+              {common.isEditGeneralAssessmentForm ? (
+                <CalculateRoi mode="mold" />
+              ) : null}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">ROA</p>
@@ -731,7 +768,9 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>%</span>
               </div>
-              {/* <CalculateRoa /> */}
+              {common.isEditGeneralAssessmentForm ? (
+                <CalculateRoa mode="mold" />
+              ) : null}
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
               <p className="col-span-2 whitespace-nowrap">Payback</p>
@@ -770,9 +809,10 @@ export const R1AdminInformation: FC = () => {
                 />
                 <span>ปี</span>
               </div>
-              {/* <CalculatePlayback />  */}
+              {common.isEditGeneralAssessmentForm ? (
+                <CalculatePlayback mode="mold" />
+              ) : null}
             </div>
-            Ii
           </div>
         </div>
 
