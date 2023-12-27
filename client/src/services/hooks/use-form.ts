@@ -17,6 +17,7 @@ import { AccService, FormService } from "..";
 export const useForm = () => {
   const [searchParams] = useSearchParams();
   const regis_id = searchParams.get("RegisID");
+  const form = searchParams.get("form");
   const accService = new AccService();
   const {
     setRegisList,
@@ -74,13 +75,19 @@ export const useForm = () => {
       if (data?.status === "success") {
         showSuccess(data?.message, "");
         setRegistration(InitialRegistration);
-        setTimeout(() => {
-          navigate("/registrations/customer/info?RegisID=" + regis_id, {
-            state: {
-              form_mode: "edit",
-            },
+        if (form === "customer") {
+          setTimeout(() => {
+            navigate("/registrations");
           });
-        }, 2000);
+        } else {
+          setTimeout(() => {
+            navigate("/registrations/customer/info?RegisID=" + regis_id, {
+              state: {
+                form_mode: "edit",
+              },
+            });
+          }, 2000);
+        }
       } else {
         showError("แก้ไขข้อมูลไม่สำเร็จ", data?.message);
       }

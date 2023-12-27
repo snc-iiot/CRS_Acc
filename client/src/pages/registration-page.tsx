@@ -196,9 +196,9 @@ const RegistrationPage: FC = () => {
               "คุณต้องการลงทะเบียนใช่หรือไม่",
             );
             if (idConfirm && mode?.toLowerCase() === "create") {
-              mutateCreateNewCustomer(registration);
+              await mutateCreateNewCustomer(registration);
             } else if (idConfirm && mode?.toLowerCase() === "edit") {
-              mutateUpdateCustomer(registration);
+              await mutateUpdateCustomer(registration);
             }
           }
         }}

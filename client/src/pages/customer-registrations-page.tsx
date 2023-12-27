@@ -598,8 +598,9 @@ const CustomerRegistrations: FC = () => {
                         className="cursor-pointer whitespace-nowrap border-b text-sm"
                         onDoubleClick={() => {
                           navigate(
-                            "/registrations/customer/info?RegisID=" +
-                              item?.regis_id,
+                            `/registrations/customer/${
+                              item?.status_no === 0 ? "register" : "info"
+                            }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`,
                           );
                         }}
                       >
@@ -622,7 +623,7 @@ const CustomerRegistrations: FC = () => {
                           <Link
                             to={`/registrations/customer/${
                               item?.status_no === 0 ? "register" : "info"
-                            }?RegisID=${item?.regis_id}`}
+                            }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`}
                             className="flex items-center gap-x-1 text-primary hover:underline"
                           >
                             <Icons.eye className="h-4 w-4" />{" "}
