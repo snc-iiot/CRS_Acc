@@ -86,7 +86,7 @@ class JsonTemplateController extends Controller
                 $row->value = "";
                 $row->exp = "";
             }
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 hours'));
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 hours'));
 
             return response()->json([
                 "status" => "success",
@@ -121,7 +121,7 @@ class JsonTemplateController extends Controller
                 $row->value = "";
                 $row->exp = "";
             }
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 hours'));
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 hours'));
 
             return response()->json([
                 "status" => "success",
@@ -156,7 +156,7 @@ class JsonTemplateController extends Controller
                 $row->value = "";
                 $row->exp = "";
             }
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 hours'));
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 hours'));
 
             return response()->json([
                 "status" => "success",
@@ -191,7 +191,7 @@ class JsonTemplateController extends Controller
                 $row->value = "";
                 $row->exp = "";
             }
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 hours'));
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 hours'));
 
             return response()->json([
                 "status" => "success",
@@ -226,7 +226,7 @@ class JsonTemplateController extends Controller
                 $row->value = "";
                 // $row->exp = "";
             }
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 hours'));
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 hours'));
 
             return response()->json([
                 "status" => "success",
@@ -1761,7 +1761,7 @@ class JsonTemplateController extends Controller
             //     ]);
             // }
             $result = DB::table("tb_all_company")->select(["company", "company_full_name_th", "company_full_name_en", "province"])->orderBy("created_at")->get();
-            Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 hours'));
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 hours'));
 
             return response()->json([
                 "status" => "success",

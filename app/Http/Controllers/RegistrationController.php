@@ -205,11 +205,11 @@ class RegistrationController extends Controller
 
             DB::table("tb_mail_notifications")->insert([
                 "regis_id" => $request->regis_id,
-                "to_email" => \json_encode([$request->to_email]),
+                "to_email" => \json_encode([$request->to_email], JSON_UNESCAPED_UNICODE),
                 "template_no" => 0,
                 "subject" => $request->subject,
-                "receiver_name" => \json_encode([$request->dear_th, $request->dear_en]),
-                "company_name" => \json_encode([$request->company_th, $request->company_en]),
+                "receiver_name" => \json_encode([$request->dear_th, $request->dear_en], JSON_UNESCAPED_UNICODE),
+                "company_name" => \json_encode([$request->company_th, $request->company_en], JSON_UNESCAPED_UNICODE),
             ]);
 
             return response()->json([
@@ -733,12 +733,12 @@ class RegistrationController extends Controller
             // return response()->json($validator->validated());
 
             $informant_name         = $request->informant_name;
-            $company_information    = \json_encode($request->company_information);
-            $share_holder           = \json_encode($request->share_holder);
-            $contact_person         = \json_encode($request->contact_person);
-            $standard               = \json_encode($request->standard);
-            $relationship           = \json_encode($request->relationship);
-            $payment_term           = \json_encode($request->payment_term);
+            $company_information    = \json_encode($request->company_information, JSON_UNESCAPED_UNICODE);
+            $share_holder           = \json_encode($request->share_holder, JSON_UNESCAPED_UNICODE);
+            $contact_person         = \json_encode($request->contact_person, JSON_UNESCAPED_UNICODE);
+            $standard               = \json_encode($request->standard, JSON_UNESCAPED_UNICODE);
+            $relationship           = \json_encode($request->relationship, JSON_UNESCAPED_UNICODE);
+            $payment_term           = \json_encode($request->payment_term, JSON_UNESCAPED_UNICODE);
 
             // $result = Company::insert([
             DB::table("tb_regis_informations")->insert([
@@ -893,12 +893,12 @@ class RegistrationController extends Controller
             // return response()->json($validator->validated());
 
             $informant_name         = $request->informant_name;
-            $company_information    = \json_encode($request->company_information);
-            $share_holder           = \json_encode($request->share_holder);
-            $contact_person         = \json_encode($request->contact_person);
-            $standard               = \json_encode($request->standard);
-            $relationship           = \json_encode($request->relationship);
-            $payment_term           = \json_encode($request->payment_term);
+            $company_information    = \json_encode($request->company_information, JSON_UNESCAPED_UNICODE);
+            $share_holder           = \json_encode($request->share_holder, JSON_UNESCAPED_UNICODE);
+            $contact_person         = \json_encode($request->contact_person, JSON_UNESCAPED_UNICODE);
+            $standard               = \json_encode($request->standard, JSON_UNESCAPED_UNICODE);
+            $relationship           = \json_encode($request->relationship, JSON_UNESCAPED_UNICODE);
+            $payment_term           = \json_encode($request->payment_term, JSON_UNESCAPED_UNICODE);
 
             // $result = Company::insert([
             DB::table("tb_regis_informations")->insert([
@@ -989,7 +989,7 @@ class RegistrationController extends Controller
 
             // $ttl = \DateInterval::createFromDateString('1 minutes');
             // Cache::put($cacheKeyLastID, $request->id, $ttl);
-            // Cache::put($cacheKeyLastValue, \json_encode($result), $ttl);
+            // Cache::put($cacheKeyLastValue, \json_encode($result, JSON_UNESCAPED_UNICODE), $ttl);
             $message = "Data from query";
             // }
 
@@ -1029,7 +1029,7 @@ class RegistrationController extends Controller
             ], 401);
             $decoded = $jwt->decoded;
 
-            // $cacheKey = "/registration/get-all-" . \json_encode($decoded->company);
+            // $cacheKey = "/registration/get-all-" . \json_encode($decoded->company, JSON_UNESCAPED_UNICODE);
 
             // $result = array();
             // return response()->json($validator->validated());
@@ -1059,8 +1059,8 @@ class RegistrationController extends Controller
                 ,t2.status_desc_th"
             )->leftJoin("tb_all_status as t2", "t1.status_no", "=", "t2.status_no")->whereIn("t1.company_information->company_admin", $decoded->company)->orderByDesc("created_at")->get(); //$decoded->company
 
-            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
-            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('30 seconds'));
+            // Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
+            // Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('30 seconds'));
 
             return response()->json([
                 "status" => "success",
@@ -1089,7 +1089,7 @@ class RegistrationController extends Controller
             ], 401);
             $decoded = $jwt->decoded;
 
-            // $cacheKey = "/registration/get-all-" . \json_encode($decoded->company);
+            // $cacheKey = "/registration/get-all-" . \json_encode($decoded->company, JSON_UNESCAPED_UNICODE);
 
             // $result = array();
             // // return response()->json($validator->validated());
@@ -1115,8 +1115,8 @@ class RegistrationController extends Controller
                     $decoded->user_id
                 )->orderByDesc("created_at")->get(); //$decoded->company
 
-            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('1 minutes'));
-            // Cache::put($cacheKey, \json_encode($result), \DateInterval::createFromDateString('30 seconds'));
+            // Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
+            // Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('30 seconds'));
 
             return response()->json([
                 "status" => "success",
@@ -1248,12 +1248,12 @@ class RegistrationController extends Controller
             //! ./Block by role
 
             $regis_id               = $request->regis_id;
-            $company_information    = \json_encode($request->company_information);
-            $share_holder           = \json_encode($request->share_holder);
-            $contact_person         = \json_encode($request->contact_person);
-            $standard               = \json_encode($request->standard);
-            $relationship           = \json_encode($request->relationship);
-            $payment_term           = \json_encode($request->payment_term);
+            $company_information    = \json_encode($request->company_information, JSON_UNESCAPED_UNICODE);
+            $share_holder           = \json_encode($request->share_holder, JSON_UNESCAPED_UNICODE);
+            $contact_person         = \json_encode($request->contact_person, JSON_UNESCAPED_UNICODE);
+            $standard               = \json_encode($request->standard, JSON_UNESCAPED_UNICODE);
+            $relationship           = \json_encode($request->relationship, JSON_UNESCAPED_UNICODE);
+            $payment_term           = \json_encode($request->payment_term, JSON_UNESCAPED_UNICODE);
 
             //! Block by status_no
             $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
