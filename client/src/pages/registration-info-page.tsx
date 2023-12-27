@@ -48,11 +48,15 @@ import { useForm, useUtils } from "@/services/";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
 import { useProfile } from "@/services/hooks/use-profile";
 import { FC, useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { PrintPage } from ".";
 
 const RegistrationInfo: FC = () => {
+  const location = useLocation();
+  const state_location = location.state as any;
+  const form_mode = state_location?.form_mode || "";
+
   const {
     profile: { role },
   } = useProfile();
@@ -190,18 +194,58 @@ const RegistrationInfo: FC = () => {
         mutateGetCompanyProfile(RegisID as string),
         mutateGetSummaryPart1(RegisID as string),
       ]);
-      setTimeout(() => {
-        closeSwal();
-      }, 1000);
+      if (form_mode === "") {
+        setTimeout(() => {
+          closeSwal();
+        }, 1000);
+      } else if (form_mode === "edit") {
+        const isConfirmed = await confirmSwal(
+          "แจ้งเตือน",
+          "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
+          "ดำเนินการต่อ",
+          undefined,
+          false,
+        );
+        if (isConfirmed) {
+          navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
+            state: {
+              form_mode: "",
+            },
+            replace: true,
+          });
+        }
+      }
     } catch (error) {
       showError("ไม่สามารถดึงข้อมูลได้", "เกิดข้อผิดพลาด");
     }
   };
 
+  const confirmEdit = async () => {
+    if (form_mode === "edit") {
+      const isConfirmed = await confirmSwal(
+        "แจ้งเตือน",
+        "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
+        "ดำเนินการต่อ",
+        undefined,
+        false,
+      );
+      if (isConfirmed) {
+        navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
+          state: {
+            form_mode: "",
+          },
+          replace: true,
+        });
+      }
+    }
+    getInfoById();
+  };
+
   useEffect(() => {
     if (!RegisID) navigate("/registration");
-    getInfoById();
-  }, [RegisID]);
+    // getInfoById();
+    confirmEdit();
+  }, [RegisID, form_mode]);
 
   useEffect(() => {
     if (registration?.status_no === 1) {
@@ -240,7 +284,7 @@ const RegistrationInfo: FC = () => {
               <TooltipTrigger>
                 <Icons.arrowLeft
                   className="h-5 w-5"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/registrations")}
                 />
               </TooltipTrigger>
               <TooltipContent side="right">
@@ -394,7 +438,7 @@ const RegistrationInfo: FC = () => {
                   className={cn(
                     "flex items-center whitespace-nowrap bg-yellow-500 text-sm hover:bg-yellow-500/80",
                     registration?.status_no === 1 ||
-                      registration?.status_no === 2 ||
+                      // registration?.status_no === 2 ||
                       registration?.status_no === 3
                       ? "block"
                       : "hidden",

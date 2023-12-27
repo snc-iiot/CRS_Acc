@@ -3,14 +3,14 @@ import { Icons } from "@/components/common/icons";
 import { Spinner } from "@/components/common/spinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-// import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   ClearButton,
   FilterBar,
   FilterBarInput,
   FilterSelect,
 } from "@/components/ui/filter-bar";
-// import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody as TBody,
@@ -20,8 +20,8 @@ import {
   TableRow as Tr,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { orderArrayBy } from "@/helpers/array.helper";
-// import { Textarea } from "@/components/ui/textarea";
 import { MODE_CODE } from "@/helpers/common.helper";
 import {
   initialStateDocByRegisId,
@@ -180,73 +180,73 @@ const CustomerRegistrations: FC = () => {
               <span>ลงทะเบียนลูกค้าใหม่</span>
               <Icons.plus className="h-8 w-8 font-bold" />
             </Button>
-            {/* <Dialog>
-            <DialogTrigger asChild>
-              <Button className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]">
-                <span>ลงทะเบียนลูกค้าใหม่ (ส่งเมล)</span>
-                <Icons.plus className="h-8 w-8 font-bold" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="flex w-[50vw] max-w-[70vw] flex-col gap-y-2">
-              <section className="flex flex-col gap-y-1">
-                <article className="flex items-center gap-x-1">
-                  <h2 className="text-md font-semibold">
-                    ลงทะเบียนลูกค้าใหม่ (ส่งเมล)
-                  </h2>
-                </article>
-                <article className="flex flex-col gap-2 rounded-md">
-                  <section className="rounded bg-secondary p-2">
-                    <p className="text-sm">
-                      กรุณากรอกข้อมูลลงทะเบียนลูกค้าใหม่ให้ครบถ้วน
-                    </p>
-                  </section>
-                  <section className="flex flex-col gap-2">
-                    <div className="flex gap-x-2">
-                      <div className="flex w-[3.5rem] items-center justify-start">
-                        <h3 className="text-sm font-semibold">ผู้รับเมล</h3>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]">
+                  <span>ลงทะเบียนลูกค้าใหม่ (ส่งเมล)</span>
+                  <Icons.plus className="h-8 w-8 font-bold" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="flex w-[50vw] max-w-[70vw] flex-col gap-y-2">
+                <section className="flex flex-col gap-y-1">
+                  <article className="flex items-center gap-x-1">
+                    <h2 className="text-md font-semibold">
+                      ลงทะเบียนลูกค้าใหม่ (ส่งเมล)
+                    </h2>
+                  </article>
+                  <article className="flex flex-col gap-2 rounded-md">
+                    <section className="rounded bg-secondary p-2">
+                      <p className="text-sm">
+                        กรุณากรอกข้อมูลลงทะเบียนลูกค้าใหม่ให้ครบถ้วน
+                      </p>
+                    </section>
+                    <section className="flex flex-col gap-2">
+                      <div className="flex gap-x-2">
+                        <div className="flex w-[3.5rem] items-center justify-start">
+                          <h3 className="text-sm font-semibold">ผู้รับเมล</h3>
+                        </div>
+                        <Input
+                          className="w-full px-0"
+                          type="email"
+                          variant="flushed"
+                          placeholder="ผู้รับเมล"
+                          defaultValue="Anuwat_Thisuka@gmail.com"
+                        />
                       </div>
-                      <Input
-                        className="w-full px-0"
-                        type="email"
-                        variant="flushed"
-                        placeholder="ผู้รับเมล"
-                        defaultValue="Anuwat_Thisuka@gmail.com"
-                      />
-                    </div>
-                    <div className="flex gap-x-2">
-                      <div className="flex w-[3.5rem] items-center justify-start">
-                        <h3 className="text-sm font-semibold">เรื่อง</h3>
+                      <div className="flex gap-x-2">
+                        <div className="flex w-[3.5rem] items-center justify-start">
+                          <h3 className="text-sm font-semibold">เรื่อง</h3>
+                        </div>
+                        <Input
+                          className=" w-full px-0"
+                          type="email"
+                          variant="flushed"
+                          placeholder="เรื่อง"
+                          defaultValue="ขึ้นทะเบียนผู้ขาย บมจ. เอสเอ็นซี ฟอร์เมอร์ (Customer Registration)"
+                        />
                       </div>
-                      <Input
-                        className=" w-full px-0"
-                        type="email"
-                        variant="flushed"
-                        placeholder="เรื่อง"
-                        defaultValue="ขึ้นทะเบียนผู้ขาย บมจ. เอสเอ็นซี ฟอร์เมอร์ (Customer Registration)"
+                    </section>
+                    <section>
+                      <Textarea
+                        className="h-[25rem] max-h-[30rem] min-h-[15rem] w-full border border-none p-0 shadow-none focus-visible:ring-0"
+                        placeholder="เนื้อหา"
+                        defaultValue={
+                          "เรียน: (กรุณาระบุชื่อผู้ติดต่อ)\nบริษัท: (กรุณาระบุชื่อบริษัทลูกค้า) \n\nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ ขอแจ้งรายละเอียดการขึ้นทะเบียนผู้ขาย (Customer Registration) ตามนโยบายของบริษัทฯ โดยมีขั้นตอนการดำเนินการ ดังนี้\n1. เข้าสู่เว็บไซต์ (SNC-iCRS) เพื่อขึ้นทะเบียน\n2. กรอกข้อมูลในระบบให้ครบถ้วน\n3. แนบเอกสารที่เกี่ยวข้อง พร้อมลงนามรับรองเอกสาร\n4. ศึกษา และยอมรับนโยบายการคุ้มครองข้อมูลส่วนบุคคล และนโยบายอื่นๆ ก่อนกดส่งข้อมูล\n5. ติดตามสถานะการขึ้นทะเบียน ผ่าน Email ที่ท่านใช้ในการขึ้นทะเบียน  \n\nขอแสดงความนับถือ\nLogo \nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ\n---------------------------------------------------------------------------------\nDear: \nCompany: \n\nSNC Former Co., Ltd. (Public Company) and affiliated companies, We hereby inform you of the details regarding the Customer Registration in accordance with our company's policy. The registration process is as follows:\n1. Access the website (SNC-iCRS) for registration.\n2. Complete the information in the system accurately.\n3. Attach relevant documents, duly signed and certified.\n4. Review and accept the Personal Data Protection Policy and other relevant policies before submitting the information.\n5. Monitor the registration status through the email you provided during the registration process.\n\nYours sincerely,\n[Your Company's Logo]\nSNC Former Co., Ltd. (Public Company) and affiliated companies"
+                        }
                       />
-                    </div>
-                  </section>
-                  <section>
-                    <Textarea
-                      className="h-[25rem] max-h-[30rem] min-h-[15rem] w-full border border-none p-0 shadow-none focus-visible:ring-0"
-                      placeholder="เนื้อหา"
-                      defaultValue={
-                        "เรียน: (กรุณาระบุชื่อผู้ติดต่อ)\nบริษัท: (กรุณาระบุชื่อบริษัทลูกค้า) \n\nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ ขอแจ้งรายละเอียดการขึ้นทะเบียนผู้ขาย (Customer Registration) ตามนโยบายของบริษัทฯ โดยมีขั้นตอนการดำเนินการ ดังนี้\n1. เข้าสู่เว็บไซต์ (SNC-iCRS) เพื่อขึ้นทะเบียน\n2. กรอกข้อมูลในระบบให้ครบถ้วน\n3. แนบเอกสารที่เกี่ยวข้อง พร้อมลงนามรับรองเอกสาร\n4. ศึกษา และยอมรับนโยบายการคุ้มครองข้อมูลส่วนบุคคล และนโยบายอื่นๆ ก่อนกดส่งข้อมูล\n5. ติดตามสถานะการขึ้นทะเบียน ผ่าน Email ที่ท่านใช้ในการขึ้นทะเบียน  \n\nขอแสดงความนับถือ\nLogo \nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ\n---------------------------------------------------------------------------------\nDear: \nCompany: \n\nSNC Former Co., Ltd. (Public Company) and affiliated companies, We hereby inform you of the details regarding the Customer Registration in accordance with our company's policy. The registration process is as follows:\n1. Access the website (SNC-iCRS) for registration.\n2. Complete the information in the system accurately.\n3. Attach relevant documents, duly signed and certified.\n4. Review and accept the Personal Data Protection Policy and other relevant policies before submitting the information.\n5. Monitor the registration status through the email you provided during the registration process.\n\nYours sincerely,\n[Your Company's Logo]\nSNC Former Co., Ltd. (Public Company) and affiliated companies"
-                      }
-                    />
-                  </section>
-                  <section className="flex items-center justify-end gap-x-2">
-                    <Button className="w-max">
-                      <Icons.send className="mr-1 h-4 w-4" />
-                      <span className="whitespace-nowrap">
-                        ส่งเมลไปยังลูกค้า
-                      </span>
-                    </Button>
-                  </section>
-                </article>
-              </section>
-            </DialogContent>
-          </Dialog> */}
+                    </section>
+                    <section className="flex items-center justify-end gap-x-2">
+                      <Button className="w-max">
+                        <Icons.send className="mr-1 h-4 w-4" />
+                        <span className="whitespace-nowrap">
+                          ส่งเมลไปยังลูกค้า
+                        </span>
+                      </Button>
+                    </section>
+                  </article>
+                </section>
+              </DialogContent>
+            </Dialog>
           </div>
         </section>
         <section className="flex w-full items-center justify-between">
