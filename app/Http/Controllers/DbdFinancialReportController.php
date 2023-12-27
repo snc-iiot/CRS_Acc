@@ -304,7 +304,7 @@ class DbdFinancialReportController extends Controller
                 "data" => []
             ], 400);
 
-            $dbdTable = "tb_dbd_financial_reports_test";
+            $dbdTable = "tb_dbd_financial_reports";
 
             $checkOldData = DB::table($dbdTable)->select(["regis_id"])->where("regis_id", $request->regis_id)->get();
             $isInsert = \count($checkOldData) == 0;
@@ -399,7 +399,7 @@ class DbdFinancialReportController extends Controller
                 "data" => []
             ], 400);
 
-            $dbdTable = "tb_dbd_financial_reports_test";
+            $dbdTable = "tb_dbd_financial_reports";
 
             $checkOldData = DB::table($dbdTable)->select(["regis_id"])->where("regis_id", $request->regis_id)->get();
             $isInsert = \count($checkOldData) == 0;
@@ -489,7 +489,7 @@ class DbdFinancialReportController extends Controller
                 "data" => []
             ], 400);
 
-            $dbdTable = "tb_dbd_financial_reports_test";
+            $dbdTable = "tb_dbd_financial_reports";
 
             $checkOldData = DB::table($dbdTable)->select(["regis_id"])->where("regis_id", $request->regis_id)->get();
             $isInsert = \count($checkOldData) == 0;
