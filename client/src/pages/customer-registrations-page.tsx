@@ -243,6 +243,7 @@ const CustomerRegistrations: FC = () => {
                   className="flex flex-col gap-y-2"
                   onSubmit={async (e) => {
                     e.preventDefault();
+                    setOpenDialogInvite(false);
                     const isConfirm = await confirmSwal(
                       "ส่งเมลลงทะเบียนลูกค้าใหม่",
                       "คุณต้องการส่งเมลลงทะเบียนลูกค้าใหม่หรือไม่",
@@ -260,6 +261,8 @@ const CustomerRegistrations: FC = () => {
                           company_en: "",
                         });
                       }
+                    } else {
+                      setOpenDialogInvite(true);
                     }
                   }}
                 >

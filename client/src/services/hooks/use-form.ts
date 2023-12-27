@@ -237,13 +237,11 @@ export const useForm = () => {
     },
     onSuccess: (data) => {
       if (data?.status === "success") {
+        closeSwal();
         setSendInvite((prev) => ({
           ...prev,
           regis_id: data?.data[0]?.regis_id ?? "",
         }));
-        setTimeout(() => {
-          closeSwal();
-        }, 2000);
       } else {
         showError(data?.message, "");
       }

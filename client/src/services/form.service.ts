@@ -16,8 +16,8 @@ export class FormService extends APIService {
 
   createRegisIdExternal = async (): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.get(
-        `/registration/create-regis-id-external`,
+      const { data: responseData } = await this.post(
+        `/registration/create-regis-id-for-customer`,
       );
       return responseData;
     } catch (error: any) {
@@ -33,7 +33,7 @@ export class FormService extends APIService {
   sendInvite = async (data: TSendInvite): Promise<TResponseAction> => {
     try {
       const { data: responseData } = await this.post(
-        `/registration/send-invite`,
+        `/registration/send-mail-to-customer`,
         data,
       );
       return responseData;
