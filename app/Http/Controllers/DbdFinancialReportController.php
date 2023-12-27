@@ -479,6 +479,8 @@ class DbdFinancialReportController extends Controller
                 ]
             ], 400);
 
+            // return response()->json($validator->validated());
+
             //! Get Juristic ID
             $result = DB::table("tb_regis_informations")->selectRaw("company_information->>'juristic_id' as juristic_id")->where("regis_id", $request->regis_id)->get();
             if (\count($result) == 0) return response()->json([
@@ -505,12 +507,12 @@ class DbdFinancialReportController extends Controller
             $financialRatiosLatest = array();
             $financialRatiosLatestArr = array();
             foreach ($request->content as $item) {
-                $infoLastYear = \array_slice($item->info, -1, 1)[0];
+                $infoLastYear = \array_slice((array)$item['info'], -1, 1)[0];
                 $info = [
-                    "topic_no"  => $item->topic_no,
-                    "topic_th"  => $item->topic_th,
-                    "topic_en"  => $item->topic_en,
-                    "short_key" => $item->short_key,
+                    "topic_no"  => $item['topic_no'],
+                    "topic_th"  => $item['topic_th'],
+                    "topic_en"  => $item['topic_en'],
+                    "short_key" => $item['short_key'],
                     "year"      => $infoLastYear['year'],
                     "ratio"     => $infoLastYear['ratio'],
                 ];
@@ -529,6 +531,7 @@ class DbdFinancialReportController extends Controller
                 "start_year"                    => $startYear,
                 "last_year"                     => $lastYear,
             ];
+            // return response()->json($validator->validated());
 
             $cursor = DB::table($dbdTable);
             $isInsert ? $cursor->insert($data) : $cursor->where("regis_id", $request->regis_id)->update($data);
