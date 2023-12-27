@@ -1,0 +1,146 @@
+[
+  {
+    "cer_id": 1,
+    "cer_name_th": "ISO 14064-1:2018",
+    "cer_name_en": "ISO 14064-1:2018",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 2,
+    "cer_name_th": "ISO 14001:2015",
+    "cer_name_en": "ISO 14001:2015",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 3,
+    "cer_name_th": "ISO 26000",
+    "cer_name_en": "ISO 26000",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 4,
+    "cer_name_th": "ISO/IEC 17025:2017",
+    "cer_name_en": "ISO/IEC 17025:2017",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 5,
+    "cer_name_th": "ISO 9001",
+    "cer_name_en": "ISO 9001",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 6,
+    "cer_name_th": "OHSAS 18001:2007",
+    "cer_name_en": "OHSAS 18001:2007",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 7,
+    "cer_name_th": "IATF 16949:2016",
+    "cer_name_en": "IATF 16949:2016",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 8,
+    "cer_name_th": "มรท. 8001-2546",
+    "cer_name_en": "TLS 8001-2003",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 9,
+    "cer_name_th": "มอก. 18001:1999",
+    "cer_name_en": "TIS 18001:1999",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 10,
+    "cer_name_th": "ใบรับรอง CBAM",
+    "cer_name_en": "CBAM-Certificates",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 11,
+    "cer_name_th": "ฉลากประหยัดไฟ เบอร์ 5",
+    "cer_name_en": "Energy saving label number 5",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 12,
+    "cer_name_th": "สัญลักษณ์ Green Industry",
+    "cer_name_en": "Green Industry symbol",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 13,
+    "cer_name_th": "สัญลักษณ์ FSC",
+    "cer_name_en": "FSC symbol",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 14,
+    "cer_name_th": "ฉลาก Carbon Reduction",
+    "cer_name_en": "Carbon Reduction label",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 15,
+    "cer_name_th": "การรับรองอุตสาหกรรมสีเขียว (GI)",
+    "cer_name_en": "Green Industry Certification (GI)",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 16,
+    "cer_name_th": "ฉลากเขียว",
+    "cer_name_en": "Green label",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 17,
+    "cer_name_th": "ไม่มี",
+    "cer_name_en": "None",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 18,
+    "cer_name_th": "อื่นๆ",
+    "cer_name_en": "Other",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  }
+]

@@ -17,9 +17,10 @@ import { cn } from "@/lib/utils";
 import { useCustomer } from "@/services/hooks";
 import { useAtomStore } from "@/store/use-atom-store";
 import { FC, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const RegistrationPage: FC = () => {
+  const navigate = useNavigate();
   const [isAcceptConsent, setIsAcceptConsent] = useState({
     consent_1: false,
     consent_2: false,
@@ -28,7 +29,7 @@ const RegistrationPage: FC = () => {
   const [searchParams] = useSearchParams();
   const key = searchParams.get("key");
   const { mutateRegisterCustomer } = useCustomer();
-  const { confirmSwal } = useSwal();
+  const { confirmSwal, confirmSwalWithHtml } = useSwal();
   const { registration } = useAtomStore();
   const MODE = "register";
 
@@ -38,7 +39,15 @@ const RegistrationPage: FC = () => {
       "ต้องการลงทะเบียนใช่หรือไม่",
     );
     if (isConfirm) {
-      await mutateRegisterCustomer(registration);
+      const res = await mutateRegisterCustomer(registration);
+      if (res.status === "success") {
+        navigate("/success", {
+          replace: true,
+          state: {
+            registration: res.data,
+          },
+        });
+      }
     }
   };
 
@@ -89,20 +98,38 @@ const RegistrationPage: FC = () => {
   }, []);
 
   const checkToken = (payload: IDecodedToken): boolean => {
-    if (payload.exp < Date.now()) {
+    const date = new Date(payload.exp * 1000);
+    // const date = new Date(payload.exp);
+    if (date < new Date()) {
       return false;
     }
     return true;
   };
 
   const checkConfirm = async (payLoad: IDecodedToken) => {
-    const isConfirm = await confirmSwal(
-      "ลิงก์หมดอายุ",
-      `กรุณาติดต่อเจ้าหน้าที่ได้ที่
-        Email: ${payLoad.email}`,
-      "ตกลง",
+    // const isConfirm = await confirmSwal(
+    //   "ลิงก์หมดอายุ",
+    //   `กรุณาติดต่อเจ้าหน้าที่ได้ที่
+    //     Email: ${payLoad.email}`,
+    //   "ตกลง",
+    //   undefined,
+    //   false,
+    // );
+    const isConfirm = await confirmSwalWithHtml(
+      undefined,
+      `
+      <div class="flex items-center justify-center flex-col gap-1.5">
+      <h1 class="text-2xl font-bold text-red-600">
+      ลิงก์หมดอายุ 
+      </h1>
+      <p class="text-md font-semibold">กรุณาติดต่อเจ้าหน้าที่</p>
+        <p>ได้ที่ Email: ${payLoad.email}</p>
+      </div>
+        `,
+      "ดำเนินการต่อ",
       undefined,
       false,
+      "error",
     );
     if (isConfirm) {
       window.open("mailto:" + payLoad.email, "_blank");

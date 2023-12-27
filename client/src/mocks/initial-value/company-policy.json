@@ -1,0 +1,66 @@
+[
+  {
+    "cer_id": 1,
+    "cer_name_th": "มีนโยบายการต่อต้านทุจริตคอร์รัปชั่น",
+    "cer_name_en": "Anti-corruption policy",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 2,
+    "cer_name_th": "มีนโยบายไม่รับแรงงานต่ำกวา 18 ปี",
+    "cer_name_en": "Child labor policy",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 3,
+    "cer_name_th": "มีนโยบายการประเมินผลกระทบต่อสื่งแวดล้อมต่อตนเอง และชุมชนโดยรอบ",
+    "cer_name_en": "Environmental impact assessment policy",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 4,
+    "cer_name_th": "มีนโยบายการเปิดเผยช่องทางให้ติดต่อร้องเรียน",
+    "cer_name_en": "Complaints policy",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 5,
+    "cer_name_th": "มีนโยบายประเมินความปลอดภัย อาชีวอนามัยและสภาพแวดล้อมในการทำงาน",
+    "cer_name_en": "Safety, health, and environmental policy",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 6,
+    "cer_name_th": "มีนโยบายสวัสดิการแรงงานตามกฎหมายกำหนด",
+    "cer_name_en": "Minimum welfare policy",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 7,
+    "cer_name_th": "มีนโยบายให้พนักงานต้องมีการตรวจประวัติอาชญากรรมก่อนเริ่มงาน",
+    "cer_name_en": "Requiring employees to undergo a criminal policy",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 8,
+    "cer_name_th": "อื่นๆ",
+    "cer_name_en": "Others",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  }
+]

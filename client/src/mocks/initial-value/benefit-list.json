@@ -1,0 +1,42 @@
+[
+  {
+    "cer_id": 1,
+    "cer_name_th": "BOI",
+    "cer_name_en": "BOI",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 2,
+    "cer_name_th": "Free Zone",
+    "cer_name_en": "Free Zone",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 3,
+    "cer_name_th": "JTEPA",
+    "cer_name_en": "JTEPA",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 4,
+    "cer_name_th": "ไม่ได้รับสิทธิประโยชน์ใดๆ",
+    "cer_name_en": "Do not receive any benefits",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 5,
+    "cer_name_th": "อื่นๆ",
+    "cer_name_en": "Others",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  }
+]

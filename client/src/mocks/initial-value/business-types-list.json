@@ -1,0 +1,38 @@
+[
+  {
+    "business_type_id": 1,
+    "business_type_th": "กิจการเจ้าของคนเดียว",
+    "business_type_en": "Sole Proprietorship",
+    "value": ""
+  },
+  {
+    "business_type_id": 2,
+    "business_type_th": "บริษัทจำกัด",
+    "business_type_en": "Limited Company",
+    "value": ""
+  },
+  {
+    "business_type_id": 3,
+    "business_type_th": "บริษัทมหาชนจำกัด",
+    "business_type_en": "Public Company Limited",
+    "value": ""
+  },
+  {
+    "business_type_id": 4,
+    "business_type_th": "ห้างหุ้นส่วนสามัญ",
+    "business_type_en": "General Partnership",
+    "value": ""
+  },
+  {
+    "business_type_id": 5,
+    "business_type_th": "ห้างหุ้นส่วนสามัญที่จะจดทะเบียนเเละห้างหุ้นส่วนจำกัด",
+    "business_type_en": "General Partnership to be registered and Limited Partnership",
+    "value": ""
+  },
+  {
+    "business_type_id": 6,
+    "business_type_th": "อื่นๆ (ไม่ระบุ)",
+    "business_type_en": "Other (Not specified)",
+    "value": ""
+  }
+]

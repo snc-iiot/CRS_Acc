@@ -1,0 +1,26 @@
+[
+  {
+    "cer_id": 1,
+    "cer_name_th": "SNC เป็นผู้ขนส่งสินค้า",
+    "cer_name_en": "SNC is the entity responsible for transporting goods",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 2,
+    "cer_name_th": "ผู้รับ (Customer) เป็นผู้ขนส่งสินค้า",
+    "cer_name_en": "The customer is the party responsible for transporting the goods",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  },
+  {
+    "cer_id": 3,
+    "cer_name_th": "ผู้รับ (Customer) จ้างขนส่งภายนอก",
+    "cer_name_en": "The customer engages an external transport service for the transportation",
+    "is_checked": false,
+    "value": "",
+    "exp": ""
+  }
+]

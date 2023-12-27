@@ -61,6 +61,27 @@ export const useSwal = () => {
     return result.isConfirmed;
   };
 
+  const confirmSwalWithHtml = async (
+    title: string | undefined,
+    html: string,
+    confirmButtonText?: string,
+    cancelButtonText?: string,
+    showCancelButton: boolean = true,
+    icons: "warning" | "error" | "success" | "info" | "question" = "warning",
+  ): Promise<boolean> => {
+    const result = await Swal.fire({
+      title: title,
+      html: html,
+      icon: icons || "warning",
+      showCancelButton: showCancelButton === false ? false : true,
+      confirmButtonText: confirmButtonText || "ตกลง",
+      cancelButtonText: cancelButtonText || "ยกเลิก",
+      confirmButtonColor: PrimaryColor,
+      cancelButtonColor: SecondaryColor,
+    });
+    return result.isConfirmed;
+  };
+
   const closeSwal = () => {
     Swal.close();
   };
@@ -71,5 +92,6 @@ export const useSwal = () => {
     showError,
     confirmSwal,
     closeSwal,
+    confirmSwalWithHtml,
   };
 };

@@ -1,4 +1,11 @@
 import { QUERY_KEYS } from "@/helpers/common.helper";
+import BU_BENEFITS from "@/mocks/initial-value/benefit-list.json";
+import BU_BUSINESS_TYPE from "@/mocks/initial-value/business-types-list.json";
+import BU_CERTIFICATE from "@/mocks/initial-value/certificate-list.json";
+import BU_COMPANY_LIST from "@/mocks/initial-value/company-list.json";
+import BU_COMPANY_POLICY from "@/mocks/initial-value/company-policy.json";
+import BU_COUNTRY_CODE from "@/mocks/initial-value/county-code-list.json";
+import BU_DELIVERY_TERMS from "@/mocks/initial-value/delivery-list.json";
 import { useAtomStore } from "@/store/use-atom-store";
 import {
   TBenefitsList,
@@ -31,7 +38,7 @@ export const useUtils = () => {
         utilsService.getBusinessTypeList(),
       select(data: TBusinessTypeList[]) {
         if (data.length === 0) {
-          setBusinessTypeList([]);
+          setBusinessTypeList(BU_BUSINESS_TYPE);
         }
         setBusinessTypeList(data);
         return data;
@@ -45,8 +52,12 @@ export const useUtils = () => {
       queryFn: (): Promise<TCertificatedList[]> =>
         utilsService.getCertificatedList(),
       select(data: TCertificatedList[]) {
-        setCertificatedList(data);
-        return data;
+        if (data.length === 0) {
+          setCertificatedList(BU_CERTIFICATE);
+        } else {
+          setCertificatedList(data);
+          return data;
+        }
       },
     });
   };
@@ -56,8 +67,12 @@ export const useUtils = () => {
       queryKey: [QUERY_KEYS.GET_BENEFITS_LIST],
       queryFn: (): Promise<TBenefitsList[]> => utilsService.getBenefitsList(),
       select(data: TBenefitsList[]) {
-        setBenefitsList(data);
-        return data;
+        if (data.length === 0) {
+          setBenefitsList(BU_BENEFITS);
+        } else {
+          setBenefitsList(data);
+          return data;
+        }
       },
     });
   };
@@ -68,8 +83,12 @@ export const useUtils = () => {
       queryFn: (): Promise<TDeliveryTermsList[]> =>
         utilsService.getDeliveryTermsList(),
       select(data: TDeliveryTermsList[]) {
-        setDeliveryTermsList(data);
-        return data;
+        if (data.length === 0) {
+          setDeliveryTermsList(BU_DELIVERY_TERMS);
+        } else {
+          setDeliveryTermsList(data);
+          return data;
+        }
       },
     });
   };
@@ -80,8 +99,12 @@ export const useUtils = () => {
       queryFn: (): Promise<TCompanyPolicyList[]> =>
         utilsService.getCompanyPolicyList(),
       select(data: TCompanyPolicyList[]) {
-        setCompanyPolicyList(data);
-        return data;
+        if (data.length === 0) {
+          setCompanyPolicyList(BU_COMPANY_POLICY);
+        } else {
+          setCompanyPolicyList(data);
+          return data;
+        }
       },
     });
   };
@@ -91,8 +114,12 @@ export const useUtils = () => {
       queryKey: [QUERY_KEYS.GET_COMPANY_LIST],
       queryFn: (): Promise<TCompanyList[]> => utilsService.getCompanyList(),
       select(data: TCompanyList[]) {
-        setCompanyList(data);
-        return data;
+        if (data.length === 0) {
+          setCompanyList(BU_COMPANY_LIST);
+        } else {
+          setCompanyList(data);
+          return data;
+        }
       },
     });
   };
@@ -103,6 +130,9 @@ export const useUtils = () => {
       queryFn: (): Promise<TCountryCodeList[]> =>
         utilsService.getCountryCodeList(),
       select: (data: TCountryCodeList[]) => {
+        if (data.length === 0) {
+          setCountryCodeList(BU_COUNTRY_CODE);
+        }
         setCountryCodeList(data);
         return data;
       },
