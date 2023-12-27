@@ -6,6 +6,7 @@ export * from "./form.service";
 export * from "./form-general.service";
 export * from "./home.service";
 export * from "./acc.service";
+export * from "./import-excel.service";
 
 //? for hooks
 export * from "./hooks/use-utils";

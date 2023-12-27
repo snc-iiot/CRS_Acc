@@ -291,7 +291,7 @@ const RegistrationPage: FC = () => {
             </Button>
             <Button type="submit" disabled={!isAcceptConsentAll}>
               {/* ลงทะเบียน */}
-              {mode?.toLowerCase() === "create" ? "ลงทะเบียน" : "แก้ไข"}
+              {mode?.toLowerCase() === "create" ? "ลงทะเบียน" : "ยืนยันข้อมูล"}
             </Button>
           </section>
         </main>

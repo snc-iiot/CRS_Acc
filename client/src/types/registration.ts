@@ -1,3 +1,13 @@
+export type TSendInvite = {
+  regis_id: string;
+  to_email: string;
+  subject: string;
+  dear_th: string;
+  dear_en: string;
+  company_th: string;
+  company_en: string;
+};
+
 export type TRegistrationForm = {
   regis_id: string;
   informant_name: string;

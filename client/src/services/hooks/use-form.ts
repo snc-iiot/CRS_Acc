@@ -6,15 +6,19 @@ import {
   TRegisList,
   TRegistrationForm,
   TResponseAction,
+  TSendInvite,
   TUploadFile,
 } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { AccService, FormService } from "..";
 
 export const useForm = () => {
+  const [searchParams] = useSearchParams();
+  const regis_id = searchParams.get("RegisID");
   const accService = new AccService();
-  const { setRegisList, setRegistration, setRegisListByAccount } =
+  const { setRegisList, setRegistration, setRegisListByAccount, setSendInvite } =
     useAtomStore();
   const queryClient = useQueryClient();
   const formService = new FormService();
@@ -66,7 +70,14 @@ export const useForm = () => {
       if (data?.status === "success") {
         showSuccess(data?.message, "");
         setRegistration(InitialRegistration);
-        navigate("/registrations");
+        // navigate("/registrations");
+        setTimeout(() => {
+          navigate("/registrations/customer/info?RegisID=" + regis_id, {
+            state: {
+              form_mode: "edit",
+            },
+          });
+        }, 2000);
       } else {
         showError("แก้ไขข้อมูลไม่สำเร็จ", data?.message);
       }
@@ -212,6 +223,62 @@ export const useForm = () => {
     },
   });
 
+    const { mutateAsync: mutateGetRegisIdExternal } = useMutation<
+    TResponseAction,
+    Error
+  >({
+    mutationKey: [queryKey.GET_REGIS_BY_ID_EXTERNAL],
+    mutationFn: () => formService.createRegisIdExternal(),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      if (data?.status === "success") {
+        setSendInvite((prev) => ({
+          ...prev,
+          regis_id: data?.data[0]?.regis_id ?? "",
+        }));
+        closeSwal();
+      } else {
+        showError(data?.message, "");
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError(error?.message, error?.message);
+    },
+  });
+
+   const { mutateAsync: mutateSendInvite } = useMutation<
+    TResponseAction,
+    Error,
+    TSendInvite
+  >({
+    mutationKey: [queryKey.SENT_INVITE_TO_EXTERNAL],
+    mutationFn: (data: TSendInvite) => formService.sendInvite(data),
+    onMutate: () => {
+      showLoading("กำลังทำรายการ...");
+    },
+    onSuccess: (data) => {
+      queryClient.refetchQueries({
+        queryKey: [queryKey.GET_REGIS_BY_ID],
+      });
+      closeSwal();
+      if (data?.status === "success") {
+        showSuccess(data?.message, "");
+        setTimeout(() => {
+          navigate("/registrations");
+        }, 2000);
+      } else {
+        showError(data?.message, "");
+      }
+    },
+    onError: (error) => {
+      closeSwal();
+      showError(error?.message, error?.message);
+    },
+  });
+
   return {
     mutateCreateNewCustomer,
     useGetRegisList,
@@ -221,5 +288,7 @@ export const useForm = () => {
     mutateUpdateCustomer,
     mutateConfirmDBDInfo,
     useGetRegisListByAccountId,
+    mutateGetRegisIdExternal,
+    mutateSendInvite,
   };
 };

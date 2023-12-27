@@ -4,6 +4,7 @@ import {
   TRegisList,
   TRegistrationForm,
   TResponseAction,
+  TSendInvite,
   TUploadFile,
 } from "@/types";
 import { APIService } from ".";
@@ -131,6 +132,39 @@ export class FormService extends APIService {
       return responseData;
     } catch (error: any) {
       console.error("FormService -> deleteDoc -> error", error);
+      return {
+        data: [],
+        message: error?.response?.data?.message ?? "Something went wrong",
+        status: "error",
+      };
+    }
+  };
+
+  createRegisIdExternal = async (): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.post(
+        `/registration/create-regis-id-for-customer`,
+      );
+      return responseData;
+    } catch (error: any) {
+      console.error("FormService -> createRegisIdExternal -> error", error);
+      return {
+        data: [],
+        message: error?.response?.data?.message || "Something went wrong",
+        status: "error",
+      };
+    }
+  };
+
+  sendInvite = async (data: TSendInvite): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.post(
+        `/registration/send-mail-to-customer`,
+        data,
+      );
+      return responseData;
+    } catch (error: any) {
+      console.error("FormService -> sendInvite -> error", error);
       return {
         data: [],
         message: error?.response?.data?.message ?? "Something went wrong",

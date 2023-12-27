@@ -12,3 +12,4 @@ export * from "./dbd.ts";
 export * from "./summary.ts";
 export * from "./car.ts";
 export * from "./home";
+export * from "./import-excel";

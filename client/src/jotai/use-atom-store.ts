@@ -11,6 +11,7 @@ import {
   companyPolicyListAtom,
   companyProfileAtom,
   countryCodeListAtom,
+  dataDBDSyncListAtom,
   dbdSyncListAtom,
   deliveryTermsListAtom,
   docByRegisIdAtom,
@@ -24,6 +25,7 @@ import {
   regisListByAccountAtom,
   regisStatAtom,
   registrationAtom,
+  sendInviteAtom,
   shareHolderRatioAtom,
   summaryAtomPart1,
   summaryAtomPart2,
@@ -58,11 +60,15 @@ export const useAtomStore = () => {
     generalAssessmentFormAtom,
   );
 
+    //! for external customer
+  const [sendInvite, setSendInvite] = useAtom(sendInviteAtom);
+
   //! comment
   const [comment, setComment] = useAtom(commentAtom);
 
   //! dbd
   const [dbdSyncList, setDBDSyncList] = useAtom(dbdSyncListAtom);
+  const [dataDBDSyncList, setDataDBDSyncList] = useAtom(dataDBDSyncListAtom);
   const [commentR3, setCommentR3] = useAtom(commentR3Atom);
 
   //! R3
@@ -125,6 +131,8 @@ export const useAtomStore = () => {
     //!  dbdSyncList
     dbdSyncList,
     setDBDSyncList,
+    dataDBDSyncList, 
+    setDataDBDSyncList,
 
     //! financialRatio
     financialRatio,
@@ -149,5 +157,8 @@ export const useAtomStore = () => {
     setDataObjectivePurchasingRatio,
     dataRegisStat, 
     setDataRegisStat,
+
+    sendInvite, 
+    setSendInvite,
   };
 };

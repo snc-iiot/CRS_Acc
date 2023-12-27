@@ -46,12 +46,20 @@ import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn, COLORS_SERIES } from "@/lib/utils";
 import { useForm, useUtils } from "@/services/";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
+import { useProfile } from "@/services/hooks/use-profile";
 import { FC, useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { PrintPage } from ".";
 
 const RegistrationInfo: FC = () => {
+  const location = useLocation();
+  const state_location = location.state as any;
+  const form_mode = state_location?.form_mode || "";
+
+  const {
+    profile: { role },
+  } = useProfile();
   const {
     mutateGetApprovalsById,
     mutateGetTemplateGeneralAssessmentById,
@@ -84,37 +92,6 @@ const RegistrationInfo: FC = () => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
   const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
   const [commentText, setCommentText] = useState<string>("");
-
-  // //! สำหรับ sub action tab
-  // const newActionTab = (status: number) => {
-  //   const condition = {
-  //     1: ["R1"],
-  //     2: ["R2"],
-  //     3: [""],
-  //     4: [""],
-  //     5: ["R5"],
-  //     6: [""],
-  //     7: ["R7"],
-  //     8: ["R8"],
-  //     9: ["R9"],
-  //   };
-  //   return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
-  // };
-
-  // //! Validate Action Tab
-  // const validateActionTab = (
-  //   action: "R1" | "R2" | "R3" | "R4" | "R5",
-  //   status: number,
-  // ) => {
-  //   const condition = {
-  //     R1: [1, 2, 3, 4, 5, 6, 7],
-  //     R2: [2, 3, 4, 5, 6, 7],
-  //     R3: [4, 5, 6, 7],
-  //     R4: [4, 6, 7],
-  //     R5: [4, 7],
-  //   };
-  //   return condition[action].includes(status);
-  // };
 
   const mainActions = [
     "R1",
@@ -217,18 +194,60 @@ const RegistrationInfo: FC = () => {
         mutateGetCompanyProfile(RegisID as string),
         mutateGetSummaryPart1(RegisID as string),
       ]);
-      setTimeout(() => {
-        closeSwal();
-      }, 1000);
+      if (form_mode === "") {
+        setTimeout(() => {
+          closeSwal();
+        }, 1000);
+      }
+      // } else if (form_mode === "edit") {
+      //   const isConfirmed = await confirmSwal(
+      //     "แจ้งเตือน",
+      //     "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
+      //     "ดำเนินการต่อ",
+      //     undefined,
+      //     false,
+      //   );
+      //   if (isConfirmed) {
+      //     navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
+      //       state: {
+      //         form_mode: "",
+      //       },
+      //       replace: true,
+      //     });
+      //   }
+      // }
     } catch (error) {
       showError("ไม่สามารถดึงข้อมูลได้", "เกิดข้อผิดพลาด");
     }
   };
 
+  const confirmEdit = async () => {
+    if (form_mode === "edit") {
+      const isConfirmed = await confirmSwal(
+        "แจ้งเตือน",
+        "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
+        "ดำเนินการต่อ",
+        undefined,
+        false,
+      );
+      if (isConfirmed) {
+        navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
+          state: {
+            form_mode: "",
+          },
+          replace: true,
+        });
+      }
+    } else if (form_mode === "") {
+      getInfoById();
+    }
+  };
+
   useEffect(() => {
     if (!RegisID) navigate("/registration");
-    getInfoById();
-  }, [RegisID]);
+    // getInfoById();
+    confirmEdit();
+  }, [RegisID, form_mode]);
 
   useEffect(() => {
     if (registration?.status_no === 1) {
@@ -238,6 +257,19 @@ const RegistrationInfo: FC = () => {
       }));
     }
   }, [registration?.status_no]);
+
+  useEffect(() => {
+    if (!role) return;
+    if (role === "admin") {
+      setActiveTab("R1");
+    } else if (role === "user") {
+      setActiveTab("R2");
+    } else if (role === "approver") {
+      setActiveTab("R4");
+    } else {
+      setActiveTab("R1");
+    }
+  }, [role]);
 
   return (
     <FadeIn>
@@ -254,7 +286,7 @@ const RegistrationInfo: FC = () => {
               <TooltipTrigger>
                 <Icons.arrowLeft
                   className="h-5 w-5"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/registrations")}
                 />
               </TooltipTrigger>
               <TooltipContent side="right">
@@ -408,7 +440,7 @@ const RegistrationInfo: FC = () => {
                   className={cn(
                     "flex items-center whitespace-nowrap bg-yellow-500 text-sm hover:bg-yellow-500/80",
                     registration?.status_no === 1 ||
-                      registration?.status_no === 2 ||
+                      // registration?.status_no === 2 ||
                       registration?.status_no === 3
                       ? "block"
                       : "hidden",
@@ -552,36 +584,43 @@ const RegistrationInfo: FC = () => {
                             </p>
                           </div>
                         )}
-                        {comment?.comments?.map((item, i) => (
-                          <div className="grid grid-cols-10 gap-2" key={i}>
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <div className="col-span-5 flex w-full  items-center gap-1">
-                                    <div
-                                      className={cn(
-                                        "inline-block h-2 w-2 rounded-full text-primary",
-                                        CommentType?.find(
-                                          (type) =>
-                                            type?.name === item?.comments_type,
-                                        )?.color,
-                                      )}
-                                    />
-                                    <p className="w-full text-xs">
-                                      {item?.comments}
-                                    </p>
-                                  </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>{item?.comments}</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                            <p className="col-span-5 text-right text-xs">
-                              {item?.name_en} {item?.created_at}
-                            </p>
-                          </div>
-                        ))}
+                        {comment?.comments
+                          ?.sort(
+                            (a, b) =>
+                              new Date(b?.created_at)?.getTime() -
+                              new Date(a?.created_at)?.getTime(),
+                          )
+                          ?.map((item, i) => (
+                            <div className="grid grid-cols-10 gap-2" key={i}>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <div className="col-span-5 flex w-full  items-center gap-1">
+                                      <div
+                                        className={cn(
+                                          "inline-block h-2 w-2 rounded-full text-primary",
+                                          CommentType?.find(
+                                            (type) =>
+                                              type?.name ===
+                                              item?.comments_type,
+                                          )?.color,
+                                        )}
+                                      />
+                                      <p className="w-full text-xs">
+                                        {item?.comments}
+                                      </p>
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>{item?.comments}</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                              <p className="col-span-5 text-right text-xs">
+                                {item?.name_en} {item?.created_at}
+                              </p>
+                            </div>
+                          ))}
                       </div>
                     </section>
                     <section className="px-2 py-1">
@@ -685,7 +724,7 @@ const RegistrationInfo: FC = () => {
                       </h2>
                     </section>
                     <section className="grid h-full w-full grid-cols-2">
-                      <div className="col-span-2 h-full w-full flex-grow overflow-y-auto px-2">
+                      <div className="col-span-2 h-full w-full flex-grow overflow-y-auto">
                         <BarChartHorizontal
                           data={dataRegisCount
                             ?.filter(
@@ -703,6 +742,7 @@ const RegistrationInfo: FC = () => {
                           keyXAxis="name"
                           keyYAxis="value"
                           isLabelInside={true}
+                          barFontSize={8}
                         />
                       </div>
                       {/* <div className="relative flex h-full w-full flex-col">

@@ -25,8 +25,6 @@ const TableFinancialRatio: FC = () => {
     "อ้างอิง ฐานข้อมูล",
   ];
 
-  console.log(dbdSyncList);
-
   const data: TFinancialRatioAnalytics[] = MockData;
 
   return (
@@ -47,7 +45,7 @@ const TableFinancialRatio: FC = () => {
             ))}
           </TableRow>
         </TableHeader>
-        {data.map((table) => (
+        {data?.map((table) => (
           <TableBody key={table?.Topic ?? "-"}>
             <TableRow className="bg-primary-foreground text-xs hover:cursor-pointer hover:bg-primary hover:text-primary-foreground">
               <TableCell colSpan={HEADER?.length} className="border font-bold">

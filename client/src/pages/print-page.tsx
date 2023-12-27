@@ -148,76 +148,58 @@ const PrintPage = forwardRef((_, ref: any) => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.1"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.1"]?.[0]?.label_en})`
-      }`,
+      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection["1.1.1"]?.[0]?.label_th} (${allSection["1.1.1"]?.[0]?.label_en})`,
       activeScore: allSection["1.1.1"]?.[0]?.score,
       maxScore: allSection["1.1.1"]?.[0]?.max_score,
       data: [
         {
-          Topic: "> 5,000.00 MB/Year",
+          Topic: "> 5,000 MB/Year",
           Score: 10,
         },
         {
-          Topic: "1,000.01 – 5,000.00 MB/Year",
+          Topic: "> 1,000 - 5,000MB/Year",
           Score: 8,
         },
         {
-          Topic: "500.01 – 1000.00 MB/Year",
+          Topic: "> 500 - 1,000MB/Year",
           Score: 5,
         },
         {
-          Topic: "≤ 500.00 MB/Year",
+          Topic: "≤ 500 MB/Year",
           Score: 0,
         },
       ],
     },
     {
-      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.2"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.2"]?.[0]?.label_en})`
-      }`,
+      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection["1.1.2"]?.[0]?.label_th} (${allSection["1.1.2"]?.[0]?.label_en})`,
       activeScore: allSection["1.1.2"]?.[0]?.score,
       maxScore: allSection["1.1.2"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≥ 13.00",
+          Topic: "≥ 13",
           Score: 10,
         },
         {
-          Topic: "8.00 – 12.99",
+          Topic: "< 13 - 8",
           Score: 8,
         },
         {
-          Topic: "3.00 – 7.99",
+          Topic: "< 8 - 3",
           Score: 6,
         },
         {
-          Topic: "< 3.00",
+          Topic: "< 3",
           Score: 0,
         },
       ],
     },
     {
-      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.3"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.3"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.3"]?.[0]?.label_en})`
-      }`,
+      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection["1.1.3"]?.[0]?.label_th} (${allSection["1.1.3"]?.[0]?.label_en})`,
       activeScore: allSection["1.1.3"]?.[0]?.score,
       maxScore: allSection["1.1.3"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≤ 1.40",
+          Topic: "≤ 1.4",
           Score: 10,
         },
         {
@@ -235,13 +217,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       ],
     },
     {
-      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.4"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.4"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.4"]?.[0]?.label_en})`
-      }`,
+      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection["1.1.4"]?.[0]?.label_th} (${allSection["1.1.4"]?.[0]?.label_en})`,
       activeScore: allSection["1.1.4"]?.[0]?.score,
       maxScore: allSection["1.1.4"]?.[0]?.max_score,
       data: [
@@ -278,27 +254,27 @@ const PrintPage = forwardRef((_, ref: any) => {
       label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection[
         "1.2.1"
       ]?.[0]?.label_th} ${
-        allSection["1.2.1"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.2.1"]?.[0]?.label_en})`
+        allSection["1.2.1"]?.[0]?.label_en !== ""
+          ? `(${allSection["1.2.1"]?.[0]?.label_en})`
+          : ""
       }`,
       activeScore: allSection["1.2.1"]?.[0]?.score,
       maxScore: allSection["1.2.1"]?.[0]?.max_score,
       data: [
         {
-          Topic: "≤ 65.00%",
+          Topic: "≤ 65%",
           Score: 10,
         },
         {
-          Topic: "65.01 - 75.00%",
+          Topic: "> 65 - 75%",
           Score: 8,
         },
         {
-          Topic: "75.01 - 85.00%",
+          Topic: ">75 - 85%",
           Score: 5,
         },
         {
-          Topic: "> 85.00%",
+          Topic: "> 85%",
           Score: 0,
         },
       ],
@@ -315,19 +291,19 @@ const PrintPage = forwardRef((_, ref: any) => {
       maxScore: allSection["1.2.2"]?.[0]?.max_score,
       data: [
         {
-          Topic: "> 300.00 MB/Year",
+          Topic: "> 300MB/Year",
           Score: 10,
         },
         {
-          Topic: "80.01 – 300.00 MB/Year",
+          Topic: "> 80 - 300MB/Year",
           Score: 8,
         },
         {
-          Topic: "20.01 – 80.00 MB/Year",
+          Topic: "> 20 - 80MB/Year",
           Score: 5,
         },
         {
-          Topic: "≤ 20.00 MB/Year",
+          Topic: "≤ 20MB/Year",
           Score: 0,
         },
       ],
@@ -359,15 +335,15 @@ const PrintPage = forwardRef((_, ref: any) => {
           Score: 10,
         },
         {
-          Topic: "31 - 60 วัน",
+          Topic: "> 30 - 60 วัน",
           Score: 8,
         },
         {
-          Topic: "61 - 90 วัน",
+          Topic: "> 60 - 90 วัน",
           Score: 5,
         },
         {
-          Topic: "90 วัน",
+          Topic: "> 90 วัน",
           Score: 0,
         },
       ],
@@ -388,15 +364,15 @@ const PrintPage = forwardRef((_, ref: any) => {
           Score: 10,
         },
         {
-          Topic: "61 - 90 วัน",
+          Topic: "> 60 - 90 วัน",
           Score: 8,
         },
         {
-          Topic: "31 - 60 วัน",
+          Topic: "> 30 - 60 วัน",
           Score: 5,
         },
         {
-          Topic: "30 วัน - เงินสด",
+          Topic: "≤ 30 วัน - เงินสด",
           Score: 0,
         },
       ],
@@ -413,15 +389,15 @@ const PrintPage = forwardRef((_, ref: any) => {
       maxScore: allSection["1.3.3"]?.[0]?.max_score,
       data: [
         {
-          Topic: "0 - 3 วัน",
+          Topic: "3 วัน",
           Score: 10,
         },
         {
-          Topic: "4 - 7 วัน",
+          Topic: "> 4 - 7 วัน",
           Score: 8,
         },
         {
-          Topic: "8 - 10 วัน",
+          Topic: "> 8 - 10 วัน",
           Score: 5,
         },
         {
@@ -478,12 +454,16 @@ const PrintPage = forwardRef((_, ref: any) => {
       maxScore: allSection["1.4.2"]?.[0]?.max_score,
       data: [
         {
-          Topic: "ไม่ใช้แม่พิมพ์ / มีอยู่เพียงพอ",
+          Topic: "ไม่ใช้แม่พิมพ์",
+          Score: 10,
+        },
+        {
+          Topic: "มีอยู่เพียงพอ",
           Score: 10,
         },
         {
           Topic: "ใช้ของลูกค้า",
-          Score: 8,
+          Score: 6,
         },
         {
           Topic: "ลงทุนเพิ่ม",
@@ -807,12 +787,11 @@ const PrintPage = forwardRef((_, ref: any) => {
                 </article>
               </section>
             </div>
-
             <section
               className={cn(
                 "flex w-full flex-col items-start justify-start gap-1",
                 "pagebreak",
-                index === 1 && "hidden",
+                index === 0 ? "" : "hidden",
               )}
             >
               <h1
@@ -888,7 +867,7 @@ const PrintPage = forwardRef((_, ref: any) => {
             <section
               className={cn(
                 "flex w-full flex-col items-center justify-start gap-1",
-                index === 1 && "hidden",
+                index === 0 ? "" : "hidden",
               )}
             >
               <article className="grid w-full grid-cols-5 gap-2">
@@ -926,6 +905,22 @@ const PrintPage = forwardRef((_, ref: any) => {
               </article>
             </section>
           </div>
+          {index === 1 && (
+            <div
+              style={{
+                height: "1500px",
+                width: "100%",
+              }}
+              className="pagebreak relative"
+            >
+              <p className="absolute bottom-0  right-0 text-xs">page 1 of 2</p>
+            </div>
+          )}
+          {index === 0 && (
+            <p className={cn("absolute  right-0 text-xs", "bottom-0")}>
+              page 1 of 1
+            </p>
+          )}
         </div>
       ))}
     </div>

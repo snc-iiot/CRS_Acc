@@ -2,6 +2,7 @@
 import MockCountryCodesList from "@/mock/country-list.json";
 import ThaiProvince from "@/mock/thai-province.json";
 import {
+  ImportExcelTDBDList,
   TBenefitsList,
   TBusinessTypeList,
   TCertificatedList,
@@ -41,6 +42,7 @@ export const countryCodeListAtom =
   atom<TCountryCodeList[]>(MockCountryCodesList);
 
 export const dbdSyncListAtom = atom<TDBDSyncList>({} as TDBDSyncList);
+export const dataDBDSyncListAtom = atom<ImportExcelTDBDList>({} as ImportExcelTDBDList);
 
 export const financialRatioAtom = atom<TFinancialRatio>({} as TFinancialRatio);
 

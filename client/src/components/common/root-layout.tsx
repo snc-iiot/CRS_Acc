@@ -60,7 +60,7 @@ const RootLayout: FC = () => {
 
   return (
     <ReqAuth>
-      <div className="relative flex h-screen w-full overflow-hidden">
+      <div className="relative flex h-screen w-full flex-col overflow-hidden">
         <main className="relative flex h-full w-full flex-col overflow-hidden">
           <Header
             left={
@@ -131,22 +131,7 @@ const RootLayout: FC = () => {
                           {profile?.name?.en}
                         </p>
                       </DropdownMenuLabel>
-                      {/* <DropdownMenuItem
-                        onClick={() => {
-                          navigate("/settings/profile");
-                        }}
-                      >
-                        <Icons.userCircle2 className="h-5 w-5" />
-                        <p className="ml-2">Profile</p>
-                      </DropdownMenuItem> */}
-                      {/* <DropdownMenuItem
-                        onClick={() => {
-                          navigate("/settings");
-                        }}
-                      >
-                        <Icons.settings className="h-5 w-5" />
-                        <p className="ml-2">Settings</p>
-                      </DropdownMenuItem> */}
+
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         onClick={() => {
@@ -163,17 +148,30 @@ const RootLayout: FC = () => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                {/* <ThemeToggle /> */}
               </div>
             }
           />
-          <div className="flex h-full">
+          {/* <div className="flex h-full">
             <Sidebar />
             <div className="w-full p-2">
               <Outlet />
             </div>
-          </div>
+          </div> */}
+          <section className="flex h-full w-full">
+            <article className="h-full">
+              <Sidebar />
+            </article>
+            <article className="h-full w-full p-2">
+              <Outlet />
+            </article>
+          </section>
         </main>
+        <footer className="flex h-5 w-full items-center justify-center gap-2 border-t">
+          <p className="text-xs text-muted-foreground">
+            Copyright © 2023 SNC-The Center of Digital Expertise (CoDE)
+          </p>
+          <p className="text-xs text-muted-foreground">All rights reserved.</p>
+        </footer>
       </div>
     </ReqAuth>
   );

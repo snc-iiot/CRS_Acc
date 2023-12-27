@@ -51,12 +51,13 @@ export const useSwal = () => {
     message: string,
     confirmButtonText?: string,
     cancelButtonText?: string,
+    showCancelButton?: boolean,
   ): Promise<boolean> => {
     const result = await Swal.fire({
       title: title,
       text: message,
       icon: "warning",
-      showCancelButton: true,
+      showCancelButton: showCancelButton === false ? false : true,
       confirmButtonText: confirmButtonText || "ตกลง",
       cancelButtonText: cancelButtonText || "ยกเลิก",
       confirmButtonColor: PRIMARY_COLOR,

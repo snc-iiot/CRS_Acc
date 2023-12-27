@@ -16,12 +16,6 @@ const Sidebar: FC = () => {
       )}
     >
       <div className={cn("relative flex h-full w-full flex-1 flex-col")}>
-        {/* <div
-          className={cn(
-            "flex w-full items-center justify-between gap-2 px-2",
-            // collapsed ? "justify-center" : "justify-center",
-          )}
-        ></div> */}
         <WorkspaceSidebarMenu isOpen={collapsed} />
         <div className="h-full overflow-y-auto px-4"></div>
         <SidebarHelp />
