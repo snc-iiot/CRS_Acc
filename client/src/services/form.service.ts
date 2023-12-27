@@ -4,6 +4,7 @@ import {
   TRegisList,
   TRegistrationForm,
   TResponseAction,
+  TSendInvite,
   TUploadFile,
 } from "@/types";
 import { APIService } from ".";
@@ -12,6 +13,39 @@ export class FormService extends APIService {
   constructor() {
     super(API_BASE_URL);
   }
+
+  createRegisIdExternal = async (): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.get(
+        `/registration/create-regis-id-external`,
+      );
+      return responseData;
+    } catch (error: any) {
+      console.error("FormService -> createRegisIdExternal -> error", error);
+      return {
+        data: [],
+        message: error?.response?.data?.message || "Something went wrong",
+        status: "error",
+      };
+    }
+  };
+
+  sendInvite = async (data: TSendInvite): Promise<TResponseAction> => {
+    try {
+      const { data: responseData } = await this.post(
+        `/registration/send-invite`,
+        data,
+      );
+      return responseData;
+    } catch (error: any) {
+      console.error("FormService -> sendInvite -> error", error);
+      return {
+        data: [],
+        message: error?.response?.data?.message ?? "Something went wrong",
+        status: "error",
+      };
+    }
+  };
 
   createNewCustomer = async (
     data: TRegistrationForm,

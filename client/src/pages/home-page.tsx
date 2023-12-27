@@ -94,6 +94,8 @@ const HomePage: FC = () => {
     }))
     ?.sort((a, b) => b?.value - a?.value);
 
+  // console.log(Datanationality);
+
   return (
     <main className="relative flex h-full w-full flex-col gap-2">
       <section className="flex items-center justify-between gap-2">
@@ -142,7 +144,22 @@ const HomePage: FC = () => {
               <>
                 <article className="flex h-[99%] w-full flex-col  items-center justify-center">
                   <PieChartComponents
-                    data={Datanationality}
+                    data={Datanationality?.reduce((acc: any, cur) => {
+                      const index = acc.findIndex(
+                        (item: { id: string }) => item.id === cur.id,
+                      );
+                      if (index === -1) {
+                        acc.push({
+                          id: cur.id || "",
+                          label: cur.id || "",
+                          value: cur.value || 0,
+                          color: cur.color,
+                        });
+                      } else {
+                        acc[index].value += cur.value;
+                      }
+                      return acc;
+                    }, [])}
                     enableArcLinkLabels={true}
                     isShowLegend={false}
                     scheme="custom"

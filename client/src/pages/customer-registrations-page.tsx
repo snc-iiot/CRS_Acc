@@ -3,7 +3,7 @@ import { Icons } from "@/components/common/icons";
 import { Spinner } from "@/components/common/spinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   ClearButton,
   FilterBar,
@@ -11,6 +11,7 @@ import {
   FilterSelect,
 } from "@/components/ui/filter-bar";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody as TBody,
@@ -30,6 +31,7 @@ import {
 } from "@/helpers/initial-state.helper";
 import { InitialRegistration } from "@/helpers/register.helper";
 import { status, statusHelper } from "@/helpers/status.helper";
+import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { useUtils } from "@/services";
@@ -40,10 +42,12 @@ import { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomerRegistrations: FC = () => {
+  const { confirmSwal } = useSwal();
   const {
     profile: { role },
   } = useProfile();
-  const { useGetRegisList } = useForm();
+  const { useGetRegisList, mutateSendInvite, mutateGetRegisIdExternal } =
+    useForm();
   const {
     setRegistration,
     regisList,
@@ -52,6 +56,8 @@ const CustomerRegistrations: FC = () => {
     setDocByRegisId,
     setCommon,
     regisListByAccount,
+    setSendInvite,
+    sendInvite,
   } = useAtomStore();
   const { mutateGetRegisterId } = useUtils();
   const navigate = useNavigate();
@@ -59,6 +65,7 @@ const CustomerRegistrations: FC = () => {
   const [companySelect, setCompanySelect] = useState<string[]>([]);
   const [statusSelect, setStatusSelect] = useState<string[]>([]);
   const [tabsSelected, setTabsSelected] = useState<string>("4");
+  const [openDialogInvite, setOpenDialogInvite] = useState<boolean>(false);
   const { isLoading } = useGetRegisList();
   const [sortByDate, setSortByDate] = useState<"ascending" | "descending">(
     "descending",
@@ -180,71 +187,251 @@ const CustomerRegistrations: FC = () => {
               <span>ลงทะเบียนลูกค้าใหม่</span>
               <Icons.plus className="h-8 w-8 font-bold" />
             </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]">
+            <Button
+              className={cn(
+                "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
+                role !== "admin" && role !== "user" ? "hidden" : "flex",
+              )}
+              onClick={async () => {
+                const res = await mutateGetRegisIdExternal();
+                if (res.status === "success") {
+                  setOpenDialogInvite(true);
+                }
+              }}
+            >
+              <span>ลงทะเบียนลูกค้าใหม่ (ส่งเมล)</span>
+              <Icons.plus className="h-8 w-8 font-bold" />
+            </Button>
+            <Dialog
+              open={openDialogInvite}
+              onOpenChange={(e) => {
+                setOpenDialogInvite(e);
+                setSendInvite({
+                  regis_id: "",
+                  to_email: "",
+                  subject: "",
+                  dear_th: "",
+                  dear_en: "",
+                  company_th: "",
+                  company_en: "",
+                });
+              }}
+            >
+              {/* <DialogTrigger asChild>
+                <Button
+                  className={cn(
+                    "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
+                    role !== "admin" && role !== "user" ? "hidden" : "flex",
+                  )}
+                  onClick={() => {
+                    setOpenDialogInvite(false);
+                  }}
+                >
                   <span>ลงทะเบียนลูกค้าใหม่ (ส่งเมล)</span>
                   <Icons.plus className="h-8 w-8 font-bold" />
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="flex w-[50vw] max-w-[70vw] flex-col gap-y-2">
-                <section className="flex flex-col gap-y-1">
-                  <article className="flex items-center gap-x-1">
-                    <h2 className="text-md font-semibold">
-                      ลงทะเบียนลูกค้าใหม่ (ส่งเมล)
-                    </h2>
-                  </article>
-                  <article className="flex flex-col gap-2 rounded-md">
-                    <section className="rounded bg-secondary p-2">
-                      <p className="text-sm">
-                        กรุณากรอกข้อมูลลงทะเบียนลูกค้าใหม่ให้ครบถ้วน
-                      </p>
-                    </section>
-                    <section className="flex flex-col gap-2">
-                      <div className="flex gap-x-2">
-                        <div className="flex w-[3.5rem] items-center justify-start">
-                          <h3 className="text-sm font-semibold">ผู้รับเมล</h3>
+              </DialogTrigger> */}
+              <DialogContent
+                className="flex w-[55vw] max-w-[70vw] flex-col gap-y-2"
+                onPointerDownOutside={(e) => {
+                  if (e.target === e.currentTarget) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                <form
+                  className="flex flex-col gap-y-2"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const isConfirm = await confirmSwal(
+                      "ส่งเมลลงทะเบียนลูกค้าใหม่",
+                      "คุณต้องการส่งเมลลงทะเบียนลูกค้าใหม่หรือไม่",
+                    );
+                    if (isConfirm) {
+                      const res = await mutateSendInvite(sendInvite);
+                      if (res.status === "success") {
+                        setSendInvite({
+                          regis_id: "",
+                          to_email: "",
+                          subject: "",
+                          dear_th: "",
+                          dear_en: "",
+                          company_th: "",
+                          company_en: "",
+                        });
+                      }
+                    }
+                  }}
+                >
+                  <section className="flex flex-col gap-y-1">
+                    <article className="flex items-center gap-x-1">
+                      <h2 className="text-md font-semibold">
+                        ลงทะเบียนลูกค้าใหม่ (ส่งเมล)
+                      </h2>
+                    </article>
+                    <article className="flex flex-col gap-2 rounded-md">
+                      <section className="rounded bg-secondary p-2">
+                        <p className="text-sm">
+                          กรุณากรอกข้อมูลลงทะเบียนลูกค้าใหม่ให้ครบถ้วน
+                        </p>
+                      </section>
+                      <section className="flex flex-col gap-2">
+                        <div className="flex gap-x-2">
+                          <div className="flex w-[3.5rem] items-center justify-start">
+                            <h3 className="text-sm font-semibold">เมลผู้รับ</h3>
+                          </div>
+                          <Input
+                            className="w-full px-0"
+                            type="email"
+                            variant="flushed"
+                            placeholder="เมลผู้รับ"
+                            value={sendInvite?.to_email}
+                            onChange={(e) => {
+                              setSendInvite((prev) => ({
+                                ...prev,
+                                to_email: e.target.value,
+                              }));
+                            }}
+                            required
+                          />
                         </div>
-                        <Input
-                          className="w-full px-0"
-                          type="email"
-                          variant="flushed"
-                          placeholder="ผู้รับเมล"
-                          defaultValue="Anuwat_Thisuka@gmail.com"
-                        />
-                      </div>
-                      <div className="flex gap-x-2">
-                        <div className="flex w-[3.5rem] items-center justify-start">
-                          <h3 className="text-sm font-semibold">เรื่อง</h3>
+                        <div className="flex gap-x-2">
+                          <div className="flex w-[3.5rem] items-center justify-start">
+                            <h3 className="text-sm font-semibold">เรื่อง</h3>
+                          </div>
+                          <Input
+                            className=" w-full px-0"
+                            type="text"
+                            variant="flushed"
+                            placeholder="เรื่อง"
+                            value={sendInvite?.subject}
+                            onChange={(e) => {
+                              setSendInvite((prev) => ({
+                                ...prev,
+                                subject: e.target.value,
+                              }));
+                            }}
+                            required
+                          />
                         </div>
-                        <Input
-                          className=" w-full px-0"
-                          type="email"
-                          variant="flushed"
-                          placeholder="เรื่อง"
-                          defaultValue="ขึ้นทะเบียนผู้ขาย บมจ. เอสเอ็นซี ฟอร์เมอร์ (Customer Registration)"
-                        />
-                      </div>
-                    </section>
-                    <section>
-                      <Textarea
+                      </section>
+                      <section>
+                        {/* <Textarea
                         className="h-[25rem] max-h-[30rem] min-h-[15rem] w-full border border-none p-0 shadow-none focus-visible:ring-0"
                         placeholder="เนื้อหา"
                         defaultValue={
                           "เรียน: (กรุณาระบุชื่อผู้ติดต่อ)\nบริษัท: (กรุณาระบุชื่อบริษัทลูกค้า) \n\nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ ขอแจ้งรายละเอียดการขึ้นทะเบียนผู้ขาย (Customer Registration) ตามนโยบายของบริษัทฯ โดยมีขั้นตอนการดำเนินการ ดังนี้\n1. เข้าสู่เว็บไซต์ (SNC-iCRS) เพื่อขึ้นทะเบียน\n2. กรอกข้อมูลในระบบให้ครบถ้วน\n3. แนบเอกสารที่เกี่ยวข้อง พร้อมลงนามรับรองเอกสาร\n4. ศึกษา และยอมรับนโยบายการคุ้มครองข้อมูลส่วนบุคคล และนโยบายอื่นๆ ก่อนกดส่งข้อมูล\n5. ติดตามสถานะการขึ้นทะเบียน ผ่าน Email ที่ท่านใช้ในการขึ้นทะเบียน  \n\nขอแสดงความนับถือ\nLogo \nบริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ\n---------------------------------------------------------------------------------\nDear: \nCompany: \n\nSNC Former Co., Ltd. (Public Company) and affiliated companies, We hereby inform you of the details regarding the Customer Registration in accordance with our company's policy. The registration process is as follows:\n1. Access the website (SNC-iCRS) for registration.\n2. Complete the information in the system accurately.\n3. Attach relevant documents, duly signed and certified.\n4. Review and accept the Personal Data Protection Policy and other relevant policies before submitting the information.\n5. Monitor the registration status through the email you provided during the registration process.\n\nYours sincerely,\n[Your Company's Logo]\nSNC Former Co., Ltd. (Public Company) and affiliated companies"
                         }
-                      />
-                    </section>
-                    <section className="flex items-center justify-end gap-x-2">
-                      <Button className="w-max">
-                        <Icons.send className="mr-1 h-4 w-4" />
-                        <span className="whitespace-nowrap">
-                          ส่งเมลไปยังลูกค้า
-                        </span>
-                      </Button>
-                    </section>
-                  </article>
-                </section>
+                      /> */}
+                        <div className="flex flex-col gap-2 rounded-md border p-2">
+                          <div className="flex gap-x-2">
+                            <div className="flex w-[10rem] items-center justify-start">
+                              <h3 className="text-sm font-semibold">เรียน</h3>
+                            </div>
+                            <Input
+                              className="w-full px-0"
+                              type="text"
+                              variant="flushed"
+                              placeholder="เรียน"
+                              value={sendInvite?.dear_th}
+                              onChange={(e) => {
+                                setSendInvite((prev) => ({
+                                  ...prev,
+                                  dear_th: e.target.value,
+                                }));
+                              }}
+                              required
+                            />
+                          </div>
+                          <div className="flex gap-x-2">
+                            <div className="flex w-[10rem] items-center justify-start">
+                              <h3 className="text-sm font-semibold">บริษัท</h3>
+                            </div>
+                            <Input
+                              className="w-full px-0"
+                              type="text"
+                              variant="flushed"
+                              placeholder="บริษัท"
+                              value={sendInvite?.company_th}
+                              onChange={(e) => {
+                                setSendInvite((prev) => ({
+                                  ...prev,
+                                  company_th: e.target.value,
+                                }));
+                              }}
+                              required
+                            />
+                          </div>
+                          <Textarea
+                            className="h-max max-h-[10rem] min-h-[9rem] w-full border border-none p-0 shadow-none focus-visible:ring-0"
+                            placeholder="เนื้อหา"
+                            defaultValue={
+                              "บริษัท เอสเอ็นซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ ขอแจ้งรายละเอียดการขึ้นทะเบียนผู้ขาย \n(Customer Registration) ตามนโยบายของบริษัทฯ โดยมีขั้นตอนการดำเนินการ ดังนี้\n1. เข้าสู่เว็บไซต์ (SNC-iCRS) เพื่อขึ้นทะเบียน\n2. กรอกข้อมูลในระบบให้ครบถ้วน\n3. แนบเอกสารที่เกี่ยวข้อง พร้อมลงนามรับรองเอกสาร\n4. ศึกษา และยอมรับนโยบายการคุ้มครองข้อมูลส่วนบุคคล และนโยบายอื่นๆ ก่อนกดส่งข้อมูล\n5. ติดตามสถานะการขึ้นทะเบียน ผ่าน Email ที่ท่านใช้ในการขึ้นทะเบียน"
+                            }
+                            readOnly
+                          />
+                          <Separator className="bg-black" />
+                          <div className="flex gap-x-2">
+                            <div className="flex w-[10rem] items-center justify-start">
+                              <h3 className="text-sm font-semibold">
+                                Dear Sir/Madam
+                              </h3>
+                            </div>
+                            <Input
+                              className="w-full px-0"
+                              type="text"
+                              variant="flushed"
+                              placeholder="Dear Sir/Madam"
+                              value={sendInvite?.dear_en}
+                              onChange={(e) => {
+                                setSendInvite((prev) => ({
+                                  ...prev,
+                                  dear_en: e.target.value,
+                                }));
+                              }}
+                              required
+                            />
+                          </div>
+                          <div className="flex gap-x-2">
+                            <div className="flex w-[10rem] items-center justify-start">
+                              <h3 className="text-sm font-semibold">Company</h3>
+                            </div>
+                            <Input
+                              className="w-full px-0"
+                              type="text"
+                              variant="flushed"
+                              placeholder="Company"
+                              value={sendInvite?.company_en}
+                              onChange={(e) => {
+                                setSendInvite((prev) => ({
+                                  ...prev,
+                                  company_en: e.target.value,
+                                }));
+                              }}
+                              required
+                            />
+                          </div>
+                          <Textarea
+                            className="h-max max-h-[10rem] min-h-[9rem] w-full border border-none p-0 shadow-none focus-visible:ring-0"
+                            placeholder="เนื้อหา"
+                            defaultValue={
+                              "SNC Former Co., Ltd. (Public Company) and affiliated companies, We hereby inform you of the details regarding the Customer Registration in accordance with our company's policy. The registration process is as follows:\n1. Access the website (SNC-iCRS) for registration.\n2. Complete the information in the system accurately.\n3. Attach relevant documents, duly signed and certified.\n4. Review and accept the Personal Data Protection Policy and other relevant policies before submitting the information.\n5. Monitor the registration status through the email you provided during the registration process."
+                            }
+                            readOnly
+                          />
+                        </div>
+                      </section>
+                      <section className="flex items-center justify-end gap-x-2">
+                        <Button className="w-max" type="submit">
+                          <Icons.send className="mr-1 h-4 w-4" />
+                          <span className="whitespace-nowrap">
+                            ส่งเมลไปยังลูกค้า
+                          </span>
+                        </Button>
+                      </section>
+                    </article>
+                  </section>
+                </form>
               </DialogContent>
             </Dialog>
           </div>
@@ -287,6 +474,18 @@ const CustomerRegistrations: FC = () => {
                 รอการแก้ไข
                 {regisList?.filter((item) => item?.status_no === 3)?.length > 0
                   ? ` (${regisList?.filter((item) => item?.status_no === 3)
+                      ?.length})`
+                  : ""}
+              </TabsTrigger>
+              <TabsTrigger
+                value="0"
+                onClick={() => {
+                  setTabsSelected("0");
+                }}
+              >
+                รออัพโหลดเอกสาร
+                {regisList?.filter((item) => item?.status_no === 0)?.length > 0
+                  ? ` (${regisList?.filter((item) => item?.status_no === 0)
                       ?.length})`
                   : ""}
               </TabsTrigger>
@@ -418,10 +617,9 @@ const CustomerRegistrations: FC = () => {
                         </Td>
                         <Td>
                           <Link
-                            to={
-                              "/registrations/customer/info?RegisID=" +
-                              item?.regis_id
-                            }
+                            to={`/registrations/customer/${
+                              item?.status_no === 0 ? "register" : "info"
+                            }?RegisID=${item?.regis_id}`}
                             className="flex items-center gap-x-1 text-primary hover:underline"
                           >
                             <Icons.eye className="h-4 w-4" />{" "}

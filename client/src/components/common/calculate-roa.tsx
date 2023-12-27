@@ -4,14 +4,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Icons } from "./icons";
 
-const CalculateRoi: FC = () => {
+interface CalculateRoiProps {
+  mode: "machine" | "mold";
+}
+
+const CalculateRoi: FC<CalculateRoiProps> = ({ mode }) => {
+  const { setGeneralAssessmentForm } = useAtomStore();
   const [netIncome, setNetIncome] = useState<number>(0);
   const [totalAssets, setTotalAssets] = useState<number>(0);
+  const [onOpen, setOnOpen] = useState<boolean>(false);
 
   const roa = useMemo(() => {
     if (isNaN(netIncome) || isNaN(totalAssets)) return 0;
@@ -19,9 +26,60 @@ const CalculateRoi: FC = () => {
     return (netIncome / totalAssets) * 100;
   }, [netIncome, totalAssets]);
 
+  const SetValue = () => {
+    if (mode === "machine") {
+      setGeneralAssessmentForm((prev) => ({
+        ...prev,
+        machine_produce: prev?.machine_produce?.map((item) => {
+          if (item?.id === "machine-produce-id-3") {
+            return {
+              ...item,
+              value: {
+                amount: item?.value?.amount || 0,
+                ROI: item?.value?.ROI || 0,
+                payback: item?.value?.payback || 0,
+                ROA: Number(Number(roa / 100)?.toFixed(2)) || 0,
+              },
+            };
+          }
+          return item;
+        }),
+      }));
+    } else {
+      setGeneralAssessmentForm((prev) => ({
+        ...prev,
+        mold_use: prev?.mold_use?.map((item) => {
+          if (item?.id === "mold-use-id-4") {
+            return {
+              ...item,
+              value: {
+                amount: item?.value?.amount || 0,
+                ROI: item?.value?.ROI || 0,
+                ROA: Number(Number(roa / 100)?.toFixed(2)) || 0,
+                payback: item?.value?.payback || 0,
+              },
+            };
+          }
+          return item;
+        }),
+      }));
+    }
+  };
+
   return (
-    <Sheet>
-      <SheetTrigger asChild className="text-primary cursor-pointer">
+    <Sheet
+      open={onOpen}
+      onOpenChange={(open) => {
+        setOnOpen(open);
+      }}
+    >
+      <SheetTrigger
+        asChild
+        className="cursor-pointer text-primary"
+        onClick={() => {
+          setOnOpen(true);
+        }}
+      >
         <Icons.calculator className="h-4 w-4" />
       </SheetTrigger>
       <SheetContent className="w-[30vw] sm:max-w-none" side="right">
@@ -133,7 +191,17 @@ const CalculateRoi: FC = () => {
             </div>
           </section>
           <section className="mt-2">
-            <Button className="w-full">บันทึกผลการวิเคราะห์</Button>
+            <Button
+              className="w-full"
+              onClick={() => {
+                SetValue();
+                setOnOpen(false);
+                setNetIncome(0);
+                setTotalAssets(0);
+              }}
+            >
+              บันทึกผลการวิเคราะห์
+            </Button>
           </section>
         </main>
       </SheetContent>

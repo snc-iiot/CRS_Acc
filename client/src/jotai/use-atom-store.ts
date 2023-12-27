@@ -24,6 +24,7 @@ import {
   regisListByAccountAtom,
   regisStatAtom,
   registrationAtom,
+  sendInviteAtom,
   shareHolderRatioAtom,
   summaryAtomPart1,
   summaryAtomPart2,
@@ -75,10 +76,17 @@ export const useAtomStore = () => {
 
   //! home
   const [dataRegisCount, setDataRegisCount] = useAtom(regisCountAtom);
-  const [dataMainCustomerRatio, setDataMainCustomerRatio] = useAtom(mainCustomerRatioAtom);
-  const [dataShareHolderRatio, setDataShareHolderRatio] = useAtom(shareHolderRatioAtom);
-  const [dataObjectivePurchasingRatio, setDataObjectivePurchasingRatio] = useAtom(objectivePurchasingRatioAtom);
+  const [dataMainCustomerRatio, setDataMainCustomerRatio] = useAtom(
+    mainCustomerRatioAtom,
+  );
+  const [dataShareHolderRatio, setDataShareHolderRatio] =
+    useAtom(shareHolderRatioAtom);
+  const [dataObjectivePurchasingRatio, setDataObjectivePurchasingRatio] =
+    useAtom(objectivePurchasingRatioAtom);
   const [dataRegisStat, setDataRegisStat] = useAtom(regisStatAtom);
+
+  //! for external customer
+  const [sendInvite, setSendInvite] = useAtom(sendInviteAtom);
 
   return {
     benefitsList,
@@ -139,15 +147,17 @@ export const useAtomStore = () => {
     setCompanyProfile,
 
     //! home
-    dataRegisCount, 
+    dataRegisCount,
     setDataRegisCount,
-    dataMainCustomerRatio, 
+    dataMainCustomerRatio,
     setDataMainCustomerRatio,
-    dataShareHolderRatio, 
+    dataShareHolderRatio,
     setDataShareHolderRatio,
-    dataObjectivePurchasingRatio, 
+    dataObjectivePurchasingRatio,
     setDataObjectivePurchasingRatio,
-    dataRegisStat, 
+    dataRegisStat,
     setDataRegisStat,
+    sendInvite,
+    setSendInvite,
   };
 };

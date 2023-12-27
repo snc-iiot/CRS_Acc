@@ -5,17 +5,24 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC, useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Icons } from "./icons";
 
-const CalculatePlayback: FC = () => {
+interface CalculatePlaybackProps {
+  mode: "machine" | "mold";
+}
+
+const CalculatePlayback: FC<CalculatePlaybackProps> = ({ mode }) => {
+  const { setGeneralAssessmentForm } = useAtomStore();
   const [isInvestment, setIsInvestment] = useState<boolean>(true);
   const [totalInvestment, setTotalInvestment] = useState<number>(0);
   const [totalProfit, setTotalProfit] = useState<number>(0);
   const [growthRate, setGrowthRate] = useState<number>(0);
   const [numberOfPeriods, setNumberOfPeriods] = useState<number>(0);
+  const [open, setOpen] = useState<boolean>(false);
   const [newPayback, setNewPayback] = useState<
     {
       label: string;
@@ -61,21 +68,24 @@ const CalculatePlayback: FC = () => {
         label_2: `งวดที่ ${i + 1}`,
         value_2: Number(
           new Array(i + 1)
-            .fill(0)
-            .reduce((acc, _, i) => {
+            ?.fill(0)
+            ?.reduce((acc, _, i) => {
+              // (-$H$20)+H23
+              // ให้ totalInvestment = 320000
+              // ให้ growthRate = 15
+              // ให้ numberOfPeriods = 36
+              // ให้ growthRate = 20000
+
+              // result = 320000
               let result = acc;
-              let result_2 = acc;
               if (i === 0) {
-                result = totalProfit;
-                result_2 = totalInvestment - totalProfit;
+                result = totalProfit - totalInvestment;
               } else {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                result = result + (result * growthRate) / 100;
-                result_2 = result_2 + (result_2 * growthRate) / 100;
+                result = (result * growthRate) / 100;
               }
-              return result_2;
+              return result;
             }, 0)
-            .toFixed(2),
+            ?.toFixed(2),
         ),
       })),
     );
@@ -89,10 +99,61 @@ const CalculatePlayback: FC = () => {
     setNumberOfPeriods(0);
   }, [isInvestment]);
 
+  const SetValue = () => {
+    if (mode === "machine") {
+      setGeneralAssessmentForm((prev) => ({
+        ...prev,
+        machine_produce: prev?.machine_produce?.map((item) => {
+          if (item?.id === "machine-produce-id-3") {
+            return {
+              ...item,
+              value: {
+                amount: item?.value?.amount || 0,
+                ROI: item?.value?.ROI || 0,
+                ROA: item?.value?.ROA || 0,
+                payback: Number(((payback ?? 0) / 12)?.toFixed(2)) || 0,
+              },
+            };
+          }
+          return item;
+        }),
+      }));
+    } else {
+      setGeneralAssessmentForm((prev) => ({
+        ...prev,
+        mold_use: prev?.mold_use?.map((item) => {
+          if (item?.id === "mold-use-id-4") {
+            return {
+              ...item,
+              value: {
+                amount: item?.value?.amount || 0,
+                ROI: item?.value?.ROI || 0,
+                ROA: item?.value?.ROA || 0,
+                payback: Number(((payback ?? 0) / 12)?.toFixed(2)) || 0,
+              },
+            };
+          }
+          return item;
+        }),
+      }));
+    }
+  };
+
   return (
-    <Sheet>
-      <SheetTrigger className="text-primary" asChild>
-        <Icons.calculator className="h-4 w-4" />
+    <Sheet
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open);
+      }}
+    >
+      <SheetTrigger
+        className="text-primary"
+        asChild
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        <Icons.calculator className="h-4 w-4 cursor-pointer" />
       </SheetTrigger>
       <SheetContent className="w-[30vw] sm:max-w-none" side="right">
         <main className="flex h-full w-full flex-col gap-2">
@@ -103,7 +164,7 @@ const CalculatePlayback: FC = () => {
             </p>
           </section>
           <section className="h-full">
-            <Accordion type="multiple">
+            <Accordion type="single">
               <AccordionItem value="item-1">
                 <AccordionTrigger
                   className="p-1 font-semibold"
@@ -152,12 +213,23 @@ const CalculatePlayback: FC = () => {
                             {payback} เดือน
                           </h3>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
-                            ปี
+                            {((payback ?? 0) / 12)?.toFixed(2)} ปี
                           </h3>
                         </div>
                       </div>
                       <div className="mt-3 text-right">
-                        <Button className="ml-auto">
+                        <Button
+                          className="ml-auto"
+                          onClick={() => {
+                            SetValue();
+                            setOpen(false);
+                            setIsInvestment(true);
+                            setTotalInvestment(0);
+                            setTotalProfit(0);
+                            setGrowthRate(0);
+                            setNumberOfPeriods(0);
+                          }}
+                        >
                           <Icons.save className="mr-2 h-5 w-5" />
                           บันทึกผลการคำนวน
                         </Button>
@@ -166,7 +238,7 @@ const CalculatePlayback: FC = () => {
                   </div>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="item-2">
+              <AccordionItem value="item-2" disabled>
                 <AccordionTrigger
                   className="p-1 font-semibold"
                   onClick={() => setIsInvestment(!isInvestment)}
@@ -258,7 +330,7 @@ const CalculatePlayback: FC = () => {
                         </h4>
                         <div>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
-                            {payback}เดือน
+                            {payback} เดือน
                           </h3>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
                             {payback} ปี
