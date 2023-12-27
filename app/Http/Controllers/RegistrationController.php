@@ -201,7 +201,7 @@ class RegistrationController extends Controller
             ], 401);
             //! ./Block by role
 
-            return response()->json($validator->validated());
+            // return response()->json($validator->validated());
 
             DB::table("tb_mail_notifications")->insert([
                 "regis_id" => $request->regis_id,
