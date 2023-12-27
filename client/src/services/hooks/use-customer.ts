@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { CustomerService } from "../customer.service";
 
 export const useCustomer = () => {
-  const { showLoading, showError, closeSwal, showSuccess } = useSwal();
+  const { showLoading, showError, closeSwal } = useSwal();
   const customerService = new CustomerService();
   const { mutateAsync: mutateRegisterCustomer } = useMutation<
     TResponseAction,
@@ -19,7 +19,6 @@ export const useCustomer = () => {
     onSuccess(data) {
       closeSwal();
       if (data.status === "success") {
-        showSuccess(data.message, "");
       } else {
         showError(data.message, "");
       }

@@ -9,27 +9,27 @@ export abstract class APIService {
   }
 
   setAccessToken(token: string) {
-    localStorage.setItem("payload-icrs", token);
+    localStorage.setItem("key-icrs", token);
   }
 
   getAccessToken() {
-    return localStorage.getItem("payload-icrs");
+    return localStorage.getItem("key-icrs");
   }
 
   removeAccessToken() {
-    localStorage.removeItem("payload-icrs");
+    localStorage.removeItem("key-icrs");
   }
 
   setRefreshToken(token: string) {
-    localStorage.setItem("payload-icrs", token);
+    localStorage.setItem("key-icrs", token);
   }
 
   getRefreshToken() {
-    return localStorage.getItem("payload-icrs");
+    return localStorage.getItem("key-icrs");
   }
 
   removeRefreshToken() {
-    localStorage.removeItem("payload-icrs");
+    localStorage.removeItem("key-icrs");
   }
 
   getHeaders() {

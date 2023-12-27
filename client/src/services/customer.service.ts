@@ -12,11 +12,12 @@ export class CustomerService extends APIService {
   ): Promise<TResponseAction> => {
     try {
       const { data: responseData } = await this.post(
-        "/registration/external",
+        "/registration/by-customer",
         data,
       );
       return responseData;
     } catch (error: any) {
+      console.error(error);
       return {
         message: error?.message,
         status: "error",

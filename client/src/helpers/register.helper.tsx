@@ -136,7 +136,6 @@ export const ConditionalInput = (
               | undefined
           }
           disabled={item?.disabled}
-          pattern="^[0-9-+\s()]*$"
         />
       );
     }

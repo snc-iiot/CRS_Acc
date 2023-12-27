@@ -1463,7 +1463,7 @@ const StandardInformationForm: FC = () => {
                         main_customer: {
                           name: e,
                           name_helper: "",
-                          value: "",
+                          value: "-",
                         },
                       },
                     }));

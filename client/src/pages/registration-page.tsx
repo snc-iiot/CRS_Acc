@@ -27,10 +27,10 @@ const RegistrationPage: FC = () => {
     consent_3: false,
   });
   const [searchParams] = useSearchParams();
-  const key = searchParams.get("key");
+  const key = searchParams.get("link");
   const { mutateRegisterCustomer } = useCustomer();
   const { confirmSwal, confirmSwalWithHtml } = useSwal();
-  const { registration } = useAtomStore();
+  const { registration, setRegistration } = useAtomStore();
   const MODE = "register";
 
   const onSubmit = async () => {
@@ -139,6 +139,11 @@ const RegistrationPage: FC = () => {
   useEffect(() => {
     const payLoad = getParsedToken(key as string) as IDecodedToken;
     localStorage.setItem("payload-icrs", JSON.stringify(payLoad));
+    localStorage.setItem("key-icrs", key as string);
+    setRegistration((prev) => ({
+      ...prev,
+      regis_id: payLoad?.regis_id,
+    }));
     if (!checkToken(payLoad)) {
       checkConfirm(payLoad);
     }
