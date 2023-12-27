@@ -1,10 +1,20 @@
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useConfirm } from "@/hooks";
 import { useSwal } from "@/hooks/use-swal";
+import { useAtomStore } from "@/jotai/use-atom-store";
 import { useForm, useUtils } from "@/services";
 import { FC } from "react";
 import { useSearchParams } from "react-router-dom";
+import { TableFinancialRatio } from "../pages/analytics";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 import { Button } from "../ui/button";
 import { Icons } from "./icons";
+import TableDBD from "./table-dbd";
 
 interface Props {
   activeTab: "R2" | "R3" | "R4" | "R5";
@@ -17,6 +27,107 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
   const regisId = searchParams.get("RegisID");
   const { mutateSyncDBD } = useUtils();
   const { mutateConfirmDBDInfo } = useForm();
+
+  const { dbdSyncList } = useAtomStore();
+
+  const UploadDBDDialog = () => {
+    const Financial = dbdSyncList?.financial_position?.map((item) => {
+      return {
+        Topic: item.topic_th,
+        Info: item?.info?.map((info) => {
+          return {
+            Year: info.year,
+            Amount: info.amount,
+            Change: info.change,
+          };
+        }),
+      };
+    });
+
+    const Income = dbdSyncList?.income_statement?.map((item) => {
+      return {
+        Topic: item.topic_th,
+        Info: item?.info?.map((info) => {
+          return {
+            Year: info.year,
+            Amount: info.amount,
+            Change: info.change,
+          };
+        }),
+      };
+    });
+    return (
+      <div className="flex items-center justify-end text-sm">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              <Icons.uploadCloudIcon className="mr-2" />
+              Upload ข้อมูล DBD
+            </Button>
+          </DialogTrigger>
+          <DialogContent
+            style={{ minWidth: "max-content", maxHeight: "80%" }}
+            className="flex flex-col overflow-clip p-2"
+          >
+            <div className="flex w-full flex-col gap-2 overflow-clip">
+              <h2 className="text-lg font-semibold">
+                กรุณากรอกรหัสลูกค้าให้ถูกต้อง
+              </h2>
+              <div className="flex gap-2">
+                <Button className="w-[20rem]">
+                  <Icons.uploadCloudIcon className="mr-2" />
+                  Upload ข้อมูล งบแสดงฐานะการเงิน
+                </Button>
+                <Button className="w-[20rem]">
+                  <Icons.uploadCloudIcon className="mr-2" />
+                  Upload ข้อมูล งบกำไรขาดทุน
+                </Button>
+                <Button className="w-[20rem]">
+                  <Icons.uploadCloudIcon className="mr-2" />
+                  Upload ข้อมูล อัตราส่วนทางการเงินที่สำคัญ
+                </Button>
+              </div>
+              <div className="flex h-full w-full overflow-auto">
+                <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
+                  <AccordionItem className="min-w-[1200px]" value="item-1">
+                    <AccordionTrigger className="p-1 text-xs font-bold">
+                      งบการเงิน / Statement of Financial Position
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <TableDBD className="w-full" data={Financial} />
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger className="p-1 text-xs font-bold">
+                      งบกำไรขาดทุน / Income Statement
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <TableDBD className="w-full" data={Income} />
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-3">
+                    <AccordionTrigger className="p-1 text-xs font-bold">
+                      อัตราส่วนทางการเงิน / Financial Ratio
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <TableFinancialRatio />
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+
+              <div className="flex w-full items-end justify-end gap-2">
+                <Button className="bg-green-600 hover:bg-green-600/80">
+                  <Icons.save className="mr-2" />
+                  ยืนยันข้อมูลการเงิน
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  };
 
   const renderElement = {
     // ["R1"]: (
@@ -47,6 +158,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
             <Icons.refreshCcw className="mr-2" />
             Sync ข้อมูล DBD
           </Button>
+          <UploadDBDDialog />
         </div>
         <Button
           className="bg-green-600 hover:bg-green-600/80"
