@@ -91,8 +91,8 @@ class RegistrationController extends Controller
 
     //! Customer
     //! Block Role OK
-    //TODO [POST] /registration/create-regis-id-external
-    function createRegisIDExternal(Request $request)
+    //TODO [POST] /registration/create-regis-id-for-customer
+    function createRegisIDForCustomer(Request $request)
     {
         try {
             $header = $request->header('Authorization');

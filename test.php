@@ -8,6 +8,8 @@
 
 // var_dump($time);
 
-$data = null;
+$data = ["AB", "CD", "EF"];
+
+echo join(",", $data);
 
 // var_dump(\json_decode($data));

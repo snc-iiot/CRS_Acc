@@ -257,7 +257,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
-    //TODO [POST] /dbd-financial-report/import-excel/financial-position
+    //TODO [POST] /dbd-financial-report/import-excel/financial-position (DBD Table1)
     function financialPosition(Request $request)
     {
         try {
@@ -271,7 +271,18 @@ class DbdFinancialReportController extends Controller
             // $decoded = $jwt->decoded;
 
             $rules = [
-                "regis_id"      => "required|uuid|string",
+                "regis_id"              => "required|uuid|string",
+                "content"               => "present|array|min:1",
+                "content.*.topic_no"    => "required|integer|min:1",
+                "content.*.topic_th"    => "required|string",
+                "content.*.topic_en"    => "required|string",
+                "content.*.short_key"   => "string|nullable",
+                "content.*.info.*.year" => "required|integer|min:2000|max:4000",
+                "content.*.info.*.amount" => "required|numeric|min:0",
+                "content.*.info.*.change" => "required|numeric",
+                // "content.*.info.*.change" => "required|numeric|regex:/^[0-9]+$/",
+                // "content.*.info.*.change" => "required|numeric|regex:/^[-+]?([0-9]*[.])?[0-9]+$/",
+                // "content.*.info.*.change" => "required|numeric|regex:/^[+-]?([0-9]*[.])?[0-9]+$/",
             ];
             $validator = Validator::make($request->all(), $rules);
 
@@ -285,10 +296,52 @@ class DbdFinancialReportController extends Controller
                 ]
             ], 400);
 
+            //! Get Juristic ID
+            $result = DB::table("tb_regis_informations")->selectRaw("company_information->>'juristic_id' as juristic_id")->where("regis_id", $request->regis_id)->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่พบหมายเลขนิติบุคคลในการลงทะเบียนนี้",
+                "data" => []
+            ], 400);
+
+            $dbdTable = "tb_dbd_financial_reports_test";
+
+            $checkOldData = DB::table($dbdTable)->select(["regis_id"])->where("regis_id", $request->regis_id)->get();
+            $isInsert = \count($checkOldData) == 0;
+
+            $juristicID = $result[0]->juristic_id;
+            $firstItem = $request->content[0];
+            $startYear = null;
+            $lastYear = null;
+            if (\count($firstItem['info']) > 0) {
+                $startYear = \array_slice($firstItem['info'], 0, 1)[0]['year'];
+                $lastYear = \array_slice($firstItem['info'], -1, 1)[0]['year'];
+            }
+
+            $financialPositionArr = array();
+            foreach ($request->content as $item) {
+                \array_push($financialPositionArr, "'" . \json_encode($item, JSON_UNESCAPED_UNICODE) . "'");
+            }
+
+            $data = [
+                "regis_id"                      => $request->regis_id,
+                "juristic_id"                   => $juristicID,
+                "financial_position"            => \json_encode($request->content, JSON_UNESCAPED_UNICODE),
+                "financial_position_arr"        => DB::raw("array[" . \join(",", $financialPositionArr) . "]::jsonb[]"),
+                "start_year"                    => $startYear,
+                "last_year"                     => $lastYear,
+            ];
+
+            $cursor = DB::table($dbdTable);
+            $isInsert ? $cursor->insert($data) : $cursor->where("regis_id", $request->regis_id)->update($data);
+
             return response()->json([
                 "status" => "success",
                 "message" => "นำเข้าเอกสารงบแสดงฐานะการเงินสำเร็จ",
-                "data" => []
+                "data" => [],
+                // "data" => [],
+                // "data" => $validator->validated(),
+                // "data" => $first['info'],
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -299,7 +352,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
-    //TODO [POST] /dbd-financial-report/import-excel/icome-statement
+    //TODO [POST] /dbd-financial-report/import-excel/icome-statement (DBD Table2)
     function icomeStatement(Request $request)
     {
         try {
@@ -313,7 +366,18 @@ class DbdFinancialReportController extends Controller
             // $decoded = $jwt->decoded;
 
             $rules = [
-                "regis_id"      => "required|uuid|string",
+                "regis_id"              => "required|uuid|string",
+                "content"               => "present|array|min:1",
+                "content.*.topic_no"    => "required|integer|min:1",
+                "content.*.topic_th"    => "required|string",
+                "content.*.topic_en"    => "required|string",
+                "content.*.short_key"   => "string|nullable",
+                "content.*.info.*.year" => "required|integer|min:2000|max:4000",
+                "content.*.info.*.amount" => "required|numeric|min:0",
+                "content.*.info.*.change" => "required|numeric",
+                // "content.*.info.*.change" => "required|numeric|regex:/^[0-9]+$/",
+                // "content.*.info.*.change" => "required|numeric|regex:/^[-+]?([0-9]*[.])?[0-9]+$/",
+                // "content.*.info.*.change" => "required|numeric|regex:/^[+-]?([0-9]*[.])?[0-9]+$/",
             ];
             $validator = Validator::make($request->all(), $rules);
 
@@ -327,10 +391,49 @@ class DbdFinancialReportController extends Controller
                 ]
             ], 400);
 
+            //! Get Juristic ID
+            $result = DB::table("tb_regis_informations")->selectRaw("company_information->>'juristic_id' as juristic_id")->where("regis_id", $request->regis_id)->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่พบหมายเลขนิติบุคคลในการลงทะเบียนนี้",
+                "data" => []
+            ], 400);
+
+            $dbdTable = "tb_dbd_financial_reports_test";
+
+            $checkOldData = DB::table($dbdTable)->select(["regis_id"])->where("regis_id", $request->regis_id)->get();
+            $isInsert = \count($checkOldData) == 0;
+
+            $juristicID = $result[0]->juristic_id;
+            $firstItem = $request->content[0];
+            $startYear = null;
+            $lastYear = null;
+            if (\count($firstItem['info']) > 0) {
+                $startYear = \array_slice($firstItem['info'], 0, 1)[0]['year'];
+                $lastYear = \array_slice($firstItem['info'], -1, 1)[0]['year'];
+            }
+
+            $incomeStatementArr = array();
+            foreach ($request->content as $item) {
+                \array_push($incomeStatementArr, "'" . \json_encode($item, JSON_UNESCAPED_UNICODE) . "'");
+            }
+
+            $data = [
+                "regis_id"                      => $request->regis_id,
+                "juristic_id"                   => $juristicID,
+                "income_statement"              => \json_encode($request->content, JSON_UNESCAPED_UNICODE),
+                "income_statement_arr"          => DB::raw("array[" . \join(",", $incomeStatementArr) . "]::jsonb[]"),
+                "start_year"                    => $startYear,
+                "last_year"                     => $lastYear,
+            ];
+
+            $cursor = DB::table($dbdTable);
+            $isInsert ? $cursor->insert($data) : $cursor->where("regis_id", $request->regis_id)->update($data);
+
             return response()->json([
                 "status" => "success",
                 "message" => "นำเข้าเอกสารงบกำไรขาดทุนสำเร็จ",
-                "data" => []
+                "data" => [],
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -341,7 +444,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
-    //TODO [POST] /dbd-financial-report/import-excel/financial-ratios
+    //TODO [POST] /dbd-financial-report/import-excel/financial-ratios (DBD Table3)
     function financialRatios(Request $request)
     {
         try {
@@ -355,7 +458,14 @@ class DbdFinancialReportController extends Controller
             // $decoded = $jwt->decoded;
 
             $rules = [
-                "regis_id"      => "required|uuid|string",
+                "regis_id"              => "required|uuid|string",
+                "content"               => "present|array|min:1",
+                "content.*.topic_no"    => "required|integer|min:1",
+                "content.*.topic_th"    => "required|string",
+                "content.*.topic_en"    => "required|string",
+                "content.*.short_key"   => "string|nullable",
+                "content.*.info.*.year" => "required|integer|min:2000|max:4000",
+                "content.*.info.*.ratio" => "required|numeric|min:0",
             ];
             $validator = Validator::make($request->all(), $rules);
 
@@ -369,10 +479,65 @@ class DbdFinancialReportController extends Controller
                 ]
             ], 400);
 
+            //! Get Juristic ID
+            $result = DB::table("tb_regis_informations")->selectRaw("company_information->>'juristic_id' as juristic_id")->where("regis_id", $request->regis_id)->get();
+            if (\count($result) == 0) return response()->json([
+                "status" => "error",
+                "message" => "ไม่พบหมายเลขนิติบุคคลในการลงทะเบียนนี้",
+                "data" => []
+            ], 400);
+
+            $dbdTable = "tb_dbd_financial_reports_test";
+
+            $checkOldData = DB::table($dbdTable)->select(["regis_id"])->where("regis_id", $request->regis_id)->get();
+            $isInsert = \count($checkOldData) == 0;
+
+            $juristicID = $result[0]->juristic_id;
+            $firstItem = $request->content[0];
+            $startYear = null;
+            $lastYear = null;
+            if (\count($firstItem['info']) > 0) {
+                $startYear = \array_slice($firstItem['info'], 0, 1)[0]['year'];
+                $lastYear = \array_slice($firstItem['info'], -1, 1)[0]['year'];
+            }
+
+            $financialRatiosArr = array();
+            $financialRatiosLatest = array();
+            $financialRatiosLatestArr = array();
+            foreach ($request->content as $item) {
+                $infoLastYear = \array_slice($item->info, -1, 1)[0];
+                $info = [
+                    "topic_no"  => $item->topic_no,
+                    "topic_th"  => $item->topic_th,
+                    "topic_en"  => $item->topic_en,
+                    "short_key" => $item->short_key,
+                    "year"      => $infoLastYear['year'],
+                    "ratio"     => $infoLastYear['ratio'],
+                ];
+                \array_push($financialRatiosLatest, $info);
+                \array_push($financialRatiosArr, "'" . \json_encode($item, JSON_UNESCAPED_UNICODE) . "'");
+                \array_push($financialRatiosLatestArr, "'" . \json_encode($info, JSON_UNESCAPED_UNICODE) . "'");
+            }
+
+            $data = [
+                "regis_id"                      => $request->regis_id,
+                "juristic_id"                   => $juristicID,
+                "financial_ratios"              => \json_encode($request->content, JSON_UNESCAPED_UNICODE),
+                "financial_ratios_latest"       => \json_encode($financialRatiosLatest, JSON_UNESCAPED_UNICODE),
+                "financial_ratios_arr"          => DB::raw("array[" . \join(",", $financialRatiosArr) . "]::jsonb[]"),
+                "financial_ratios_latest_arr"   => DB::raw("array[" . \join(",", $financialRatiosLatestArr) . "]::jsonb[]"),
+                "start_year"                    => $startYear,
+                "last_year"                     => $lastYear,
+            ];
+
+            $cursor = DB::table($dbdTable);
+            $isInsert ? $cursor->insert($data) : $cursor->where("regis_id", $request->regis_id)->update($data);
+
             return response()->json([
                 "status" => "success",
                 "message" => "นำเข้าเอกสารอัตราส่วนทางการเงินที่สำคัญสำเร็จ",
-                "data" => []
+                "data" => [],
+                // "data" => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json([
