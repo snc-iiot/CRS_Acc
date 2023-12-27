@@ -155,12 +155,13 @@ class DashboardController extends Controller
             ], 401);
             // $decoded = $jwt->decoded;
 
-            $result = DB::table("vw_regis_stat")->get();
+            // $result = DB::table("vw_regis_stat")->get();
 
             return response()->json([
                 "status" => "success",
                 "message" => "Data from query",
-                "data" => $result
+                // "data" => $result,
+                "data" => [],
             ]);
         } catch (\Exception $e) {
             return response()->json([

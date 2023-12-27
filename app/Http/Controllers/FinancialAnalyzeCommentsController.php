@@ -79,7 +79,6 @@ class FinancialAnalyzeCommentsController extends Controller
         }
     }
 
-
     //* [GET] /financial-comments (read)
     function getAllComments(Request $request)
     {
