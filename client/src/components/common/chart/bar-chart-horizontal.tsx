@@ -58,6 +58,7 @@ type BarChartComponentProps = {
   isShowLabel?: boolean;
   unitTooltip?: string;
   isLabelInside?: boolean;
+  barFontSize?: number;
 };
 
 const BarChartHorizontal: FC<BarChartComponentProps> = ({
@@ -68,6 +69,7 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
   // isShowLabel = true,
   unitTooltip = "",
   isLabelInside = false,
+  barFontSize = 12,
 }) => {
   const BAR_AXIS_SPACE = 60;
   const measureText14HelveticaNeue = (text: string) => {
@@ -110,11 +112,11 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
         //     : x + width - 10 - (width - widthText) / 2
         // }
         x={15}
-        y={y + height / 2}
+        y={y + height / 2 + 1}
         fill="#ffffff"
         textAnchor="start"
         dominantBaseline="middle"
-        fontSize={12}
+        fontSize={barFontSize}
         display={widthText > width ? "none" : "block"}
         width={width}
       >

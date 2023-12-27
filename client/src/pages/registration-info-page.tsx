@@ -198,23 +198,24 @@ const RegistrationInfo: FC = () => {
         setTimeout(() => {
           closeSwal();
         }, 1000);
-      } else if (form_mode === "edit") {
-        const isConfirmed = await confirmSwal(
-          "แจ้งเตือน",
-          "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
-          "ดำเนินการต่อ",
-          undefined,
-          false,
-        );
-        if (isConfirmed) {
-          navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
-            state: {
-              form_mode: "",
-            },
-            replace: true,
-          });
-        }
       }
+      // } else if (form_mode === "edit") {
+      //   const isConfirmed = await confirmSwal(
+      //     "แจ้งเตือน",
+      //     "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
+      //     "ดำเนินการต่อ",
+      //     undefined,
+      //     false,
+      //   );
+      //   if (isConfirmed) {
+      //     navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
+      //       state: {
+      //         form_mode: "",
+      //       },
+      //       replace: true,
+      //     });
+      //   }
+      // }
     } catch (error) {
       showError("ไม่สามารถดึงข้อมูลได้", "เกิดข้อผิดพลาด");
     }
@@ -237,8 +238,9 @@ const RegistrationInfo: FC = () => {
           replace: true,
         });
       }
+    } else if (form_mode === "") {
+      getInfoById();
     }
-    getInfoById();
   };
 
   useEffect(() => {
@@ -722,7 +724,7 @@ const RegistrationInfo: FC = () => {
                       </h2>
                     </section>
                     <section className="grid h-full w-full grid-cols-2">
-                      <div className="col-span-2 h-full w-full flex-grow overflow-y-auto px-2">
+                      <div className="col-span-2 h-full w-full flex-grow overflow-y-auto">
                         <BarChartHorizontal
                           data={dataRegisCount
                             ?.filter(
@@ -740,6 +742,7 @@ const RegistrationInfo: FC = () => {
                           keyXAxis="name"
                           keyYAxis="value"
                           isLabelInside={true}
+                          barFontSize={8}
                         />
                       </div>
                       {/* <div className="relative flex h-full w-full flex-col">

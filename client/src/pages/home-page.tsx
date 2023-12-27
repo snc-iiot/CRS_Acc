@@ -47,29 +47,22 @@ const HomePage: FC = () => {
   const DataObjectivePurchasingRatio = [
     {
       name: "ซื้อมาขายไป",
-      value:
+      value: 0,
+      ซื้อมาขายไป:
         dataObjectivePurchasingRatio?.filter(
           ({ objective_purchasing }) => objective_purchasing === "trade",
         )?.[0]?.amount ?? 10,
-      datetime: "ซื้อมาขายไป",
-    },
-    {
-      name: "ผลิตงาน",
-      value:
+      ผลิตงาน:
         dataObjectivePurchasingRatio?.filter(
           ({ objective_purchasing }) => objective_purchasing === "produce",
-        )?.[0]?.amount ?? 17,
-      datetime: "ผลิตงาน",
-    },
-    {
-      name: "อื่นๆ",
-      value:
+        )?.[0]?.amount ?? 10,
+      อื่นๆ:
         dataObjectivePurchasingRatio?.filter(
           ({ objective_purchasing }) => objective_purchasing === "other",
-        )?.[0]?.amount ?? 0,
-      datetime: "อื่นๆ",
+        )?.[0]?.amount ?? 10,
+      datetime: "วัตถุประสงค์การซื้อสินค้า",
     },
-  ]?.sort((a, b) => b?.value - a?.value);
+  ];
 
   const DataMainCustomers = [
     {
@@ -201,6 +194,11 @@ const HomePage: FC = () => {
               <BarChart
                 data={DataObjectivePurchasingRatio}
                 unitYAxis="รายการ"
+                dataKey={[
+                  { name: "ซื้อมาขายไป", color: COLORS_SERIES[10] },
+                  { name: "ผลิตงาน", color: COLORS_SERIES[11] },
+                  { name: "อื่นๆ", color: COLORS_SERIES[12] },
+                ]}
               />
             </article>
           )}

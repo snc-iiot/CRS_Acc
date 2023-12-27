@@ -11,11 +11,29 @@ import {
   YAxis,
 } from "recharts";
 
+interface DataInterface {
+  name: string;
+  value: number;
+  datetime: string;
+}
+
+interface DataObjectivePurchasingRatioInterface {
+  name: string;
+  value: number;
+  ซื้อมาขายไป: number;
+  ผลิตงาน: number;
+  อื่นๆ: number;
+  datetime: string;
+}
+
+type DataType = DataInterface[] | DataObjectivePurchasingRatioInterface[];
+
 interface Props {
-  data?: { name: string; value: number; datetime: string }[];
+  data?: DataType;
   domain?: [number, number];
   unitYAxis?: string;
   isBrush?: boolean;
+  dataKey?: { name: string; color: string }[];
 }
 
 const BarChart: FC<Props> = ({
@@ -29,11 +47,14 @@ const BarChart: FC<Props> = ({
   domain = [0, 0],
   unitYAxis = "%",
   isBrush = false,
+  dataKey = [{ name: "value", color: "3C5A99" }],
 }) => {
   const [average, setAverage] = useState<number>(0);
 
   const averageBar = () => {
-    const arr: number[] = data?.map((info) => Number(info["value"]) ?? 0);
+    const arr: number[] = data?.map(
+      (info) => Number(info["value"] ?? "0") ?? 0,
+    );
     if (data?.length != 0) {
       setAverage(Number(arr?.reduce((pre, cur) => pre + cur, 0)) / arr?.length);
     }
@@ -63,32 +84,29 @@ const BarChart: FC<Props> = ({
             if (active) {
               return (
                 <div className="items-start justify-start rounded-md bg-white px-4 py-2 font-bold shadow-md">
-                  <p className="text-sm">
-                    {payload?.[0]?.payload?.datetime?.slice(0, 16)}
-                  </p>
-                  <div className="flex w-full items-center justify-start gap-0">
-                    <div
-                      className="mr-2 h-3 w-3 rounded-full"
-                      style={{ backgroundColor: "#3C5A99" }}
-                    />
-                    <p className="text-sm font-normal">
-                      {payload?.[0]?.payload.name}
-                    </p>
-                    {payload?.map((item: any, index: number) => (
+                  <p className="text-sm">{payload?.[0]?.payload?.datetime}</p>
+                  {dataKey?.map(({ name, color }, i) => (
+                    <div className="flex w-full items-center justify-start gap-0">
                       <div
-                        key={index}
-                        className="flex items-center gap-3 font-normal"
-                      >
+                        className="mr-2 h-3 w-3 rounded-full"
+                        style={{ backgroundColor: color }}
+                      />
+                      <p className="text-sm font-normal">{name}</p>
+
+                      <div className="flex items-center justify-between gap-3 font-normal">
                         <p className="intro text-sm">
                           :{" "}
-                          {Number(item?.value)?.toLocaleString(undefined, {
-                            maximumFractionDigits: 2,
-                          })}{" "}
+                          {Number(payload[i]?.value)?.toLocaleString(
+                            undefined,
+                            {
+                              maximumFractionDigits: 2,
+                            },
+                          )}{" "}
                           {unitYAxis}
                         </p>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               );
             }
@@ -100,7 +118,6 @@ const BarChart: FC<Props> = ({
           scale="point"
           fontSize={"0.6rem"}
           padding={{ left: 10, right: 10 }}
-          tickFormatter={(tick) => `${tick?.slice(0, 16)}`}
         />
         <YAxis
           fontSize={"0.6rem"}
@@ -122,11 +139,13 @@ const BarChart: FC<Props> = ({
         <Tooltip />
         {/* <Legend /> */}
         <CartesianGrid strokeDasharray="0 3" />
-        <Bar
-          dataKey="value"
-          fill="#3C5A99"
-          label={{ position: "top", fontSize: "0.8rem" }}
-        />
+        {dataKey?.map(({ name, color }) => (
+          <Bar
+            dataKey={name}
+            fill={color}
+            label={{ position: "top", fontSize: "0.8rem" }}
+          />
+        ))}
         {isBrush && (
           <Brush
             dataKey="name1"
@@ -136,23 +155,25 @@ const BarChart: FC<Props> = ({
           />
         )}
 
-        <ReferenceLine
-          y={average}
-          label={{
-            value: `ค่าเฉลี่ย: ${parseFloat(String(average))?.toLocaleString(
-              undefined,
-              {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
-            )}`,
-            fill: "#000000",
-            fontSize: "0.8rem",
-            fontWeight: "bold",
-          }}
-          strokeWidth={1.5}
-          stroke={"#00000020"}
-        />
+        {average !== 0 && (
+          <ReferenceLine
+            y={average}
+            label={{
+              value: `ค่าเฉลี่ย: ${parseFloat(String(average))?.toLocaleString(
+                undefined,
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+              )}`,
+              fill: "#000000",
+              fontSize: "0.8rem",
+              fontWeight: "bold",
+            }}
+            strokeWidth={1.5}
+            stroke={"#00000020"}
+          />
+        )}
       </BarChartRechart>
     </ResponsiveContainer>
   );
