@@ -1247,16 +1247,8 @@ class RegistrationController extends Controller
             ], 401);
             //! ./Block by role
 
-            $regis_id               = $request->regis_id;
-            $company_information    = \json_encode($request->company_information, JSON_UNESCAPED_UNICODE);
-            $share_holder           = \json_encode($request->share_holder, JSON_UNESCAPED_UNICODE);
-            $contact_person         = \json_encode($request->contact_person, JSON_UNESCAPED_UNICODE);
-            $standard               = \json_encode($request->standard, JSON_UNESCAPED_UNICODE);
-            $relationship           = \json_encode($request->relationship, JSON_UNESCAPED_UNICODE);
-            $payment_term           = \json_encode($request->payment_term, JSON_UNESCAPED_UNICODE);
-
             //! Block by status_no
-            $result = DB::table("tb_regis_informations")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
+            $result = DB::table("tb_regis_informations")->select(["regis_id", "status_no"])->where("regis_id", $request->regis_id)->whereIn("status_no", [0, 1, 3])->get();
             // $result = DB::table("tb_general_assessments")->where("regis_id", $regis_id)->whereIn("status_no", [0, 1, 3])->get();
             if (\count($result) == 0) return response()->json([
                 "status" => "error",
@@ -1265,16 +1257,22 @@ class RegistrationController extends Controller
             ], 406);
             //! ./Block by status_no
 
-            // $result = Company::insert([
-            DB::table("tb_regis_informations")->where("regis_id", $regis_id)->update([
-                "company_information"   => $company_information,
-                "share_holder"          => $share_holder,
-                "contact_person"        => $contact_person,
-                "standard"              => $standard,
-                "relationship"          => $relationship,
-                "payment_term"          => $payment_term,
+            $currentStatusNo = $result[0]->status_no;
+
+            $data = [
+                "company_information"   => \json_encode($request->company_information, JSON_UNESCAPED_UNICODE),
+                "share_holder"          => \json_encode($request->share_holder, JSON_UNESCAPED_UNICODE),
+                "contact_person"        => \json_encode($request->contact_person, JSON_UNESCAPED_UNICODE),
+                "standard"              => \json_encode($request->standard, JSON_UNESCAPED_UNICODE),
+                "relationship"          => \json_encode($request->relationship, JSON_UNESCAPED_UNICODE),
+                "payment_term"          => \json_encode($request->payment_term, JSON_UNESCAPED_UNICODE),
                 "updated_at"            => DB::raw("now()"),
-            ]);
+            ];
+
+            if ($currentStatusNo == 0) $data["status_no"] = 1;
+
+            // $result = Company::insert([
+            DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->update($data);
 
             return response()->json([
                 "status" => "success",
