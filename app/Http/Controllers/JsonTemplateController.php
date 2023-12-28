@@ -1752,14 +1752,14 @@ class JsonTemplateController extends Controller
     {
         try {
             $cacheKey = "/template/all-company";
-            // $cached = Cache::get($cacheKey);
-            // if (!\is_null($cached)) {
-            //     return response()->json([
-            //         "status" => "success",
-            //         "message" => "Data from cached",
-            //         "data" => \json_decode($cached),
-            //     ]);
-            // }
+            $cached = Cache::get($cacheKey);
+            if (!\is_null($cached)) {
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Data from cached",
+                    "data" => \json_decode($cached),
+                ]);
+            }
             $result = DB::table("tb_all_company")->select(["company", "company_full_name_th", "company_full_name_en", "province"])->orderBy("created_at")->get();
             Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 hours'));
 

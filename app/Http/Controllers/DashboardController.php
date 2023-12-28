@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 // use App\Models\Documents;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -32,12 +33,22 @@ class DashboardController extends Controller
             ], 401);
             // $decoded = $jwt->decoded;
 
+            $cacheKey = "/dashboard/main-customer-ratio";
+            $cached = Cache::get($cacheKey);
+            if (!\is_null($cached)) return response()->json([
+                "status" => "success",
+                "message" => "Data from cached",
+                "data" => \json_decode($cached),
+            ]);
+
             // $result = DB::table("vw_main_customer_ratio")->get();
             $result = DB::table("tb_regis_informations")->selectRaw(
                 "distinct on (payment_term->'main_customer'->>'name')
                 payment_term->'main_customer'->>'name' as main_customer
                 ,count(*) over (partition by payment_term->'main_customer'->>'name') as amount"
             )->whereIn("status_no", [6, 8])->get();
+
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
 
             return response()->json([
                 "status" => "success",
@@ -66,14 +77,22 @@ class DashboardController extends Controller
                 "data" => [],
             ], 401);
 
-            $request->all();
+            $cacheKey = "/dashboard/regis-count";
+            $cached = Cache::get($cacheKey);
+            if (!\is_null($cached)) return response()->json([
+                "status" => "success",
+                "message" => "Data from cached",
+                "data" => \json_decode($cached),
+            ]);
 
-            $data = DB::table("vw_company_regis_count")->get();
+            $result = DB::table("vw_company_regis_count")->get();
+
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
 
             return response()->json([
                 "status" => "success",
                 "message" => "Data from query",
-                "data" => $data
+                "data" => $result
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -97,7 +116,17 @@ class DashboardController extends Controller
             ], 401);
             // $decoded = $jwt->decoded;
 
+            $cacheKey = "/dashboard/share-holder-ratio";
+            $cached = Cache::get($cacheKey);
+            if (!\is_null($cached)) return response()->json([
+                "status" => "success",
+                "message" => "Data from cached",
+                "data" => \json_decode($cached),
+            ]);
+
             $result = DB::table("vw_share_holder_ratio_sum")->get();
+
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
 
             return response()->json([
                 "status" => "success",
@@ -126,12 +155,22 @@ class DashboardController extends Controller
             ], 401);
             // $decoded = $jwt->decoded;
 
+            $cacheKey = "/dashboard/objective-purchasing-ratio";
+            $cached = Cache::get($cacheKey);
+            if (!\is_null($cached)) return response()->json([
+                "status" => "success",
+                "message" => "Data from cached",
+                "data" => \json_decode($cached),
+            ]);
+
             // $result = DB::table("vw_objective_purchasing_ratio")->get();
             $result = DB::table("tb_regis_informations")->selectRaw(
                 "distinct on (payment_term->'objective_purchasing'->>'name')
                 payment_term->'objective_purchasing'->>'name' as objective_purchasing
                 ,count(*) over (partition by payment_term->'objective_purchasing'->>'name') as amount"
             )->whereIn("status_no", [6, 8])->get();
+
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
 
             return response()->json([
                 "status" => "success",
@@ -160,10 +199,20 @@ class DashboardController extends Controller
             ], 401);
             // $decoded = $jwt->decoded;
 
+            $cacheKey = "/dashboard/regis-stat";
+            $cached = Cache::get($cacheKey);
+            if (!\is_null($cached)) return response()->json([
+                "status" => "success",
+                "message" => "Data from cached",
+                "data" => \json_decode($cached),
+            ]);
+
             $result = DB::table("tb_regis_informations")->selectRaw(
                 "company_information->>'province' as province
                 ,count(*) as amount"
             )->whereIn("status_no", [6, 8])->groupByRaw("company_information->>'province'")->get();
+
+            Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
 
             return response()->json([
                 "status" => "success",
