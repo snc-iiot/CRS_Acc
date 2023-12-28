@@ -37,7 +37,7 @@ const DocumentUploadForm: FC = () => {
     await mutateGetDocByRegisId(regisId as string);
     setTimeout(() => {
       setProgress(0);
-    }, 3000);
+    }, 1500);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

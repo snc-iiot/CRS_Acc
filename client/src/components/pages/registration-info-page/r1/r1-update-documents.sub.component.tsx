@@ -43,12 +43,12 @@ export const R1UpdateDocuments: FC = () => {
     },
     {
       label: "เอกสารอื่นๆ 2",
-      link: docByRegisId?.documents?.internal_other1 || "",
+      link: docByRegisId?.documents?.internal_other2 || "",
       name: "internal_other2",
     },
     {
       label: "เอกสารอื่นๆ 3",
-      link: docByRegisId?.documents?.internal_other1 || "",
+      link: docByRegisId?.documents?.internal_other3 || "",
       name: "internal_other3",
     },
   ];
@@ -66,23 +66,21 @@ export const R1UpdateDocuments: FC = () => {
       },
       setProgress: (progress: number) => setProgress(progress),
     };
-    // Promise.all([
-    //   mutateUploadFile(newReq),
-    //   mutateGetDocByRegisId(regisId as string),
-    // ]);
     await mutateUploadFile(newReq);
     await mutateGetDocByRegisId(regisId as string);
     document.getElementById(`${e.target.name}`)?.setAttribute("value", "");
     setTimeout(() => {
       setProgress(0);
-    }, 3000);
+    }, 1500);
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    const file = e.target.files?.[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = document.querySelector<HTMLInputElement>(`#${e.target.name}`)
+      ?.files?.[0];
+    console.log(file);
     if (file) {
-      await handleUploadFile(file, e);
+      handleUploadFile(file, e);
+      setName(e.target.name);
     }
   };
 
@@ -125,14 +123,12 @@ export const R1UpdateDocuments: FC = () => {
                     "cursor-pointer whitespace-nowrap text-primary hover:underline",
                     !common?.isEditGeneralAssessmentForm ? "hidden" : "",
                   )}
-                  onChange={async (e) => {
-                    console.log(e.target.files);
-                    await handleFileChange(e);
-                    setName(e.target.name);
+                  onChange={(e) => {
+                    handleFileChange(e);
                   }}
                 >
                   <button className="cursor-pointer whitespace-nowrap text-xs text-primary hover:underline">
-                    {item?.link ? "อัพโหลดซ้ำ" : "อัพโหลดเอกสาร"}
+                    {item?.link !== "" ? "อัพโหลดซ้ำ" : "อัพโหลดเอกสาร"}
                     {progress > 0 && name == item?.name ? (
                       <span className="ml-2 text-xs text-red-500">
                         {progress}%
@@ -143,7 +139,7 @@ export const R1UpdateDocuments: FC = () => {
                 <button
                   className={cn(
                     "cursor-pointer whitespace-nowrap text-red-500 hover:underline",
-                    !item?.link && "hidden",
+                    item?.link === "" && "hidden",
                     !common?.isEditGeneralAssessmentForm && "hidden",
                   )}
                   onClick={async () => {

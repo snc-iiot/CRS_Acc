@@ -20,13 +20,14 @@ export const validateRegisterForm = (values: TRegistrationForm) => {
     isValid = false;
     error_th = "กรุณาระบุมาตรฐานการรับรองที่ได้รับ";
     error_en = "Standard certificate";
-  }  else if (
-    values?.company_information?.juristic_id?.length < 13 || values?.company_information?.juristic_id?.length > 13
+  } else if (
+    values?.company_information?.juristic_id?.length < 13 ||
+    values?.company_information?.juristic_id?.length > 13
   ) {
     isValid = false;
     error_th = "กรุณาตรวจสอบเลขประจำตัวผู้เสียภาษี (13 หลัก)";
     error_en = "Tax identification number";
-  }  else if (
+  } else if (
     values?.standard?.benefit.every((item) => item.is_checked === false)
   ) {
     isValid = false;
@@ -40,32 +41,23 @@ export const validateRegisterForm = (values: TRegistrationForm) => {
     isValid = false;
     error_th = "กรุณาระบุเงื่อนไขการขนส่งสินค้า";
     error_en = "Delivery term";
-  } else if (
-    values?.payment_term.credit_term.name === ""
-  ) {
+  } else if (values?.payment_term.credit_term.name === "") {
     isValid = false;
     error_th = "กรุณาระบุเครดิตเทอมการจ่ายเงิน";
     error_en = "Credit term";
-  } else if (
-    values?.payment_term.billing_term.name === ""
-  ) {
+  } else if (values?.payment_term.billing_term.name === "") {
     isValid = false;
     error_th = "กรุณาระบุระเบียบการวางบิล";
     error_en = "Billing terms";
-  } else if (
-    values?.payment_term.objective_purchasing.name === ""
-  ) {
+  } else if (values?.payment_term.objective_purchasing.name === "") {
     isValid = false;
     error_th = "กรุณาระบุวัตถุประสงค์หลักการซื้อสินค้า";
     error_en = "The objective of purchasing";
-  }  else if (
-    values?.payment_term.main_customer.name === ""
-  ) {
+  } else if (values?.payment_term.main_customer.name === "") {
     isValid = false;
     error_th = "กรุณาระบุลูกค้าหลักของลูกค้า";
     error_en = "Main customer of customer";
   }
-
 
   return {
     isValid,
@@ -104,7 +96,10 @@ export const validateGeneralAssessmentForm = (
     isValid = false;
     error_th = "กรุณาระบุ Lead time การสั่งซื้อ";
     error_en = "Lead time";
-  } else if (values?.price_conditions?.peroid === "") {
+  } else if (
+    values?.price_conditions?.peroid == "" ||
+    values?.price_conditions?.value == 0
+  ) {
     isValid = false;
     error_th = "กรุณาระบุ เงื่อนไขการปรับราคา";
     error_en = "Price conditions";
@@ -114,10 +109,74 @@ export const validateGeneralAssessmentForm = (
     isValid = false;
     error_th = "กรุณาระบุ เครื่องจักรที่ใช้ผลิต";
     error_en = "Machine produce";
+  } else if (
+    values?.machine_produce?.find(
+      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+    )?.value?.amount === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ จำนวนเงินลงทุน";
+    error_en = "Investment amount";
+  } else if (
+    values?.machine_produce?.find(
+      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+    )?.value?.ROA === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ ROA";
+    error_en = "ROA";
+  } else if (
+    values?.machine_produce?.find(
+      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+    )?.value?.ROI === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ ROI";
+    error_en = "ROI";
+  } else if (
+    values?.machine_produce?.find(
+      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+    )?.value?.payback === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ Payback";
+    error_en = "Payback";
   } else if (values.mold_use.every((item) => item.is_checked === false)) {
     isValid = false;
     error_th = "กรุณาระบุ แม่พิมพ์ที่ใช้ผลิต";
     error_en = "Machine produce";
+  } else if (
+    values?.mold_use?.find(
+      (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    )?.value?.amount === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ จำนวนเงินลงทุน";
+    error_en = "Investment amount";
+  } else if (
+    values?.mold_use?.find(
+      (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    )?.value?.ROI === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ ROI";
+    error_en = "Investment amount";
+  } else if (
+    values?.mold_use?.find(
+      (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    )?.value?.ROA === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ ROA";
+    error_en = "Investment amount";
+  } else if (
+    values?.mold_use?.find(
+      (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    )?.value?.payback === 0
+  ) {
+    isValid = false;
+    error_th = "กรุณาระบุ Payback";
+    error_en = "Investment amount";
   } else if (values?.main_material.every((item) => item.is_checked === false)) {
     isValid = false;
     error_th = "กรุณาระบุ วัตถุดิบหลักในการผลิตสินค้า";
@@ -126,11 +185,29 @@ export const validateGeneralAssessmentForm = (
     isValid = false;
     error_th = "กรุณาระบุ ระยะทางในการขนส่งสินค้า";
     error_en = "Transport distance";
+  } else if (values.transport_distance?.car_type === "") {
+    isValid = false;
+    error_th = "กรุณาระบุ ประเภทรถที่ใช้ขนส่งสินค้า";
+    error_en = "Car type";
+  } else if (values.transport_distance?.fuel_type === "") {
+    isValid = false;
+    error_th = "กรุณาระบุ ประเภทเชื้อเพลิงที่ใช้ขนส่งสินค้า";
+    error_en = "Fuel type";
+  } else if (values.transport_distance?.shipping_cost === null) {
+    isValid = false;
+    error_th = "กรุณาระบุ ค่าขนส่งสินค้า";
+    error_en = "Shipping cost";
   } else if (
-    values.main_supplier_credit_terms.every((item) => item.supplier_name == "")
+    values.main_supplier_credit_terms.some(
+      (item) =>
+        item?.supplier_name === "" ||
+        item?.ratio === null ||
+        item?.credit_terms === null ||
+        item?.country?.label === "",
+    )
   ) {
     isValid = false;
-    error_th = "กรุณาระบุ เครดิตเทอม ซัพพลายเออร์หลัก";
+    error_th = "กรุณาระบุ ข้อมูลเครดิตเทอม ซัพพลายเออร์หลัก";
     error_en = "Main supplier";
   } else if (
     values.main_mat_ratio.foreign + values.main_mat_ratio.thailand !==

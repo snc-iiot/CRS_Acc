@@ -9,8 +9,6 @@ const CustomerDetails: FC = () => {
   const { registration, businessTypeList } = useAtomStore();
   const { company_information } = registration;
 
-  console.log("company_information", company_information);
-
   return (
     <div className="grid grid-cols-4 pl-1 pr-4 text-xs">
       {CompanyInfo?.filter(

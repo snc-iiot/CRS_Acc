@@ -29,7 +29,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.1.1"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.1.1"]?.[0]?.label_en})`
+          : `${allSection["1.1.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.1"]?.[0]?.score,
       maxScore: allSection["1.1.1"]?.[0]?.max_score,
@@ -58,7 +58,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.1.2"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.1.2"]?.[0]?.label_en})`
+          : `${allSection["1.1.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.2"]?.[0]?.score,
       maxScore: allSection["1.1.2"]?.[0]?.max_score,
@@ -87,7 +87,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.1.3"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.1.3"]?.[0]?.label_en})`
+          : `${allSection["1.1.3"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.3"]?.[0]?.score,
       maxScore: allSection["1.1.3"]?.[0]?.max_score,
@@ -116,7 +116,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.1.4"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.1.4"]?.[0]?.label_en})`
+          : `${allSection["1.1.4"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.4"]?.[0]?.score,
       maxScore: allSection["1.1.4"]?.[0]?.max_score,
@@ -156,7 +156,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.2.1"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.2.1"]?.[0]?.label_en})`
+          : `${allSection["1.2.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.2.1"]?.[0]?.score,
       maxScore: allSection["1.2.1"]?.[0]?.max_score,
@@ -185,7 +185,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.2.2"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.2.2"]?.[0]?.label_en})`
+          : `${allSection["1.2.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.2.2"]?.[0]?.score,
       maxScore: allSection["1.2.2"]?.[0]?.max_score,
@@ -225,7 +225,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.3.1"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.3.1"]?.[0]?.label_en})`
+          : `${allSection["1.3.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.1"]?.[0]?.score,
       maxScore: allSection["1.3.1"]?.[0]?.max_score,
@@ -254,7 +254,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.3.2"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.3.2"]?.[0]?.label_en})`
+          : `${allSection["1.3.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.2"]?.[0]?.score,
       maxScore: allSection["1.3.2"]?.[0]?.max_score,
@@ -283,7 +283,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.3.3"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.3.3"]?.[0]?.label_en})`
+          : `${allSection["1.3.3"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.3"]?.[0]?.score,
       maxScore: allSection["1.3.3"]?.[0]?.max_score,
@@ -323,7 +323,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.4.1"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.4.1"]?.[0]?.label_en})`
+          : `${allSection["1.4.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.4.1"]?.[0]?.score,
       maxScore: allSection["1.4.1"]?.[0]?.max_score,
@@ -348,7 +348,7 @@ const AssessmentDetailsSection: FC = () => {
       ]?.[0]?.label_th} ${
         allSection["1.4.2"]?.[0]?.label_en === ""
           ? ""
-          : `(${allSection["1.4.2"]?.[0]?.label_en})`
+          : `${allSection["1.4.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.4.2"]?.[0]?.score,
       maxScore: allSection["1.4.2"]?.[0]?.max_score,

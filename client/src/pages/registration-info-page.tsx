@@ -1,5 +1,5 @@
 import ActionTab from "@/components/common/actions-tab";
-import BarChartHorizontal from "@/components/common/chart/bar-chart-horizontal";
+import TreeMap from "@/components/common/chart/tree-map";
 import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import MainActions from "@/components/common/main-actions";
@@ -38,12 +38,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { MODE_CODE } from "@/helpers/common.helper";
-import { DisableTabs, PermissionSubAction } from "@/helpers/permission.helper";
+import {
+  ConditionHeight,
+  DisableTabs,
+  InitialTabs,
+  PermissionSubAction,
+} from "@/helpers/permission.helper";
 import { status } from "@/helpers/status.helper";
 import { CommentType } from "@/helpers/utils.helpers";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
-import { cn, COLORS_SERIES } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useForm, useUtils } from "@/services/";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
 import { useProfile } from "@/services/hooks/use-profile";
@@ -253,7 +258,8 @@ const RegistrationInfo: FC = () => {
     if (registration?.status_no === 1) {
       setCommon((prev) => ({
         ...prev,
-        isEditGeneralAssessmentForm: true,
+        isEditGeneralAssessmentForm:
+          role == "approver" || role == "sap-code" ? false : true,
       }));
     }
   }, [registration?.status_no]);
@@ -263,9 +269,10 @@ const RegistrationInfo: FC = () => {
     if (role === "admin") {
       setActiveTab("R1");
     } else if (role === "user") {
-      setActiveTab("R2");
+      setActiveTab("R1");
     } else if (role === "approver") {
-      setActiveTab("R4");
+      // setActiveTab("R4");
+      setActiveTab(InitialTabs(registration?.status_no as number, role));
     }
   }, [role]);
 
@@ -437,11 +444,15 @@ const RegistrationInfo: FC = () => {
                 <Button
                   className={cn(
                     "flex items-center whitespace-nowrap bg-yellow-500 text-sm hover:bg-yellow-500/80",
-                    registration?.status_no === 1 ||
-                      // registration?.status_no === 2 ||
-                      registration?.status_no === 3
-                      ? "block"
+                    (registration?.status_no === 1 ||
+                      registration?.status_no === 3) &&
+                      (role == "user" || role == "admin")
+                      ? "flex"
+                      : role === "approver" || role === "sap-code"
+                      ? "hidden"
                       : "hidden",
+                    // role === "approver" ? "hidden" : "",
+                    // role === "sap-code" ? "hidden" : "",
                   )}
                   onClick={async () => {
                     const isConfirm = await confirmSwal(
@@ -479,8 +490,22 @@ const RegistrationInfo: FC = () => {
                       | 7
                       | 8
                       | 9,
+                    role,
                   ).includes(activeTab)
-                    ? "h-[calc(66%-0.5rem)]"
+                    ? "h-[calc(66%-0.5rem)] "
+                    : role === "approver" || role === "sap-code"
+                    ? ConditionHeight(
+                        registration?.status_no as
+                          | 1
+                          | 2
+                          | 3
+                          | 4
+                          | 5
+                          | 6
+                          | 7
+                          | 8
+                          | 9,
+                      )
                     : "h-[calc(73%-0.5rem)]",
                 )}
               >
@@ -530,9 +555,10 @@ const RegistrationInfo: FC = () => {
                 </Tabs>
               </div>
               {/* //! Action by user */}
-              {PermissionSubAction(registration?.status_no as number).includes(
-                activeTab,
-              ) ? (
+              {PermissionSubAction(
+                registration?.status_no as number,
+                role,
+              ).includes(activeTab) ? (
                 <div className="flex h-[7%] items-center justify-between border border-b-0 px-2">
                   <ActionTab
                     activeTab={activeTab as "R2" | "R3" | "R4" | "R5"}
@@ -723,7 +749,7 @@ const RegistrationInfo: FC = () => {
                     </section>
                     <section className="grid h-full w-full grid-cols-2">
                       <div className="col-span-2 h-full w-full flex-grow overflow-y-auto">
-                        <BarChartHorizontal
+                        {/* <BarChartHorizontal
                           data={dataRegisCount
                             ?.filter(
                               ({ company }) =>
@@ -741,6 +767,14 @@ const RegistrationInfo: FC = () => {
                           keyYAxis="value"
                           isLabelInside={true}
                           barFontSize={8}
+                        /> */}
+                        <TreeMap
+                          data={dataRegisCount
+                            ?.filter(({ regis_count }) => regis_count > 0)
+                            ?.map(({ company, regis_count }) => ({
+                              name: company,
+                              children: [{ name: company, size: regis_count }],
+                            }))}
                         />
                       </div>
                       {/* <div className="relative flex h-full w-full flex-col">
@@ -883,13 +917,13 @@ const RegistrationInfo: FC = () => {
                 </div>
               </div>
               {/* //! Right Footer */}
-              <div className="h-[7%] border border-t-0">
-                {mainActions.includes(activeTab) ? (
+              {mainActions.includes(activeTab) ? (
+                <div className="h-[7%] border-t-0">
                   <MainActions
                     activeTab={activeTab as "R1" | "R2" | "R3" | "R4"}
                   />
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </main>

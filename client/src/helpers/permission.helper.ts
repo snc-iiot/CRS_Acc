@@ -28,7 +28,7 @@ export const DisableTabs = (
     R1: [1, 2, 3, 4, 5, 6, 7, 8],
     R2: [2, 3, 4, 5, 6, 7, 8],
     R3: [4, 5, 6, 7, 8],
-    R4: [4, 6, 7, 8],
+    R4: [4, 5, 6, 7, 8],
     R5: [4, 7, 8],
   };
   return condition[action].includes(status);
@@ -43,17 +43,80 @@ export const DisableTabs = (
  * permission sub-action(s) for the given status. If the status is not found in the condition object,
  * an empty array is returned.
  */
-export const PermissionSubAction = (status: number) => {
-  const condition = {
-    1: [""],
-    2: ["R2"],
-    3: [""],
-    4: [""],
-    5: ["R5"],
-    6: [""],
-    7: ["R7"],
-    8: ["R1"],
-    9: ["R9"],
-  };
-  return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+export const PermissionSubAction = (status: number, role: string) => {
+  if (role && role == "approver") {
+    const condition = {
+      1: [""],
+      2: [""],
+      3: [""],
+      4: [""],
+      5: [""],
+      6: [""],
+      7: [""],
+      8: [""],
+      9: [""],
+    };
+    return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+  } else if (role && role == "user") {
+    const condition = {
+      1: [""],
+      2: [""],
+      3: [""],
+      4: [""],
+      5: [""],
+      6: [""],
+      7: [""],
+      8: [""],
+      9: [""],
+    };
+    return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+  } else if (role && role == "sap-code") {
+    const condition = {
+      1: [""],
+      2: [""],
+      3: [""],
+      4: [""],
+      5: [""],
+      6: [""],
+      7: [""],
+      8: [""],
+      9: [""],
+    };
+    return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+  } else {
+    const condition = {
+      1: [""],
+      2: ["R2"],
+      3: [""],
+      4: [""],
+      5: [""],
+      6: [""],
+      7: [""],
+      8: [""],
+      9: [""],
+    };
+    return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+  }
+};
+
+/**
+ * The function `ConditionHeight` returns a CSS class based on the value of the `status` parameter.
+ * @param {number} status - The `status` parameter is a number that represents a certain condition or
+ * state.
+ * @returns a string value. If the `status` parameter is equal to 1, 2, or 3, it returns the string
+ * "h-[calc(100%-0.5rem)]". Otherwise, it returns the string "h-[calc(73%-0.5rem)]".
+ */
+export const ConditionHeight = (status: number) => {
+  if (status === 1 || status === 2 || status === 3) {
+    return "h-[calc(100%-0.5rem)]";
+  }
+  return "h-[calc(73%-0.5rem)]";
+};
+
+export const InitialTabs = (status: number, role: string) => {
+  if (status >= 4 && role == "approver") {
+    return "R4";
+  }
+
+  return "R1";
 };

@@ -9,29 +9,31 @@ import {
 } from "@/components/ui/table";
 import { orderArrayBy } from "@/helpers/array.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
+import { useFormGeneral } from "@/services/hooks/use-general-form";
 // import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { FC, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Select } from "../ui/select-custom";
-import { Icons } from "./icons";
+
+// import { Icons } from "./icons";
 
 interface Props {
   closeButton: any;
 }
 
 const SettingsApproved: FC<Props> = ({ closeButton }) => {
+  const [searchParams] = useSearchParams();
+  const regis_id = searchParams.get("RegisID");
   const { approvalList, generalAssessmentForm, setGeneralAssessmentForm } =
     useAtomStore();
-
+  const { mutateGetApprovalsById } = useFormGeneral();
   const [approvalSetId, setApprovalSetId] = useState<string | null>(null);
-
   const Header = ["ลำดับ", "ชื่อ-นามสกุล", "ตำแหน่ง"];
-
   const sortApprovalList = orderArrayBy(
     generalAssessmentForm?.approvals,
     "order_no",
   );
-  console.log(sortApprovalList);
 
   return (
     <main className="flex h-full w-full flex-col gap-2 overflow-hidden">
@@ -71,10 +73,19 @@ const SettingsApproved: FC<Props> = ({ closeButton }) => {
             </Select>
           </div>
         </div>
-        <Button variant="link" className="text-muted-foreground">
-          <Icons.helpCircle className="mr-2 h-5 w-5" />
-          วิธีการตั้งค่าสายอนุมัติ
-        </Button>
+        {approvalSetId?.length === 0 && (
+          <Button
+            variant="link"
+            className="text-muted-foreground"
+            onClick={async () => {
+              if (regis_id) {
+                await mutateGetApprovalsById(regis_id);
+              }
+            }}
+          >
+            รีโหลดสายอนุมัติ
+          </Button>
+        )}
       </section>
       <section className="flex h-full w-full flex-col border">
         <div className="relative flex h-0 flex-grow flex-col overflow-y-auto">

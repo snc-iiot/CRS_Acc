@@ -17,7 +17,9 @@ const R2Form: FC = () => {
 
   const Financial = dbdSyncList?.financial_position?.map((item) => {
     return {
-      Topic: item.topic_th,
+      Topic: `${item?.topic_th} ${
+        item?.topic_en === "" ? "" : `(${item?.topic_en})`
+      }`,
       Info: item?.info?.map((info) => {
         return {
           Year: info.year,
@@ -30,7 +32,9 @@ const R2Form: FC = () => {
 
   const Income = dbdSyncList?.income_statement?.map((item) => {
     return {
-      Topic: item.topic_th,
+      Topic: `${item?.topic_th} ${
+        item?.topic_en === "" ? "" : `(${item?.topic_en})`
+      }`,
       Info: item?.info?.map((info) => {
         return {
           Year: info.year,

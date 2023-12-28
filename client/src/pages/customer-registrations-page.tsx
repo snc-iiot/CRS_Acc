@@ -122,7 +122,7 @@ const CustomerRegistrations: FC = () => {
     }
   };
 
-  const RegisData = regisList?.filter((item) => item?.status_no !== 4);
+  const RegisData = regisList;
   const Data =
     tabsSelected === "100"
       ? RegisData
@@ -461,6 +461,10 @@ const CustomerRegistrations: FC = () => {
                 onClick={() => {
                   setTabsSelected("2");
                 }}
+                className={cn(
+                  role === "approver" && "hidden",
+                  role === "sap-code" && "hidden",
+                )}
               >
                 รอยืนยันข้อมูลการเงิน
                 {regisList?.filter((item) => item?.status_no === 2)?.length > 0
@@ -491,11 +495,52 @@ const CustomerRegistrations: FC = () => {
                   onClick={() => {
                     setTabsSelected("0");
                   }}
+                  className={cn(
+                    role === "approver" && "hidden",
+                    role === "sap-code" && "hidden",
+                  )}
                 >
                   รออัพโหลดเอกสาร
                   {regisList?.filter((item) => item?.status_no === 0)?.length >
                   0
                     ? ` (${regisList?.filter((item) => item?.status_no === 0)
+                        ?.length})`
+                    : ""}
+                </TabsTrigger>
+              )}
+              {regisList?.filter((item) => item?.status_no === 1)?.length >
+                0 && (
+                <TabsTrigger
+                  value="1"
+                  onClick={() => {
+                    setTabsSelected("1");
+                  }}
+                  className={cn(
+                    role === "approver" && "hidden",
+                    role === "sap-code" && "hidden",
+                  )}
+                >
+                  รอตรวจสอบเอกสาร
+                  {regisList?.filter((item) => item?.status_no === 1)?.length >
+                  0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 1)
+                        ?.length})`
+                    : ""}
+                </TabsTrigger>
+              )}
+              {regisList?.filter((item) => item?.status_no === 5)?.length >
+                0 && (
+                <TabsTrigger
+                  value="5"
+                  onClick={() => {
+                    setTabsSelected("5");
+                  }}
+                  className={cn(role === "sap-code" ? "hidden" : "")}
+                >
+                  ระงับชั่วคราว
+                  {regisList?.filter((item) => item?.status_no === 5)?.length >
+                  0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 5)
                         ?.length})`
                     : ""}
                 </TabsTrigger>
@@ -507,6 +552,7 @@ const CustomerRegistrations: FC = () => {
                   onClick={() => {
                     setTabsSelected("6");
                   }}
+                  className={cn(role === "sap-code" ? "block" : "hidden")}
                 >
                   อนุมัติ (รอกรอกรหัสลูกค้า)
                   {regisList?.filter((item) => item?.status_no === 6)?.length >

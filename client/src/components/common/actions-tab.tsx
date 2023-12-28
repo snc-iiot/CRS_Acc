@@ -457,8 +457,6 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
               ],
             }));
 
-          console.log(Data);
-
           setDataDBDSyncList({
             ...dataDBDSyncList,
             financial_ratio: Data,
@@ -468,6 +466,48 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
         }
       }
     }
+
+    const handleUploadDBD = async () => {
+      showLoading("กำลังดำเนินการ Sync ข้อมูล DBD", "กรุณารอสักครู่...");
+      // await Promise.all([
+      //   dataDBDSyncList?.financial_position?.[0] &&
+      //     mutateImportExcelFinancialPosition({
+      //       regis_id: regisId as string,
+      //       content: dataDBDSyncList?.financial_position,
+      //     }),
+      //   dataDBDSyncList?.income_statement?.[0] &&
+      //     mutateImportExcelIcomeStatement({
+      //       regis_id: regisId as string,
+      //       content: dataDBDSyncList?.income_statement,
+      //     }),
+      //   dataDBDSyncList?.financial_ratio?.[0] &&
+      //     mutateImportExcelFinancialRatios({
+      //       regis_id: regisId as string,
+      //       content: dataDBDSyncList?.financial_ratio,
+      //     }),
+      // ]);
+      if (dataDBDSyncList?.financial_position?.[0]) {
+        await mutateImportExcelFinancialPosition({
+          regis_id: regisId as string,
+          content: dataDBDSyncList?.financial_position,
+        });
+      }
+      if (dataDBDSyncList?.income_statement?.[0]) {
+        await mutateImportExcelIcomeStatement({
+          regis_id: regisId as string,
+          content: dataDBDSyncList?.income_statement,
+        });
+      }
+      if (dataDBDSyncList?.financial_ratio?.[0]) {
+        await mutateImportExcelFinancialRatios({
+          regis_id: regisId as string,
+          content: dataDBDSyncList?.financial_ratio,
+        });
+      }
+      await mutateGetDBDInfo(regisId as string);
+      setIsOpenUpdate(false);
+      closeSwal();
+    };
 
     return (
       <div className="flex items-center justify-end text-sm">
@@ -628,32 +668,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
                     dataDBDSyncList?.financial_ratio?.[0] === undefined &&
                     dataDBDSyncList?.income_statement?.[0] === undefined
                   }
-                  onClick={async () => {
-                    showLoading(
-                      "กำลังดำเนินการ Sync ข้อมูล DBD",
-                      "กรุณารอสักครู่...",
-                    );
-                    await Promise.all([
-                      dataDBDSyncList?.financial_position?.[0] &&
-                        mutateImportExcelFinancialPosition({
-                          regis_id: regisId as string,
-                          content: dataDBDSyncList?.financial_position,
-                        }),
-                      dataDBDSyncList?.income_statement?.[0] &&
-                        mutateImportExcelIcomeStatement({
-                          regis_id: regisId as string,
-                          content: dataDBDSyncList?.income_statement,
-                        }),
-                      dataDBDSyncList?.financial_ratio?.[0] &&
-                        mutateImportExcelFinancialRatios({
-                          regis_id: regisId as string,
-                          content: dataDBDSyncList?.financial_ratio,
-                        }),
-                    ]);
-                    await mutateGetDBDInfo(regisId as string);
-                    setIsOpenUpdate(false);
-                    closeSwal();
-                  }}
+                  onClick={handleUploadDBD}
                 >
                   <Icons.save className="mr-2" />
                   ยืนยันข้อมูลการเงิน

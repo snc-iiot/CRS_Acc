@@ -56,6 +56,7 @@ export const useUtils = () => {
         setBusinessTypeList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 
@@ -68,6 +69,7 @@ export const useUtils = () => {
         setDocumentKeyList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 
@@ -80,6 +82,7 @@ export const useUtils = () => {
         setCertificatedList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 
@@ -91,6 +94,7 @@ export const useUtils = () => {
         setBenefitsList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 
@@ -103,6 +107,7 @@ export const useUtils = () => {
         setDeliveryTermsList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 
@@ -115,6 +120,7 @@ export const useUtils = () => {
         setCompanyPolicyList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 
@@ -126,6 +132,7 @@ export const useUtils = () => {
         setCompanyList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 
@@ -138,6 +145,7 @@ export const useUtils = () => {
         setCountryCodeList(data);
         return data;
       },
+      refetchOnWindowFocus: false,
     });
   };
 

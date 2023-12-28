@@ -6,6 +6,7 @@ import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { useApprovals } from "@/services";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
+import { useProfile } from "@/services/hooks/use-profile";
 import { TGeneralAssessmentForm } from "@/types";
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -23,6 +24,202 @@ interface Props {
 
 const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
   const { registration } = useAtomStore();
+  const {
+    profile: { role },
+  } = useProfile();
+
+  //! role = approver
+  const actionApprove = (status_no: number) => {
+    const status = {
+      1: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
+      2: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
+      3: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
+      4: {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      },
+      5: {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      },
+      6: {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      },
+      7: {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      },
+      8: {
+        ["R1"]: <Complete />,
+        ["R2"]: <Complete />,
+        ["R3"]: <Complete />,
+        ["R4"]: <Complete />,
+      },
+    };
+    return status[status_no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8];
+  };
+
+  //! role = sap-code
+  const actionSapCode = (status_no: number) => {
+    const status = {
+      1: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
+      2: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
+      3: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
+      4: {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      },
+      5: {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      },
+      6: {
+        ["R1"]: <CustomerCode />,
+        ["R2"]: <CustomerCode />,
+        ["R3"]: <CustomerCode />,
+        ["R4"]: <CustomerCode />,
+      },
+      7: {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      },
+      8: {
+        ["R1"]: <Complete />,
+        ["R2"]: <Complete />,
+        ["R3"]: <Complete />,
+        ["R4"]: <Complete />,
+      },
+    };
+    return status[status_no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8];
+  };
+
+  //! role = user
+  const actionUser = (status_no: number) => {
+    if (status_no === 0) {
+      //! สถานะ รออัพโหลดเอกสาร
+      return {
+        ["R1"]: <ActionButtonR2 />,
+        ["R2"]: <ActionButtonR2 />,
+        ["R3"]: <ActionButtonR2 />,
+        ["R4"]: <ActionButtonR2 />,
+      };
+    } else if (status_no === 1) {
+      //! สถานะ รอตรวจสอบข้อมูล
+      return {
+        ["R1"]: <ActionButtonR2 />,
+        ["R2"]: <ActionButtonR2 />,
+        ["R3"]: <ActionButtonR2 />,
+        ["R4"]: <ActionButtonR2 />,
+      };
+    } else if (status_no === 2) {
+      //! สถานะ รอยืนยันข้อมูลทางการเงิน
+      return {
+        ["R1"]: <AccAction />,
+        ["R2"]: <AccAction />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      };
+    } else if (status_no === 3) {
+      //! สถานะ รอการแก้ไข
+      return {
+        ["R1"]: <EditR1 />,
+        ["R2"]: <EditR1 />,
+        ["R3"]: null,
+        ["R4"]: null,
+      };
+    } else if (status_no === 4) {
+      //! สถานะ รอพิจารณาอนุมัติ
+      return {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      };
+    } else if (status_no === 5) {
+      //! สถานะ ระงับชั่วคราว
+      return {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      };
+    } else if (status_no === 6) {
+      //! สถานะ รอกรอกรหัสลูกค้า
+      return {
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
+      };
+    } else if (status_no === 7) {
+      //! สถานะ ไม่อนุมัติ
+      return {
+        ["R1"]: <DisApprove />,
+        ["R2"]: <DisApprove />,
+        ["R3"]: <DisApprove />,
+        ["R4"]: <DisApprove />,
+      };
+    } else if (status_no === 8) {
+      //! สถานะ ดำเนินการเสร็จสิ้น
+      return {
+        ["R1"]: <Complete />,
+        ["R2"]: <Complete />,
+        ["R3"]: <Complete />,
+        ["R4"]: <Complete />,
+      };
+    }
+    return {
+      ["R1"]: null,
+      ["R2"]: null,
+      ["R3"]: null,
+      ["R4"]: null,
+    };
+  };
 
   const actionButton = (status_no: number) => {
     if (status_no === 0) {
@@ -74,7 +271,7 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
         ["R4"]: <ActionButton />,
       };
     } else if (status_no === 6) {
-      //! สถานะ ไม่อนุมัติ
+      //! สถานะ รอกรอกรหัสลูกค้า
       return {
         ["R1"]: <CustomerCode />,
         ["R2"]: <CustomerCode />,
@@ -106,9 +303,23 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     };
   };
 
-  return (
-    { ...actionButton(registration?.status_no as number) }[activeTab] || null
-  );
+  if (role == "approver") {
+    return (
+      { ...actionApprove(registration?.status_no as number) }[activeTab] || null
+    );
+  } else if (role == "user") {
+    return (
+      { ...actionUser(registration?.status_no as number) }[activeTab] || null
+    );
+  } else if (role == "sap-code") {
+    return (
+      { ...actionSapCode(registration?.status_no as number) }[activeTab] || null
+    );
+  } else {
+    return (
+      { ...actionButton(registration?.status_no as number) }[activeTab] || null
+    );
+  }
 };
 
 export default MainActions;
@@ -482,15 +693,20 @@ const AccAction = () => {
 
 //! Status รอการแก้ไข
 const EditR1 = () => {
-  const { common, setCommon, generalAssessmentForm, setGeneralAssessmentForm } =
-    useAtomStore();
+  const {
+    common,
+    setCommon,
+    generalAssessmentForm,
+    setGeneralAssessmentForm,
+    docByRegisId,
+  } = useAtomStore();
   const [oldData, setOldData] = useState<TGeneralAssessmentForm>(
     generalAssessmentForm,
   );
 
   const { mutateUpdateGeneralAssessment } = useFormGeneral();
 
-  const { confirmSwal } = useSwal();
+  const { confirmSwal, showError } = useSwal();
 
   useEffect(() => {
     setOldData(generalAssessmentForm);
@@ -521,12 +737,20 @@ const EditR1 = () => {
           <Button
             className="bg-green-600 hover:bg-green-600/80"
             onClick={async () => {
-              const isConfirm = await confirmSwal(
-                "ยืนยันการแก้ไขข้อมูล",
-                "คุณต้องการแก้ไขข้อมูลใช่หรือไม่",
+              const { isValid, error_th } = validateGeneralAssessmentForm(
+                generalAssessmentForm,
+                docByRegisId,
               );
-              if (isConfirm) {
-                await mutateUpdateGeneralAssessment(generalAssessmentForm);
+              if (!isValid) {
+                showError(error_th, "กรุณากรอกข้อมูลให้ครบถ้วน");
+              } else {
+                const isConfirm = await confirmSwal(
+                  "ยืนยันการแก้ไขข้อมูล",
+                  "คุณต้องการแก้ไขข้อมูลใช่หรือไม่",
+                );
+                if (isConfirm) {
+                  await mutateUpdateGeneralAssessment(generalAssessmentForm);
+                }
               }
             }}
           >
@@ -565,7 +789,8 @@ const CustomerCode = () => {
   const { confirmSwal } = useSwal();
 
   return (
-    <div className="flex h-full w-full items-center justify-end gap-x-2 px-2 text-sm">
+    <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
+      <StatusForm />
       <Dialog
         onOpenChange={(open) => {
           setOpenDialog((prev) => ({ ...prev, customerCode: open }));

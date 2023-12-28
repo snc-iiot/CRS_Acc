@@ -24,11 +24,11 @@ const LoginPage: FC = () => {
   const { setProfile } = useProfile();
 
   const annoucements: { label: string; link: string }[] = [
-    { label: "สื่อสาธิตการใช้งานระบบ SNC-iCRS", link: "#" },
-    {
-      label: "รายชื่อสายอนุมัติ (Approval name list) ระบบ SNC-iCRS",
-      link: "#",
-    },
+    // { label: "สื่อสาธิตการใช้งานระบบ SNC-iCRS", link: "#" },
+    // {
+    //   label: "รายชื่อสายอนุมัติ (Approval name list) ระบบ SNC-iCRS",
+    //   link: "#",
+    // },
   ];
 
   const {
@@ -162,12 +162,12 @@ const LoginPage: FC = () => {
                   )}
                 </div> */}
 
-                <div className="mt-6 flex items-center justify-between">
-                  <Button type="button" variant="link" className="text-xs">
+                <div className="mt-6 flex items-center justify-end">
+                  {/* <Button type="button" variant="link" className="text-xs">
                     ลืมรหัสผ่าน
                     <br />
                     Forgot password?
-                  </Button>
+                  </Button> */}
                   <Button type="submit">
                     <Icons.logIn className="mr-2 w-[1.2rem]" /> เข้าสู่ระบบ
                   </Button>

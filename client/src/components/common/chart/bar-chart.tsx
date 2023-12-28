@@ -86,7 +86,10 @@ const BarChart: FC<Props> = ({
                 <div className="items-start justify-start rounded-md bg-white px-4 py-2 font-bold shadow-md">
                   <p className="text-sm">{payload?.[0]?.payload?.datetime}</p>
                   {dataKey?.map(({ name, color }, i) => (
-                    <div className="flex w-full items-center justify-start gap-0">
+                    <div
+                      className="flex w-full items-center justify-start gap-0"
+                      key={i}
+                    >
                       <div
                         className="mr-2 h-3 w-3 rounded-full"
                         style={{ backgroundColor: color }}

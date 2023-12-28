@@ -107,7 +107,6 @@ export const useForm = () => {
         return data;
       },
       refetchOnWindowFocus: false,
-      refetchInterval: 10000,
     });
   };
 
@@ -121,7 +120,6 @@ export const useForm = () => {
         return data;
       },
       refetchOnWindowFocus: false,
-      refetchInterval: 10000,
     });
   };
 

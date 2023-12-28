@@ -85,12 +85,15 @@ const TableDBD: FC<ITableDBDProps> = ({
                 <TableRow
                   className={cn(
                     "text-xs hover:cursor-pointer hover:bg-[#d4eaf7]",
-                    table?.Topic === "สินทรัพย์รวม" ||
-                      table?.Topic === "หนี้สินรวม" ||
-                      table?.Topic === "หนี้สินรวมและส่วนของผู้ถือหุ้น" ||
-                      table?.Topic === "กำไร(ขาดทุน) ขั้นต้น" ||
-                      table?.Topic === "รายได้หลัก" ||
-                      table?.Topic === "กำไร(ขาดทุน) สุทธิ"
+                    table?.Topic === "สินทรัพย์รวม (Total Assets)" ||
+                      table?.Topic === "หนี้สินรวม (Total Liabilities)" ||
+                      table?.Topic ===
+                        "หนี้สินรวมและส่วนของผู้ถือหุ้น (Total Liabilities and Equity)" ||
+                      table?.Topic ===
+                        "กำไร(ขาดทุน) ขั้นต้น (Gross Profit (Loss))" ||
+                      table?.Topic ===
+                        "รายได้หลัก (Revenue from Sales&Services)" ||
+                      table?.Topic === "กำไร(ขาดทุน) สุทธิ (Net Profit (Loss))"
                       ? "bg-[#d4eaf7]"
                       : "",
                   )}

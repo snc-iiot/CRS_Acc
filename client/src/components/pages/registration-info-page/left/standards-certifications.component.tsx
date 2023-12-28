@@ -30,7 +30,7 @@ const StandardsCertifications: FC = () => {
       </small>
       {/* //! 4.1 */}
       <h4 className="font-semibold">1. การรับรองที่ได้รับ / Certifications</h4>
-      <div className="mb-1 grid grid-cols-2 gap-y-1 pl-1">
+      <div className="mb-1 grid grid-cols-1 gap-y-1 pl-1">
         {certificate.length == 0 ? null : (
           <Fragment>
             {certificate?.map((item, i) => (

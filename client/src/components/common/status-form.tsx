@@ -7,15 +7,19 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Icons } from "./icons";
 
 const StatusForm: FC = () => {
+  // const { profile } = useProfile();
   const {
+    registration,
     generalAssessmentForm: { approvals },
   } = useAtomStore();
 
   const IndexDisApprove = approvals?.findIndex(
     (item) => item.is_approved === false,
   );
-  console.log("IndexDisApprove", IndexDisApprove);
-  console.log("approvals", approvals);
+
+  if (registration.status_no && registration?.status_no < 3) {
+    return null;
+  }
 
   return (
     <Popover>
