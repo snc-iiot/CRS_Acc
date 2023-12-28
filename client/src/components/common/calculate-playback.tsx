@@ -71,12 +71,6 @@ const CalculatePlayback: FC<CalculatePlaybackProps> = ({ mode }) => {
             ?.fill(0)
             ?.reduce((acc, _, i) => {
               // (-$H$20)+H23
-              // ให้ totalInvestment = 320000
-              // ให้ growthRate = 15
-              // ให้ numberOfPeriods = 36
-              // ให้ growthRate = 20000
-
-              // result = 320000
               let result = acc;
               if (i === 0) {
                 result = totalProfit - totalInvestment;

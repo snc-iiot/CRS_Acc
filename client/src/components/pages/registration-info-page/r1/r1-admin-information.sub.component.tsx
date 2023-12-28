@@ -1210,7 +1210,7 @@ export const R1AdminInformation: FC = () => {
                     generalAssessmentForm?.transport_distance?.distance || 0,
                     generalAssessmentForm?.transport_distance?.car_type || "",
                   )}{" "}
-                  &nbsp; kgCO<sub>2</sub>e
+                  &nbsp; tCO<sub>2</sub>e
                 </p>
               </div>
             )}
