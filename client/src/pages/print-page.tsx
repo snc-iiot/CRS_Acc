@@ -37,103 +37,102 @@ const PrintPage = forwardRef((_, ref: any) => {
     {
       label: "ชื่อบริษัท (Company name)",
       value: registration?.company_information?.company_name ?? "-",
-      colSpan: 3,
+      colSpan: 9,
     },
     {
       label: "วันที่ (Date)",
       value: registration?.created_at ?? "-",
-      colSpan: 2,
+      colSpan: 3,
     },
     {
       label: "ที่อยู่ (Address)",
       value: registration?.company_information?.address ?? "-",
-      colSpan: 5,
+      colSpan: 12,
     },
     {
       label: "เลขประจำตัวผู้เสียภาษี (Juristic ID)",
       value: registration?.company_information?.juristic_id ?? "-",
-      colSpan: 5,
+      colSpan: 12,
     },
     {
       label: "ฝ่ายจัดซื้อ (Purchasing Department)",
       value: findContact("scm_officer")?.name ?? "-",
-      colSpan: 3,
+      colSpan: 6,
     },
     {
       label: "เบอร์โทร (Tel)",
       value: findContact("scm_officer")?.tel ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
       label: "Email",
       value: findContact("scm_officer")?.email ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
-      label: "ผู้จัดการฝ่ายจัดซื้อ (Purchasing Department Manager)",
+      label: "ผู้จัดการฝ่ายจัดซื้อ (Purchasing Manager)",
       value: findContact("accounting_department_manager")?.name ?? "-",
-      colSpan: 3,
+      colSpan: 6,
     },
     {
       label: "เบอร์โทร (Tel)",
       value: findContact("accounting_department_manager")?.tel ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
       label: "Email",
       value: findContact("accounting_department_manager")?.email ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
-      label: "ฝ่ายบัญชีและการเงิน (Accounting and Finance Department)",
+      label: "ฝ่ายบัญชีและการเงิน (Accounting and Finance)",
       value: findContact("accounting_officer")?.name ?? "-",
-      colSpan: 3,
+      colSpan: 6,
     },
     {
       label: "เบอร์โทร (Tel)",
       value: findContact("accounting_officer")?.tel ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
       label: "Email",
       value: findContact("accounting_officer")?.email ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
-      label:
-        "ผู้จัดการฝ่ายบัญชีและการเงิน (Accounting and Finance Department Manager)",
+      label: "ผู้จัดการฝ่ายบัญชีและการเงิน (Accounting & Finance Manager)",
       value: findContact("accounting_department_manager")?.name ?? "-",
-      colSpan: 3,
+      colSpan: 6,
     },
     {
       label: "เบอร์โทร (Tel)",
       value: findContact("accounting_department_manager")?.tel ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
       label: "Email",
       value: findContact("accounting_department_manager")?.email ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
       label: "กรรมการผู้จัดการ (Managing Director)",
       value: findContact("managing_director")?.name ?? "-",
-      colSpan: 3,
+      colSpan: 6,
     },
     {
       label: "เบอร์โทร (Tel)",
       value: findContact("managing_director")?.tel ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
       label: "Email",
       value: findContact("managing_director")?.email ?? "-",
-      colSpan: 1,
+      colSpan: 3,
     },
     {
       label: "ผลิตภัณฑ์ที่ขาย (Products)",
       value: generalAssessmentForm?.products ?? "-",
-      colSpan: 5,
+      colSpan: 12,
     },
   ];
 
@@ -595,13 +594,16 @@ const PrintPage = forwardRef((_, ref: any) => {
     >
       {new Array(1).fill(0).map((_, index) => (
         <div key={index} className="relative flex h-full flex-col gap-2">
+          <p className="watermark font-lily absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem] font-bold italic">
+            SNC
+          </p>
           <section
             className={cn(
               "relative flex w-full items-center justify-center gap-2",
               index === 1 ? "hidden" : "",
             )}
           >
-            <img src="/images/logo.webp" alt="logo" className="h-16 w-auto" />
+            <img src="/images/logo.webp" alt="logo" className="h-12 w-auto" />
             <div>
               <h1 style={{ fontSize: 16, fontWeight: "bold" }}>
                 บริษัท เอส เอ็น ซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ
@@ -639,17 +641,22 @@ const PrintPage = forwardRef((_, ref: any) => {
                 >
                   รายละเอียดลูกค้า (Customer Information)
                 </h1>
-                <article className="grid w-full grid-cols-5">
+                <article className="grid w-full grid-cols-12">
                   {CompanyInfo.map((item, index) => (
                     <div
                       key={index}
-                      className={`col-span-${item.colSpan} flex flex-col gap-2`}
+                      className={`flex flex-col gap-2`}
+                      style={{
+                        gridColumn: `span ${item.colSpan}`,
+                      }}
                     >
                       <div
                         style={{ fontSize: NORMAL_SIZE }}
-                        className="flex items-center gap-1"
+                        className="flex items-start gap-1"
                       >
-                        <p className="font-bold">{item.label}: </p>
+                        <p className="whitespace-nowrap font-bold">
+                          {item.label}:{" "}
+                        </p>
                         <p className="font-normal">{item.value}</p>
                       </div>
                     </div>
@@ -909,14 +916,14 @@ const PrintPage = forwardRef((_, ref: any) => {
                   ?.map((item, index) => (
                     <div
                       key={index}
-                      className={`relative col-span-1 flex h-[5rem] flex-col gap-2 border border-black`}
+                      className={`relative col-span-1 flex h-[4rem] flex-col gap-2 border border-black`}
                     >
                       <div
                         style={{ fontSize: NORMAL_SIZE }}
                         className="flex flex-col items-center gap-1"
                       >
-                        <p className="w-full border-b border-black p-1 text-center font-bold">
-                          {item.issued_by}:{" "}
+                        <p className="w-full border-b border-black text-center font-bold uppercase">
+                          {item.issued_by}
                         </p>
                         <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center gap-1 font-normal">
                           <p className="w-full border-black p-1 text-center text-[10px]">

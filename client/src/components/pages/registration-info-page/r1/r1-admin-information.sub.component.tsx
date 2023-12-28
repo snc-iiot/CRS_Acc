@@ -55,6 +55,20 @@ export const R1AdminInformation: FC = () => {
     }));
   }, [registration?.company_information?.company_admin, companyList]);
 
+  useEffect(() => {
+    if (
+      generalAssessmentForm?.price_conditions?.value !== 1 &&
+      generalAssessmentForm?.price_conditions?.value !== 3 &&
+      generalAssessmentForm?.price_conditions?.value !== 6
+    ) {
+      setPriceConditions("other");
+    } else {
+      setPriceConditions(
+        generalAssessmentForm?.price_conditions?.value?.toString() || "",
+      );
+    }
+  }, [generalAssessmentForm?.price_conditions?.value]);
+
   if (!generalAssessmentForm) return null;
 
   return (
@@ -1057,29 +1071,33 @@ export const R1AdminInformation: FC = () => {
                 readOnly={!common?.isEditGeneralAssessmentForm}
               />
               <span>GPS</span>
-              <button
-                type="button"
-                className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
-                onClick={() => {
-                  const PlantLatLong =
-                    LatitudesLongitudes?.[
-                      Plant?.province as keyof typeof LatitudesLongitudes
-                    ] || LatitudesLongitudes?.RAYONG;
-                  window.open(
-                    `https://www.google.com/maps/place/${
-                      generalAssessmentForm?.transport_distance?.destination ===
-                      ""
-                        ? `${PlantLatLong?.latitude},${PlantLatLong?.longitude}`
-                        : generalAssessmentForm?.transport_distance?.destination
-                    }`,
-                  );
-                }}
-                // disabled={
-                //   !generalAssessmentForm?.transport_distance?.destination
-                // }
-              >
-                <Icons.mapPin className="h-3 w-3" /> ดูแผนที่
-              </button>
+              {generalAssessmentForm?.transport_distance?.destination !==
+                "" && (
+                <button
+                  type="button"
+                  className="flex items-center gap-x-0.5 text-primary hover:text-primary/70 hover:underline"
+                  onClick={() => {
+                    const PlantLatLong =
+                      LatitudesLongitudes?.[
+                        Plant?.province as keyof typeof LatitudesLongitudes
+                      ] || LatitudesLongitudes?.RAYONG;
+                    window.open(
+                      `https://www.google.com/maps/place/${
+                        generalAssessmentForm?.transport_distance
+                          ?.destination === ""
+                          ? `${PlantLatLong?.latitude},${PlantLatLong?.longitude}`
+                          : generalAssessmentForm?.transport_distance
+                              ?.destination
+                      }`,
+                    );
+                  }}
+                  // disabled={
+                  //   !generalAssessmentForm?.transport_distance?.destination
+                  // }
+                >
+                  <Icons.mapPin className="h-3 w-3" /> ดูแผนที่
+                </button>
+              )}
             </div>
 
             <div className="flex items-center gap-x-1">

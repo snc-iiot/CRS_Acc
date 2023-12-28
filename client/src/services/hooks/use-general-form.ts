@@ -24,7 +24,7 @@ export const useFormGeneral = () => {
     setSummaryPart2,
     setCompanyProfile,
     setSummaryPart1,
-    setDataRegisCount
+    setDataRegisCount,
   } = useAtomStore();
   const { showError, closeSwal, showSuccess, showLoading } = useSwal();
   const formGeneralService = new FormGeneralService();
@@ -55,9 +55,12 @@ export const useFormGeneral = () => {
     mutationFn: (regisId: string) =>
       formGeneralService.getTemplateGeneralAssessmentById(regisId),
     onSuccess: (data) => {
-      setGeneralAssessmentForm({...data, 
-        transport_distance: { ...data.transport_distance, 
-          origin: `${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`}
+      setGeneralAssessmentForm({
+        ...data,
+        transport_distance: {
+          ...data.transport_distance,
+          origin: `${LatitudesLongitudes?.RAYONG?.latitude},${LatitudesLongitudes?.RAYONG?.longitude}`,
+        },
       });
     },
     onError: (error) => {
@@ -175,13 +178,14 @@ export const useFormGeneral = () => {
     },
   });
 
-      useQuery<DataRegisCountType[], Error>({
-      queryKey: [queryKey.GET_ASSESSMENT_RESULT_REGIS_COUN],
-      queryFn: async () => {
-        const result = await homeService.getRegisCount();
-        setDataRegisCount(result);
-        return result;
-      },})
+  useQuery<DataRegisCountType[], Error>({
+    queryKey: [queryKey.GET_ASSESSMENT_RESULT_REGIS_COUN],
+    queryFn: async () => {
+      const result = await homeService.getRegisCount();
+      setDataRegisCount(result);
+      return result;
+    },
+  });
 
   return {
     mutateGetApprovalsById,

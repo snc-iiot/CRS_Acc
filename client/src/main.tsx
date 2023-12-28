@@ -17,6 +17,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
       <Provider>
         <App />
+        {/* <DevTools /> */}
+        {/* <TailwindIndicator /> */}
       </Provider>
     </React.StrictMode>
   </QueryClientProvider>,

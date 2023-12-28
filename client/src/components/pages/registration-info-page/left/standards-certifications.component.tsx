@@ -319,7 +319,9 @@ const StandardsCertifications: FC = () => {
           <div
             className={cn(
               "h-full w-[80%] pl-1 text-primary",
-              payment_term?.product_warranty?.is_warranty && "border-b",
+              payment_term?.product_warranty?.is_warranty
+                ? "border-b"
+                : "hidden",
             )}
           >
             {payment_term?.product_warranty?.value} ปี

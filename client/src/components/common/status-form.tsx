@@ -82,9 +82,6 @@ const StatusForm: FC = () => {
                         </>
                       )}
                     </div>
-                    {/* <p className="flex items-center justify-center text-sm text-primary">
-                      ll
-                    </p> */}
                     <div className="flex items-center justify-start gap-2 text-xs text-primary">
                       <p className="whitespace-nowrap">
                         โดย {info?.issued_by?.toLocaleUpperCase()} (

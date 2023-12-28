@@ -204,23 +204,6 @@ const RegistrationInfo: FC = () => {
           closeSwal();
         }, 1000);
       }
-      // } else if (form_mode === "edit") {
-      //   const isConfirmed = await confirmSwal(
-      //     "แจ้งเตือน",
-      //     "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
-      //     "ดำเนินการต่อ",
-      //     undefined,
-      //     false,
-      //   );
-      //   if (isConfirmed) {
-      //     navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
-      //       state: {
-      //         form_mode: "",
-      //       },
-      //       replace: true,
-      //     });
-      //   }
-      // }
     } catch (error) {
       showError("ไม่สามารถดึงข้อมูลได้", "เกิดข้อผิดพลาด");
     }
@@ -250,7 +233,6 @@ const RegistrationInfo: FC = () => {
 
   useEffect(() => {
     if (!RegisID) navigate("/registration");
-    // getInfoById();
     confirmEdit();
   }, [RegisID, form_mode]);
 
@@ -271,7 +253,6 @@ const RegistrationInfo: FC = () => {
     } else if (role === "user") {
       setActiveTab("R1");
     } else if (role === "approver") {
-      // setActiveTab("R4");
       setActiveTab(InitialTabs(registration?.status_no as number, role));
     }
   }, [role]);

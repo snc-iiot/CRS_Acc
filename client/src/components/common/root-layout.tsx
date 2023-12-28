@@ -128,7 +128,8 @@ const RootLayout: FC = () => {
                           {profile?.name?.en}
                         </p>
                         <p className="text-xs text-gray-400">
-                          {profile?.name?.en}
+                          {profile?.name?.en}{" "}
+                          {profile?.role !== "" ? `(${profile?.role})` : ""}
                         </p>
                       </DropdownMenuLabel>
 

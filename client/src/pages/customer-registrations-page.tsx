@@ -552,7 +552,11 @@ const CustomerRegistrations: FC = () => {
                   onClick={() => {
                     setTabsSelected("6");
                   }}
-                  className={cn(role === "sap-code" ? "block" : "hidden")}
+                  className={cn(
+                    role === "sap-code" || role === "admin"
+                      ? "block"
+                      : "hidden",
+                  )}
                 >
                   อนุมัติ (รอกรอกรหัสลูกค้า)
                   {regisList?.filter((item) => item?.status_no === 6)?.length >

@@ -38,7 +38,10 @@ const LoginPage: FC = () => {
     formState: { errors },
   } = useForm();
 
-  const Login = async (username: string, password: string) => {
+  const Login = async (
+    username: string,
+    password: string,
+  ): Promise<TResponseAction> => {
     try {
       const { data } = await axios.post<TResponseAction>(
         `${API_BASE_URL}/user/login`,
@@ -51,7 +54,11 @@ const LoginPage: FC = () => {
     } catch (error: any) {
       console.error(error);
       showError("เกิดข้อผิดพลาด", error?.response?.data?.message);
-      return null;
+      return {
+        status: "error",
+        message: error?.response?.data?.message,
+        data: null,
+      };
     }
   };
 
@@ -63,12 +70,12 @@ const LoginPage: FC = () => {
     closeSwal();
     if (profile?.status == "success") {
       setProfile(profile.data?.[0]);
-      showSuccess("เข้าสู่ระบบสำเร็จ", "กำลังพาท่านไปยังหน้าหลัก...");
+      showSuccess(profile?.message, "กำลังพาท่านไปยังหน้าหลัก...");
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } else {
-      showError("เกิดข้อผิดพลาด", "กรุณาตรวจสอบข้อมูลใหม่อีกครั้ง");
+      showError(profile?.message || "", "กรุณาตรวจสอบ username และ password");
     }
   };
 

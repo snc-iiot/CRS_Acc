@@ -786,7 +786,7 @@ const CustomerCode = () => {
   });
   const [customer_code, setCustomer_code] = useState<number | null>(null);
 
-  const { confirmSwal } = useSwal();
+  const { confirmSwal, showError } = useSwal();
 
   return (
     <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
@@ -812,21 +812,30 @@ const CustomerCode = () => {
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              setOpenDialog((prev) => ({ ...prev, customerCode: false }));
-              const isConfirm = await confirmSwal(
-                "ยืนยันการกรอกรหัสลูกค้า",
-                "",
-              );
-              if (isConfirm) {
-                const res = await mutateEnterCustomerCode({
-                  regis_id: regisId,
-                  customer_code: String(customer_code),
-                });
-                if (res?.status === "success") {
-                  setCustomer_code(null);
-                }
+              if (customer_code?.toString()?.length !== 6 || !customer_code) {
+                setOpenDialog((prev) => ({ ...prev, customerCode: false }));
+                showError(
+                  "กรุณากรอกรหัสลูกค้าให้ถูกต้อง",
+                  "กรุณากรอกรหัสลูกค้าให้ถูกต้อง",
+                );
+                return;
               } else {
-                setOpenDialog((prev) => ({ ...prev, customerCode: true }));
+                setOpenDialog((prev) => ({ ...prev, customerCode: false }));
+                const isConfirm = await confirmSwal(
+                  "ยืนยันการกรอกรหัสลูกค้า",
+                  "",
+                );
+                if (isConfirm) {
+                  const res = await mutateEnterCustomerCode({
+                    regis_id: regisId,
+                    customer_code: String(customer_code),
+                  });
+                  if (res?.status === "success") {
+                    setCustomer_code(null);
+                  }
+                } else {
+                  setOpenDialog((prev) => ({ ...prev, customerCode: true }));
+                }
               }
             }}
             className="flex w-full flex-col gap-2"

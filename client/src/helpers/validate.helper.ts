@@ -203,7 +203,7 @@ export const validateGeneralAssessmentForm = (
         item?.supplier_name === "" ||
         item?.ratio === null ||
         item?.credit_terms === null ||
-        item?.country?.label === "",
+        item?.country?.label == "ในประเทศไทย",
     )
   ) {
     isValid = false;
