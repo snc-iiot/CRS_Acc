@@ -1,8 +1,8 @@
 import { TRegistrationForm } from "@/types";
 
 export const API_BASE_URL =
-  // "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
-  "https://snc-services.sncformer.com/dev/iCRS/uat/api/public/index.php/api"
+  "https://snc-services.sncformer.com/dev/iCRS/api/public/index.php/api";
+  // "https://snc-services.sncformer.com/dev/iCRS/uat/api/public/index.php/api"
 
 // export const API_BASE_URL =
 //   "http://10.1.8.94:8081/dev/iCRS-ACC-All/CRS_Acc/public/index.php/api";
