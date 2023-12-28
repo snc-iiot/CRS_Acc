@@ -11,6 +11,7 @@ const App = () => {
           <Route index element={<RegistationPage />} />
         </Route>
         <Route path="/success" element={<SuccessPage />} />
+        <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

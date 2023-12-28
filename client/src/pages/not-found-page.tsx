@@ -1,8 +1,4 @@
-import { Icons } from "@/components/common/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { FC } from "react";
-import { Link } from "react-router-dom";
 
 const NotFoundPage: FC = () => {
   return (
@@ -19,10 +15,6 @@ const NotFoundPage: FC = () => {
         หน้าเว็บไซต์ดังกล่าวอาจมีการเปลี่ยนที่อยู่ เปลี่ยนชื่อ หรือพิมพ์ URL
         ไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง
       </p>
-      <Link to="/" className={cn(buttonVariants())}>
-        <Icons.arrowLeft className="mr-2 h-5 w-5" />
-        กลับสู่หน้าหลัก
-      </Link>
     </div>
   );
 };

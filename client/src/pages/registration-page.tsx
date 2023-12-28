@@ -137,6 +137,10 @@ const RegistrationPage: FC = () => {
   };
 
   useEffect(() => {
+    if (!key) {
+      navigate("/not-found", { replace: true });
+      return;
+    }
     const payLoad = getParsedToken(key as string) as IDecodedToken;
     localStorage.setItem("payload-icrs", JSON.stringify(payLoad));
     localStorage.setItem("key-icrs", key as string);

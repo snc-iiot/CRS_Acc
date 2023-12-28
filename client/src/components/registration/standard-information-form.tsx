@@ -1462,7 +1462,7 @@ const StandardInformationForm: FC = () => {
                         ...prev.payment_term,
                         main_customer: {
                           name: e,
-                          name_helper: "",
+                          name_helper: "-",
                           value: "-",
                         },
                       },
