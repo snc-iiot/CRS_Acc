@@ -43,6 +43,9 @@ const StandardsCertifications: FC = () => {
                   )}
                   <p className={item?.is_checked ? "text-primary" : ""}>
                     {item?.cer_name_th}{" "}
+                    {item.value !== "" && item.value !== "-"
+                      ? `(${item.value}) `
+                      : ""}
                     {item?.is_checked && item?.cer_id !== 17 ? (
                       <small className="text-red-500">exp: {item?.exp}</small>
                     ) : (
@@ -58,7 +61,7 @@ const StandardsCertifications: FC = () => {
 
       {/* //! 4.2 */}
       <h4 className="font-semibold">2. สิทธิประโยชน์ที่ได้รับ / Benefits</h4>
-      <div className="mb-1 grid grid-cols-3 gap-y-1 pl-1">
+      <div className="mb-1 grid grid-cols-2 gap-y-1 pl-1">
         {benefit?.length == 0 ? null : (
           <Fragment>
             {benefit?.map((item, i) => (
@@ -71,7 +74,10 @@ const StandardsCertifications: FC = () => {
                   )}
                   <div className="flex items-center gap-x-1">
                     <p className={item?.is_checked ? "text-primary" : ""}>
-                      {item?.cer_name_th}
+                      {item?.cer_name_th}{" "}
+                      {item.value !== "" && item.value !== "-"
+                        ? `(${item.value}) `
+                        : ""}
                     </p>{" "}
                     {item?.is_checked && item?.cer_id !== 4 ? (
                       <small className="text-red-500">exp: {item?.exp}</small>

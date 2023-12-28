@@ -240,7 +240,7 @@ export const useForm = () => {
     mutationKey: [queryKey.GET_REGIS_BY_ID_EXTERNAL],
     mutationFn: () => formService.createRegisIdExternal(),
     onMutate: () => {
-      showLoading("กำลังทำรายการ...");
+      showLoading("กำลังสร้างฟอร์ม สำหรับส่งเมล");
     },
     onSuccess: (data) => {
       if (data?.status === "success") {

@@ -23,7 +23,10 @@ const ShareholderProportion: FC = () => {
       <div />
       <h4 className="font-semibold">สัญชาติไทย</h4>
       <p className="border pr-1 text-right text-primary">
-        {share_holder?.thai_nationalities}%
+        {share_holder?.hight_nationalities?.nationalities === "TH"
+          ? share_holder?.hight_nationalities?.percentage
+          : share_holder?.thai_nationalities}
+        %
       </p>
       <div />
       <div />

@@ -238,10 +238,11 @@ const CalculatePlayback: FC<CalculatePlaybackProps> = ({ mode }) => {
                   </div>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="item-2" disabled>
+              <AccordionItem value="item-2">
                 <AccordionTrigger
-                  className="p-1 font-semibold"
+                  className="cursor-not-allowed p-1 font-semibold opacity-50"
                   onClick={() => setIsInvestment(!isInvestment)}
+                  disabled
                 >
                   ทางเลือก 2: ทราบอัตราการเติบโตของผลตอบแทน (กำไร) ต่องวด
                 </AccordionTrigger>

@@ -161,17 +161,9 @@ const ActionButton = () => {
             </Button>
           </DialogTrigger>
           <DialogContent className="flex flex-col p-2">
-            <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
-            <div className="rounded-md">
-              <Textarea
-                className="h-32 w-full"
-                value={comments}
-                onChange={(e) => setComments(e.target.value)}
-              />
-            </div>
-            <Button
-              className="mt-2 bg-yellow-500 hover:bg-yellow-500/80"
-              onClick={async () => {
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
                 setOpenDialog((prev) => ({ ...prev, edit: false }));
                 const isConfirm = await confirmSwal(
                   "ยืนยันการส่งกลับเพื่อแก้ไข",
@@ -190,10 +182,27 @@ const ActionButton = () => {
                   setOpenDialog((prev) => ({ ...prev, edit: true }));
                 }
               }}
+              className="flex flex-col gap-2"
             >
-              <Icons.edit className="mr-2 h-5 w-5" />
-              ส่งกลับเพื่อแก้ไข
-            </Button>
+              <h2 className="text-lg font-semibold">
+                ความคิดเห็นจากผู้พิจารณา
+              </h2>
+              <div className="rounded-md">
+                <Textarea
+                  className="h-32 w-full"
+                  value={comments}
+                  onChange={(e) => setComments(e.target.value)}
+                  required
+                />
+              </div>
+              <Button
+                className="mt-2 bg-yellow-500 hover:bg-yellow-500/80"
+                type="submit"
+              >
+                <Icons.edit className="mr-2 h-5 w-5" />
+                ส่งกลับเพื่อแก้ไข
+              </Button>
+            </form>
           </DialogContent>
         </Dialog>
         <Dialog
@@ -215,17 +224,10 @@ const ActionButton = () => {
             </Button>
           </DialogTrigger>
           <DialogContent className="flex flex-col p-2">
-            <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
-            <div className="rounded-md">
-              <Textarea
-                className="h-32 w-full"
-                value={comments}
-                onChange={(e) => setComments(e.target.value)}
-              />
-            </div>
-            <Button
-              className="w-full bg-gray-500 hover:bg-gray-500/80"
-              onClick={async () => {
+            <form
+              className="flex flex-col gap-2"
+              onSubmit={async (e) => {
+                e.preventDefault();
                 setOpenDialog((prev) => ({ ...prev, suspend: false }));
                 const isConfirm = await confirmSwal(
                   "ยืนยันการระงับชั่วคราว",
@@ -245,9 +247,43 @@ const ActionButton = () => {
                 }
               }}
             >
-              <Icons.MinusCircle className="mr-2 h-5 w-5" />
-              ระงับชั่วคราว
-            </Button>
+              <h2 className="text-lg font-semibold">
+                ความคิดเห็นจากผู้พิจารณา
+              </h2>
+              <div className="rounded-md">
+                <Textarea
+                  className="h-32 w-full"
+                  value={comments}
+                  onChange={(e) => setComments(e.target.value)}
+                  required
+                />
+              </div>
+              <Button
+                className="w-full bg-gray-500 hover:bg-gray-500/80"
+                // onClick={async () => {
+                //   setOpenDialog((prev) => ({ ...prev, suspend: false }));
+                //   const isConfirm = await confirmSwal(
+                //     "ยืนยันการระงับชั่วคราว",
+                //     "",
+                //   );
+                //   if (isConfirm) {
+                //     const res = await mutateSendToSuspend({
+                //       regis_id: regisId,
+                //       comments,
+                //     });
+                //     if (res?.status === "success") {
+                //       closeSwal();
+                //       setComments("");
+                //     }
+                //   } else {
+                //     setOpenDialog((prev) => ({ ...prev, suspend: true }));
+                //   }
+                // }}
+              >
+                <Icons.MinusCircle className="mr-2 h-5 w-5" />
+                ระงับชั่วคราว
+              </Button>
+            </form>
           </DialogContent>
         </Dialog>
 
@@ -270,19 +306,12 @@ const ActionButton = () => {
             </Button>
           </DialogTrigger>
           <DialogContent className="flex flex-col p-2">
-            <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
-            <div className="rounded-md">
-              <Textarea
-                className="h-32 w-full"
-                value={comments}
-                onChange={(e) => setComments(e.target.value)}
-              />
-            </div>
-            <Button
-              className="w-full bg-red-600 hover:bg-red-600/80"
-              onClick={async () => {
+            <form
+              className="flex flex-col gap-2"
+              onSubmit={async (e) => {
+                e.preventDefault();
                 setOpenDialog((prev) => ({ ...prev, reject: false }));
-                const isConfirm = await confirmSwal("ยืนยันการทำรายการ", "");
+                const isConfirm = await confirmSwal("ยืนยันการไม่อนุมัติ", "");
                 if (isConfirm) {
                   const res = await mutateSentToReject({
                     regis_id: regisId,
@@ -297,9 +326,40 @@ const ActionButton = () => {
                 }
               }}
             >
-              <Icons.xCircle className="mr-2 h-5 w-5" />
-              ไม่อนุมัติ
-            </Button>
+              <h2 className="text-lg font-semibold">
+                ความคิดเห็นจากผู้พิจารณา
+              </h2>
+              <div className="rounded-md">
+                <Textarea
+                  className="h-32 w-full"
+                  value={comments}
+                  onChange={(e) => setComments(e.target.value)}
+                  required
+                />
+              </div>
+              <Button
+                className="w-full bg-red-600 hover:bg-red-600/80"
+                // onClick={async () => {
+                //   setOpenDialog((prev) => ({ ...prev, reject: false }));
+                //   const isConfirm = await confirmSwal("ยืนยันการทำรายการ", "");
+                //   if (isConfirm) {
+                //     const res = await mutateSentToReject({
+                //       regis_id: regisId,
+                //       comments,
+                //     });
+                //     if (res?.status === "success") {
+                //       closeSwal();
+                //       setComments("");
+                //     }
+                //   } else {
+                //     setOpenDialog((prev) => ({ ...prev, reject: true }));
+                //   }
+                // }}
+              >
+                <Icons.xCircle className="mr-2 h-5 w-5" />
+                ไม่อนุมัติ
+              </Button>
+            </form>
           </DialogContent>
         </Dialog>
         <Button
@@ -358,17 +418,10 @@ const AccAction = () => {
           </Button>
         </DialogTrigger>
         <DialogContent className="flex flex-col p-2">
-          <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
-          <div className="rounded-md">
-            <Textarea
-              className="h-32 w-full"
-              value={comments}
-              onChange={(e) => setComments(e.target.value)}
-            />
-          </div>
-          <Button
-            className="mt-2 bg-yellow-500 hover:bg-yellow-500/80"
-            onClick={async () => {
+          <form
+            className="flex flex-col gap-2 "
+            onSubmit={async (e) => {
+              e.preventDefault();
               setOpenDialog((prev) => ({ ...prev, edit: false }));
               const isConfirm = await confirmSwal(
                 "ยืนยันการส่งกลับเพื่อแก้ไข",
@@ -387,9 +440,40 @@ const AccAction = () => {
               }
             }}
           >
-            <Icons.edit className="mr-2 h-5 w-5" />
-            ส่งกลับเพื่อแก้ไข
-          </Button>
+            <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
+            <div className="rounded-md">
+              <Textarea
+                className="h-32 w-full"
+                value={comments}
+                onChange={(e) => setComments(e.target.value)}
+                required
+              />
+            </div>
+            <Button
+              className="mt-2 bg-yellow-500 hover:bg-yellow-500/80"
+              // onClick={async () => {
+              //   setOpenDialog((prev) => ({ ...prev, edit: false }));
+              //   const isConfirm = await confirmSwal(
+              //     "ยืนยันการส่งกลับเพื่อแก้ไข",
+              //     "",
+              //   );
+              //   if (isConfirm) {
+              //     const res = await mutateSendToEdit({
+              //       regis_id: regisId,
+              //       comments,
+              //     });
+              //     if (res?.status === "success") {
+              //       setComments("");
+              //     }
+              //   } else {
+              //     setOpenDialog((prev) => ({ ...prev, edit: true }));
+              //   }
+              // }}
+            >
+              <Icons.edit className="mr-2 h-5 w-5" />
+              ส่งกลับเพื่อแก้ไข
+            </Button>
+          </form>
         </DialogContent>
       </Dialog>
     </div>
@@ -537,10 +621,9 @@ const CustomerCode = () => {
                     : parseInt(e.target.value);
                   setCustomer_code(value);
                 }}
-                required
+                required={true}
                 pattern="[0-9]*"
                 inputMode="numeric"
-                // min 6 digit
                 minLength={6}
                 maxLength={6}
               />

@@ -4,6 +4,7 @@ import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
+import { CalculateCarbon } from "@/helpers/carbon.helper";
 import { LatitudesLongitudes } from "@/helpers/common.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
@@ -691,7 +692,7 @@ export const R1AdminInformation: FC = () => {
                   }}
                   readOnly={!common?.isEditGeneralAssessmentForm}
                 />
-                <span>MB</span>
+                <span>Bath</span>
               </div>
             </div>
             <div className="grid w-[30rem] grid-cols-10 gap-x-1">
@@ -1198,21 +1199,21 @@ export const R1AdminInformation: FC = () => {
               />
               <span>บาท/เที่ยว</span>
             </div>
-            {/* <div className="flex items-center gap-x-1 font-semibold text-primary">
-              <Icons.cloudy className="h-5 w-5" />
-              <p className="truncate whitespace-nowrap">
-                Carbon Emission (CO2)
-              </p>
-              <p className="whitespace-nowrap">
-                0.00 kgCO<sub>2</sub>e
-              </p>
-            </div>
-            <div className="flex items-center gap-x-1 font-semibold text-red-600">
-              <p className="w-[7rem] truncate whitespace-nowrap">
-                Scope 1 (Direct)
-              </p>
-              <p className="w-[15rem] whitespace-nowrap">(ของลูกค้า)</p>
-            </div> */}
+            {CalculateCarbon(
+              generalAssessmentForm?.transport_distance?.distance || 0,
+              generalAssessmentForm?.transport_distance?.car_type || "",
+            ) === 0 ? null : (
+              <div className="flex items-center gap-x-1">
+                <p className="w-[7rem] whitespace-nowrap">Carbon Emission</p>
+                <p className="whitespace-nowrap text-primary">
+                  {CalculateCarbon(
+                    generalAssessmentForm?.transport_distance?.distance || 0,
+                    generalAssessmentForm?.transport_distance?.car_type || "",
+                  )}{" "}
+                  &nbsp; kgCO<sub>2</sub>e
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

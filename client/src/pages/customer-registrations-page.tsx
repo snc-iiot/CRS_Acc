@@ -245,8 +245,8 @@ const CustomerRegistrations: FC = () => {
                     e.preventDefault();
                     setOpenDialogInvite(false);
                     const isConfirm = await confirmSwal(
-                      "ส่งเมลลงทะเบียนลูกค้าใหม่",
-                      "คุณต้องการส่งเมลลงทะเบียนลูกค้าใหม่หรือไม่",
+                      "ส่งคำเชิญลงทะเบียน",
+                      "คุณต้องการส่งคำเชิญลงทะเบียนให้ลูกค้าใช่หรือไม่",
                     );
                     if (isConfirm) {
                       const res = await mutateSendInvite(sendInvite);
@@ -468,30 +468,54 @@ const CustomerRegistrations: FC = () => {
                       ?.length})`
                   : ""}
               </TabsTrigger>
-              <TabsTrigger
-                value="3"
-                onClick={() => {
-                  setTabsSelected("3");
-                }}
-              >
-                รอการแก้ไข
-                {regisList?.filter((item) => item?.status_no === 3)?.length > 0
-                  ? ` (${regisList?.filter((item) => item?.status_no === 3)
-                      ?.length})`
-                  : ""}
-              </TabsTrigger>
-              <TabsTrigger
-                value="0"
-                onClick={() => {
-                  setTabsSelected("0");
-                }}
-              >
-                รออัพโหลดเอกสาร
-                {regisList?.filter((item) => item?.status_no === 0)?.length > 0
-                  ? ` (${regisList?.filter((item) => item?.status_no === 0)
-                      ?.length})`
-                  : ""}
-              </TabsTrigger>
+              {regisList?.filter((item) => item?.status_no === 3)?.length >
+                0 && (
+                <TabsTrigger
+                  value="3"
+                  onClick={() => {
+                    setTabsSelected("3");
+                  }}
+                >
+                  รอการแก้ไข
+                  {regisList?.filter((item) => item?.status_no === 3)?.length >
+                  0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 3)
+                        ?.length})`
+                    : ""}
+                </TabsTrigger>
+              )}
+              {regisList?.filter((item) => item?.status_no === 0)?.length >
+                0 && (
+                <TabsTrigger
+                  value="0"
+                  onClick={() => {
+                    setTabsSelected("0");
+                  }}
+                >
+                  รออัพโหลดเอกสาร
+                  {regisList?.filter((item) => item?.status_no === 0)?.length >
+                  0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 0)
+                        ?.length})`
+                    : ""}
+                </TabsTrigger>
+              )}
+              {regisList?.filter((item) => item?.status_no === 6)?.length >
+                0 && (
+                <TabsTrigger
+                  value="6"
+                  onClick={() => {
+                    setTabsSelected("6");
+                  }}
+                >
+                  อนุมัติ (รอกรอกรหัสลูกค้า)
+                  {regisList?.filter((item) => item?.status_no === 6)?.length >
+                  0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 6)
+                        ?.length})`
+                    : ""}
+                </TabsTrigger>
+              )}
               <TabsTrigger
                 value="100"
                 onClick={() => {
@@ -510,6 +534,7 @@ const CustomerRegistrations: FC = () => {
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}
+                className="w-[5rem]"
               />
               <FilterSelect
                 triggerText="สถานะ"

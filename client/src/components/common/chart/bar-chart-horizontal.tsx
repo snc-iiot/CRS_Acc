@@ -234,6 +234,9 @@ const BarChartHorizontal: FC<BarChartComponentProps> = ({
               dataKey={keyMap?.[0]}
               position="right"
               offset={10}
+              style={{
+                whiteSpace: "nowrap",
+              }}
               formatter={(value: { toLocaleString: () => any }) =>
                 `${value?.toLocaleString()} ${label}`
               }

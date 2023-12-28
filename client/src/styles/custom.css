@@ -124,3 +124,25 @@ body {
     content: counter(page);
   }
 }
+
+/* .swal2-confirm */
+/* ทุกปุ่มใน alert */
+.swal2-confirm {
+  font-size: 14px !important;
+  width: 110px;
+  font-weight: 400;
+  padding: 0.5rem 0.75rem;
+}
+
+.swal2-confirm:focus {
+  box-shadow: none !important;
+}
+
+.swal2-cancel {
+  width: 110px;
+  font-size: 14px !important;
+  font-weight: 400;
+  padding: 0.5rem 0.75rem;
+  background-color: #e5e5e5 !important;
+  color: #000 !important;
+}
