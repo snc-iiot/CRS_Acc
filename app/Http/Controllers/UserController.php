@@ -65,7 +65,8 @@ class UserController extends Controller
                 "data" => []
             ], 400);
 
-            $user = DB::table("tb_users")->where('username', $username)->take(1)->get();
+            // $user = DB::table("tb_users")->where('username', $username)->take(1)->get();
+            $user = DB::table("tb_users")->whereRaw("lower(username)=?", [\strtolower($username)])->take(1)->get();
             if (\count($user) == 0) return response()->json([
                 "status" => "error",
                 "message" => "ไม่มีข้อมูลผู้ใช้นี้อยู่ในระบบ iCRS",
