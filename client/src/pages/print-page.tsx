@@ -889,10 +889,7 @@ const PrintPage = forwardRef((_, ref: any) => {
                           </TableCell>
                           <TableCell
                             className={cn(
-                              "border border-black text-center text-[12px] font-bold",
-                              item?.result === "ไม่ขาย"
-                                ? "text-red-500"
-                                : "text-green-500",
+                              "border border-black text-center text-[12px] font-bold text-black",
                             )}
                           >
                             {item?.result}
