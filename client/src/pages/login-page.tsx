@@ -25,10 +25,18 @@ const LoginPage: FC = () => {
   const [isOpenEye, setIsOpenEye] = useState(false);
 
   const annoucements: { label: string; link: string }[] = [
-    // { label: "สื่อสาธิตการใช้งานระบบ SNC-iCRS", link: "#" },
+    {
+      label: "ผังการดำเนินการ (Flow chart) ระบบ SNC-iCRS",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-dfd.pdf",
+    },
     {
       label: "รายชื่อสายอนุมัติ (Approval name list) ระบบ SNC-iCRS",
-      link: "#",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authen-user.pdf",
+    },
+    {
+      label:
+        "ตารางการกำหนดสิทธิการเข้าถึงระบบ (Authority matrix) ระบบ SNC-iCRS",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authority-matrix.pdf",
     },
   ];
 

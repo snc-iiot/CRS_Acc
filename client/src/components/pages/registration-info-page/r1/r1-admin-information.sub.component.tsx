@@ -1222,7 +1222,7 @@ export const R1AdminInformation: FC = () => {
               generalAssessmentForm?.transport_distance?.distance || 0,
               generalAssessmentForm?.transport_distance?.car_type || "",
             ) === 0 ? null : (
-              <div className="flex items-center gap-x-1">
+              <div className="my-2 flex items-center gap-x-1">
                 <p className="w-[7rem] whitespace-nowrap">Carbon Emission</p>
                 <p className="whitespace-nowrap text-primary">
                   {CalculateCarbon(
@@ -1231,13 +1231,12 @@ export const R1AdminInformation: FC = () => {
                   )}{" "}
                   &nbsp; tCO<sub>2</sub>e
                 </p>
-                <div className="item-center flex gap-2">
+                <div className="item-center flex gap-2 text-red-600">
                   <p>(ข้อมูลนี้จะถูก Sync ไปที่</p>
-
                   <a
                     href="https://snc-services.sncformer.com/icfo/login"
                     target="_blank"
-                    className="inline-flex items-center  text-red-600 hover:underline"
+                    className="inline-flex items-center  hover:underline"
                   >
                     <Icons.link className="h-3 w-3" />
                     SNC - iCarbonTrade <span className="text-black">)</span>

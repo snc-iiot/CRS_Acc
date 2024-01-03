@@ -204,7 +204,7 @@ const CalculatePlayback: FC<CalculatePlaybackProps> = ({ mode }) => {
                         </h4>
                         <div>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
-                            {payback} เดือน
+                            {payback?.toFixed(2)} เดือน
                           </h3>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
                             {((payback ?? 0) / 12)?.toFixed(2)} ปี
@@ -325,10 +325,10 @@ const CalculatePlayback: FC<CalculatePlaybackProps> = ({ mode }) => {
                         </h4>
                         <div>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
-                            {payback} เดือน
+                            {payback?.toFixed(2)} เดือน
                           </h3>
                           <h3 className="text-md whitespace-nowrap text-right font-bold text-primary">
-                            {payback} ปี
+                            {payback?.toFixed(2)} ปี
                           </h3>
                         </div>
                       </div>

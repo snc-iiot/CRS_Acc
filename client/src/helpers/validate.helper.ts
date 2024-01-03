@@ -109,74 +109,76 @@ export const validateGeneralAssessmentForm = (
     isValid = false;
     error_th = "กรุณาระบุ เครื่องจักรที่ใช้ผลิต";
     error_en = "Machine produce";
-  } else if (
-    values?.machine_produce?.find(
-      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
-    )?.value?.amount === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ จำนวนเงินลงทุน";
-    error_en = "Investment amount";
-  } else if (
-    values?.machine_produce?.find(
-      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
-    )?.value?.ROA === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ ROA";
-    error_en = "ROA";
-  } else if (
-    values?.machine_produce?.find(
-      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
-    )?.value?.ROI === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ ROI";
-    error_en = "ROI";
-  } else if (
-    values?.machine_produce?.find(
-      (item) => item.id === "machine-produce-id-3" && item?.is_checked,
-    )?.value?.payback === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ Payback";
-    error_en = "Payback";
-  } else if (values.mold_use.every((item) => item.is_checked === false)) {
+  }
+  // } else if (
+  //   values?.machine_produce?.find(
+  //     (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+  //   )?.value?.amount === 0
+  // ) {
+  //   isValid = false;
+  //   error_th = "กรุณาระบุ จำนวนเงินลงทุน";
+  //   error_en = "Investment amount";
+  // } else if (
+  //   values?.machine_produce?.find(
+  //     (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+  //   )?.value?.ROA === 0
+  // ) {
+  //   isValid = false;
+  //   error_th = "กรุณาระบุ ROA";
+  //   error_en = "ROA";
+  // } else if (
+  //   values?.machine_produce?.find(
+  //     (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+  //   )?.value?.ROI === 0
+  // ) {
+  //   isValid = false;
+  //   error_th = "กรุณาระบุ ROI";
+  //   error_en = "ROI";
+  // } else if (
+  //   values?.machine_produce?.find(
+  //     (item) => item.id === "machine-produce-id-3" && item?.is_checked,
+  //   )?.value?.payback === 0
+  // ) {
+  //   isValid = false;
+  //   error_th = "กรุณาระบุ Payback";
+  //   error_en = "Payback";
+  else if (values.mold_use.every((item) => item.is_checked === false)) {
     isValid = false;
     error_th = "กรุณาระบุ แม่พิมพ์ที่ใช้ผลิต";
     error_en = "Machine produce";
-  } else if (
-    values?.mold_use?.find(
-      (item) => item.id === "mold-use-id-4" && item?.is_checked,
-    )?.value?.amount === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ จำนวนเงินลงทุน";
-    error_en = "Investment amount";
-  } else if (
-    values?.mold_use?.find(
-      (item) => item.id === "mold-use-id-4" && item?.is_checked,
-    )?.value?.ROI === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ ROI";
-    error_en = "Investment amount";
-  } else if (
-    values?.mold_use?.find(
-      (item) => item.id === "mold-use-id-4" && item?.is_checked,
-    )?.value?.ROA === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ ROA";
-    error_en = "Investment amount";
-  } else if (
-    values?.mold_use?.find(
-      (item) => item.id === "mold-use-id-4" && item?.is_checked,
-    )?.value?.payback === 0
-  ) {
-    isValid = false;
-    error_th = "กรุณาระบุ Payback";
-    error_en = "Investment amount";
+    // } else if (
+    //   values?.mold_use?.find(
+    //     (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    //   )?.value?.amount === 0
+    // ) {
+    //   isValid = false;
+    //   error_th = "กรุณาระบุ จำนวนเงินลงทุน";
+    //   error_en = "Investment amount";
+    // } else if (
+    //   values?.mold_use?.find(
+    //     (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    //   )?.value?.ROI === 0
+    // ) {
+    //   isValid = false;
+    //   error_th = "กรุณาระบุ ROI";
+    //   error_en = "Investment amount";
+    // } else if (
+    //   values?.mold_use?.find(
+    //     (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    //   )?.value?.ROA === 0
+    // ) {
+    //   isValid = false;
+    //   error_th = "กรุณาระบุ ROA";
+    //   error_en = "Investment amount";
+    // } else if (
+    //   values?.mold_use?.find(
+    //     (item) => item.id === "mold-use-id-4" && item?.is_checked,
+    //   )?.value?.payback === 0
+    // ) {
+    //   isValid = false;
+    //   error_th = "กรุณาระบุ Payback";
+    //   error_en = "Investment amount";
+    // }
   } else if (values?.main_material.every((item) => item.is_checked === false)) {
     isValid = false;
     error_th = "กรุณาระบุ วัตถุดิบหลักในการผลิตสินค้า";

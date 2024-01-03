@@ -13,6 +13,7 @@ type Props = {
   listCoordinate?: { x: number; y: number };
   companyFontSize?: number;
   companyCoordinate?: { x: number; y: number };
+  dashboardMode?: boolean;
 };
 
 const TreeMap: FC<Props> = ({
@@ -20,6 +21,7 @@ const TreeMap: FC<Props> = ({
   percentageFontSize = 12,
   listFontSize = 12,
   companyFontSize = 14,
+  dashboardMode = true,
 }) => {
   const DataLength = data
     ?.map(({ children }) => children[0]?.size)
@@ -94,6 +96,76 @@ const TreeMap: FC<Props> = ({
       );
     }
   }
+
+  class CustomizedContent2 extends PureComponent {
+    render() {
+      const data: any = this.props;
+      const { root, depth, x, y, width, height, index, name, children } = data;
+
+      return (
+        <g>
+          <rect
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+            style={{
+              fill:
+                depth < 2
+                  ? COLORS_SERIES[
+                      Math.floor((index / root?.children?.length) * 6) + 10
+                    ]
+                  : "#ffffff00",
+              stroke: "#fff",
+              strokeWidth: 2 / (depth + 1e-10),
+              strokeOpacity: 1 / (depth + 1e-10),
+            }}
+          />
+          {depth === 1 && (children[0]?.size / DataLength) * 100 > 10 ? (
+            <text
+              x={x + width / 2}
+              y={y + height / 2 + 7}
+              textAnchor="middle"
+              fill="#fff"
+              fontSize={12}
+              fontWeight={300}
+            >
+              {name}
+            </text>
+          ) : null}
+
+          {depth === 1 ? (
+            <text
+              x={x + 14}
+              y={y + 10}
+              fillOpacity={0.9}
+              textAnchor="middle"
+              fill="#fff"
+              fontSize={8}
+              fontWeight={100}
+            >
+              {((children[0]?.size / DataLength) * 100)?.toFixed(0)} %
+            </text>
+          ) : null}
+
+          {depth === 1 && (children[0]?.size / DataLength) * 100 > 5 ? (
+            <text
+              x={x + 25}
+              y={y + 20}
+              fillOpacity={0.9}
+              textAnchor="middle"
+              fill="#fff"
+              fontSize={8}
+              fontWeight={100}
+            >
+              {children[0]?.size} รายการ
+            </text>
+          ) : null}
+        </g>
+      );
+    }
+  }
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <Treemap
@@ -103,7 +175,7 @@ const TreeMap: FC<Props> = ({
         dataKey="size"
         aspectRatio={4 / 3}
         stroke="#fff"
-        content={<CustomizedContent />}
+        content={dashboardMode ? <CustomizedContent /> : <CustomizedContent2 />}
         style={{ color: "#FF0000" }}
       />
     </ResponsiveContainer>

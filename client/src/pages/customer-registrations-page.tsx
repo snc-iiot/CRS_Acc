@@ -622,6 +622,7 @@ const CustomerRegistrations: FC = () => {
                   <Tr>
                     <Th className="w-[100px]">ลำดับ</Th>
                     <Th className="w-[10rem]">หมายเลขนิติบุคคล</Th>
+                    <Th className="w-[10rem]">รหัสลูกค้า</Th>
                     <Th>บริษัทลูกค้า</Th>
                     <Th className="w-[200px]">
                       <span className="flex cursor-pointer items-center gap-x-1">
@@ -681,6 +682,7 @@ const CustomerRegistrations: FC = () => {
                       >
                         <Td>{i + 1}</Td>
                         <Td>{item?.juristic_id}</Td>
+                        <Td>{item?.customer_code ?? ""}</Td>
                         <Td>{item?.company_name}</Td>
                         <Td>{item?.company_admin}</Td>
                         <Td>{item?.created_at}</Td>

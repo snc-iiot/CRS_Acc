@@ -764,6 +764,7 @@ const RegistrationInfo: FC = () => {
                               name: company,
                               children: [{ name: company, size: regis_count }],
                             }))}
+                          dashboardMode={false}
                         />
                       </div>
                       {/* <div className="relative flex h-full w-full flex-col">

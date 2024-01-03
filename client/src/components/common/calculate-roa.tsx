@@ -96,7 +96,7 @@ const CalculateRoi: FC<CalculateRoiProps> = ({ mode }) => {
           </section>
           <section className="flex flex-col gap-2 p-1">
             <div className="flex flex-col gap-1">
-              <h3 className="text-sm">กำไรสิทธิ (Net Income) (บาท)</h3>
+              <h3 className="text-sm">กำไรสุทธิ (Net Income) (บาท)</h3>
               <Input
                 type="number"
                 className="w-full"

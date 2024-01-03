@@ -6,4 +6,6 @@ export type TRegisList = {
   created_at: string;
   status_no: number;
   status_desc_th: string;
+  approved_at: string;
+  customer_code: string | null;
 };

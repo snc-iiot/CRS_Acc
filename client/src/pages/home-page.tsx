@@ -124,8 +124,8 @@ const HomePage: FC = () => {
       children: [{ name: company, size: regis_count }],
     }));
 
-  const countRegisList = regisList?.filter((item) => item?.status_no === 8);
-  const dataCountRegisList = sortByField(countRegisList, "created_at");
+  const countRegisList = regisList?.filter((item) => item?.approved_at !== "");
+  const dataCountRegisList = sortByField(countRegisList, "approved_at");
 
   return (
     <main className="relative flex h-full w-full flex-col gap-2">

@@ -551,7 +551,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       "Distance of Goods Transport / Expenses",
     "ระเบียบการวางบิล / รับเงิน": "Invoice / Payment Procedures",
     เงื่อนไขการขนส่งสินค้า: "Terms and Conditions of Goods Transportation",
-    เงื่อนไขในการวางเงินมัดจำ: "Terms and Conditions for Deposit Placement",
+    เงื่อนไขในการวางเงินมัดจำ: "Terms and Conditions for Deposit",
     รับประกันสินค้า: "Product Warranty",
     การรับรองที่ได้รับ: "Received Certification",
     มีนโยบายการต่อต้านทุจริตคอร์รัปชั่น: "Anti-corruption policy",
@@ -562,8 +562,8 @@ const PrintPage = forwardRef((_, ref: any) => {
     "มีนโยบายประเมินความปลอดภัย อาชีวอนามัยและสภาพแวดล้อมในการทำงาน":
       "Safety, health, and environmental policy",
     มีนโยบายสวัสดิการแรงงานตามกฎหมายกำหนด: "Minimum welfare policy",
-    "งบการเงิน 5 ปี": "Five-year budget.",
-    สัญญาซื้อขายกับลูกค้า: "Sales Agreement with Customers",
+    "งบการเงิน 5 ปี": "Five-year financial statements",
+    สัญญาซื้อขายกับลูกค้า: "Sales contract",
     "เยี่ยมชมโรงงาน / รูปถ่าย": "Visit to the factory / Photographs",
     "สภาพเครื่องจักร + รูปถ่าย": "Machine condition + Photographs",
   };
@@ -616,7 +616,7 @@ const PrintPage = forwardRef((_, ref: any) => {
           {index === 0 && <div className="h-[3px] border-b border-black"></div>}
           <section
             className={cn(
-              "flex w-full items-center justify-center gap-2",
+              "flex w-full items-center justify-between gap-2",
               index === 1 ? "hidden" : "",
             )}
           >
@@ -624,10 +624,19 @@ const PrintPage = forwardRef((_, ref: any) => {
               style={{
                 fontSize: 12,
                 fontWeight: "bold",
-                textDecoration: "underline double",
+                // textDecoration: "underline double",
               }}
             >
               แบบฟอร์มการคัดเลือกลูกค้าใหม่ (New Customer Assessment Form)
+            </h1>
+            <h1
+              style={{
+                fontSize: 12,
+                fontWeight: "bold",
+                // textDecoration: "underline double",
+              }}
+            >
+              รหัสลูกค้า (Customer Code): {generalAssessmentForm?.customer_code}
             </h1>
           </section>
           <div className="flex flex-col gap-4">
@@ -857,7 +866,7 @@ const PrintPage = forwardRef((_, ref: any) => {
                         </TableHead>
                         <TableHead className="border border-black text-center text-[10px] font-bold text-secondary-foreground">
                           ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย (60) <br />{" "}
-                          (Management of conditions and policies)
+                          (Management, conditions, and policies)
                         </TableHead>
                         <TableHead className="border border-black text-center text-[10px] font-bold text-secondary-foreground">
                           คะแนนรวม (100) <br /> (Total Score)
