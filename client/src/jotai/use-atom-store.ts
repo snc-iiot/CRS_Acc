@@ -60,7 +60,7 @@ export const useAtomStore = () => {
     generalAssessmentFormAtom,
   );
 
-    //! for external customer
+  //! for external customer
   const [sendInvite, setSendInvite] = useAtom(sendInviteAtom);
 
   //! comment
@@ -81,9 +81,13 @@ export const useAtomStore = () => {
 
   //! home
   const [dataRegisCount, setDataRegisCount] = useAtom(regisCountAtom);
-  const [dataMainCustomerRatio, setDataMainCustomerRatio] = useAtom(mainCustomerRatioAtom);
-  const [dataShareHolderRatio, setDataShareHolderRatio] = useAtom(shareHolderRatioAtom);
-  const [dataObjectivePurchasingRatio, setDataObjectivePurchasingRatio] = useAtom(objectivePurchasingRatioAtom);
+  const [dataMainCustomerRatio, setDataMainCustomerRatio] = useAtom(
+    mainCustomerRatioAtom,
+  );
+  const [dataShareHolderRatio, setDataShareHolderRatio] =
+    useAtom(shareHolderRatioAtom);
+  const [dataObjectivePurchasingRatio, setDataObjectivePurchasingRatio] =
+    useAtom(objectivePurchasingRatioAtom);
   const [dataRegisStat, setDataRegisStat] = useAtom(regisStatAtom);
 
   return {
@@ -131,7 +135,7 @@ export const useAtomStore = () => {
     //!  dbdSyncList
     dbdSyncList,
     setDBDSyncList,
-    dataDBDSyncList, 
+    dataDBDSyncList,
     setDataDBDSyncList,
 
     //! financialRatio
@@ -147,18 +151,18 @@ export const useAtomStore = () => {
     setCompanyProfile,
 
     //! home
-    dataRegisCount, 
+    dataRegisCount,
     setDataRegisCount,
-    dataMainCustomerRatio, 
+    dataMainCustomerRatio,
     setDataMainCustomerRatio,
-    dataShareHolderRatio, 
+    dataShareHolderRatio,
     setDataShareHolderRatio,
-    dataObjectivePurchasingRatio, 
+    dataObjectivePurchasingRatio,
     setDataObjectivePurchasingRatio,
-    dataRegisStat, 
+    dataRegisStat,
     setDataRegisStat,
 
-    sendInvite, 
+    sendInvite,
     setSendInvite,
   };
 };

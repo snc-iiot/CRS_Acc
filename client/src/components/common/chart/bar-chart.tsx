@@ -142,8 +142,9 @@ const BarChart: FC<Props> = ({
         <Tooltip />
         {/* <Legend /> */}
         <CartesianGrid strokeDasharray="0 3" />
-        {dataKey?.map(({ name, color }) => (
+        {dataKey?.map(({ name, color }, i) => (
           <Bar
+            key={i}
             dataKey={name}
             fill={color}
             label={{ position: "top", fontSize: "0.8rem" }}

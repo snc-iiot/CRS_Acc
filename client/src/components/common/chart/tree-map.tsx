@@ -7,9 +7,20 @@ type Props = {
     name: string;
     children: { name: string; size: number }[];
   }[];
+  percentageFontSize?: number;
+  percentageCoordinate?: { x: number; y: number };
+  listFontSize?: number;
+  listCoordinate?: { x: number; y: number };
+  companyFontSize?: number;
+  companyCoordinate?: { x: number; y: number };
 };
 
-const TreeMap: FC<Props> = ({ data = [] }) => {
+const TreeMap: FC<Props> = ({
+  data = [],
+  percentageFontSize = 12,
+  listFontSize = 12,
+  companyFontSize = 14,
+}) => {
   const DataLength = data
     ?.map(({ children }) => children[0]?.size)
     ?.reduce((accumulator, currentValue) => {
@@ -45,7 +56,8 @@ const TreeMap: FC<Props> = ({ data = [] }) => {
               y={y + height / 2 + 7}
               textAnchor="middle"
               fill="#fff"
-              fontSize={14}
+              fontSize={companyFontSize}
+              fontWeight={300}
             >
               {name}
             </text>
@@ -54,11 +66,12 @@ const TreeMap: FC<Props> = ({ data = [] }) => {
           {depth === 1 ? (
             <text
               x={x + 20}
-              y={y + 12}
+              y={y + 14}
               fillOpacity={0.9}
               textAnchor="middle"
               fill="#fff"
-              fontSize={10}
+              fontSize={percentageFontSize}
+              fontWeight={100}
             >
               {((children[0]?.size / DataLength) * 100)?.toFixed(0)} %
             </text>
@@ -66,12 +79,13 @@ const TreeMap: FC<Props> = ({ data = [] }) => {
 
           {depth === 1 && (children[0]?.size / DataLength) * 100 > 5 ? (
             <text
-              x={x + 26}
-              y={y + 20}
+              x={x + 35}
+              y={y + 27}
               fillOpacity={0.9}
               textAnchor="middle"
               fill="#fff"
-              fontSize={8}
+              fontSize={listFontSize}
+              fontWeight={100}
             >
               {children[0]?.size} รายการ
             </text>

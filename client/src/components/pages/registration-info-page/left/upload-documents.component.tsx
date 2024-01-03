@@ -1,6 +1,7 @@
 import { Icons } from "@/components/common/icons";
 import { UploadDocument } from "@/helpers/document.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
+import { cn } from "@/lib/utils";
 import { FC, Fragment } from "react";
 
 const UploadDocuments: FC = () => {
@@ -33,7 +34,12 @@ const UploadDocuments: FC = () => {
                 <div className="flex select-none items-center pl-1 text-primary">
                   <Icons.fileText className="mr-1 h-4 w-4" />
                   <span
-                    className="cursor-pointer hover:underline"
+                    className={cn(
+                      "cursor-pointer hover:underline",
+                      docByRegisId?.documents[item?.name] === ""
+                        ? "pointer-events-none cursor-not-allowed text-gray-500"
+                        : "",
+                    )}
                     onClick={() =>
                       window.open(
                         `${docByRegisId?.file_path}/${docByRegisId?.documents[

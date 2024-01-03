@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { useProfile } from "@/services/hooks/use-profile";
 import { TResponseAction } from "@/types";
 import axios from "axios";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
@@ -22,13 +22,14 @@ const LoginPage: FC = () => {
   const navigate = useNavigate();
   const { showSuccess, showError, showLoading, closeSwal } = useSwal();
   const { setProfile } = useProfile();
+  const [isOpenEye, setIsOpenEye] = useState(false);
 
   const annoucements: { label: string; link: string }[] = [
     // { label: "สื่อสาธิตการใช้งานระบบ SNC-iCRS", link: "#" },
-    // {
-    //   label: "รายชื่อสายอนุมัติ (Approval name list) ระบบ SNC-iCRS",
-    //   link: "#",
-    // },
+    {
+      label: "รายชื่อสายอนุมัติ (Approval name list) ระบบ SNC-iCRS",
+      link: "#",
+    },
   ];
 
   const {
@@ -88,7 +89,7 @@ const LoginPage: FC = () => {
           {/* //! Header */}
           <div
             className={cn(
-              "border-custom-border-200 bg-custom-sidebar-background-100 z-10 w-full border-b px-4 py-3",
+              "border-custom-border-200 bg-custom-sidebar-background-100 z-10 w-full border-b px-4 py-1",
             )}
           >
             <div>
@@ -128,53 +129,39 @@ const LoginPage: FC = () => {
                   />
                   {errors.emailRequired && (
                     <span className="text-sm text-red-600">
-                      This field is required
+                      กรุณาระบุ username
                     </span>
                   )}
                 </div>
-                <div className="mb-2">
+                <div className="relative mb-2">
                   <p className="font-[600]">Password</p>
-                  <Input
-                    type="password"
-                    placeholder="********"
-                    {...register("passwordRequired", { required: true })}
-                  />
+                  <div className="relative w-full">
+                    <Input
+                      type={isOpenEye ? "text" : "password"}
+                      placeholder="Password"
+                      {...register("passwordRequired", { required: true })}
+                    />
+                    <div className="absolute right-0 top-0 flex h-full items-center pr-2">
+                      {isOpenEye ? (
+                        <Icons.eye
+                          className="h-[1rem] cursor-pointer"
+                          onClick={() => setIsOpenEye(!isOpenEye)}
+                        />
+                      ) : (
+                        <Icons.eyeOff
+                          className="h-[1rem] cursor-pointer"
+                          onClick={() => setIsOpenEye(!isOpenEye)}
+                        />
+                      )}
+                    </div>
+                  </div>
                   {errors.passwordRequired && (
                     <span className="text-sm text-red-600">
-                      This field is required
+                      กรุณาระบุ password
                     </span>
                   )}
                 </div>
-
-                {/* <div className="mb-2">
-                  <p className="font-[600]">Business Code</p>
-                  <Select
-                    placeholder="Select business code"
-                    {...register("buCodeRequired", { required: true })}
-                  >
-                    <>
-                      {!businessCodes.length
-                        ? null
-                        : businessCodes.map((item, i) => (
-                            <option key={i} value={item?.BUCode}>
-                              [{item?.BUCode}] {item?.Description}
-                            </option>
-                          ))}
-                    </>
-                  </Select>
-                  {errors.buCodeRequired && (
-                    <span className="text-sm text-red-600">
-                      This field is required
-                    </span>
-                  )}
-                </div> */}
-
                 <div className="mt-6 flex items-center justify-end">
-                  {/* <Button type="button" variant="link" className="text-xs">
-                    ลืมรหัสผ่าน
-                    <br />
-                    Forgot password?
-                  </Button> */}
                   <Button type="submit">
                     <Icons.logIn className="mr-2 w-[1.2rem]" /> เข้าสู่ระบบ
                   </Button>
@@ -195,6 +182,12 @@ const LoginPage: FC = () => {
                   <Icons.externalLink className="h-[1rem] cursor-pointer text-blue-800" />
                 </div>
               ))}
+              <div className="flex items-center text-sm">
+                <p>
+                  {annoucements.length + 1}. พบปัญหาการใช้งานระบบ
+                  กรุณาแจ้งผ่านไลน์กลุ่ม SNC-iCRS
+                </p>
+              </div>
             </div>
           </div>
         </div>

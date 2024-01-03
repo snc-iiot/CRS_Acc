@@ -1,4 +1,9 @@
-import { TDocByRegisId, TRegisList, TRegistrationForm, TSendInvite } from "@/types";
+import {
+  TDocByRegisId,
+  TRegisList,
+  TRegistrationForm,
+  TSendInvite,
+} from "@/types";
 import { atom } from "jotai";
 
 export const registrationAtom = atom<TRegistrationForm>({
@@ -177,4 +182,5 @@ if (process.env.NODE_ENV !== "production") {
   docByRegisIdAtom.debugLabel = "docByRegisIdAtom";
   regisListAtom.debugLabel = "regisListAtom";
   regisListByAccountAtom.debugLabel = "regisListByAccountAtom";
+  sendInviteAtom.debugLabel = "sendInviteAtom";
 }

@@ -37,7 +37,7 @@ const ShareholderProportion: FC = () => {
       <div />
       <div />
       <h4 className="font-semibold">รวมทุกสัญชาติ</h4>
-      <p className="border pr-1 text-right text-primary">100</p>
+      <p className="border pr-1 text-right text-primary">100%</p>
       <div />
       <div />
     </div>

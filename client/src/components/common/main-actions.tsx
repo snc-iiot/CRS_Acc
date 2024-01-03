@@ -609,7 +609,8 @@ const AccAction = () => {
   });
 
   return (
-    <div className="flex h-full w-full items-center justify-end gap-x-2 px-2 text-sm">
+    <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
+      <StatusForm />
       <Dialog
         onOpenChange={(open) => {
           setOpenDialog((prev) => ({ ...prev, edit: open }));

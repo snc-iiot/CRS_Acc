@@ -3,8 +3,10 @@ import BarChartHorizontal from "@/components/common/chart/bar-chart-horizontal";
 import PieChartComponents from "@/components/common/chart/pi-chart";
 import TreeMap from "@/components/common/chart/tree-map";
 import { Select } from "@/components/ui/select-custom";
+import { sortByField } from "@/helpers/array.helper";
+import { getDateThai } from "@/helpers/calendar.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
-import { COLORS_SERIES } from "@/lib/utils";
+import { cn, COLORS_SERIES } from "@/lib/utils";
 import { useHome } from "@/services/hooks/use-home";
 import { FC } from "react";
 
@@ -15,6 +17,7 @@ const HomePage: FC = () => {
     dataObjectivePurchasingRatio,
     dataShareHolderRatio,
     dataRegisStat,
+    regisList,
   } = useAtomStore();
   const {
     isFetchingRegisCount,
@@ -54,8 +57,8 @@ const HomePage: FC = () => {
 
   const DataMainCustomers = [
     {
-      id: "ลูกค้าในประเทศไทย",
-      label: "ลูกค้าในประเทศไทย",
+      id: "ไทย",
+      label: "ไทย",
       value:
         dataMainCustomerRatio?.filter(
           ({ main_customer }) => main_customer === "internal",
@@ -63,8 +66,8 @@ const HomePage: FC = () => {
       color: "#1F2C57",
     },
     {
-      id: "ลูกค้าต่างประเทศ",
-      label: "ลูกค้าต่างประเทศ",
+      id: "ต่างประเทศ",
+      label: "ต่างประเทศ",
       value:
         dataMainCustomerRatio?.filter(
           ({ main_customer }) => main_customer === "foreign",
@@ -87,6 +90,7 @@ const HomePage: FC = () => {
     ?.reduce((accumulator, currentValue) => {
       return accumulator + currentValue;
     }, 0);
+
   const TotolRegisWest = dataRegisCount
     ?.map(({ regis_count, province }) =>
       province !== "RAYONG" ? 0 : regis_count ?? 0,
@@ -120,15 +124,28 @@ const HomePage: FC = () => {
       children: [{ name: company, size: regis_count }],
     }));
 
+  const countRegisList = regisList?.filter((item) => item?.status_no === 8);
+  const dataCountRegisList = sortByField(countRegisList, "created_at");
+
   return (
     <main className="relative flex h-full w-full flex-col gap-2">
       <section className="flex items-center justify-between gap-2">
         <h1 className="text-xl font-semibold">
-          ภาพรวมของการขึ้นทะเบียนผู้ซื้อ
+          ภาพรวมของการขึ้นทะเบียนผู้ซื้อ{" "}
+          <span className="text-sm text-primary">
+            (อัพเดทล่าสุดเมื่อวันที่:{" "}
+            {
+              getDateThai(
+                dataCountRegisList.length > 0 &&
+                  dataCountRegisList[0]?.created_at,
+              ).dateTime
+            }
+            )
+          </span>
         </h1>
         <div className="w-44">
-          <Select className="text-xs shadow-none" defaultValue="2023">
-            <option value="2023">Y2023</option>
+          <Select className="text-xs shadow-none" defaultValue="2024">
+            <option value="2024">Y2024</option>
           </Select>
         </div>
       </section>
@@ -151,12 +168,12 @@ const HomePage: FC = () => {
                 <h1
                   className={`${
                     TotolRegis < 1000
-                      ? "text-[6rem]"
-                      : TotolRegis < 10000
                       ? "text-[5rem]"
-                      : TotolRegis < 100000
+                      : TotolRegis < 10000
                       ? "text-[4rem]"
-                      : "text-[3rem]"
+                      : TotolRegis < 100000
+                      ? "text-[3rem]"
+                      : "text-[2rem]"
                   }`}
                 >
                   {TotolRegis?.toLocaleString("en")}
@@ -167,15 +184,24 @@ const HomePage: FC = () => {
                   East :
                 </h3>
                 <h1
-                  className={`${
+                  // className={`${
+                  //   TotolRegis < 1000
+                  //     ? "text-[6rem]"
+                  //     : TotolRegis < 10000
+                  //     ? "text-[5rem]"
+                  //     : TotolRegis < 100000
+                  //     ? "text-[4rem]"
+                  //     : "text-[3rem]"
+                  // }`}
+                  className={cn(
                     TotolRegis < 1000
-                      ? "text-[6rem]"
-                      : TotolRegis < 10000
                       ? "text-[5rem]"
-                      : TotolRegis < 100000
+                      : TotolRegis < 10000
                       ? "text-[4rem]"
-                      : "text-[3rem]"
-                  }`}
+                      : TotolRegis < 100000
+                      ? "text-[3rem]"
+                      : "text-[2rem]",
+                  )}
                 >
                   {TotolRegisEast?.toLocaleString("en")}
                 </h1>
@@ -188,15 +214,24 @@ const HomePage: FC = () => {
                   West :
                 </h3>
                 <h1
-                  className={`${
+                  // className={`${
+                  //   TotolRegis < 1000
+                  //     ? "text-[6rem]"
+                  //     : TotolRegis < 10000
+                  //     ? "text-[5rem]"
+                  //     : TotolRegis < 100000
+                  //     ? "text-[4rem]"
+                  //     : "text-[3rem]"
+                  // }`}
+                  className={cn(
                     TotolRegis < 1000
-                      ? "text-[6rem]"
-                      : TotolRegis < 10000
                       ? "text-[5rem]"
-                      : TotolRegis < 100000
+                      : TotolRegis < 10000
                       ? "text-[4rem]"
-                      : "text-[3rem]"
-                  }`}
+                      : TotolRegis < 100000
+                      ? "text-[3rem]"
+                      : "text-[2rem]",
+                  )}
                 >
                   {TotolRegisWest?.toLocaleString("en")}
                 </h1>
@@ -250,20 +285,42 @@ const HomePage: FC = () => {
                   />
                 </article>
                 <article className="absolute bottom-0 right-0">
-                  {Datanationality?.slice(0, 5)?.map(({ id, color }, i) => (
-                    <article
-                      key={i}
-                      className="flex flex-row items-center justify-start gap-2"
-                    >
-                      <div
-                        className={"h-3 w-3 rounded-full"}
-                        style={{
-                          backgroundColor: color,
-                        }}
-                      />
-                      <h6 className="text-xs font-bold">{id}</h6>
-                    </article>
-                  ))}
+                  {Datanationality?.reduce((acc: any, cur) => {
+                    const index = acc.findIndex(
+                      (item: { id: string }) => item.id === cur.id,
+                    );
+                    if (index === -1) {
+                      acc.push({
+                        id: cur.id || "",
+                        label: cur.id || "",
+                        value: cur.value || 0,
+                        color: cur.color,
+                      });
+                    } else {
+                      acc[index].value += cur.value;
+                    }
+                    return acc;
+                  }, [])
+                    ?.slice(0, 5)
+                    ?.map(
+                      (
+                        { id, color }: { id: string; color: string },
+                        i: number,
+                      ) => (
+                        <article
+                          key={i}
+                          className="flex flex-row items-center justify-start gap-2"
+                        >
+                          <div
+                            className={"h-3 w-3 rounded-full"}
+                            style={{
+                              backgroundColor: color,
+                            }}
+                          />
+                          <h6 className="text-xs font-bold">{id}</h6>
+                        </article>
+                      ),
+                    )}
                   {Datanationality?.length > 5 && (
                     <h6 className="mt-[-6px] w-full text-center text-xs font-bold">
                       ...

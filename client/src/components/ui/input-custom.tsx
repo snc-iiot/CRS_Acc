@@ -67,4 +67,53 @@ const InputRightAddon = forwardRef<HTMLSpanElement, InputAddonProps>(
 );
 InputRightAddon.displayName = "InputRightAddon";
 
-export { InputGroup, Input, InputLeftAddon, InputRightAddon };
+//create input number component and manage state
+const InputNumber = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        type="number"
+        style={{ WebkitAppearance: "none" }}
+        className={cn(
+          "block w-full border border-[#CDD9ED] bg-[#fff] px-[1rem] py-[0.5rem] leading-[1rem] text-[#99A3BA] transition-[border] delay-300 ease-in-out",
+          "placeholder:text-[#CBD1DC]",
+          "focus:border-[#275EFE] focus:outline-0",
+          className,
+        )}
+        onChange={(e) => {
+          // ถ้า value มันเป็น 0 ก็ให้เป็น 0 อยู่เลย แต่ถ้าไม่ใช่ก็ให้เป็นตัวเลขตัวแรกที่ไม่ใช่ 0
+          const value = e.target.value;
+          if (value === "0") {
+            props.onChange?.(e);
+            return;
+          }
+          const number = parseInt(value);
+          if (isNaN(number)) {
+            props.onChange?.(e);
+            return;
+          }
+          if (number === 0) {
+            props.onChange?.(e);
+            return;
+          }
+          if (number) {
+            props.onChange?.(e);
+            return;
+          }
+
+          props.onChange?.(e);
+        }}
+        value={
+          props.value === undefined || props.value === null
+            ? ""
+            : props.value.toString()
+        }
+        {...props}
+      />
+    );
+  },
+);
+InputNumber.displayName = "InputNumber";
+
+export { InputGroup, Input, InputLeftAddon, InputRightAddon, InputNumber };

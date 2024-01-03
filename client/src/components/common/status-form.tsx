@@ -17,7 +17,7 @@ const StatusForm: FC = () => {
     (item) => item.is_approved === false,
   );
 
-  if (registration.status_no && registration?.status_no < 3) {
+  if (registration.status_no && registration?.status_no < 2) {
     return null;
   }
 

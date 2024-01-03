@@ -520,7 +520,7 @@ const CustomerRegistrations: FC = () => {
                     role === "sap-code" && "hidden",
                   )}
                 >
-                  รอตรวจสอบเอกสาร
+                  รอตรวจสอบข้อมูล
                   {regisList?.filter((item) => item?.status_no === 1)?.length >
                   0
                     ? ` (${regisList?.filter((item) => item?.status_no === 1)

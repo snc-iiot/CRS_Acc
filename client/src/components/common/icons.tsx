@@ -27,6 +27,7 @@ import {
   Edit,
   ExternalLink,
   Eye,
+  EyeOff,
   File,
   FileBadge,
   FileDown,
@@ -40,6 +41,7 @@ import {
   Hourglass,
   Key,
   LayoutGrid,
+  Link,
   List,
   Loader,
   Lock,
@@ -90,6 +92,7 @@ import {
 export type IconType = LucideIcon;
 
 export const Icons = {
+  eyeOff: EyeOff,
   loader: Loader,
   arrowUpRight: ArrowUpRight,
   arrowLeftRight: ArrowLeftRight,
@@ -170,6 +173,7 @@ export const Icons = {
   arrowUpWideNarrow: ArrowUpWideNarrowIcon,
   arrowDownWideNarrow: ArrowDownWideNarrowIcon,
   calculator: Calculator,
+  link: Link,
   logo: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path

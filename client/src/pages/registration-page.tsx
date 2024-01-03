@@ -167,12 +167,19 @@ const RegistrationPage: FC = () => {
     const doc = UploadDocument(registration);
     const docList = docByRegisId?.documents;
     const docName = Object?.keys(docList);
-    const check = doc?.some((item) => {
-      if (docName.includes(item?.name)) {
-        return docList?.[item?.name] === "";
-      }
-      return false;
-    });
+    const check = doc
+      ?.filter(
+        (item) =>
+          item?.name !== "other_document1" &&
+          item?.name !== "other_document2" &&
+          item?.name !== "other_document3",
+      )
+      ?.some((item) => {
+        if (docName.includes(item?.name)) {
+          return docList?.[item?.name] === "";
+        }
+        return false;
+      });
     return check;
   }, [registration, docByRegisId]);
 

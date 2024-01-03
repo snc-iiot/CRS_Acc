@@ -594,9 +594,9 @@ const PrintPage = forwardRef((_, ref: any) => {
     >
       {new Array(1).fill(0).map((_, index) => (
         <div key={index} className="relative flex h-full flex-col gap-2">
-          <p className="watermark font-lily absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem] font-bold italic">
+          {/* <p className="watermark font-lily absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-[15rem] font-bold italic">
             SNC
-          </p>
+          </p> */}
           <section
             className={cn(
               "relative flex w-full items-center justify-center gap-2",

@@ -225,6 +225,10 @@ export const validateGeneralAssessmentForm = (
     isValid = false;
     error_th = "สัดส่วนวัตถุดิบ ต้นทุน และกำไร ต้องรวมกันเป็น 100%";
     error_en = "Main material ratio";
+  } else if (values?.ratio_of_raw_mat?.GP === 0) {
+    isValid = false;
+    error_th = "GP (Gross Profit) ต้องไม่เป็น 0";
+    error_en = "GP (Gross Profit)";
   } else if (
     values.inventory_day.FG === 0 &&
     values.inventory_day.PRD === 0 &&

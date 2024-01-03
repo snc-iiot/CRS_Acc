@@ -4,12 +4,13 @@ import CalculateRoi from "@/components/common/calculate-roi";
 import { Icons } from "@/components/common/icons";
 import RequiredTopic from "@/components/common/required-topic";
 import { Button } from "@/components/ui/button";
+import { InputNumber } from "@/components/ui/input-number";
 import { CalculateCarbon } from "@/helpers/carbon.helper";
 import { LatitudesLongitudes } from "@/helpers/common.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import MockCarType from "@/mock/car-list.json";
-import { FC, useEffect, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 
 export const R1AdminInformation: FC = () => {
   const {
@@ -838,8 +839,8 @@ export const R1AdminInformation: FC = () => {
         <div className="col-span-4 select-none pl-1">
           <div className="grid grid-cols-3">
             {generalAssessmentForm?.main_material?.map((item, i) => (
-              <div>
-                <div key={i} className="mb-1 flex items-center gap-x-1 gap-y-1">
+              <Fragment key={i}>
+                <div className="mb-1 flex items-center gap-x-1 gap-y-1">
                   <input
                     type="checkbox"
                     id={item?.id}
@@ -899,7 +900,7 @@ export const R1AdminInformation: FC = () => {
                     className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
                   />
                 </div>
-              </div>
+              </Fragment>
             ))}
           </div>
         </div>
@@ -1230,6 +1231,18 @@ export const R1AdminInformation: FC = () => {
                   )}{" "}
                   &nbsp; tCO<sub>2</sub>e
                 </p>
+                <div className="item-center flex gap-2">
+                  <p>(ข้อมูลนี้จะถูก Sync ไปที่</p>
+
+                  <a
+                    href="https://snc-services.sncformer.com/icfo/login"
+                    target="_blank"
+                    className="inline-flex items-center  text-red-600 hover:underline"
+                  >
+                    <Icons.link className="h-3 w-3" />
+                    SNC - iCarbonTrade <span className="text-black">)</span>
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -1599,7 +1612,7 @@ export const R1AdminInformation: FC = () => {
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">ซื้อในประเทศไทย</p>
-            <input
+            {/* <input
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
@@ -1618,16 +1631,34 @@ export const R1AdminInformation: FC = () => {
               min={0}
               max={100}
               readOnly={!common?.isEditGeneralAssessmentForm}
+            /> */}
+            <InputNumber
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.main_mat_ratio?.thailand}
+              onChange={(value) => {
+                const valueNumber = isNaN(+value) ? 0 : +value;
+                const foreign = 100 - valueNumber < 0 ? 0 : 100 - valueNumber;
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  main_mat_ratio: {
+                    thailand: valueNumber > 100 ? 100 : valueNumber,
+                    foreign: foreign,
+                  },
+                }));
+              }}
+              min={0}
+              max={100}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>%</span>
           </div>
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">ซื้อต่างประเทศ</p>
-            <input
-              type="number"
+            <InputNumber
               placeholder="โปรดระบุ"
-              readOnly
-              value={generalAssessmentForm?.main_mat_ratio?.foreign || ""}
+              readOnly={true}
+              value={generalAssessmentForm?.main_mat_ratio?.foreign}
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
             />
             <span>%</span>
@@ -1640,71 +1671,146 @@ export const R1AdminInformation: FC = () => {
         <div className="col-span-4 pl-2">
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">Raw Material</p>
-            <input
-              type="number"
+            <InputNumber
               placeholder="โปรดระบุ"
-              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              value={generalAssessmentForm?.ratio_of_raw_mat?.RM || ""}
-              onChange={(e) => {
-                const RM = isNaN(+e.target.value) ? 0 : +e.target.value;
-                const GP = generalAssessmentForm?.ratio_of_raw_mat?.GP || 0;
-                const COGS = 100 - (RM + GP) < 0 ? 0 : 100 - (RM + GP);
-                setGeneralAssessmentForm((prev) => ({
-                  ...prev,
-                  ratio_of_raw_mat: {
-                    ...prev?.ratio_of_raw_mat,
-                    RM: RM > 100 ? 100 : RM,
-                    COGS: COGS > 100 ? 100 : COGS,
-                  },
-                }));
+              value={generalAssessmentForm?.ratio_of_raw_mat?.RM}
+              // onChange={(value) => {
+              //   const GP =
+              //     generalAssessmentForm?.ratio_of_raw_mat?.GP <= 0
+              //       ? 1
+              //       : generalAssessmentForm?.ratio_of_raw_mat?.GP;
+              //   const RM = isNaN(+value) ? 0 : +value === 100 ? 99 : +value;
+              //   const COGS = 100 - (RM + GP) < 0 ? 0 : 100 - (RM + GP);
+              //   setGeneralAssessmentForm((prev) => ({
+              //     ...prev,
+              //     ratio_of_raw_mat: {
+              //       GP: GP > 100 ? 100 : GP,
+              //       RM: RM > 100 ? 100 : RM,
+              //       COGS: COGS > 100 ? 100 : COGS,
+              //     },
+              //   }));
+              // }}
+              onChange={(value) => {
+                const RM = isNaN(+value) ? 0 : +value;
+                const GP = generalAssessmentForm?.ratio_of_raw_mat?.GP;
+                const COGS = 100 - (RM + GP) <= 0 ? 0 : 100 - (RM + GP);
+                if (RM === 100) {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    ratio_of_raw_mat: {
+                      GP: 0,
+                      RM: 100,
+                      COGS: 0,
+                    },
+                  }));
+                } else {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    ratio_of_raw_mat: {
+                      GP: GP > 100 ? 100 : GP,
+                      RM: RM > 100 ? 100 : RM,
+                      COGS: COGS > 100 ? 100 : COGS,
+                    },
+                  }));
+                }
               }}
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
               readOnly={!common?.isEditGeneralAssessmentForm}
+              max={100}
             />
             <span>%</span>
           </div>
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">COGs</p>
-            <input
-              type="number"
+            <InputNumber
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              value={generalAssessmentForm?.ratio_of_raw_mat?.COGS || ""}
-              onChange={(e) => {
-                const RM = generalAssessmentForm?.ratio_of_raw_mat?.RM || 0;
-                const COGS = isNaN(+e.target.value) ? 0 : +e.target.value;
-                const GP = 100 - (RM + COGS) < 0 ? 0 : 100 - (RM + COGS);
-                setGeneralAssessmentForm((prev) => ({
-                  ...prev,
-                  ratio_of_raw_mat: {
-                    ...prev?.ratio_of_raw_mat,
-                    COGS: COGS > 100 ? 100 : COGS,
-                    GP: GP > 100 ? 100 : GP,
-                  },
-                }));
+              value={generalAssessmentForm?.ratio_of_raw_mat?.COGS}
+              // onChange={(value) => {
+              //   const RM = generalAssessmentForm?.ratio_of_raw_mat?.RM || 0;
+              //   const COGS = isNaN(+value) ? 0 : +value;
+              //   const GP = 100 - (RM + COGS) < 0 ? 0 : 100 - (RM + COGS);
+              //   setGeneralAssessmentForm((prev) => ({
+              //     ...prev,
+              //     ratio_of_raw_mat: {
+              //       ...prev?.ratio_of_raw_mat,
+              //       COGS: COGS > 100 ? 100 : COGS,
+              //       GP: GP > 100 ? 100 : GP,
+              //     },
+              //   }));
+              // }}
+              onChange={(value) => {
+                const COGS = isNaN(+value) ? 0 : +value;
+                const GP = generalAssessmentForm?.ratio_of_raw_mat?.GP;
+                const RM = 100 - (COGS + GP) <= 0 ? 0 : 100 - (COGS + GP);
+                if (COGS === 100) {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    ratio_of_raw_mat: {
+                      GP: 0,
+                      RM: 0,
+                      COGS: 100,
+                    },
+                  }));
+                } else {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    ratio_of_raw_mat: {
+                      GP: GP > 100 ? 100 : GP,
+                      RM: RM > 100 ? 100 : RM,
+                      COGS: COGS > 100 ? 100 : COGS,
+                    },
+                  }));
+                }
               }}
               readOnly={!common?.isEditGeneralAssessmentForm}
+              max={100}
             />
             <span>%</span>
           </div>
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">GP (Gross Profit)</p>
-            <input
-              type="number"
+            <InputNumber
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
-              value={generalAssessmentForm?.ratio_of_raw_mat?.GP || ""}
-              onChange={(e) => {
-                const RM = generalAssessmentForm?.ratio_of_raw_mat?.RM || 0;
-                const GP = isNaN(+e.target.value) ? 0 : +e.target.value;
-                setGeneralAssessmentForm((prev) => ({
-                  ...prev,
-                  ratio_of_raw_mat: {
-                    ...prev?.ratio_of_raw_mat,
-                    GP: GP > 100 ? 100 : GP,
-                    COGS: 100 - (RM + GP) < 0 ? 0 : 100 - (RM + GP),
-                  },
-                }));
+              value={generalAssessmentForm?.ratio_of_raw_mat?.GP}
+              // onChange={(value) => {
+              //   const RM = generalAssessmentForm?.ratio_of_raw_mat?.RM || 0;
+              //   const GP = isNaN(+value) ? 0 : +value;
+              //   setGeneralAssessmentForm((prev) => ({
+              //     ...prev,
+              //     ratio_of_raw_mat: {
+              //       ...prev?.ratio_of_raw_mat,
+              //       GP: GP > 100 ? 100 : GP,
+              //       COGS: 100 - (RM + GP) < 0 ? 0 : 100 - (RM + GP),
+              //     },
+              //   }));
+              // }}
+              onChange={(value) => {
+                const GP = isNaN(+value) ? 0 : +value;
+                const COGS = generalAssessmentForm?.ratio_of_raw_mat?.COGS;
+                const RM = 100 - (COGS + GP) <= 0 ? 0 : 100 - (COGS + GP);
+                if (GP === 100) {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    ratio_of_raw_mat: {
+                      GP: 100,
+                      RM: 0,
+                      COGS: 0,
+                    },
+                  }));
+                } else {
+                  setGeneralAssessmentForm((prev) => ({
+                    ...prev,
+                    ratio_of_raw_mat: {
+                      GP: GP > 100 ? 100 : GP,
+                      RM: RM > 100 ? 100 : RM,
+                      COGS: COGS > 100 ? 100 : COGS,
+                    },
+                  }));
+                }
               }}
+              max={100}
               readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>%</span>
@@ -1719,7 +1825,7 @@ export const R1AdminInformation: FC = () => {
             <p className="w-[12rem] whitespace-nowrap">
               เรียกสินค้าล่วงหน้า (RM)
             </p>
-            <input
+            {/* <input
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
@@ -1734,6 +1840,21 @@ export const R1AdminInformation: FC = () => {
                 }));
               }}
               readOnly={!common?.isEditGeneralAssessmentForm}
+            /> */}
+            <InputNumber
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.RM}
+              onChange={(value) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    RM: isNaN(+value) ? 0 : +value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>วัน</span>
           </div>
@@ -1741,7 +1862,7 @@ export const R1AdminInformation: FC = () => {
             <p className="w-[12rem] whitespace-nowrap">
               ระยะเวลาในการผลิต (PRD.)
             </p>
-            <input
+            {/* <input
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
@@ -1756,12 +1877,27 @@ export const R1AdminInformation: FC = () => {
                 }));
               }}
               readOnly={!common?.isEditGeneralAssessmentForm}
+            /> */}
+            <InputNumber
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.PRD}
+              onChange={(value) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    PRD: isNaN(+value) ? 0 : +value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>วัน</span>
           </div>
           <div className="flex items-center gap-x-1">
             <p className="w-[12rem] whitespace-nowrap">เก็บสินค้า (FG)</p>
-            <input
+            {/* <input
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
@@ -1776,6 +1912,21 @@ export const R1AdminInformation: FC = () => {
                 }));
               }}
               readOnly={!common?.isEditGeneralAssessmentForm}
+            /> */}
+            <InputNumber
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.FG}
+              onChange={(value) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    FG: isNaN(+value) ? 0 : +value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
             />
             <span>วัน</span>
           </div>
@@ -1783,7 +1934,7 @@ export const R1AdminInformation: FC = () => {
             <p className="w-[12rem] whitespace-nowrap">
               สินค้าคงคลัง (Inventory)
             </p>
-            <input
+            {/* <input
               type="number"
               placeholder="โปรดระบุ"
               className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
@@ -1794,6 +1945,21 @@ export const R1AdminInformation: FC = () => {
                   inventory_day: {
                     ...prev?.inventory_day,
                     inventory: isNaN(+e.target.value) ? 0 : +e.target.value,
+                  },
+                }));
+              }}
+              readOnly={!common?.isEditGeneralAssessmentForm}
+            /> */}
+            <InputNumber
+              placeholder="โปรดระบุ"
+              className="w-[15rem] border-0 border-b p-0.5 text-primary outline-0"
+              value={generalAssessmentForm?.inventory_day?.inventory}
+              onChange={(value) => {
+                setGeneralAssessmentForm((prev) => ({
+                  ...prev,
+                  inventory_day: {
+                    ...prev?.inventory_day,
+                    inventory: isNaN(+value) ? 0 : +value,
                   },
                 }));
               }}

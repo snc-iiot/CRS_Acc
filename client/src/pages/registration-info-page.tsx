@@ -581,52 +581,60 @@ const RegistrationInfo: FC = () => {
                       </Popover>
                     </section>
                     <section className="flex h-full w-full flex-col">
-                      <div className="flex h-0 flex-grow flex-col gap-1 overflow-y-auto px-2 text-xs">
-                        {comment?.comments?.length === 0 && (
-                          <div className="flex justify-center">
-                            <p className="text-xs">
-                              ไม่มีข้อเสนอแนะ / No comments
-                            </p>
-                          </div>
-                        )}
-                        {comment?.comments
-                          ?.sort(
-                            (a, b) =>
-                              new Date(b?.created_at)?.getTime() -
-                              new Date(a?.created_at)?.getTime(),
-                          )
-                          ?.map((item, i) => (
-                            <div className="grid grid-cols-10 gap-2" key={i}>
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <div className="col-span-5 flex w-full  items-center gap-1">
-                                      <div
-                                        className={cn(
-                                          "inline-block h-2 w-2 rounded-full text-primary",
-                                          CommentType?.find(
-                                            (type) =>
-                                              type?.name ===
-                                              item?.comments_type,
-                                          )?.color,
-                                        )}
-                                      />
-                                      <p className="w-full text-xs">
-                                        {item?.comments}
-                                      </p>
-                                    </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>{item?.comments}</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                              <p className="col-span-5 text-right text-xs">
-                                {item?.name_en} {item?.created_at}
+                      {comment?.comments?.length === 0 ? (
+                        <div className="flex h-full justify-end">
+                          <p className="text-xs">
+                            ไม่มีข้อเสนอแนะ / No comments
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="flex h-0 flex-grow flex-col gap-1 overflow-y-auto px-2 text-xs">
+                          {comment?.comments?.length === 0 && (
+                            <div className="flex justify-center">
+                              <p className="text-xs">
+                                ไม่มีข้อเสนอแนะ / No comments
                               </p>
                             </div>
-                          ))}
-                      </div>
+                          )}
+                          {comment?.comments
+                            ?.sort(
+                              (a, b) =>
+                                new Date(b?.created_at)?.getTime() -
+                                new Date(a?.created_at)?.getTime(),
+                            )
+                            ?.map((item, i) => (
+                              <div className="grid grid-cols-10 gap-2" key={i}>
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <div className="col-span-5 flex w-full  items-center gap-1">
+                                        <div
+                                          className={cn(
+                                            "inline-block h-2 w-2 rounded-full text-primary",
+                                            CommentType?.find(
+                                              (type) =>
+                                                type?.name ===
+                                                item?.comments_type,
+                                            )?.color,
+                                          )}
+                                        />
+                                        <p className="w-full text-xs">
+                                          {item?.comments}
+                                        </p>
+                                      </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p>{item?.comments}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                                <p className="col-span-5 text-right text-xs">
+                                  {item?.name_en} {item?.created_at}
+                                </p>
+                              </div>
+                            ))}
+                        </div>
+                      )}
                     </section>
                     <section className="px-2 py-1">
                       <Popover>

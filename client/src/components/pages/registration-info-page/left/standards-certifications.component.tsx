@@ -1,5 +1,6 @@
 import { Icons } from "@/components/common/icons";
 import { CheckCustomerForeigner } from "@/helpers/common.helper";
+import { ObjectivePurchasing } from "@/helpers/standards.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { FC, Fragment } from "react";
@@ -387,7 +388,7 @@ const StandardsCertifications: FC = () => {
         5. วัตถุประสงค์การซื้อสินค้า / The objective of purchasing
       </h4>
       <div className="mb-1 pl-1">
-        {payment_term?.delivery_term?.map((item, i) => (
+        {/* {payment_term?.objective_purchasing?.map((item, i) => (
           <Fragment key={i}>
             <div className="flex items-center gap-x-1">
               {item?.is_checked ? (
@@ -397,6 +398,27 @@ const StandardsCertifications: FC = () => {
               )}
               <p className={item?.is_checked ? "text-primary" : ""}>
                 {item?.cer_name_th}
+              </p>
+            </div>
+          </Fragment>
+        ))} */}
+        {ObjectivePurchasing.map((item, i) => (
+          <Fragment key={i}>
+            <div className="flex items-center gap-x-1">
+              {item?.name ===
+              registration?.payment_term?.objective_purchasing?.name ? (
+                <Icons.checkCircle className="h-3 w-3 text-primary" />
+              ) : (
+                <Icons.circle className="h-3 w-3" />
+              )}
+              <p
+                className={cn(
+                  item?.name ===
+                    registration?.payment_term?.objective_purchasing?.name &&
+                    "text-primary",
+                )}
+              >
+                {item?.label}
               </p>
             </div>
           </Fragment>

@@ -113,6 +113,16 @@ export const ConditionHeight = (status: number) => {
   return "h-[calc(73%-0.5rem)]";
 };
 
+/**
+ * The function returns "R4" if the status is greater than or equal to 4 and the role is "approver",
+ * otherwise it returns "R1".
+ * @param {number} status - The `status` parameter represents the status of a user. It is expected to
+ * be a number.
+ * @param {string} role - The role parameter is a string that represents the user's role.
+ * @returns either "R4" or "R1" based on the conditions specified in the if statement. If the status is
+ * greater than or equal to 4 and the role is "approver", then "R4" is returned. Otherwise, "R1" is
+ * returned.
+ */
 export const InitialTabs = (status: number, role: string) => {
   if (status >= 4 && role == "approver") {
     return "R4";
