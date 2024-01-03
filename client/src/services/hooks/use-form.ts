@@ -2,13 +2,7 @@ import { queryKey } from "@/helpers/common.helper";
 import { InitialRegistration } from "@/helpers/register.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
-import {
-  TRegisList,
-  TRegistrationForm,
-  TResponseAction,
-  TSendInvite,
-  TUploadFile,
-} from "@/types";
+import { TRegisList, TRegistrationForm, TResponseAction, TSendInvite, TUploadFile } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
@@ -18,26 +12,16 @@ export const useForm = () => {
   const [searchParams] = useSearchParams();
   const regis_id = searchParams.get("RegisID");
   const accService = new AccService();
-  const {
-    setRegisList,
-    setRegistration,
-    setRegisListByAccount,
-    setSendInvite,
-  } = useAtomStore();
+  const { setRegisList, setRegistration, setRegisListByAccount, setSendInvite } = useAtomStore();
   const queryClient = useQueryClient();
   const formService = new FormService();
   const form = searchParams.get("form");
   const { closeSwal, showError, showSuccess, showLoading } = useSwal();
   const navigate = useNavigate();
 
-  const { mutateAsync: mutateCreateNewCustomer } = useMutation<
-    TResponseAction,
-    Error,
-    TRegistrationForm
-  >({
+  const { mutateAsync: mutateCreateNewCustomer } = useMutation<TResponseAction, Error, TRegistrationForm>({
     mutationKey: [queryKey.CREATE_NEW_CUSTOMER],
-    mutationFn: (data: TRegistrationForm) =>
-      formService.createNewCustomer(data),
+    mutationFn: (data: TRegistrationForm) => formService.createNewCustomer(data),
     onMutate: () => {
       showLoading("กำลังทำรายการ...");
     },
@@ -59,11 +43,7 @@ export const useForm = () => {
     },
   });
 
-  const { mutateAsync: mutateUpdateCustomer } = useMutation<
-    TResponseAction,
-    Error,
-    TRegistrationForm
-  >({
+  const { mutateAsync: mutateUpdateCustomer } = useMutation<TResponseAction, Error, TRegistrationForm>({
     mutationKey: [queryKey.UPDATE_REGIS_BY_ID],
     mutationFn: (data: TRegistrationForm) => formService.editCustomer(data),
     onMutate: () => {
@@ -113,8 +93,7 @@ export const useForm = () => {
   const useGetRegisListByAccountId = () => {
     return useQuery({
       queryKey: [queryKey.GET_REGIS_BY_ACCOUNT_ID],
-      queryFn: (): Promise<TRegisList[]> =>
-        formService.getRegisListByAccountId(),
+      queryFn: (): Promise<TRegisList[]> => formService.getRegisListByAccountId(),
       select(data) {
         setRegisListByAccount(data);
         return data;
@@ -129,10 +108,8 @@ export const useForm = () => {
     { req: TUploadFile; setProgress: (progress: number) => void }
   >({
     mutationKey: [queryKey.UPLOAD_FILE],
-    mutationFn: (data: {
-      req: TUploadFile;
-      setProgress: (progress: number) => void;
-    }) => formService.uploadFile(data.req, data.setProgress),
+    mutationFn: (data: { req: TUploadFile; setProgress: (progress: number) => void }) =>
+      formService.uploadFile(data.req, data.setProgress),
     onSuccess: (data) => {
       queryClient.refetchQueries({
         queryKey: [queryKey.GET_DOC_BY_REGIS_ID],
@@ -148,11 +125,7 @@ export const useForm = () => {
     },
   });
 
-  const { mutateAsync: mutateGetRegisById } = useMutation<
-    TRegistrationForm,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetRegisById } = useMutation<TRegistrationForm, Error, string>({
     mutationKey: [queryKey.GET_REGIS_BY_ID],
     mutationFn: (data: string) => formService.getRegisById(data),
     // onMutate: () => {
@@ -201,11 +174,7 @@ export const useForm = () => {
     },
   });
 
-  const { mutateAsync: mutateConfirmDBDInfo } = useMutation<
-    TResponseAction,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateConfirmDBDInfo } = useMutation<TResponseAction, Error, string>({
     mutationKey: [queryKey.CONFIRM_DBD_INFO],
     mutationFn: (data: string) => accService.confirmDBDInfo(data),
     onMutate: () => {
@@ -231,10 +200,7 @@ export const useForm = () => {
     },
   });
 
-  const { mutateAsync: mutateGetRegisIdExternal } = useMutation<
-    TResponseAction,
-    Error
-  >({
+  const { mutateAsync: mutateGetRegisIdExternal } = useMutation<TResponseAction, Error>({
     mutationKey: [queryKey.GET_REGIS_BY_ID_EXTERNAL],
     mutationFn: () => formService.createRegisIdExternal(),
     onMutate: () => {
@@ -257,11 +223,7 @@ export const useForm = () => {
     },
   });
 
-  const { mutateAsync: mutateSendInvite } = useMutation<
-    TResponseAction,
-    Error,
-    TSendInvite
-  >({
+  const { mutateAsync: mutateSendInvite } = useMutation<TResponseAction, Error, TSendInvite>({
     mutationKey: [queryKey.SENT_INVITE_TO_EXTERNAL],
     mutationFn: (data: TSendInvite) => formService.sendInvite(data),
     onMutate: () => {

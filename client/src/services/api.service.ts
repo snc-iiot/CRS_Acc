@@ -10,9 +10,7 @@ export abstract class APIService {
   }
 
   getAccessToken() {
-    const profile = localStorage.getItem(
-      KEY_LOCAL_STORAGE.ICRS_ADMIN_LOCAL_STORAGE,
-    );
+    const profile = localStorage.getItem(KEY_LOCAL_STORAGE.ICRS_ADMIN_LOCAL_STORAGE);
     return profile ? JSON.parse(profile).token : null;
   }
 

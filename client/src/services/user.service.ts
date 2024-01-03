@@ -1,5 +1,5 @@
-import { API_BASE_URL } from "@/helpers/common.helper"
-import { APIService } from "./api.service"
+import { API_BASE_URL } from "@/helpers/common.helper";
+import { APIService } from "./api.service";
 
 interface User {
   id: string;
@@ -19,12 +19,9 @@ export class UserService extends APIService {
     try {
       const response = await this.get("/users");
       return response.data;
-    }
-    catch (error) {
-      console.error("[UserService] getUser:", error)
+    } catch (error) {
+      console.error("[UserService] getUser:", error);
       return [];
     }
   }
-
-  
-} 
+}

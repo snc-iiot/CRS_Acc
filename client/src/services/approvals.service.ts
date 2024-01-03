@@ -7,21 +7,12 @@ export class ApprovalsService extends APIService {
     super(API_BASE_URL);
   }
 
-  sendToEdit = async ({
-    regis_id,
-    comments,
-  }: {
-    regis_id: string;
-    comments: string;
-  }): Promise<TResponseAction> => {
+  sendToEdit = async ({ regis_id, comments }: { regis_id: string; comments: string }): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.patch(
-        `/approvals-action/send-to-edit`,
-        {
-          regis_id,
-          comments,
-        },
-      );
+      const { data: responseData } = await this.patch(`/approvals-action/send-to-edit`, {
+        regis_id,
+        comments,
+      });
       return responseData;
     } catch (error: any) {
       console.error("FormGeneralService -> getApprovalsById -> error", error);
@@ -33,21 +24,12 @@ export class ApprovalsService extends APIService {
     }
   };
 
-  sendToSuspend = async ({
-    regis_id,
-    comments,
-  }: {
-    regis_id: string;
-    comments: string;
-  }): Promise<TResponseAction> => {
+  sendToSuspend = async ({ regis_id, comments }: { regis_id: string; comments: string }): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.patch(
-        `/approvals-action/send-to-suspend`,
-        {
-          regis_id,
-          comments,
-        },
-      );
+      const { data: responseData } = await this.patch(`/approvals-action/send-to-suspend`, {
+        regis_id,
+        comments,
+      });
       return responseData;
     } catch (error: any) {
       console.error("FormGeneralService -> getApprovalsById -> error", error);
@@ -67,13 +49,10 @@ export class ApprovalsService extends APIService {
     customer_code: string;
   }): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.patch(
-        `/approvals-action/enter-customer-code`,
-        {
-          regis_id,
-          customer_code,
-        },
-      );
+      const { data: responseData } = await this.patch(`/approvals-action/enter-customer-code`, {
+        regis_id,
+        customer_code,
+      });
       return responseData;
     } catch (error: any) {
       console.error("FormGeneralService -> getApprovalsById -> error", error);
@@ -87,12 +66,9 @@ export class ApprovalsService extends APIService {
 
   sendToApprove = async (regis_id: string): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.patch(
-        `/approvals-action/approve`,
-        {
-          regis_id,
-        },
-      );
+      const { data: responseData } = await this.patch(`/approvals-action/approve`, {
+        regis_id,
+      });
       return responseData;
     } catch (error: any) {
       console.error("FormGeneralService -> getApprovalsById -> error", error);
@@ -104,21 +80,12 @@ export class ApprovalsService extends APIService {
     }
   };
 
-  sendToReject = async ({
-    regis_id,
-    comments,
-  }: {
-    regis_id: string;
-    comments: string;
-  }): Promise<TResponseAction> => {
+  sendToReject = async ({ regis_id, comments }: { regis_id: string; comments: string }): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.patch(
-        `/approvals-action/reject`,
-        {
-          regis_id,
-          comments,
-        },
-      );
+      const { data: responseData } = await this.patch(`/approvals-action/reject`, {
+        regis_id,
+        comments,
+      });
       return responseData;
     } catch (error: any) {
       console.error("FormGeneralService -> getApprovalsById -> error", error);

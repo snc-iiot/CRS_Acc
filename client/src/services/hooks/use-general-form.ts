@@ -29,14 +29,9 @@ export const useFormGeneral = () => {
   const { showError, closeSwal, showSuccess, showLoading } = useSwal();
   const formGeneralService = new FormGeneralService();
 
-  const { mutateAsync: mutateGetApprovalsById } = useMutation<
-    TApprovalList[],
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetApprovalsById } = useMutation<TApprovalList[], Error, string>({
     mutationKey: [queryKey.GET_DOC_BY_REGIS_ID],
-    mutationFn: (regisId: string) =>
-      formGeneralService.getApprovalsById(regisId),
+    mutationFn: (regisId: string) => formGeneralService.getApprovalsById(regisId),
     onSuccess: (data) => {
       setApprovalList(data);
     },
@@ -46,14 +41,9 @@ export const useFormGeneral = () => {
     },
   });
 
-  const { mutateAsync: mutateGetTemplateGeneralAssessmentById } = useMutation<
-    TGeneralAssessmentForm,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetTemplateGeneralAssessmentById } = useMutation<TGeneralAssessmentForm, Error, string>({
     mutationKey: [queryKey.GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID],
-    mutationFn: (regisId: string) =>
-      formGeneralService.getTemplateGeneralAssessmentById(regisId),
+    mutationFn: (regisId: string) => formGeneralService.getTemplateGeneralAssessmentById(regisId),
     onSuccess: (data) => {
       setGeneralAssessmentForm({
         ...data,
@@ -69,14 +59,9 @@ export const useFormGeneral = () => {
     },
   });
 
-  const { mutateAsync: mutateCreateGeneralAssessment } = useMutation<
-    TResponseAction,
-    Error,
-    TGeneralAssessmentForm
-  >({
+  const { mutateAsync: mutateCreateGeneralAssessment } = useMutation<TResponseAction, Error, TGeneralAssessmentForm>({
     mutationKey: [queryKey.CREATE_GENERAL_ASSESSMENT],
-    mutationFn: (payload: TGeneralAssessmentForm) =>
-      formGeneralService.createGeneralAssessment(payload),
+    mutationFn: (payload: TGeneralAssessmentForm) => formGeneralService.createGeneralAssessment(payload),
     onMutate: () => {
       showLoading("กำลังทำรายการ...");
     },
@@ -98,14 +83,9 @@ export const useFormGeneral = () => {
     },
   });
 
-  const { mutateAsync: mutateUpdateGeneralAssessment } = useMutation<
-    TResponseAction,
-    Error,
-    TGeneralAssessmentForm
-  >({
+  const { mutateAsync: mutateUpdateGeneralAssessment } = useMutation<TResponseAction, Error, TGeneralAssessmentForm>({
     mutationKey: [queryKey.UPDATE_GENERAL_ASSESSMENT],
-    mutationFn: (payload: TGeneralAssessmentForm) =>
-      formGeneralService.updateGeneralAssessment(payload),
+    mutationFn: (payload: TGeneralAssessmentForm) => formGeneralService.updateGeneralAssessment(payload),
     onMutate: () => {
       showLoading("กำลังทำรายการ...");
     },
@@ -127,14 +107,9 @@ export const useFormGeneral = () => {
     },
   });
 
-  const { mutateAsync: mutateGetSummaryPart1 } = useMutation<
-    TSummaryPart1[],
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetSummaryPart1 } = useMutation<TSummaryPart1[], Error, string>({
     mutationKey: [queryKey.GET_SUMMARY_BY_REGIS_ID_PART_1],
-    mutationFn: (regisId: string) =>
-      formGeneralService.getSummaryByRegisIdPart1(regisId),
+    mutationFn: (regisId: string) => formGeneralService.getSummaryByRegisIdPart1(regisId),
     onSuccess: (data) => {
       setSummaryPart1(data);
     },
@@ -144,14 +119,9 @@ export const useFormGeneral = () => {
     },
   });
 
-  const { mutateAsync: mutateGetSummaryPart2 } = useMutation<
-    TSummaryPart2[],
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetSummaryPart2 } = useMutation<TSummaryPart2[], Error, string>({
     mutationKey: [queryKey.GET_SUMMARY_BY_REGIS_ID_PART_2],
-    mutationFn: (regisId: string) =>
-      formGeneralService.getSummaryByRegisIdPart2(regisId),
+    mutationFn: (regisId: string) => formGeneralService.getSummaryByRegisIdPart2(regisId),
     onSuccess: (data) => {
       setSummaryPart2(data);
     },
@@ -161,14 +131,9 @@ export const useFormGeneral = () => {
     },
   });
 
-  const { mutateAsync: mutateGetCompanyProfile } = useMutation<
-    TCompanyProfile,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetCompanyProfile } = useMutation<TCompanyProfile, Error, string>({
     mutationKey: [queryKey.GET_COMPANY_PROFILE],
-    mutationFn: (regisId: string) =>
-      formGeneralService.getCompanyProfile(regisId),
+    mutationFn: (regisId: string) => formGeneralService.getCompanyProfile(regisId),
     onSuccess: (data) => {
       setCompanyProfile(data);
     },

@@ -1,12 +1,5 @@
 import { API_BASE_URL } from "@/helpers/common.helper";
-import {
-  TDocByRegisId,
-  TRegisList,
-  TRegistrationForm,
-  TResponseAction,
-  TSendInvite,
-  TUploadFile,
-} from "@/types";
+import { TDocByRegisId, TRegisList, TRegistrationForm, TResponseAction, TSendInvite, TUploadFile } from "@/types";
 import { APIService } from ".";
 
 export class FormService extends APIService {
@@ -14,9 +7,7 @@ export class FormService extends APIService {
     super(API_BASE_URL);
   }
 
-  createNewCustomer = async (
-    data: TRegistrationForm,
-  ): Promise<TResponseAction> => {
+  createNewCustomer = async (data: TRegistrationForm): Promise<TResponseAction> => {
     try {
       const { data: responseData } = await this.post(`/registration`, data);
       return responseData;
@@ -46,9 +37,7 @@ export class FormService extends APIService {
 
   getDocByRegisId = async (regisId: string): Promise<TDocByRegisId> => {
     try {
-      const { data: responseData } = await this.get(
-        `/registration/get-documents-by-id?regis_id=${regisId}`,
-      );
+      const { data: responseData } = await this.get(`/registration/get-documents-by-id?regis_id=${regisId}`);
       return responseData?.data?.[0] ?? ({} as TDocByRegisId);
     } catch (error: any) {
       console.error("FormService -> getDocByRegisId -> error", error);
@@ -56,23 +45,14 @@ export class FormService extends APIService {
     }
   };
 
-  uploadFile = async (
-    file: TUploadFile,
-    setProgress: (progress: number) => void,
-  ): Promise<TResponseAction> => {
+  uploadFile = async (file: TUploadFile, setProgress: (progress: number) => void): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.patch(
-        `/registration/upload-document`,
-        file,
-        {
-          onUploadProgress: (progressEvent: any) => {
-            const percentage = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total,
-            );
-            setProgress(percentage);
-          },
+      const { data: responseData } = await this.patch(`/registration/upload-document`, file, {
+        onUploadProgress: (progressEvent: any) => {
+          const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setProgress(percentage);
         },
-      );
+      });
       return responseData;
     } catch (error: any) {
       console.error("FormService -> uploadFile -> error", error);
@@ -96,9 +76,7 @@ export class FormService extends APIService {
 
   getRegisListByAccountId = async (): Promise<TRegisList[]> => {
     try {
-      const { data: responseData } = await this.get(
-        `/registration/your-approve-items`,
-      );
+      const { data: responseData } = await this.get(`/registration/your-approve-items`);
       return responseData?.data ?? ([] as TRegisList[]);
     } catch (error: any) {
       console.error("FormService -> getRegisListByAccountId -> error", error);
@@ -108,9 +86,7 @@ export class FormService extends APIService {
 
   getRegisById = async (regisId: string): Promise<TRegistrationForm> => {
     try {
-      const { data: responseData } = await this.get(
-        `/registration/info?regis_id=${regisId}`,
-      );
+      const { data: responseData } = await this.get(`/registration/info?regis_id=${regisId}`);
       return responseData?.data?.[0] ?? ({} as TRegistrationForm);
     } catch (error: any) {
       console.error("FormService -> getRegisById -> error", error);
@@ -118,16 +94,10 @@ export class FormService extends APIService {
     }
   };
 
-  deleteDoc = async ({
-    regis_id,
-    doc_name,
-  }: {
-    regis_id: string;
-    doc_name: string;
-  }): Promise<TResponseAction> => {
+  deleteDoc = async ({ regis_id, doc_name }: { regis_id: string; doc_name: string }): Promise<TResponseAction> => {
     try {
       const { data: responseData } = await this.delete(
-        `/registration/delete-document?regis_id=${regis_id}&doc_name=${doc_name}`,
+        `/registration/delete-document?regis_id=${regis_id}&doc_name=${doc_name}`
       );
       return responseData;
     } catch (error: any) {
@@ -142,9 +112,7 @@ export class FormService extends APIService {
 
   createRegisIdExternal = async (): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.post(
-        `/registration/create-regis-id-for-customer`,
-      );
+      const { data: responseData } = await this.post(`/registration/create-regis-id-for-customer`);
       return responseData;
     } catch (error: any) {
       console.error("FormService -> createRegisIdExternal -> error", error);
@@ -158,10 +126,7 @@ export class FormService extends APIService {
 
   sendInvite = async (data: TSendInvite): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.post(
-        `/registration/send-mail-to-customer`,
-        data,
-      );
+      const { data: responseData } = await this.post(`/registration/send-mail-to-customer`, data);
       return responseData;
     } catch (error: any) {
       console.error("FormService -> sendInvite -> error", error);

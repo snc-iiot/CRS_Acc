@@ -9,12 +9,9 @@ export class AccService extends APIService {
 
   confirmDBDInfo = async (regis_id: string): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.patch(
-        `/dbd-financial-report/confirm`,
-        {
-          regis_id,
-        },
-      );
+      const { data: responseData } = await this.patch(`/dbd-financial-report/confirm`, {
+        regis_id,
+      });
       return responseData;
     } catch (error: any) {
       console.error("FormGeneralService -> getApprovalsById -> error", error);

@@ -47,8 +47,7 @@ export const useUtils = () => {
   const useGetBusinessTypeList = async () => {
     return useQuery({
       queryKey: [queryKey.GET_BUSINESS_TYPE_LIST],
-      queryFn: (): Promise<TBusinessTypeList[]> =>
-        utilsService.getBusinessTypeList(),
+      queryFn: (): Promise<TBusinessTypeList[]> => utilsService.getBusinessTypeList(),
       select(data: TBusinessTypeList[]) {
         if (data.length === 0) {
           setBusinessTypeList([]);
@@ -63,8 +62,7 @@ export const useUtils = () => {
   const useGetDocumentKeyList = async () => {
     return useQuery({
       queryKey: [queryKey.GET_DOCUMENT_KEY_LIST],
-      queryFn: (): Promise<TDocumentKeyList> =>
-        utilsService.getDocumentKeyList(),
+      queryFn: (): Promise<TDocumentKeyList> => utilsService.getDocumentKeyList(),
       select(data: TDocumentKeyList) {
         setDocumentKeyList(data);
         return data;
@@ -76,8 +74,7 @@ export const useUtils = () => {
   const useGetCertificatedList = async () => {
     useQuery({
       queryKey: [queryKey.GET_CERTIFICATED_LIST],
-      queryFn: (): Promise<TCertificatedList[]> =>
-        utilsService.getCertificatedList(),
+      queryFn: (): Promise<TCertificatedList[]> => utilsService.getCertificatedList(),
       select(data: TCertificatedList[]) {
         setCertificatedList(data);
         return data;
@@ -101,8 +98,7 @@ export const useUtils = () => {
   const useGetDeliveryTermsList = async () => {
     useQuery({
       queryKey: [queryKey.GET_DELIVERY_TERMS_LIST],
-      queryFn: (): Promise<TDeliveryTermsList[]> =>
-        utilsService.getDeliveryTermsList(),
+      queryFn: (): Promise<TDeliveryTermsList[]> => utilsService.getDeliveryTermsList(),
       select(data: TDeliveryTermsList[]) {
         setDeliveryTermsList(data);
         return data;
@@ -114,8 +110,7 @@ export const useUtils = () => {
   const useGetCompanyPolicyList = async () => {
     useQuery({
       queryKey: [queryKey.GET_COMPANY_POLICY_LIST],
-      queryFn: (): Promise<TCompanyPolicyList[]> =>
-        utilsService.getCompanyPolicyList(),
+      queryFn: (): Promise<TCompanyPolicyList[]> => utilsService.getCompanyPolicyList(),
       select(data: TCompanyPolicyList[]) {
         setCompanyPolicyList(data);
         return data;
@@ -139,8 +134,7 @@ export const useUtils = () => {
   const useGetCountryCodeList = async () => {
     useQuery<TCountryCodeList[], Error>({
       queryKey: [queryKey.GET_COUNTRY_CODE_LIST],
-      queryFn: (): Promise<TCountryCodeList[]> =>
-        utilsService.getCountryCodeList(),
+      queryFn: (): Promise<TCountryCodeList[]> => utilsService.getCountryCodeList(),
       select: (data: TCountryCodeList[]) => {
         setCountryCodeList(data);
         return data;
@@ -149,11 +143,7 @@ export const useUtils = () => {
     });
   };
 
-  const { mutateAsync: mutateGetDocByRegisId } = useMutation<
-    TDocByRegisId,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetDocByRegisId } = useMutation<TDocByRegisId, Error, string>({
     mutationKey: [queryKey.GET_DOC_BY_REGIS_ID],
     mutationFn: (regisId: string) => formService.getDocByRegisId(regisId),
     onSuccess: (data) => {
@@ -164,10 +154,7 @@ export const useUtils = () => {
     },
   });
 
-  const { mutateAsync: mutateGetRegisterId } = useMutation<
-    TResponseAction,
-    Error
-  >({
+  const { mutateAsync: mutateGetRegisterId } = useMutation<TResponseAction, Error>({
     mutationKey: [queryKey.CREATE_REGISTER_ID],
     mutationFn: utilsService.createRegisterId,
     onMutate: () => {
@@ -188,11 +175,7 @@ export const useUtils = () => {
     },
   });
 
-  const { mutateAsync: mutateGetCommentByRegisId } = useMutation<
-    TCommitList,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetCommentByRegisId } = useMutation<TCommitList, Error, string>({
     mutationKey: [queryKey.GET_COMMENT_BY_REGIS_ID],
     mutationFn: (regisId: string) => utilsService.getCommentList(regisId),
     onSuccess: (data) => {
@@ -203,11 +186,7 @@ export const useUtils = () => {
     },
   });
 
-  const { mutateAsync: mutateGetCommentByRegisIdR3 } = useMutation<
-    TCommitList,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetCommentByRegisIdR3 } = useMutation<TCommitList, Error, string>({
     mutationKey: [queryKey.GET_COMMENT_BY_REGIS_ID_R3],
     mutationFn: (regisId: string) => utilsService.getCommentR3List(regisId),
     onSuccess: (data) => {
@@ -224,8 +203,7 @@ export const useUtils = () => {
     { regisId: string; comment: string }
   >({
     mutationKey: [queryKey.CREATE_COMMENT],
-    mutationFn: ({ regisId, comment }) =>
-      utilsService.createComment(regisId, comment),
+    mutationFn: ({ regisId, comment }) => utilsService.createComment(regisId, comment),
     onMutate: () => {
       showLoading("กำลังสร้างข้อเสนอแนะ", "กรุณารอสักครู่");
     },
@@ -250,8 +228,7 @@ export const useUtils = () => {
     { regisId: string; comment: string }
   >({
     mutationKey: [queryKey.CREATE_COMMENT],
-    mutationFn: ({ regisId, comment }) =>
-      utilsService.createCommentR3(regisId, comment),
+    mutationFn: ({ regisId, comment }) => utilsService.createCommentR3(regisId, comment),
     onMutate: () => {
       showLoading("กำลังบันทึกข้อเสนอแนะ", "กรุณารอสักครู่...");
     },
@@ -271,11 +248,7 @@ export const useUtils = () => {
     },
   });
 
-  const { mutateAsync: mutateSyncDBD } = useMutation<
-    TDBDSyncList,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateSyncDBD } = useMutation<TDBDSyncList, Error, string>({
     mutationKey: [queryKey.GET_SYNC_DBD],
     mutationFn: (regisId: string) => utilsService.getDBDSyncList(regisId),
     onSuccess: (data) => {
@@ -286,11 +259,7 @@ export const useUtils = () => {
     },
   });
 
-  const { mutateAsync: mutateGetDBDInfo } = useMutation<
-    TDBDSyncList,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetDBDInfo } = useMutation<TDBDSyncList, Error, string>({
     mutationKey: [queryKey.GET_DBD_INFO],
     mutationFn: (regisId: string) => utilsService.getDBDInfo(regisId),
     onSuccess: (data) => {
@@ -301,11 +270,7 @@ export const useUtils = () => {
     },
   });
 
-  const { mutateAsync: mutateGetFinancialRatio } = useMutation<
-    TFinancialRatio,
-    Error,
-    string
-  >({
+  const { mutateAsync: mutateGetFinancialRatio } = useMutation<TFinancialRatio, Error, string>({
     mutationKey: [queryKey.GET_FINANCIAL_RATIO],
     mutationFn: (regisId: string) => utilsService.getFinancialRatio(regisId),
     onSuccess: (data) => {

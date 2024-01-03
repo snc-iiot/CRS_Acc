@@ -32,9 +32,7 @@ export class UtilsService extends APIService {
 
   getDocumentKeyList = async (): Promise<TDocumentKeyList> => {
     try {
-      const { data: responseData } = await this.get(
-        `/template/upload-documents`,
-      );
+      const { data: responseData } = await this.get(`/template/upload-documents`);
       return responseData?.data?.[0] ?? ({} as TDocumentKeyList);
     } catch (error: any) {
       console.error("UtilsService -> getDocumentKeyList -> error", error);
@@ -94,9 +92,7 @@ export class UtilsService extends APIService {
 
   createRegisterId = async (): Promise<TResponseAction> => {
     try {
-      const { data: responseData } = await this.post(
-        `/registration/create-regis-id`,
-      );
+      const { data: responseData } = await this.post(`/registration/create-regis-id`);
       return responseData ?? {};
     } catch (error: any) {
       console.error("UtilsService -> createRegisterId -> error", error);
@@ -116,9 +112,7 @@ export class UtilsService extends APIService {
 
   getCommentList = async (regisId: string): Promise<TCommitList> => {
     try {
-      const { data: responseData } = await this.get(
-        `/assessment-comments?regis_id=${regisId}`,
-      );
+      const { data: responseData } = await this.get(`/assessment-comments?regis_id=${regisId}`);
       return responseData?.data?.[0] ?? {};
     } catch (error: any) {
       console.error("UtilsService -> getCommentList -> error", error);
@@ -128,9 +122,7 @@ export class UtilsService extends APIService {
 
   getCommentR3List = async (regisId: string): Promise<TCommitList> => {
     try {
-      const { data: responseData } = await this.get(
-        `/financial-comments?regis_id=${regisId}`,
-      );
+      const { data: responseData } = await this.get(`/financial-comments?regis_id=${regisId}`);
       return responseData?.data?.[0] ?? {};
     } catch (error: any) {
       console.error("UtilsService -> getCommentR3List -> error", error);
@@ -138,10 +130,7 @@ export class UtilsService extends APIService {
     }
   };
 
-  createComment = async (
-    regisId: string,
-    comments: string,
-  ): Promise<TResponseAction> => {
+  createComment = async (regisId: string, comments: string): Promise<TResponseAction> => {
     try {
       const { data: responseData } = await this.post(`/assessment-comments`, {
         regis_id: regisId,
@@ -158,10 +147,7 @@ export class UtilsService extends APIService {
     }
   };
 
-  createCommentR3 = async (
-    regisId: string,
-    comments: string,
-  ): Promise<TResponseAction> => {
+  createCommentR3 = async (regisId: string, comments: string): Promise<TResponseAction> => {
     try {
       const { data: responseData } = await this.post(`/financial-comments`, {
         regis_id: regisId,
@@ -180,9 +166,7 @@ export class UtilsService extends APIService {
 
   getDBDSyncList = async (regisId: string): Promise<TDBDSyncList> => {
     try {
-      const { data: responseData } = await this.get(
-        `/dbd-financial-report/sync-by-id?regis_id=${regisId}`,
-      );
+      const { data: responseData } = await this.get(`/dbd-financial-report/sync-by-id?regis_id=${regisId}`);
       return responseData?.data?.[0] ?? {};
     } catch (error: any) {
       console.error("UtilsService -> getDBDSyncList -> error", error);
@@ -192,9 +176,7 @@ export class UtilsService extends APIService {
 
   getDBDInfo = async (regisId: string): Promise<TDBDSyncList> => {
     try {
-      const { data: responseData } = await this.get(
-        `/dbd-financial-report/info?regis_id=${regisId}`,
-      );
+      const { data: responseData } = await this.get(`/dbd-financial-report/info?regis_id=${regisId}`);
       return responseData?.data?.[0] ?? {};
     } catch (error: any) {
       console.error("UtilsService -> getDBDInfo -> error", error);
@@ -204,9 +186,7 @@ export class UtilsService extends APIService {
 
   getFinancialRatio = async (regisId: string): Promise<TFinancialRatio> => {
     try {
-      const { data: responseData } = await this.get(
-        `/financial-ratio/info?regis_id=${regisId}`,
-      );
+      const { data: responseData } = await this.get(`/financial-ratio/info?regis_id=${regisId}`);
       return responseData?.data?.[0] ?? {};
     } catch (error: any) {
       console.error("UtilsService -> getFinancialRatio -> error", error);
