@@ -1056,7 +1056,8 @@ class RegistrationController extends Controller
                 ,t1.company_information->>'company_admin' as company_admin
                 ,t1.created_at::varchar(19) as created_at
                 ,t1.status_no
-                ,t2.status_desc_th"
+                ,t2.status_desc_th
+                ,(case when t1.status_no in (6,8) then t1.updated_at::varchar(19) else '' end) as approved_at"
             )->leftJoin("tb_all_status as t2", "t1.status_no", "=", "t2.status_no")->whereIn("t1.company_information->company_admin", $decoded->company)->orderByDesc("created_at")->get(); //$decoded->company
 
             // Cache::put($cacheKey, \json_encode($result, JSON_UNESCAPED_UNICODE), \DateInterval::createFromDateString('1 minutes'));
