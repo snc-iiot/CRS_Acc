@@ -8,16 +8,13 @@ import { FC } from "react";
 const ShareholderInformationForm: FC = () => {
   const { registration, setRegistration, countryCodeList } = useAtomStore();
 
-  const { hight_nationalities, thai_nationalities, other_nationalities } =
-    registration.share_holder;
+  const { hight_nationalities, thai_nationalities, other_nationalities } = registration.share_holder;
 
   return (
     <section id="shareholder-info" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
         <section className="flex w-full items-center justify-between">
-          <h2 className="text-base font-bold">
-            {Sections?.find((item) => item.id === "shareholder-info")?.title}
-          </h2>
+          <h2 className="text-base font-bold">{Sections?.find((item) => item.id === "shareholder-info")?.title}</h2>
         </section>
         <section className="flex h-full w-full flex-col gap-2">
           <div className="grid w-full grid-cols-10 items-center gap-2">
@@ -45,6 +42,8 @@ const ShareholderInformationForm: FC = () => {
                           nationalities: e.target.value,
                           percentage: 0,
                         },
+                        thai_nationalities: 0,
+                        other_nationalities: 0,
                       },
                     }));
                   }}
@@ -78,18 +77,14 @@ const ShareholderInformationForm: FC = () => {
                   max={"100"}
                   min={"0"}
                   onChange={(e) => {
-                    const max =
-                      100 -
-                      (thai_nationalities || 0) -
-                      (other_nationalities || 0);
+                    const max = 100 - (thai_nationalities || 0) - (other_nationalities || 0);
                     setRegistration((prev) => ({
                       ...prev,
                       share_holder: {
                         ...prev.share_holder,
                         hight_nationalities: {
                           ...prev.share_holder.hight_nationalities,
-                          percentage:
-                            +e.target.value > max ? max : +e.target.value,
+                          percentage: +e.target.value > max ? max : +e.target.value,
                         },
                       },
                     }));
@@ -106,7 +101,7 @@ const ShareholderInformationForm: FC = () => {
           <div
             className={cn(
               "grid w-full grid-cols-10 items-center gap-2",
-              hight_nationalities?.nationalities === "TH" ? "hidden" : "",
+              hight_nationalities?.nationalities === "TH" ? "hidden" : ""
             )}
           >
             <div className="col-span-4 flex justify-end">
@@ -120,24 +115,17 @@ const ShareholderInformationForm: FC = () => {
                   className={cn("text-sm")}
                   onChange={(e) => {
                     if (+e.target.value > 100) return;
-                    const max =
-                      100 -
-                      (hight_nationalities?.percentage || 0) -
-                      (other_nationalities || 0);
+                    const max = 100 - (hight_nationalities?.percentage || 0) - (other_nationalities || 0);
                     setRegistration((prev) => ({
                       ...prev,
                       share_holder: {
                         ...prev.share_holder,
-                        thai_nationalities:
-                          +e.target.value > max ? max : +e.target.value,
+                        thai_nationalities: +e.target.value > max ? max : +e.target.value,
                       },
                     }));
                   }}
                   value={thai_nationalities || ""}
-                  disabled={
-                    hight_nationalities?.nationalities === "TH" ||
-                    hight_nationalities?.percentage === 100
-                  }
+                  disabled={hight_nationalities?.nationalities === "TH" || hight_nationalities?.percentage === 100}
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -157,16 +145,12 @@ const ShareholderInformationForm: FC = () => {
                   placeholder="กรอกสัดส่วนผู้ถือหุ้น"
                   className="text-sm"
                   onChange={(e) => {
-                    const max =
-                      100 -
-                      (hight_nationalities?.percentage || 0) -
-                      (thai_nationalities || 0);
+                    const max = 100 - (hight_nationalities?.percentage || 0) - (thai_nationalities || 0);
                     setRegistration((prev) => ({
                       ...prev,
                       share_holder: {
                         ...prev.share_holder,
-                        other_nationalities:
-                          +e.target.value > max ? max : +e.target.value,
+                        other_nationalities: +e.target.value > max ? max : +e.target.value,
                       },
                     }));
                   }}
@@ -196,18 +180,11 @@ const ShareholderInformationForm: FC = () => {
                   readOnly
                   className={cn(
                     "text-sm",
-                    hight_nationalities?.percentage +
-                      thai_nationalities +
-                      other_nationalities !==
-                      100
+                    hight_nationalities?.percentage + thai_nationalities + other_nationalities !== 100
                       ? "border border-red-500"
-                      : "",
+                      : ""
                   )}
-                  value={
-                    hight_nationalities?.percentage +
-                    thai_nationalities +
-                    other_nationalities
-                  }
+                  value={hight_nationalities?.percentage + thai_nationalities + other_nationalities}
                 />
                 <InputRightAddon children="%" />
               </InputGroup>
@@ -215,21 +192,13 @@ const ShareholderInformationForm: FC = () => {
             <div
               className={cn(
                 "col-span-2 flex items-center",
-                hight_nationalities?.percentage +
-                  thai_nationalities +
-                  other_nationalities !==
-                  100
+                hight_nationalities?.percentage + thai_nationalities + other_nationalities !== 100
                   ? "justify-between"
-                  : "justify-end",
+                  : "justify-end"
               )}
             >
-              {hight_nationalities?.percentage +
-                thai_nationalities +
-                other_nationalities !==
-              100 ? (
-                <p className="text-xs text-red-500">
-                  รวมสัดส่วนผู้ถือหุ้นไม่เท่ากับ 100% กรุณาตรวจสอบ อีกครั้ง
-                </p>
+              {hight_nationalities?.percentage + thai_nationalities + other_nationalities !== 100 ? (
+                <p className="text-xs text-red-500">รวมสัดส่วนผู้ถือหุ้นไม่เท่ากับ 100% กรุณาตรวจสอบ อีกครั้ง</p>
               ) : null}
               <p className="text-sm text-red-500">*</p>
             </div>
