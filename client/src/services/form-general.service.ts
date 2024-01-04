@@ -30,7 +30,7 @@ export class FormGeneralService extends APIService {
       return responseData?.data?.[0] ?? ({} as TGeneralAssessmentForm);
     } catch (error: any) {
       console.error("FormGeneralService -> getTemplateGeneralAssessmentById -> error", error);
-      error?.response?.status === 500 && window.location.replace("/server-error");
+      error?.response?.status === 500 && window.location.replace("/icrs/admin/server-error");
       return {} as TGeneralAssessmentForm;
     }
   };

@@ -1,12 +1,5 @@
 // import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { groupByField, sortByField } from "@/helpers/array.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
@@ -14,8 +7,7 @@ import { TSummaryPart2 } from "@/types";
 import { forwardRef, useMemo } from "react";
 
 const PrintPage = forwardRef((_, ref: any) => {
-  const { summaryPart2, summaryPart1, registration, generalAssessmentForm } =
-    useAtomStore();
+  const { summaryPart2, summaryPart1, registration, generalAssessmentForm } = useAtomStore();
   const HEADER_SIZE = 12;
   const NORMAL_SIZE = 10;
 
@@ -251,12 +243,8 @@ const PrintPage = forwardRef((_, ref: any) => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.2.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.2.1"]?.[0]?.label_en !== ""
-          ? `${allSection["1.2.1"]?.[0]?.label_en}`
-          : ""
+      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection["1.2.1"]?.[0]?.label_th} ${
+        allSection["1.2.1"]?.[0]?.label_en !== "" ? `${allSection["1.2.1"]?.[0]?.label_en}` : ""
       }`,
       activeScore: allSection["1.2.1"]?.[0]?.score,
       maxScore: allSection["1.2.1"]?.[0]?.max_score,
@@ -280,12 +268,8 @@ const PrintPage = forwardRef((_, ref: any) => {
       ],
     },
     {
-      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.2.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.2.2"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.2.2"]?.[0]?.label_en}`
+      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection["1.2.2"]?.[0]?.label_th} ${
+        allSection["1.2.2"]?.[0]?.label_en === "" ? "" : `${allSection["1.2.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.2.2"]?.[0]?.score,
       maxScore: allSection["1.2.2"]?.[0]?.max_score,
@@ -320,12 +304,8 @@ const PrintPage = forwardRef((_, ref: any) => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.1"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.3.1"]?.[0]?.label_en}`
+      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection["1.3.1"]?.[0]?.label_th} ${
+        allSection["1.3.1"]?.[0]?.label_en === "" ? "" : `${allSection["1.3.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.1"]?.[0]?.score,
       maxScore: allSection["1.3.1"]?.[0]?.max_score,
@@ -349,12 +329,8 @@ const PrintPage = forwardRef((_, ref: any) => {
       ],
     },
     {
-      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.2"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.3.2"]?.[0]?.label_en}`
+      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection["1.3.2"]?.[0]?.label_th} ${
+        allSection["1.3.2"]?.[0]?.label_en === "" ? "" : `${allSection["1.3.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.2"]?.[0]?.score,
       maxScore: allSection["1.3.2"]?.[0]?.max_score,
@@ -378,12 +354,8 @@ const PrintPage = forwardRef((_, ref: any) => {
       ],
     },
     {
-      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.3"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.3"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.3.3"]?.[0]?.label_en}`
+      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection["1.3.3"]?.[0]?.label_th} ${
+        allSection["1.3.3"]?.[0]?.label_en === "" ? "" : `${allSection["1.3.3"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.3"]?.[0]?.score,
       maxScore: allSection["1.3.3"]?.[0]?.max_score,
@@ -418,12 +390,8 @@ const PrintPage = forwardRef((_, ref: any) => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.4.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.4.1"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.4.1"]?.[0]?.label_en}`
+      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection["1.4.1"]?.[0]?.label_th} ${
+        allSection["1.4.1"]?.[0]?.label_en === "" ? "" : `${allSection["1.4.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.4.1"]?.[0]?.score,
       maxScore: allSection["1.4.1"]?.[0]?.max_score,
@@ -443,12 +411,8 @@ const PrintPage = forwardRef((_, ref: any) => {
       ],
     },
     {
-      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.4.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.4.2"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.4.2"]?.[0]?.label_en}`
+      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection["1.4.2"]?.[0]?.label_th} ${
+        allSection["1.4.2"]?.[0]?.label_en === "" ? "" : `${allSection["1.4.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.4.2"]?.[0]?.score,
       maxScore: allSection["1.4.2"]?.[0]?.max_score,
@@ -547,8 +511,7 @@ const PrintPage = forwardRef((_, ref: any) => {
 
   const summaryPartInfo2 = {
     เงื่อนไขการปรับราคา: "Price conditions",
-    "ระยะทางในการขนส่งสินค้า / ค่าใช้จ่าย":
-      "Distance of Goods Transport / Expenses",
+    "ระยะทางในการขนส่งสินค้า / ค่าใช้จ่าย": "Distance of Goods Transport / Expenses",
     "ระเบียบการวางบิล / รับเงิน": "Invoice / Payment Procedures",
     เงื่อนไขการขนส่งสินค้า: "Terms and Conditions of Goods Transportation",
     เงื่อนไขในการวางเงินมัดจำ: "Terms and Conditions for Deposit",
@@ -556,11 +519,9 @@ const PrintPage = forwardRef((_, ref: any) => {
     การรับรองที่ได้รับ: "Received Certification",
     มีนโยบายการต่อต้านทุจริตคอร์รัปชั่น: "Anti-corruption policy",
     "มีนโยบายไม่รับแรงงานต่ำกวา 18 ปี": "Child labor policy",
-    "มีนโยบายการประเมินผลกระทบต่อสื่งแวดล้อมต่อตนเอง และชุมชนโดยรอบ":
-      "Environmental impact assessment policy",
+    "มีนโยบายการประเมินผลกระทบต่อสื่งแวดล้อมต่อตนเอง และชุมชนโดยรอบ": "Environmental impact assessment policy",
     มีนโยบายการเปิดเผยช่องทางให้ติดต่อร้องเรียน: "Complaints policy",
-    "มีนโยบายประเมินความปลอดภัย อาชีวอนามัยและสภาพแวดล้อมในการทำงาน":
-      "Safety, health, and environmental policy",
+    "มีนโยบายประเมินความปลอดภัย อาชีวอนามัยและสภาพแวดล้อมในการทำงาน": "Safety, health, and environmental policy",
     มีนโยบายสวัสดิการแรงงานตามกฎหมายกำหนด: "Minimum welfare policy",
     "งบการเงิน 5 ปี": "Five-year financial statements",
     สัญญาซื้อขายกับลูกค้า: "Sales contract",
@@ -574,9 +535,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       section_2: CalculatePart2() ?? "-",
       summary: CalculatePart1 + CalculatePart2(),
       grade: CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2())),
-      result: Result(
-        CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2())),
-      ),
+      result: Result(CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2()))),
     },
   ];
 
@@ -598,31 +557,21 @@ const PrintPage = forwardRef((_, ref: any) => {
             SNC
           </p> */}
           <section
-            className={cn(
-              "relative flex w-full items-center justify-center gap-2",
-              index === 1 ? "hidden" : "",
-            )}
+            className={cn("relative flex w-full items-center justify-center gap-2", index === 1 ? "hidden" : "")}
           >
             <img src="/images/logo.webp" alt="logo" className="h-12 w-auto" />
             <div>
               <h1 style={{ fontSize: 16, fontWeight: "bold" }}>
                 บริษัท เอส เอ็น ซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือฯ
               </h1>
-              <h2 style={{ fontSize: 16, fontWeight: "bold" }}>
-                SNC Former Company Limited and subsidiaries
-              </h2>
+              <h2 style={{ fontSize: 16, fontWeight: "bold" }}>SNC Former Company Limited and subsidiaries</h2>
             </div>
           </section>
           {index === 0 && <div className="h-[3px] border-b border-black"></div>}
-          <section
-            className={cn(
-              "flex w-full items-center justify-between gap-2",
-              index === 1 ? "hidden" : "",
-            )}
-          >
+          <section className={cn("flex w-full items-center justify-between gap-2", index === 1 ? "hidden" : "")}>
             <h1
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: "bold",
                 // textDecoration: "underline double",
               }}
@@ -640,14 +589,9 @@ const PrintPage = forwardRef((_, ref: any) => {
             </h1>
           </section>
           <div className="flex flex-col gap-4">
-            <div
-              className={cn("flex flex-col gap-4", index === 1 ? "hidden" : "")}
-            >
+            <div className={cn("flex flex-col gap-4", index === 1 ? "hidden" : "")}>
               <section className="flex w-full flex-col items-start justify-start gap-1">
-                <h1
-                  style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }}
-                  className="underline"
-                >
+                <h1 style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }} className="underline">
                   รายละเอียดลูกค้า (Customer Information)
                 </h1>
                 <article className="grid w-full grid-cols-12">
@@ -659,13 +603,8 @@ const PrintPage = forwardRef((_, ref: any) => {
                         gridColumn: `span ${item.colSpan}`,
                       }}
                     >
-                      <div
-                        style={{ fontSize: NORMAL_SIZE }}
-                        className="flex items-start gap-1"
-                      >
-                        <p className="whitespace-nowrap font-bold">
-                          {item.label}:{" "}
-                        </p>
+                      <div style={{ fontSize: NORMAL_SIZE }} className="flex items-start gap-1">
+                        <p className="whitespace-nowrap font-bold">{item.label}: </p>
                         <p className="font-normal">{item.value}</p>
                       </div>
                     </div>
@@ -673,38 +612,23 @@ const PrintPage = forwardRef((_, ref: any) => {
                 </article>
               </section>
               <section className="flex w-full flex-col items-start justify-start gap-1">
-                <h1
-                  style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }}
-                  className="underline"
-                >
+                <h1 style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }} className="underline">
                   ส่วนที่ 1 การเงินการลงทุน (Financial Investment){" "}
                   <span>
-                    (
-                    {labelScore[1] +
-                      labelScore[2] +
-                      labelScore[3] +
-                      labelScore[4]}
+                    ({labelScore[1] + labelScore[2] + labelScore[3] + labelScore[4]}
                     /40 คะแนน)
                   </span>
                 </h1>
                 <article className="w-full">
                   <p className="whitespace-nowrap text-[10px] font-bold">
-                    1.1 รายได้และผลตอบแทนผู้ถือหุ้น (Revenue and Shareholder
-                    Returns) ({labelScore[1]}/10 คะแนน)
+                    1.1 รายได้และผลตอบแทนผู้ถือหุ้น (Revenue and Shareholder Returns) ({labelScore[1]}/10 คะแนน)
                   </p>
                   {Section1?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex w-full items-center justify-between gap-2"
-                    >
-                      <p className="whitespace-nowrap text-[10px]">
-                        {item?.label}
-                      </p>
+                    <div key={index} className="flex w-full items-center justify-between gap-2">
+                      <p className="whitespace-nowrap text-[10px]">{item?.label}</p>
                       <div className={`flex items-center gap-2`}>
                         <div className="flex items-center">
-                          <strong className="text-[10px]">
-                            {item?.activeScore ?? 0}
-                          </strong>
+                          <strong className="text-[10px]">{item?.activeScore ?? 0}</strong>
                           <p className="whitespace-nowrap text-[10px] text-black">
                             /{item?.maxScore ? item?.maxScore : 0} &nbsp; คะแนน
                           </p>
@@ -715,22 +639,14 @@ const PrintPage = forwardRef((_, ref: any) => {
                 </article>
                 <article className="w-full">
                   <p className="whitespace-nowrap text-[10px] font-bold">
-                    1.2 ออร์เดอร์และสัดส่วนวัตถุดิบ (Orders and Raw Material
-                    Proportions) ({labelScore[2]}/10 คะแนน)
+                    1.2 ออร์เดอร์และสัดส่วนวัตถุดิบ (Orders and Raw Material Proportions) ({labelScore[2]}/10 คะแนน)
                   </p>
                   {Section2?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex w-full items-center justify-between gap-2"
-                    >
-                      <p className="whitespace-nowrap text-[10px]">
-                        {item?.label}
-                      </p>
+                    <div key={index} className="flex w-full items-center justify-between gap-2">
+                      <p className="whitespace-nowrap text-[10px]">{item?.label}</p>
                       <div className={`flex items-center gap-2`}>
                         <div className="flex items-center">
-                          <strong className="text-[10px]">
-                            {item?.activeScore ?? 0}
-                          </strong>
+                          <strong className="text-[10px]">{item?.activeScore ?? 0}</strong>
                           <p className="whitespace-nowrap text-[10px] text-black">
                             /{item?.maxScore ? item?.maxScore : 0} &nbsp; คะแนน
                           </p>
@@ -741,22 +657,14 @@ const PrintPage = forwardRef((_, ref: any) => {
                 </article>
                 <article className="w-full">
                   <p className="whitespace-nowrap text-[10px] font-bold">
-                    1.3 เครดิตเทอมและสินค้าคงคลัง (Credit Terms and Inventory) (
-                    {labelScore[3]}/10 คะแนน)
+                    1.3 เครดิตเทอมและสินค้าคงคลัง (Credit Terms and Inventory) ({labelScore[3]}/10 คะแนน)
                   </p>
                   {Section3?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex w-full items-center justify-between gap-2"
-                    >
-                      <p className="whitespace-nowrap text-[10px]">
-                        {item?.label}
-                      </p>
+                    <div key={index} className="flex w-full items-center justify-between gap-2">
+                      <p className="whitespace-nowrap text-[10px]">{item?.label}</p>
                       <div className={`flex items-center gap-2`}>
                         <div className="flex items-center">
-                          <strong className="text-[10px]">
-                            {item?.activeScore ?? 0}
-                          </strong>
+                          <strong className="text-[10px]">{item?.activeScore ?? 0}</strong>
                           <p className="whitespace-nowrap text-[10px] text-black">
                             /{item?.maxScore ? item?.maxScore : 0} &nbsp; คะแนน
                           </p>
@@ -767,22 +675,14 @@ const PrintPage = forwardRef((_, ref: any) => {
                 </article>
                 <article className="w-full">
                   <p className="whitespace-nowrap text-[10px] font-bold">
-                    1.4 การลงทุนเครื่องจักร และแม่พิมพ์ (Investment in machinery
-                    and molds) ({labelScore[4]}/10 คะแนน)
+                    1.4 การลงทุนเครื่องจักร และแม่พิมพ์ (Investment in machinery and molds) ({labelScore[4]}/10 คะแนน)
                   </p>
                   {Section4?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex w-full items-center justify-between gap-2"
-                    >
-                      <p className="whitespace-nowrap text-[10px]">
-                        {item?.label}
-                      </p>
+                    <div key={index} className="flex w-full items-center justify-between gap-2">
+                      <p className="whitespace-nowrap text-[10px]">{item?.label}</p>
                       <div className={`flex items-center gap-2`}>
                         <div className="flex items-center">
-                          <strong className="text-[10px]">
-                            {item?.activeScore ?? 0}
-                          </strong>
+                          <strong className="text-[10px]">{item?.activeScore ?? 0}</strong>
                           <p className="whitespace-nowrap text-[10px] text-black">
                             /{item?.maxScore ? item?.maxScore : 0} &nbsp; คะแนน
                           </p>
@@ -793,44 +693,29 @@ const PrintPage = forwardRef((_, ref: any) => {
                 </article>
               </section>
               <section className="flex w-full flex-col items-start justify-start gap-1">
-                <h1
-                  style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }}
-                  className="underline"
-                >
-                  ส่วนที่ 2 การจัดการ เงื่อนไข และนโยบาย (Management of
-                  conditions and policies) ({CalculatePart2()}/60 คะแนน)
+                <h1 style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }} className="underline">
+                  ส่วนที่ 2 การจัดการ เงื่อนไข และนโยบาย (Management, conditions, and policies) ({CalculatePart2()}/60
+                  คะแนน)
                 </h1>
                 <article className="flex w-full flex-col overflow-hidden">
-                  {sortByField(summaryPart2, "topic_no")?.map(
-                    (evaluate: TSummaryPart2, i) => (
-                      <div
-                        key={i}
-                        className="flex w-full items-center justify-between gap-2"
-                      >
-                        <p className="truncate whitespace-nowrap text-[10px]">
-                          {i + 1}. {evaluate?.label_th}{" "}
-                          {summaryPartInfo2?.[
-                            evaluate?.label_th as keyof typeof summaryPartInfo2
-                          ] ?? "" !== ""
-                            ? `(${summaryPartInfo2?.[
-                                evaluate?.label_th as keyof typeof summaryPartInfo2
-                              ]})`
-                            : ""}
-                        </p>
-                        <div className={`flex items-center gap-2`}>
-                          <div className="flex items-center">
-                            <strong className="text-[10px]">
-                              {evaluate?.score ?? 0}
-                            </strong>
-                            <p className="whitespace-nowrap text-[10px] text-black">
-                              /{evaluate?.max_score ? evaluate?.max_score : 0}{" "}
-                              &nbsp; คะแนน
-                            </p>
-                          </div>
+                  {sortByField(summaryPart2, "topic_no")?.map((evaluate: TSummaryPart2, i) => (
+                    <div key={i} className="flex w-full items-center justify-between gap-2">
+                      <p className="truncate whitespace-nowrap text-[10px]">
+                        {i + 1}. {evaluate?.label_th}{" "}
+                        {summaryPartInfo2?.[evaluate?.label_th as keyof typeof summaryPartInfo2] ?? "" !== ""
+                          ? `(${summaryPartInfo2?.[evaluate?.label_th as keyof typeof summaryPartInfo2]})`
+                          : ""}
+                      </p>
+                      <div className={`flex items-center gap-2`}>
+                        <div className="flex items-center">
+                          <strong className="text-[10px]">{evaluate?.score ?? 0}</strong>
+                          <p className="whitespace-nowrap text-[10px] text-black">
+                            /{evaluate?.max_score ? evaluate?.max_score : 0} &nbsp; คะแนน
+                          </p>
                         </div>
                       </div>
-                    ),
-                  )}
+                    </div>
+                  ))}
                 </article>
               </section>
             </div>
@@ -838,13 +723,10 @@ const PrintPage = forwardRef((_, ref: any) => {
               className={cn(
                 "flex w-full flex-col items-start justify-start gap-1",
                 // "pagebreak",
-                index === 0 ? "" : "hidden",
+                index === 0 ? "" : "hidden"
               )}
             >
-              <h1
-                style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }}
-                className="underline"
-              >
+              <h1 style={{ fontSize: HEADER_SIZE, fontWeight: "bold" }} className="underline">
                 ส่วนที่ 3 สรุปผลการประเมิน (Assessment Summary)
               </h1>
               <article className="flex w-full flex-col overflow-hidden">
@@ -861,20 +743,16 @@ const PrintPage = forwardRef((_, ref: any) => {
                       </TableRow>
                       <TableRow>
                         <TableHead className="border border-black text-center text-[10px] font-bold text-secondary-foreground">
-                          ส่วนที่ 1: การเงินและการลงทุน (40) <br /> (Financial
-                          and Investment)
+                          ส่วนที่ 1: การเงินและการลงทุน (40) <br /> (Financial and Investment)
                         </TableHead>
                         <TableHead className="border border-black text-center text-[10px] font-bold text-secondary-foreground">
-                          ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย (60) <br />{" "}
-                          (Management, conditions, and policies)
+                          ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย (60) <br /> (Management, conditions, and policies)
                         </TableHead>
                         <TableHead className="border border-black text-center text-[10px] font-bold text-secondary-foreground">
                           คะแนนรวม (100) <br /> (Total Score)
                         </TableHead>
                         <TableHead className="flex items-center justify-center gap-2 text-center text-[10px] font-bold text-secondary-foreground">
-                          <p className="flex items-center justify-center">
-                            เกรด (Grade)
-                          </p>
+                          <p className="flex items-center justify-center">เกรด (Grade)</p>
                         </TableHead>
                         <TableHead className="border border-black text-center text-[10px] font-bold text-secondary-foreground">
                           สรุปผล (Result)
@@ -896,11 +774,7 @@ const PrintPage = forwardRef((_, ref: any) => {
                           <TableCell className="border border-black text-center text-[12px] font-bold">
                             {item?.grade}
                           </TableCell>
-                          <TableCell
-                            className={cn(
-                              "border border-black text-center text-[12px] font-bold text-black",
-                            )}
-                          >
+                          <TableCell className={cn("border border-black text-center text-[12px] font-bold text-black")}>
                             {item?.result}
                           </TableCell>
                         </TableRow>
@@ -911,26 +785,15 @@ const PrintPage = forwardRef((_, ref: any) => {
               </article>
             </section>
             <section
-              className={cn(
-                "mb-10 flex w-full flex-col items-center justify-start gap-1",
-                index === 0 ? "" : "hidden",
-              )}
+              className={cn("mb-10 flex w-full flex-col items-center justify-start gap-1", index === 0 ? "" : "hidden")}
             >
               <article className="grid w-full grid-cols-5 gap-2">
                 {approvals
                   ?.sort((a, b) => a?.order_no - b?.order_no)
                   ?.map((item, index) => (
-                    <div
-                      key={index}
-                      className={`relative col-span-1 flex h-[4rem] flex-col gap-2 border border-black`}
-                    >
-                      <div
-                        style={{ fontSize: NORMAL_SIZE }}
-                        className="flex flex-col items-center gap-1"
-                      >
-                        <p className="w-full border-b border-black text-center font-bold uppercase">
-                          {item.issued_by}
-                        </p>
+                    <div key={index} className={`relative col-span-1 flex h-[4rem] flex-col gap-2 border border-black`}>
+                      <div style={{ fontSize: NORMAL_SIZE }} className="flex flex-col items-center gap-1">
+                        <p className="w-full border-b border-black text-center font-bold uppercase">{item.issued_by}</p>
                         <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center gap-1 font-normal">
                           <p className="w-full border-black p-1 text-center text-[10px]">
                             {item.is_approved === true
@@ -962,11 +825,7 @@ const PrintPage = forwardRef((_, ref: any) => {
               <p className="absolute bottom-0  right-0 text-xs">Page 2 of 2</p>
             </div>
           )}
-          {index === 0 && (
-            <p className={cn("absolute  right-0 text-xs", "bottom-0")}>
-              Page 1 of 1
-            </p>
-          )}
+          {index === 0 && <p className={cn("absolute  right-0 text-xs", "bottom-0")}>Page 1 of 1</p>}
         </div>
       ))}
     </div>

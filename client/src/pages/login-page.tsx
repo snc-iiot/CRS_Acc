@@ -2,12 +2,7 @@ import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { API_BASE_URL } from "@/helpers/common.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { cn } from "@/lib/utils";
@@ -34,8 +29,7 @@ const LoginPage: FC = () => {
       link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authen-user.pdf",
     },
     {
-      label:
-        "ตารางการกำหนดสิทธิการเข้าถึงระบบ (Authority matrix) ระบบ SNC-iCRS",
+      label: "ตารางการกำหนดสิทธิการเข้าถึงระบบ (Authority matrix) ระบบ SNC-iCRS",
       link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authority-matrix.pdf",
     },
   ];
@@ -47,18 +41,12 @@ const LoginPage: FC = () => {
     formState: { errors },
   } = useForm();
 
-  const Login = async (
-    username: string,
-    password: string,
-  ): Promise<TResponseAction> => {
+  const Login = async (username: string, password: string): Promise<TResponseAction> => {
     try {
-      const { data } = await axios.post<TResponseAction>(
-        `${API_BASE_URL}/user/login`,
-        {
-          username,
-          password,
-        },
-      );
+      const { data } = await axios.post<TResponseAction>(`${API_BASE_URL}/user/login`, {
+        username,
+        password,
+      });
       return data;
     } catch (error: any) {
       console.error(error);
@@ -96,9 +84,7 @@ const LoginPage: FC = () => {
         <div className="bg-login h-full w-full overflow-hidden">
           {/* //! Header */}
           <div
-            className={cn(
-              "border-custom-border-200 bg-custom-sidebar-background-100 z-10 w-full border-b px-4 py-1",
-            )}
+            className={cn("border-custom-border-200 bg-custom-sidebar-background-100 z-10 w-full border-b px-4 py-1")}
           >
             <div>
               <img
@@ -108,9 +94,7 @@ const LoginPage: FC = () => {
                 height={230}
                 className="h-auto w-[5rem] select-none"
               />
-              <p className="text-sm">
-                บมจ. เอส เอ็น ซี ฟอร์เมอร์ และบริษัทในเครือฯ
-              </p>
+              <p className="text-sm">บมจ. เอส เอ็น ซี ฟอร์เมอร์ และบริษัทในเครือฯ</p>
             </div>
           </div>
 
@@ -118,28 +102,17 @@ const LoginPage: FC = () => {
           <div className="flex h-full">
             {/* //! Left */}
             <div className="w-[400px] border-r px-4">
-              <h1 className="text-lg font-bold">
-                iCRS Customer Registration (Admin)
-              </h1>
+              <h1 className="text-lg font-bold">iCRS Customer Registration (Admin)</h1>
               <p className="text-sm">กรุณาลงชื่อเข้าใช้เพื่อเริ่มใช้งาน</p>
               <p>
-                <b className="text-red-500">SNC Group</b> please login to start
-                your session
+                <b className="text-red-500">SNC Group</b> please login to start your session
               </p>
 
               <form onSubmit={onSubmit} className="mt-3">
                 <div className="mb-2">
                   <p className="font-[600]">Username</p>
-                  <Input
-                    type="text"
-                    placeholder="Username"
-                    {...register("emailRequired", { required: true })}
-                  />
-                  {errors.emailRequired && (
-                    <span className="text-sm text-red-600">
-                      กรุณาระบุ username
-                    </span>
-                  )}
+                  <Input type="text" placeholder="Username" {...register("emailRequired", { required: true })} />
+                  {errors.emailRequired && <span className="text-sm text-red-600">กรุณาระบุ username</span>}
                 </div>
                 <div className="relative mb-2">
                   <p className="font-[600]">Password</p>
@@ -151,23 +124,13 @@ const LoginPage: FC = () => {
                     />
                     <div className="absolute right-0 top-0 flex h-full items-center pr-2">
                       {isOpenEye ? (
-                        <Icons.eye
-                          className="h-[1rem] cursor-pointer"
-                          onClick={() => setIsOpenEye(!isOpenEye)}
-                        />
+                        <Icons.eye className="h-[1rem] cursor-pointer" onClick={() => setIsOpenEye(!isOpenEye)} />
                       ) : (
-                        <Icons.eyeOff
-                          className="h-[1rem] cursor-pointer"
-                          onClick={() => setIsOpenEye(!isOpenEye)}
-                        />
+                        <Icons.eyeOff className="h-[1rem] cursor-pointer" onClick={() => setIsOpenEye(!isOpenEye)} />
                       )}
                     </div>
                   </div>
-                  {errors.passwordRequired && (
-                    <span className="text-sm text-red-600">
-                      กรุณาระบุ password
-                    </span>
-                  )}
+                  {errors.passwordRequired && <span className="text-sm text-red-600">กรุณาระบุ password</span>}
                 </div>
                 <div className="mt-6 flex items-center justify-end">
                   <Button type="submit">
@@ -179,22 +142,20 @@ const LoginPage: FC = () => {
 
             {/* //! Right */}
             <div className="px-3 pt-2 ">
-              <p className="pb-1 text-sm font-bold underline">
-                แจ้งผู้ใช้งานเว็บไซต์
-              </p>
+              <p className="pb-1 text-sm font-bold underline">แจ้งผู้ใช้งานเว็บไซต์</p>
               {annoucements.map((item, i) => (
                 <div key={i} className="flex items-center text-sm">
                   <p>
                     {i + 1}. {item.label}:
                   </p>{" "}
-                  <Icons.externalLink className="h-[1rem] cursor-pointer text-blue-800" />
+                  <Icons.externalLink
+                    className="h-[1rem] cursor-pointer text-blue-800"
+                    onClick={() => window.open(item.link, "_blank")}
+                  />
                 </div>
               ))}
               <div className="flex items-center text-sm">
-                <p>
-                  {annoucements.length + 1}. พบปัญหาการใช้งานระบบ
-                  กรุณาแจ้งผ่านไลน์กลุ่ม SNC-iCRS
-                </p>
+                <p>{annoucements.length + 1}. พบปัญหาการใช้งานระบบ กรุณาแจ้งผ่านไลน์กลุ่ม SNC-iCRS</p>
               </div>
             </div>
           </div>
@@ -209,15 +170,11 @@ const LoginPage: FC = () => {
                 height={200}
                 alt=""
                 className="request-blink absolute bottom-[2rem] right-[2rem] z-50 h-[80px] w-[80px] cursor-pointer rounded-full"
-                onClick={() =>
-                  window.open("https://snc-services.sncformer.com/icsd/")
-                }
+                onClick={() => window.open("https://snc-services.sncformer.com/icsd/")}
               />
             </TooltipTrigger>
             <TooltipContent side="left" className="bg-black">
-              <p className="text-base">
-                ยื่นคำร้องปรับปรุง และแก้ไขปัญหาโปรแกรม
-              </p>
+              <p className="text-base">ยื่นคำร้องปรับปรุง และแก้ไขปัญหาโปรแกรม</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

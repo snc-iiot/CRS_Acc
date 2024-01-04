@@ -49,17 +49,11 @@ export const useConfirm = () => {
             className: cn(buttonClassName, button.props.className),
           })
         ) : (
-          <Button
-            onClick={() => setIsConfirmOpen(true)}
-            className={cn(buttonClassName)}
-          >
+          <Button onClick={() => setIsConfirmOpen(true)} className={cn(buttonClassName)}>
             {buttonText}
           </Button>
         )}
-        <AlertDialog
-          open={isConfirmOpen}
-          onOpenChange={() => setIsConfirmOpen(false)}
-        >
+        <AlertDialog open={isConfirmOpen} onOpenChange={() => setIsConfirmOpen(false)}>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>{title}</AlertDialogTitle>

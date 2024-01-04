@@ -35,9 +35,7 @@ const getValueFromLocalStorage = (key: string, defaultValue: any) => {
  * `setValue`, and `clearValue`.
  */
 const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const [storedValue, setStoredValue] = useState<T | null>(() =>
-    getValueFromLocalStorage(key, initialValue),
-  );
+  const [storedValue, setStoredValue] = useState<T | null>(() => getValueFromLocalStorage(key, initialValue));
 
   const setValue = useCallback(
     (value: T) => {
@@ -45,7 +43,7 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
       setStoredValue(value);
       window.dispatchEvent(new Event(`local-storage:${key}`));
     },
-    [key],
+    [key]
   );
 
   /* The `clearValue` function is a callback function that is used to remove the value associated with

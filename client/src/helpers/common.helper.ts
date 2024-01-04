@@ -30,8 +30,7 @@ export const queryKey = {
 
   //! for general assessment
   GET_APPROVALS_BY_ID: "GET_APPROVALS_BY_ID",
-  GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID:
-    "GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID",
+  GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID: "GET_TEMPLATE_GENERAL_ASSESSMENT_BY_ID",
   CREATE_GENERAL_ASSESSMENT: "CREATE_GENERAL_ASSESSMENT",
   UPDATE_GENERAL_ASSESSMENT: "UPDATE_GENERAL_ASSESSMENT",
 
@@ -100,9 +99,7 @@ export const MODE_CODE = {
   VIEW: "VIEW",
 };
 
-export const CheckCustomerForeigner = (
-  customerInfo: TRegistrationForm,
-): boolean => {
+export const CheckCustomerForeigner = (customerInfo: TRegistrationForm): boolean => {
   const {
     company_information: {
       company_registration: { is_thai },

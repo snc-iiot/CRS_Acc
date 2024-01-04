@@ -1,13 +1,6 @@
 import { Icons } from "@/components/common/icons";
 import { cn } from "@/lib/utils";
-import {
-  ChangeEvent,
-  forwardRef,
-  Fragment,
-  HTMLAttributes,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, forwardRef, Fragment, HTMLAttributes, useRef, useState } from "react";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children?: string | JSX.Element;
@@ -18,17 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const UploadFile = forwardRef<HTMLDivElement, Props>(
-  (
-    {
-      className,
-      children,
-      accept = "*",
-      onChange,
-      showFileName = true,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ className, children, accept = "*", onChange, showFileName = true, ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [fileNames, setFileNames] = useState<string[]>([]);
 
@@ -47,11 +30,7 @@ const UploadFile = forwardRef<HTMLDivElement, Props>(
 
     return (
       <div ref={ref} className="flex items-center gap-x-2">
-        <div
-          className={cn("relative overflow-visible", className)}
-          {...props}
-          onClick={handleUpload}
-        >
+        <div className={cn("relative overflow-visible", className)} {...props} onClick={handleUpload}>
           <Fragment>
             {children}
             <input
@@ -72,14 +51,11 @@ const UploadFile = forwardRef<HTMLDivElement, Props>(
         </div>
         {/* <button onClick={handleDeleteFilename}>ลบ</button> */}
         {!showFileName || fileNames?.length == 0 ? null : (
-          <Icons.trash2
-            className="h-3.5 w-3.5 cursor-pointer text-red-500"
-            onClick={handleDeleteFilename}
-          />
+          <Icons.trash2 className="h-3.5 w-3.5 cursor-pointer text-red-500" onClick={handleDeleteFilename} />
         )}
       </div>
     );
-  },
+  }
 );
 
 UploadFile.displayName = "UploadFile";

@@ -15,35 +15,16 @@ import {
   StandardsCertifications,
   UploadDocuments,
 } from "@/components/pages/registration-info-page";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 // import { Select } from "@/components/ui/select-custom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { MODE_CODE } from "@/helpers/common.helper";
-import {
-  ConditionHeight,
-  DisableTabs,
-  InitialTabs,
-  PermissionSubAction,
-} from "@/helpers/permission.helper";
+import { ConditionHeight, DisableTabs, InitialTabs, PermissionSubAction } from "@/helpers/permission.helper";
 import { status } from "@/helpers/status.helper";
 import { CommentType } from "@/helpers/utils.helpers";
 import { useSwal } from "@/hooks/use-swal";
@@ -72,13 +53,7 @@ const RegistrationInfo: FC = () => {
     mutateGetSummaryPart2,
     mutateGetCompanyProfile,
   } = useFormGeneral();
-  const {
-    comment,
-    registration,
-    generalAssessmentForm,
-    setCommon,
-    dataRegisCount,
-  } = useAtomStore();
+  const { comment, registration, generalAssessmentForm, setCommon, dataRegisCount } = useAtomStore();
   const { confirmSwal, showError, showLoading, closeSwal } = useSwal();
   const [searchParams] = useSearchParams();
   const { mutateGetRegisById } = useForm();
@@ -98,18 +73,7 @@ const RegistrationInfo: FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<string[]>([]);
   const [commentText, setCommentText] = useState<string>("");
 
-  const mainActions = [
-    "R1",
-    "R2",
-    "R3",
-    "R4",
-    "R5",
-    "R6",
-    "R7",
-    "R8",
-    "R9",
-    "R10",
-  ];
+  const mainActions = ["R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10"];
 
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
@@ -172,8 +136,7 @@ const RegistrationInfo: FC = () => {
     },
     {
       topic: "topic-5",
-      title:
-        "มาตรฐานและการรับรองที่ได้รับในปัจจุบัน / Standards and Certifications",
+      title: "มาตรฐานและการรับรองที่ได้รับในปัจจุบัน / Standards and Certifications",
       content: <StandardsCertifications />,
     },
     {
@@ -216,7 +179,7 @@ const RegistrationInfo: FC = () => {
         "ท่านได้มีการเเก้ไขข้อมูลส่วนของลูกค้า(ฝั่งซ้าย) ซึ่งอาจส่งผลต่อการประเมิน(ฝั่งขวา) กรุณาตรวจสอบความถูกต้องฝั่งขวาอีกครั้ง หากต้องการยืนยันเพื่อส่งเข้าสายอนุมัติ กรุณาคลิกที่ปุ่ม เเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า เเละ ยืนยันการเเก้ไขข้อมูลแบบฟอร์มประเมินลูกค้า",
         "ดำเนินการต่อ",
         undefined,
-        false,
+        false
       );
       if (isConfirmed) {
         navigate(`/registrations/customer/info?RegisID=${RegisID}`, {
@@ -240,8 +203,7 @@ const RegistrationInfo: FC = () => {
     if (registration?.status_no === 1) {
       setCommon((prev) => ({
         ...prev,
-        isEditGeneralAssessmentForm:
-          role == "approver" || role == "sap-code" ? false : true,
+        isEditGeneralAssessmentForm: role == "approver" || role == "sap-code" ? false : true,
       }));
     }
   }, [registration?.status_no]);
@@ -264,16 +226,13 @@ const RegistrationInfo: FC = () => {
           className={cn(
             "fixed bottom-2 left-2 z-50",
             "grid h-[40px] w-[40px] cursor-pointer place-items-center rounded-sm border p-2 hover:translate-x-1",
-            "bg-primary-foreground",
+            "bg-primary-foreground"
           )}
         >
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Icons.arrowLeft
-                  className="h-5 w-5"
-                  onClick={() => navigate("/registrations")}
-                />
+                <Icons.arrowLeft className="h-5 w-5" onClick={() => navigate("/registrations")} />
               </TooltipTrigger>
               <TooltipContent side="right">
                 <span>กลับ</span>
@@ -313,9 +272,7 @@ const RegistrationInfo: FC = () => {
             <Badge
               className={cn(
                 "text-md ml-2 h-9 font-bold",
-                status?.find(
-                  (item) => item?.status_id === registration?.status_no,
-                )?.status_color,
+                status?.find((item) => item?.status_id === registration?.status_no)?.status_color
               )}
             >
               {generalAssessmentForm?.status_desc_th} &nbsp;
@@ -328,11 +285,7 @@ const RegistrationInfo: FC = () => {
               onClick={() => {
                 handlePrint();
               }}
-              className={cn(
-                registration?.status_no !== 8
-                  ? "hidden"
-                  : "flex items-center gap-2",
-              )}
+              className={cn(registration?.status_no !== 8 ? "hidden" : "flex items-center gap-2")}
             >
               <Icons.printer className="h-5 w-5" />
               Print PDF
@@ -347,23 +300,16 @@ const RegistrationInfo: FC = () => {
           <PrintPage ref={componentRef} />
         </div>
         <main className="h-[calc(100%-3rem)]">
-          <div
-            className={cn(
-              "grid h-full",
-              viewPage == "2" ? "grid-cols-3" : "grid-cols-1",
-            )}
-          >
+          <div className={cn("grid h-full", viewPage == "2" ? "grid-cols-3" : "grid-cols-1")}>
             {/* //! Left Content */}
             <div
               className={cn(
                 "relative h-full overflow-y-auto border-r-2 p-1",
-                viewPage == "R" ? "hidden delay-500" : "block",
+                viewPage == "R" ? "hidden delay-500" : "block"
               )}
             >
               <div className="flex items-center justify-between">
-                <h3 className="text-md font-bold">
-                  รายละเอียดบริษัทลูกค้า / Customer Details
-                </h3>
+                <h3 className="text-md font-bold">รายละเอียดบริษัทลูกค้า / Customer Details</h3>
                 <h3
                   className="cursor-pointer text-sm text-primary hover:underline"
                   onClick={() => {
@@ -371,40 +317,28 @@ const RegistrationInfo: FC = () => {
                     if (isOpenAccordion) {
                       setActiveAccordion([]);
                     } else {
-                      setActiveAccordion(
-                        leftAccordionList?.map((item) => item?.topic),
-                      );
+                      setActiveAccordion(leftAccordionList?.map((item) => item?.topic));
                     }
                   }}
                 >
-                  {leftAccordionList?.filter((item) =>
-                    activeAccordion.includes(item?.topic),
-                  )?.length > 0 && isOpenAccordion
+                  {leftAccordionList?.filter((item) => activeAccordion.includes(item?.topic))?.length > 0 &&
+                  isOpenAccordion
                     ? "Collapse"
-                    : leftAccordionList?.filter((item) =>
-                        activeAccordion.includes(item?.topic),
-                      )?.length > 0 && !isOpenAccordion
+                    : leftAccordionList?.filter((item) => activeAccordion.includes(item?.topic))?.length > 0 &&
+                      !isOpenAccordion
                     ? "Explode"
                     : "Explode"}
                 </h3>
               </div>
 
-              <Accordion
-                type="multiple"
-                className="mb-[3rem]"
-                value={activeAccordion}
-              >
+              <Accordion type="multiple" className="mb-[3rem]" value={activeAccordion}>
                 {leftAccordionList?.map((item, i) => (
                   <AccordionItem value={item?.topic} key={i}>
                     <AccordionTrigger
                       className="py-1 text-xs font-bold"
                       onClick={() => {
                         if (activeAccordion.includes(item?.topic)) {
-                          setActiveAccordion(
-                            activeAccordion.filter(
-                              (topic) => topic !== item?.topic,
-                            ),
-                          );
+                          setActiveAccordion(activeAccordion.filter((topic) => topic !== item?.topic));
                         } else {
                           setActiveAccordion([...activeAccordion, item?.topic]);
                         }
@@ -416,34 +350,23 @@ const RegistrationInfo: FC = () => {
                   </AccordionItem>
                 ))}
               </Accordion>
-              <div
-                className={cn(
-                  "fixed bottom-2 flex justify-end pr-8",
-                  viewPage == "L" ? "w-full" : "w-1/3",
-                )}
-              >
+              <div className={cn("fixed bottom-2 flex justify-end pr-8", viewPage == "L" ? "w-full" : "w-1/3")}>
                 <Button
                   className={cn(
                     "flex items-center whitespace-nowrap bg-yellow-500 text-sm hover:bg-yellow-500/80",
-                    (registration?.status_no === 1 ||
-                      registration?.status_no === 3) &&
+                    (registration?.status_no === 1 || registration?.status_no === 3) &&
                       (role == "user" || role == "admin")
                       ? "flex"
                       : role === "approver" || role === "sap-code"
                       ? "hidden"
-                      : "hidden",
+                      : "hidden"
                     // role === "approver" ? "hidden" : "",
                     // role === "sap-code" ? "hidden" : "",
                   )}
                   onClick={async () => {
-                    const isConfirm = await confirmSwal(
-                      "แก้ไขข้อมูลลูกค้า",
-                      "คุณต้องการแก้ไขข้อมูลลูกค้าใช่หรือไม่",
-                    );
+                    const isConfirm = await confirmSwal("แก้ไขข้อมูลลูกค้า", "คุณต้องการแก้ไขข้อมูลลูกค้าใช่หรือไม่");
                     if (isConfirm)
-                      navigate(
-                        `/registrations/customer/register?RegisID=${RegisID}&mode=${MODE_CODE.EDIT}`,
-                      );
+                      navigate(`/registrations/customer/register?RegisID=${RegisID}&mode=${MODE_CODE.EDIT}`);
                   }}
                 >
                   <Icons.edit className="mr-2 inline-block h-5 w-5" />
@@ -452,49 +375,19 @@ const RegistrationInfo: FC = () => {
               </div>
             </div>
             {/* //! Right Content */}
-            <div
-              className={cn(
-                "relative h-full px-1 py-0",
-                viewPage == "L" ? "hidden delay-500" : "col-span-2 block",
-              )}
-            >
+            <div className={cn("relative h-full px-1 py-0", viewPage == "L" ? "hidden delay-500" : "col-span-2 block")}>
               <div
                 className={cn(
-                  PermissionSubAction(
-                    registration?.status_no as
-                      | 1
-                      | 2
-                      | 3
-                      | 4
-                      | 5
-                      | 6
-                      | 7
-                      | 8
-                      | 9,
-                    role,
-                  ).includes(activeTab)
+                  PermissionSubAction(registration?.status_no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, role).includes(
+                    activeTab
+                  )
                     ? "h-[calc(66%-0.5rem)] "
                     : role === "approver" || role === "sap-code"
-                    ? ConditionHeight(
-                        registration?.status_no as
-                          | 1
-                          | 2
-                          | 3
-                          | 4
-                          | 5
-                          | 6
-                          | 7
-                          | 8
-                          | 9,
-                      )
-                    : "h-[calc(73%-0.5rem)]",
+                    ? ConditionHeight(registration?.status_no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)
+                    : "h-[calc(73%-0.5rem)]"
                 )}
               >
-                <Tabs
-                  value={activeTab}
-                  onValueChange={(value) => setActiveTab(value)}
-                  className="h-full"
-                >
+                <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)} className="h-full">
                   <nav className="fixed right-1 top-2">
                     <TabsList>
                       {TabList.map((info, i) => (
@@ -502,10 +395,7 @@ const RegistrationInfo: FC = () => {
                           key={i}
                           value={info?.value}
                           disabled={
-                            !DisableTabs(
-                              info?.value as "R2" | "R3" | "R4" | "R5",
-                              registration?.status_no as number,
-                            )
+                            !DisableTabs(info?.value as "R2" | "R3" | "R4" | "R5", registration?.status_no as number)
                           }
                         >
                           {info.label}
@@ -536,14 +426,9 @@ const RegistrationInfo: FC = () => {
                 </Tabs>
               </div>
               {/* //! Action by user */}
-              {PermissionSubAction(
-                registration?.status_no as number,
-                role,
-              ).includes(activeTab) ? (
+              {PermissionSubAction(registration?.status_no as number, role).includes(activeTab) ? (
                 <div className="flex h-[7%] items-center justify-between border border-b-0 px-2">
-                  <ActionTab
-                    activeTab={activeTab as "R2" | "R3" | "R4" | "R5"}
-                  />
+                  <ActionTab activeTab={activeTab as "R2" | "R3" | "R4" | "R5"} />
                 </div>
               ) : null}
               {/* //! Comments & Other */}
@@ -551,29 +436,16 @@ const RegistrationInfo: FC = () => {
                 <div className="h-full border border-r-0">
                   <main className="flex h-full w-full flex-col overflow-hidden">
                     <section className="flex items-center px-2 py-1">
-                      <h2 className="px-2 py-1 text-sm font-semibold underline">
-                        ข้อเสนอแนะ / Comments
-                      </h2>
+                      <h2 className="px-2 py-1 text-sm font-semibold underline">ข้อเสนอแนะ / Comments</h2>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Icons.helpCircle className="h-4 w-4 text-primary" />
                         </PopoverTrigger>
-                        <PopoverContent
-                          className="p-2"
-                          side="bottom"
-                          align="start"
-                        >
-                          <h3 className="text-xs font-semibold">
-                            หมายเหตุ / Note
-                          </h3>
+                        <PopoverContent className="p-2" side="bottom" align="start">
+                          <h3 className="text-xs font-semibold">หมายเหตุ / Note</h3>
                           {CommentType?.map((item, i) => (
                             <li key={i} className="flex items-center gap-1">
-                              <div
-                                className={cn(
-                                  "inline-block h-2 w-2 rounded-full text-primary",
-                                  item?.color,
-                                )}
-                              />
+                              <div className={cn("inline-block h-2 w-2 rounded-full text-primary", item?.color)} />
                               <p className="text-xs">{item?.label}</p>
                             </li>
                           ))}
@@ -583,25 +455,17 @@ const RegistrationInfo: FC = () => {
                     <section className="flex h-full w-full flex-col">
                       {comment?.comments?.length === 0 ? (
                         <div className="flex h-full justify-end">
-                          <p className="text-xs">
-                            ไม่มีข้อเสนอแนะ / No comments
-                          </p>
+                          <p className="text-xs">ไม่มีข้อเสนอแนะ / No comments</p>
                         </div>
                       ) : (
                         <div className="flex h-0 flex-grow flex-col gap-1 overflow-y-auto px-2 text-xs">
                           {comment?.comments?.length === 0 && (
                             <div className="flex justify-center">
-                              <p className="text-xs">
-                                ไม่มีข้อเสนอแนะ / No comments
-                              </p>
+                              <p className="text-xs">ไม่มีข้อเสนอแนะ / No comments</p>
                             </div>
                           )}
                           {comment?.comments
-                            ?.sort(
-                              (a, b) =>
-                                new Date(b?.created_at)?.getTime() -
-                                new Date(a?.created_at)?.getTime(),
-                            )
+                            ?.sort((a, b) => new Date(b?.created_at)?.getTime() - new Date(a?.created_at)?.getTime())
                             ?.map((item, i) => (
                               <div className="grid grid-cols-10 gap-2" key={i}>
                                 <TooltipProvider>
@@ -611,16 +475,10 @@ const RegistrationInfo: FC = () => {
                                         <div
                                           className={cn(
                                             "inline-block h-2 w-2 rounded-full text-primary",
-                                            CommentType?.find(
-                                              (type) =>
-                                                type?.name ===
-                                                item?.comments_type,
-                                            )?.color,
+                                            CommentType?.find((type) => type?.name === item?.comments_type)?.color
                                           )}
                                         />
-                                        <p className="w-full text-xs">
-                                          {item?.comments}
-                                        </p>
+                                        <p className="w-full text-xs">{item?.comments}</p>
                                       </div>
                                     </TooltipTrigger>
                                     <TooltipContent>
@@ -638,13 +496,8 @@ const RegistrationInfo: FC = () => {
                     </section>
                     <section className="px-2 py-1">
                       <Popover>
-                        <PopoverTrigger className="text-xs text-primary">
-                          เพิ่มข้อเสนอแนะ
-                        </PopoverTrigger>
-                        <PopoverContent
-                          align="start"
-                          className="h-60 w-72 p-1 shadow-sm"
-                        >
+                        <PopoverTrigger className="text-xs text-primary">เพิ่มข้อเสนอแนะ</PopoverTrigger>
+                        <PopoverContent align="start" className="h-60 w-72 p-1 shadow-sm">
                           <main className="flex h-full w-full flex-col gap-2 overflow-hidden p-1">
                             <h2 className="px-2 py-1 text-sm font-semibold underline">
                               เพิ่มข้อเสนอแนะ / Add Comments
@@ -731,9 +584,7 @@ const RegistrationInfo: FC = () => {
                     <section>
                       <h2 className="px-2 py-1 text-sm font-semibold underline">
                         ประวัติขึ้นทะเบียนผู้ซื้อ{" "}
-                        <span className="text-xs text-red-600">
-                          **ไม่รวมรายการนี้ / Exclude this form
-                        </span>
+                        <span className="text-xs text-red-600">**ไม่รวมรายการนี้ / Exclude this form</span>
                       </h2>
                     </section>
                     <section className="grid h-full w-full grid-cols-2">
@@ -909,9 +760,7 @@ const RegistrationInfo: FC = () => {
               {/* //! Right Footer */}
               {mainActions.includes(activeTab) ? (
                 <div className="h-[7%] border-t-0">
-                  <MainActions
-                    activeTab={activeTab as "R1" | "R2" | "R3" | "R4"}
-                  />
+                  <MainActions activeTab={activeTab as "R1" | "R2" | "R3" | "R4"} />
                 </div>
               ) : null}
             </div>

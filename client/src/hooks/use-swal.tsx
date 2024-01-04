@@ -2,10 +2,7 @@ import { PRIMARY_COLOR } from "@/helpers/common.helper";
 import Swal from "sweetalert2";
 
 export const useSwal = () => {
-  const showLoading = (
-    title = "กำลังบันทึกข้อมูล",
-    message = "กรุณารอสักครู่...",
-  ) => {
+  const showLoading = (title = "กำลังบันทึกข้อมูล", message = "กรุณารอสักครู่...") => {
     Swal.fire({
       title: title,
       text: message,
@@ -30,12 +27,7 @@ export const useSwal = () => {
     });
   };
 
-  const showError = (
-    title: string,
-    message: string,
-    confirmButtonText?: string,
-    cancelButtonText?: string,
-  ) => {
+  const showError = (title: string, message: string, confirmButtonText?: string, cancelButtonText?: string) => {
     Swal.fire({
       title: title,
       text: message,
@@ -51,7 +43,7 @@ export const useSwal = () => {
     message: string,
     confirmButtonText?: string,
     cancelButtonText?: string,
-    showCancelButton?: boolean,
+    showCancelButton?: boolean
   ): Promise<boolean> => {
     const result = await Swal.fire({
       title: title,
