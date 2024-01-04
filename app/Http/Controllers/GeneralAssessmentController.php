@@ -162,6 +162,15 @@ class GeneralAssessmentController extends Controller
             //! Send Mail
             DB::select("call sp_send_mail_to_sync_dbd(?);", [$request->regis_id]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Create form",
+                "api_endpoint"      => "[POST] /general-assessment",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "บันทึกแบบฟอร์มประเมินลูกค้าสำเร็จ",
@@ -328,6 +337,15 @@ class GeneralAssessmentController extends Controller
             //! Send Mail
             DB::select("call sp_send_mail_to_sync_dbd(?);", [$request->regis_id]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Edit form",
+                "api_endpoint"      => "[PUT] /general-assessment",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "แก้ไขแบบฟอร์มประเมินลูกค้าสำเร็จ",
@@ -419,6 +437,15 @@ class GeneralAssessmentController extends Controller
                 $row->inventory_day                 = \json_decode($row->inventory_day);
                 $row->approvals                     = \is_null($row->approvals) ? null : \json_decode($row->approvals);
             }
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Get form information by regis_id",
+                "api_endpoint"      => "[GET] /general-assessment/form-by-id?regis_id=<regis_id>",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",

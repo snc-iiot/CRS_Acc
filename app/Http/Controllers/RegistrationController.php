@@ -73,6 +73,15 @@ class RegistrationController extends Controller
                 "regis_id" => $regisId,
             ]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $regisId,
+                "transaction_desc"  => "Create regis_id",
+                "api_endpoint"      => "[POST] /registration/create-regis-id",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "สร้างการลงทะเบียนสำเร็จ",
@@ -144,6 +153,15 @@ class RegistrationController extends Controller
                 ]
             ];
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $regisId,
+                "transaction_desc"  => "Create regis_id for customer",
+                "api_endpoint"      => "[POST] /registration/create-regis-id-for-customer",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "สร้างการลงทะเบียนสำเร็จ",
@@ -211,6 +229,15 @@ class RegistrationController extends Controller
                 "receiver_name" => \json_encode([$request->dear_th, $request->dear_en], JSON_UNESCAPED_UNICODE),
                 "company_name" => \json_encode([$request->company_th, $request->company_en], JSON_UNESCAPED_UNICODE),
             ]);
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Send mail to customer",
+                "api_endpoint"      => "[POST] /registration/send-mail-to-customer",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",
@@ -375,6 +402,15 @@ class RegistrationController extends Controller
                 "updated_at" => DB::raw("now()"),
             ]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Uploaded document",
+                "api_endpoint"      => "[PATCH] /registration/upload-document",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "อัพโหลดเอกสารสำเร็จ",
@@ -516,6 +552,15 @@ class RegistrationController extends Controller
                 "documents->$docName" => "",
                 "updated_at" => DB::raw("now()"),
             ]);
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Deleted document",
+                "api_endpoint"      => "[DELETE] /registration/delete-document?regis_id=<regis_id>",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",
@@ -762,6 +807,15 @@ class RegistrationController extends Controller
 
             DB::table("tb_run_registrations")->where("regis_id", $regis_id)->update(["is_used" => true]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Create new registration (internal)",
+                "api_endpoint"      => "[POST] /registration",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "ลงทะเบียนสำเร็จ",
@@ -918,6 +972,15 @@ class RegistrationController extends Controller
                 "regis_id"              => $request->regis_id,
             ]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Create new registration (external)",
+                "api_endpoint"      => "[POST] /registration/by-customer",
+                // "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "ลงทะเบียนสำเร็จ",
@@ -943,7 +1006,7 @@ class RegistrationController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $rules = [
                 'regis_id' => 'required|uuid|string',
@@ -1001,6 +1064,15 @@ class RegistrationController extends Controller
                 $row->relationship          = \json_decode($row->relationship);
                 $row->payment_term          = \json_decode($row->payment_term);
             }
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Get registration information by regis_id",
+                "api_endpoint"      => "[GET] /registration/info?regis_id=<regis_id>",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",
@@ -1277,6 +1349,15 @@ class RegistrationController extends Controller
 
             // $result = Company::insert([
             DB::table("tb_regis_informations")->where("regis_id", $request->regis_id)->update($data);
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Edited registration",
+                "api_endpoint"      => "[PUT] /registration",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",

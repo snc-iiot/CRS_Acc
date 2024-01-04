@@ -66,6 +66,15 @@ class AssessmentCommentsController extends Controller
                 "creator_id" => $decoded->user_id,
             ]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Create assessment comments",
+                "api_endpoint"      => "[POST] /assessment-comments",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "บันทึกข้อเสนอแนะสำเร็จ",

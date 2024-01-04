@@ -92,6 +92,15 @@ class DbdFinancialReportController extends Controller
                 $row->financial_ratios_latest = \json_decode($row->financial_ratios_latest);
             }
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Sync DBD data",
+                "api_endpoint"      => "[GET] /dbd-financial-report/sync-by-id?regis_id=<regis_id>",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "Data from query",
@@ -169,6 +178,15 @@ class DbdFinancialReportController extends Controller
             //! ส่งเมลเข้าสายอนุมัติ
             //! Send Mail
             DB::select("call sp_send_mail_to_first_approve(?);", [$request->regis_id]);
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Acc confirmed financial information",
+                "api_endpoint"      => "[PATCH] /dbd-financial-report/confirm",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",
@@ -268,7 +286,7 @@ class DbdFinancialReportController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $rules = [
                 "regis_id"              => "required|uuid|string",
@@ -335,6 +353,15 @@ class DbdFinancialReportController extends Controller
             $cursor = DB::table($dbdTable);
             $isInsert ? $cursor->insert($data) : $cursor->where("regis_id", $request->regis_id)->update($data);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Import financial position excel",
+                "api_endpoint"      => "[POST] /dbd-financial-report/import-excel/financial-position",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "นำเข้าเอกสารงบแสดงฐานะการเงินสำเร็จ",
@@ -363,7 +390,7 @@ class DbdFinancialReportController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $rules = [
                 "regis_id"              => "required|uuid|string",
@@ -430,6 +457,15 @@ class DbdFinancialReportController extends Controller
             $cursor = DB::table($dbdTable);
             $isInsert ? $cursor->insert($data) : $cursor->where("regis_id", $request->regis_id)->update($data);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Import income statement excel",
+                "api_endpoint"      => "[POST] /dbd-financial-report/import-excel/icome-statement",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "นำเข้าเอกสารงบกำไรขาดทุนสำเร็จ",
@@ -455,7 +491,7 @@ class DbdFinancialReportController extends Controller
                 "message" => "Unauthorized",
                 "data" => [],
             ], 401);
-            // $decoded = $jwt->decoded;
+            $decoded = $jwt->decoded;
 
             $rules = [
                 "regis_id"              => "required|uuid|string",
@@ -535,6 +571,15 @@ class DbdFinancialReportController extends Controller
 
             $cursor = DB::table($dbdTable);
             $isInsert ? $cursor->insert($data) : $cursor->where("regis_id", $request->regis_id)->update($data);
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Import financial ratios excel",
+                "api_endpoint"      => "[POST] /dbd-financial-report/import-excel/financial-ratios",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",

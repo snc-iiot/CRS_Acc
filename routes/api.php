@@ -48,44 +48,44 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 });
 
 Route::prefix('registration')->controller(RegistrationController::class)->group(function () {
-    Route::post('/create-regis-id', 'createRegisID');
-    Route::patch('/upload-document', 'uploadDocument');
-    Route::delete('/delete-document', 'deleteDocument');
-    Route::post('/', 'create');
-    Route::get('/info', 'getInfo');
-    Route::put('/', 'update');
+    Route::post('/create-regis-id', 'createRegisID'); //! logger
+    Route::patch('/upload-document', 'uploadDocument'); //! logger
+    Route::delete('/delete-document', 'deleteDocument'); //! logger
+    Route::post('/', 'create'); //! logger
+    Route::get('/info', 'getInfo'); //! logger
+    Route::put('/', 'update'); //! logger
     Route::get('/', 'getAll');
-    Route::get('/your-approve-items', 'yourApproveItems');
-    Route::get('/get-documents-by-id', 'getDocumentsByID');
-    Route::post('/create-regis-id-for-customer', 'createRegisIDForCustomer');
-    Route::post('/send-mail-to-customer', 'sendMailToCustomer');
-    Route::post('/by-customer', 'createByCustomer');
+    Route::get('/your-approve-items', 'yourApproveItems'); //! logger
+    Route::get('/get-documents-by-id', 'getDocumentsByID'); //! logger
+    Route::post('/create-regis-id-for-customer', 'createRegisIDForCustomer'); //! logger
+    Route::post('/send-mail-to-customer', 'sendMailToCustomer'); //! logger
+    Route::post('/by-customer', 'createByCustomer'); //! logger
 });
 
 Route::prefix('general-assessment')->controller(GeneralAssessmentController::class)->group(function () {
     Route::get('/approvals-by-id', 'getApprovalsByID');
-    Route::post('/', 'create');
-    Route::put('/', 'update');
-    Route::get('/form-by-id', 'getFormByID');
+    Route::post('/', 'create'); //! logger
+    Route::put('/', 'update'); //! logger
+    Route::get('/form-by-id', 'getFormByID'); //! logger
 });
 
 Route::prefix('assessment-comments')->controller(AssessmentCommentsController::class)->group(function () {
-    Route::post('/', 'create');
+    Route::post('/', 'create'); //! logger
     Route::get('/', 'getAllComments');
 });
 
 Route::prefix('financial-comments')->controller(FinancialAnalyzeCommentsController::class)->group(function () {
-    Route::post('/', 'create');
+    Route::post('/', 'create'); //! logger
     Route::get('/', 'getAllComments');
 });
 
 Route::prefix('dbd-financial-report')->controller(DbdFinancialReportController::class)->group(function () {
-    Route::get('/sync-by-id', 'syncByID');
-    Route::patch('/confirm', 'confirm');
+    Route::get('/sync-by-id', 'syncByID'); //! logger
+    Route::patch('/confirm', 'confirm'); //! logger
     Route::get('/info', 'info');
-    Route::post('/import-excel/financial-position', 'financialPosition');
-    Route::post('/import-excel/icome-statement', 'icomeStatement');
-    Route::post('/import-excel/financial-ratios', 'financialRatios');
+    Route::post('/import-excel/financial-position', 'financialPosition'); //! logger
+    Route::post('/import-excel/icome-statement', 'icomeStatement'); //! logger
+    Route::post('/import-excel/financial-ratios', 'financialRatios'); //! logger
 });
 
 Route::prefix('financial-ratio')->controller(FinancialRatioAssessmentController::class)->group(function () {
@@ -93,11 +93,11 @@ Route::prefix('financial-ratio')->controller(FinancialRatioAssessmentController:
 });
 
 Route::prefix('approvals-action')->controller(ApprovalsActionController::class)->group(function () {
-    Route::patch('/send-to-edit', 'sendToEdit');
-    Route::patch('/send-to-suspend', 'sendToSuspend');
-    Route::patch('/enter-customer-code', 'enterCustomerCode');
-    Route::patch('/reject', 'reject');
-    Route::patch('/approve', 'approve');
+    Route::patch('/send-to-edit', 'sendToEdit'); //! logger
+    Route::patch('/send-to-suspend', 'sendToSuspend'); //! logger
+    Route::patch('/enter-customer-code', 'enterCustomerCode'); //! logger
+    Route::patch('/reject', 'reject'); //! logger
+    Route::patch('/approve', 'approve'); //! logger
 });
 
 Route::prefix('assessment-result')->controller(OverallAssessmentController::class)->group(function () {

@@ -89,6 +89,15 @@ class ApprovalsActionController extends Controller
             //! Send mail
             DB::select("call sp_send_mail_to_edit(?);", [$request->regis_id]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Send to edit",
+                "api_endpoint"      => "[PATCH] /approvals-action/send-to-edit",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "ส่งกลับไปแก้ไขสำเร็จ",
@@ -160,6 +169,15 @@ class ApprovalsActionController extends Controller
 
             //! Send Mail
             DB::select("call sp_send_mail_to_suspened(?);", [$request->regis_id]);
+
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Send to suspend",
+                "api_endpoint"      => "[PATCH] /approvals-action/send-to-suspend",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",
@@ -241,6 +259,15 @@ class ApprovalsActionController extends Controller
             //! Send Mail
             DB::select("call sp_send_mail_to_fi(?);", [$request->regis_id]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Enter customer code",
+                "api_endpoint"      => "[PATCH] /approvals-action/enter-customer-code",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "กรอกรหัสลูกค้าสำเร็จ",
@@ -317,6 +344,15 @@ class ApprovalsActionController extends Controller
             //! Send Mail
             DB::select("call sp_send_mail_to_reject(?, ?);", [$request->regis_id, $orderNo]);
 
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Rejected",
+                "api_endpoint"      => "[PATCH] /approvals-action/reject",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
+
             return response()->json([
                 "status" => "success",
                 "message" => "ทำรายการสำเร็จ",
@@ -387,6 +423,14 @@ class ApprovalsActionController extends Controller
             DB::select("call sp_send_mail_to_approve(?, ?);", [$request->regis_id, $orderNo]);
 
             //! Log
+            //! User Action Logger ********************************************************
+            DB::table("tb_transaction_logger")->insert([
+                "regis_id"          => $request->regis_id,
+                "transaction_desc"  => "Approved",
+                "api_endpoint"      => "[PATCH] /approvals-action/approve",
+                "creator_id"        => $decoded->user_id,
+            ]);
+            //! ./User Action Logger *******************************************************
 
             return response()->json([
                 "status" => "success",
