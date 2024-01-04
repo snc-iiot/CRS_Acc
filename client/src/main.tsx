@@ -5,7 +5,8 @@ import "@/styles/globals.css";
 import "@/styles/style.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "jotai";
-import { DevTools } from "jotai-devtools";
+
+// import { DevTools } from "jotai-devtools";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
       <Provider>
         <App />
-        <DevTools />
+        {/* <DevTools /> */}
       </Provider>
     </React.StrictMode>
   </QueryClientProvider>,

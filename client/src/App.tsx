@@ -4,6 +4,8 @@ import { NotFoundPage, RegistationPage, SuccessPage } from "./pages";
 
 const App = () => {
   return (
+    // <BrowserRouter basename="/icrs/customer/dev">
+    // <BrowserRouter basename="/icrs/customer/uat">
     <BrowserRouter basename="/icrs/customer">
       {/* <BrowserRouter> */}
       <Routes>

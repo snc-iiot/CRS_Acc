@@ -178,7 +178,7 @@ export const DocumentUpload = [
   {
     id: 30,
     label: "Certification Other",
-    label_en: "Certification Other",
+    label_en: "Other",
     name: "certification_other",
   },
   {
@@ -202,7 +202,7 @@ export const DocumentUpload = [
   {
     id: 34,
     label: "Benefits Others",
-    label_en: "Benefits Others",
+    label_en: "Others",
     name: "benefits_others",
   },
   {
@@ -263,7 +263,7 @@ export const UploadDocument = (regisForm: TRegistrationForm) => {
       (certificate) => certificate.cer_name_en === item.label_en,
     );
     const isBenefit = benefitList.find(
-      (benefit) => benefit.cer_name_en === item.label,
+      (benefit) => benefit.cer_name_en === item.label_en,
     );
     const isCompanyPolicy = companyPolicy.find(
       (policy) => policy.cer_id === item.id,
@@ -280,7 +280,10 @@ export const UploadDocument = (regisForm: TRegistrationForm) => {
       item.name === "sale_contract" ||
       item.name === "factory_visit" ||
       item.name === "machine_condition" ||
-      item.name === "company_map"
+      item.name === "company_map" ||
+      item.name === "other_document1" ||
+      item.name === "other_document2" ||
+      item.name === "other_document3"
     );
   }).map((item) => {
     return item;

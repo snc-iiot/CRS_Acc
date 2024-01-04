@@ -45,6 +45,8 @@ const ShareholderInformationForm: FC = () => {
                           nationalities: e.target.value,
                           percentage: 0,
                         },
+                        thai_nationalities: 0,
+                        other_nationalities: 0,
                       },
                     }));
                   }}
