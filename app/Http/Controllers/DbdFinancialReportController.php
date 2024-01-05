@@ -505,7 +505,7 @@ class DbdFinancialReportController extends Controller
                 "content.*.topic_en"    => "required|string",
                 "content.*.short_key"   => "string|nullable",
                 "content.*.info.*.year" => "required|integer|min:2000|max:4000",
-                "content.*.info.*.ratio" => "required|numeric|min:0",
+                "content.*.info.*.ratio" => "required|numeric",
                 // "content.*.info.*.ratio" => "nullable|numeric",
             ];
             $validator = Validator::make($request->all(), $rules);
