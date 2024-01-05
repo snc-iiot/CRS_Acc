@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegistrationController;
-use App\Http\Controllers\CompanyController;
+// use App\Http\Controllers\CompanyController;
 // use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\JsonTemplateController;
 use App\Http\Controllers\GeneralAssessmentController;
