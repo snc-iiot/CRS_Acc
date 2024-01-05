@@ -19,16 +19,11 @@ interface ConsentFormProps {
   >;
 }
 
-const ConsentForm: FC<ConsentFormProps> = ({
-  isAcceptConsent,
-  setIsAcceptConsent,
-}) => {
+const ConsentForm: FC<ConsentFormProps> = ({ isAcceptConsent, setIsAcceptConsent }) => {
   const { setRegistration, registration } = useAtomStore();
   return (
     <section id="consent-form" className="flex flex-col gap-2 pr-4">
-      <h2 className="text-base font-bold">
-        {Sections?.find((item) => item.id === "consent-form")?.title}
-      </h2>
+      <h2 className="text-base font-bold">{Sections?.find((item) => item.id === "consent-form")?.title}</h2>
       <div className="grid w-full grid-cols-10 items-center gap-2">
         <div className="col-span-2 flex justify-end" />
         <div className="items-top col-span-8 flex space-x-2">
@@ -44,11 +39,9 @@ const ConsentForm: FC<ConsentFormProps> = ({
           />
           <div className="grid gap-1.5 leading-none">
             <label className="text-sm text-black" htmlFor="consent_1">
-              ข้าพเจ้าขอรับรองว่าข้อมูลและเอกสารข้างต้นเป็นความจริงทุกประการ
-              หากข้อมูลหรือเอกสารใดมีข้อความอันเป็นเท็จ หรือมีการแก้ไข ทำขึ้น
-              ปลอมแปลง หรือออกโดยไม่ชอบด้วยกฎหมาย อันเป็นเหตุทำให้บริษัทฯ
-              ได้รับความเสียหาย จะถือว่าเป็นความผิด และบริษัทฯ
-              สามารถดำเนินคดีตามกฎหมายได้
+              ข้าพเจ้าขอรับรองว่าข้อมูลและเอกสารข้างต้นเป็นความจริงทุกประการ หากข้อมูลหรือเอกสารใดมีข้อความอันเป็นเท็จ
+              หรือมีการแก้ไข ทำขึ้น ปลอมแปลง หรือออกโดยไม่ชอบด้วยกฎหมาย อันเป็นเหตุทำให้บริษัทฯ ได้รับความเสียหาย
+              จะถือว่าเป็นความผิด และบริษัทฯ สามารถดำเนินคดีตามกฎหมายได้
             </label>
           </div>
         </div>
@@ -72,8 +65,7 @@ const ConsentForm: FC<ConsentFormProps> = ({
               <a href="#" className="text-primary underline">
                 นโยบายการคุ้มครองข้อมูลส่วนบุคคล
               </a>{" "}
-              ของทางบริษัท เอส เอ็น ซี ฟอร์เมอร์ จำกัด (มหาชน)
-              และบริษัทในเครือเรียบร้อยแล้ว
+              ของทางบริษัท เอส เอ็น ซี ฟอร์เมอร์ จำกัด (มหาชน) และบริษัทในเครือเรียบร้อยแล้ว
             </label>
           </div>
         </div>
@@ -93,7 +85,8 @@ const ConsentForm: FC<ConsentFormProps> = ({
           />
           <div className="grid gap-1.5 leading-none">
             <label className="text-sm text-black" htmlFor="consent_3">
-              ในกรณีที่จะยุติการซื้อขาย ข้าพเจ้าจะแจ้งล่วงหน้าอย่างน้อย 6 เดือน
+              {/* ในกรณีที่จะยุติการซื้อขาย ข้าพเจ้าจะแจ้งล่วงหน้าอย่างน้อย 6 เดือน */}
+              ในกรณีจะยุติการซื้อขาย ต้องเป็นไปตามเงื่อนไขที่ระบุในสัญญาการซื้อขายเท่านั้น
             </label>
           </div>
         </div>
@@ -136,8 +129,7 @@ const ConsentForm: FC<ConsentFormProps> = ({
         <div className="col-span-2 flex justify-end" />
         <div className="col-span-8 flex flex-col space-y-2">
           <p className="text-sm">
-            <strong className="font-semibold">หมายเหตุ:</strong>{" "}
-            หลังจากที่ท่านกด "ลงทะเบียน" เรียบร้อยแล้ว
+            <strong className="font-semibold">หมายเหตุ:</strong> หลังจากที่ท่านกด "ลงทะเบียน" เรียบร้อยแล้ว
             ท่านสามารถติดตามผลการได้ผ่าน Email ที่ท่านได้ลงทะเบียนไว้
           </p>
         </div>

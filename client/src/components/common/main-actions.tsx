@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { getDateThai } from "@/helpers/calendar.helper";
+// import { getDateThai } from "@/helpers/calendar.helper";
 import { validateGeneralAssessmentForm } from "@/helpers/validate.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
@@ -28,7 +28,7 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     profile: { role },
   } = useProfile();
 
-  //! role = approver
+  //! role = approver and fi and viewer
   const actionApprove = (status_no: number) => {
     const status = {
       1: {
@@ -38,16 +38,16 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
         ["R4"]: null,
       },
       2: {
-        ["R1"]: null,
-        ["R2"]: null,
-        ["R3"]: null,
-        ["R4"]: null,
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
       },
       3: {
-        ["R1"]: null,
-        ["R2"]: null,
-        ["R3"]: null,
-        ["R4"]: null,
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
       },
       4: {
         ["R1"]: <ActionButton />,
@@ -93,16 +93,16 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
         ["R4"]: null,
       },
       2: {
-        ["R1"]: null,
-        ["R2"]: null,
-        ["R3"]: null,
-        ["R4"]: null,
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
       },
       3: {
-        ["R1"]: null,
-        ["R2"]: null,
-        ["R3"]: null,
-        ["R4"]: null,
+        ["R1"]: <ActionButton />,
+        ["R2"]: <ActionButton />,
+        ["R3"]: <ActionButton />,
+        ["R4"]: <ActionButton />,
       },
       4: {
         ["R1"]: <ActionButton />,
@@ -221,6 +221,7 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     };
   };
 
+  //! role = admin
   const actionButton = (status_no: number) => {
     if (status_no === 0) {
       //! สถานะ รออัพโหลดเอกสาร
@@ -303,22 +304,16 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     };
   };
 
-  if (role == "approver") {
-    return (
-      { ...actionApprove(registration?.status_no as number) }[activeTab] || null
-    );
+  if (role === "admin") {
+    return { ...actionButton(registration?.status_no as number) }[activeTab] || null;
+  } else if (role == "approver") {
+    return { ...actionApprove(registration?.status_no as number) }[activeTab] || null;
   } else if (role == "user") {
-    return (
-      { ...actionUser(registration?.status_no as number) }[activeTab] || null
-    );
+    return { ...actionUser(registration?.status_no as number) }[activeTab] || null;
   } else if (role == "sap-code") {
-    return (
-      { ...actionSapCode(registration?.status_no as number) }[activeTab] || null
-    );
+    return { ...actionSapCode(registration?.status_no as number) }[activeTab] || null;
   } else {
-    return (
-      { ...actionButton(registration?.status_no as number) }[activeTab] || null
-    );
+    return { ...actionApprove(registration?.status_no as number) }[activeTab] || null;
   }
 };
 
@@ -332,12 +327,7 @@ const ActionButton = () => {
   const isApprove = generalAssessmentForm?.is_approver || false;
 
   const { confirmSwal, closeSwal } = useSwal();
-  const {
-    mutateSendToEdit,
-    mutateSendToSuspend,
-    mutateSentToReject,
-    mutateSentToApprove,
-  } = useApprovals();
+  const { mutateSendToEdit, mutateSendToSuspend, mutateSentToReject, mutateSentToApprove } = useApprovals();
   const [openDialog, setOpenDialog] = useState({
     edit: false,
     suspend: false,
@@ -358,10 +348,7 @@ const ActionButton = () => {
         >
           <DialogTrigger asChild>
             <Button
-              className={cn(
-                "w-[10rem] bg-yellow-500 hover:bg-yellow-500/80",
-                !isApprove ? "hidden" : "",
-              )}
+              className={cn("w-[10rem] bg-yellow-500 hover:bg-yellow-500/80", !isApprove ? "hidden" : "")}
               onClick={() => {
                 setComments("");
                 setOpenDialog((prev) => ({ ...prev, edit: true }));
@@ -376,10 +363,7 @@ const ActionButton = () => {
               onSubmit={async (e) => {
                 e.preventDefault();
                 setOpenDialog((prev) => ({ ...prev, edit: false }));
-                const isConfirm = await confirmSwal(
-                  "ยืนยันการส่งกลับเพื่อแก้ไข",
-                  "",
-                );
+                const isConfirm = await confirmSwal("ยืนยันการส่งกลับเพื่อแก้ไข", "");
                 if (isConfirm) {
                   const res = await mutateSendToEdit({
                     regis_id: regisId,
@@ -395,9 +379,7 @@ const ActionButton = () => {
               }}
               className="flex flex-col gap-2"
             >
-              <h2 className="text-lg font-semibold">
-                ความคิดเห็นจากผู้พิจารณา
-              </h2>
+              <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
               <div className="rounded-md">
                 <Textarea
                   className="h-32 w-full"
@@ -406,10 +388,7 @@ const ActionButton = () => {
                   required
                 />
               </div>
-              <Button
-                className="mt-2 bg-yellow-500 hover:bg-yellow-500/80"
-                type="submit"
-              >
+              <Button className="mt-2 bg-yellow-500 hover:bg-yellow-500/80" type="submit">
                 <Icons.edit className="mr-2 h-5 w-5" />
                 ส่งกลับเพื่อแก้ไข
               </Button>
@@ -424,10 +403,7 @@ const ActionButton = () => {
         >
           <DialogTrigger asChild>
             <Button
-              className={cn(
-                "w-[10rem] bg-gray-500 hover:bg-gray-500/80",
-                !isApprove ? "hidden" : "",
-              )}
+              className={cn("w-[10rem] bg-gray-500 hover:bg-gray-500/80", !isApprove ? "hidden" : "")}
               onClick={() => setComments("")}
             >
               <Icons.MinusCircle className="mr-2 h-5 w-5" />
@@ -440,10 +416,7 @@ const ActionButton = () => {
               onSubmit={async (e) => {
                 e.preventDefault();
                 setOpenDialog((prev) => ({ ...prev, suspend: false }));
-                const isConfirm = await confirmSwal(
-                  "ยืนยันการระงับชั่วคราว",
-                  "",
-                );
+                const isConfirm = await confirmSwal("ยืนยันการระงับชั่วคราว", "");
                 if (isConfirm) {
                   const res = await mutateSendToSuspend({
                     regis_id: regisId,
@@ -458,9 +431,7 @@ const ActionButton = () => {
                 }
               }}
             >
-              <h2 className="text-lg font-semibold">
-                ความคิดเห็นจากผู้พิจารณา
-              </h2>
+              <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
               <div className="rounded-md">
                 <Textarea
                   className="h-32 w-full"
@@ -506,10 +477,7 @@ const ActionButton = () => {
         >
           <DialogTrigger asChild>
             <Button
-              className={cn(
-                "w-[10rem] bg-red-600 hover:bg-red-600/80",
-                !isApprove ? "hidden" : "",
-              )}
+              className={cn("w-[10rem] bg-red-600 hover:bg-red-600/80", !isApprove ? "hidden" : "")}
               onClick={async () => setComments("")}
             >
               <Icons.xCircle className="mr-2 h-5 w-5" />
@@ -537,9 +505,7 @@ const ActionButton = () => {
                 }
               }}
             >
-              <h2 className="text-lg font-semibold">
-                ความคิดเห็นจากผู้พิจารณา
-              </h2>
+              <h2 className="text-lg font-semibold">ความคิดเห็นจากผู้พิจารณา</h2>
               <div className="rounded-md">
                 <Textarea
                   className="h-32 w-full"
@@ -574,10 +540,7 @@ const ActionButton = () => {
           </DialogContent>
         </Dialog>
         <Button
-          className={cn(
-            "w-[10rem] bg-green-600 hover:bg-green-600/80",
-            !isApprove ? "hidden" : "",
-          )}
+          className={cn("w-[10rem] bg-green-600 hover:bg-green-600/80", !isApprove ? "hidden" : "")}
           onClick={async () => {
             const isConfirm = await confirmSwal("ยืนยันการทำรายการ", "");
             if (isConfirm) {
@@ -635,10 +598,7 @@ const AccAction = () => {
             onSubmit={async (e) => {
               e.preventDefault();
               setOpenDialog((prev) => ({ ...prev, edit: false }));
-              const isConfirm = await confirmSwal(
-                "ยืนยันการส่งกลับเพื่อแก้ไข",
-                "",
-              );
+              const isConfirm = await confirmSwal("ยืนยันการส่งกลับเพื่อแก้ไข", "");
               if (isConfirm) {
                 const res = await mutateSendToEdit({
                   regis_id: regisId,
@@ -694,16 +654,8 @@ const AccAction = () => {
 
 //! Status รอการแก้ไข
 const EditR1 = () => {
-  const {
-    common,
-    setCommon,
-    generalAssessmentForm,
-    setGeneralAssessmentForm,
-    docByRegisId,
-  } = useAtomStore();
-  const [oldData, setOldData] = useState<TGeneralAssessmentForm>(
-    generalAssessmentForm,
-  );
+  const { common, setCommon, generalAssessmentForm, setGeneralAssessmentForm, docByRegisId } = useAtomStore();
+  const [oldData, setOldData] = useState<TGeneralAssessmentForm>(generalAssessmentForm);
 
   const { mutateUpdateGeneralAssessment } = useFormGeneral();
 
@@ -738,17 +690,11 @@ const EditR1 = () => {
           <Button
             className="bg-green-600 hover:bg-green-600/80"
             onClick={async () => {
-              const { isValid, error_th } = validateGeneralAssessmentForm(
-                generalAssessmentForm,
-                docByRegisId,
-              );
+              const { isValid, error_th } = validateGeneralAssessmentForm(generalAssessmentForm, docByRegisId);
               if (!isValid) {
                 showError(error_th, "กรุณากรอกข้อมูลให้ครบถ้วน");
               } else {
-                const isConfirm = await confirmSwal(
-                  "ยืนยันการแก้ไขข้อมูล",
-                  "คุณต้องการแก้ไขข้อมูลใช่หรือไม่",
-                );
+                const isConfirm = await confirmSwal("ยืนยันการแก้ไขข้อมูล", "คุณต้องการแก้ไขข้อมูลใช่หรือไม่");
                 if (isConfirm) {
                   await mutateUpdateGeneralAssessment(generalAssessmentForm);
                 }
@@ -815,17 +761,11 @@ const CustomerCode = () => {
               e.preventDefault();
               if (customer_code?.toString()?.length !== 6 || !customer_code) {
                 setOpenDialog((prev) => ({ ...prev, customerCode: false }));
-                showError(
-                  "กรุณากรอกรหัสลูกค้าให้ถูกต้อง",
-                  "กรุณากรอกรหัสลูกค้าให้ถูกต้อง",
-                );
+                showError("กรุณากรอกรหัสลูกค้าให้ถูกต้อง", "กรุณากรอกรหัสลูกค้าให้ถูกต้อง");
                 return;
               } else {
                 setOpenDialog((prev) => ({ ...prev, customerCode: false }));
-                const isConfirm = await confirmSwal(
-                  "ยืนยันการกรอกรหัสลูกค้า",
-                  "",
-                );
+                const isConfirm = await confirmSwal("ยืนยันการกรอกรหัสลูกค้า", "");
                 if (isConfirm) {
                   const res = await mutateEnterCustomerCode({
                     regis_id: regisId,
@@ -841,9 +781,7 @@ const CustomerCode = () => {
             }}
             className="flex w-full flex-col gap-2"
           >
-            <h2 className="text-lg font-semibold">
-              กรุณากรอกรหัสลูกค้าให้ถูกต้อง
-            </h2>
+            <h2 className="text-lg font-semibold">กรุณากรอกรหัสลูกค้าให้ถูกต้อง</h2>
             <div className="flex flex-col gap-2 rounded-md">
               <p className="text-sm font-semibold">รหัสลูกค้า</p>
               <Input
@@ -851,9 +789,7 @@ const CustomerCode = () => {
                 type="number"
                 value={customer_code || ""}
                 onChange={(e) => {
-                  const value = isNaN(parseInt(e.target.value))
-                    ? null
-                    : parseInt(e.target.value);
+                  const value = isNaN(parseInt(e.target.value)) ? null : parseInt(e.target.value);
                   setCustomer_code(value);
                 }}
                 required={true}
@@ -863,10 +799,7 @@ const CustomerCode = () => {
                 maxLength={6}
               />
             </div>
-            <Button
-              className="mt-2 w-full bg-green-500 hover:bg-green-500/80"
-              type="submit"
-            >
+            <Button className="mt-2 w-full bg-green-500 hover:bg-green-500/80" type="submit">
               <Icons.save className="mr-2 h-5 w-5" />
               กรอกรหัสลูกค้า
             </Button>
@@ -897,18 +830,12 @@ const Complete = () => {
   return (
     <div className="flex h-full w-full items-center justify-between gap-x-2 px-2 text-sm">
       <StatusForm />
-      <div className="flex flex-col gap-1 border-l-2 pl-2 text-right">
-        <h1 className="text-lg font-semibold">
-          รหัสลูกค้า: {generalAssessmentForm?.customer_code}
-        </h1>
+      {/* <div className="flex flex-col gap-1 border-l-2 pl-2 text-right">
+        <h1 className="text-lg font-semibold">รหัสลูกค้า: {generalAssessmentForm?.customer_code}</h1>
         <p className="text-xs">
-          วันและเวลาที่กรอกรหัสลูกค้า:{" "}
-          {
-            getDateThai(generalAssessmentForm?.filled_customer_code_at || "")
-              .dateTime
-          }
+          วันและเวลาที่กรอกรหัสลูกค้า: {getDateThai(generalAssessmentForm?.filled_customer_code_at || "").dateTime}
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -916,17 +843,11 @@ const Complete = () => {
 //! รอตรวจสอบข้อมูล
 const ActionButtonR2 = () => {
   const { mutateCreateGeneralAssessment } = useFormGeneral();
-  const { generalAssessmentForm, docByRegisId, setCommon, registration } =
-    useAtomStore();
+  const { generalAssessmentForm, docByRegisId, setCommon, registration } = useAtomStore();
   const { confirmSwal, showError } = useSwal();
 
   return (
-    <div
-      className={cn(
-        "flex h-full w-full items-center gap-x-2  px-2 text-sm",
-        "justify-between",
-      )}
-    >
+    <div className={cn("flex h-full w-full items-center gap-x-2  px-2 text-sm", "justify-between")}>
       <Sheet>
         <SheetTrigger asChild>
           <div className="flex cursor-pointer items-center gap-2">
@@ -934,9 +855,7 @@ const ActionButtonR2 = () => {
             <span>
               ตั้งค่าสายอนุมัติ
               {generalAssessmentForm?.approvals?.length > 0 ? (
-                <span className="text-xs text-primary">
-                  &nbsp; (ยืนยันสายอนุมัติแล้ว)
-                </span>
+                <span className="text-xs text-primary">&nbsp; (ยืนยันสายอนุมัติแล้ว)</span>
               ) : null}
             </span>
           </div>
@@ -966,10 +885,7 @@ const ActionButtonR2 = () => {
 
       <div className={cn("flex gap-2")}>
         <Button
-          className={cn(
-            "bg-yellow-500 hover:bg-yellow-500/80",
-            registration?.status_no === 1 ? "hidden" : "",
-          )}
+          className={cn("bg-yellow-500 hover:bg-yellow-500/80", registration?.status_no === 1 ? "hidden" : "")}
           onClick={() => {
             setCommon((prev) => ({
               ...prev,
@@ -982,17 +898,11 @@ const ActionButtonR2 = () => {
         </Button>
         <Button
           onClick={async () => {
-            const { isValid, error_th } = validateGeneralAssessmentForm(
-              generalAssessmentForm,
-              docByRegisId,
-            );
+            const { isValid, error_th } = validateGeneralAssessmentForm(generalAssessmentForm, docByRegisId);
             if (!isValid) {
               showError(error_th, "กรุณากรอกข้อมูลให้ครบถ้วน");
             } else {
-              const isConfirm = await confirmSwal(
-                "ยืนยันการบันทึกข้อมูล",
-                "คุณต้องการบันทึกข้อมูลใช่หรือไม่",
-              );
+              const isConfirm = await confirmSwal("ยืนยันการบันทึกข้อมูล", "คุณต้องการบันทึกข้อมูลใช่หรือไม่");
               if (isConfirm) {
                 await mutateCreateGeneralAssessment(generalAssessmentForm);
               }

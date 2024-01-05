@@ -41,7 +41,20 @@ export const DisableTabs = (action: "R1" | "R2" | "R3" | "R4" | "R5", status: nu
  * an empty array is returned.
  */
 export const PermissionSubAction = (status: number, role: string) => {
-  if (role && role == "approver") {
+  if (role && role == "admin") {
+    const condition = {
+      1: [""],
+      2: ["R2"],
+      3: [""],
+      4: [""],
+      5: [""],
+      6: [""],
+      7: [""],
+      8: [""],
+      9: [""],
+    };
+    return condition[status as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9] || [];
+  } else if (role && role == "approver") {
     const condition = {
       1: [""],
       2: [""],
@@ -57,7 +70,7 @@ export const PermissionSubAction = (status: number, role: string) => {
   } else if (role && role == "user") {
     const condition = {
       1: [""],
-      2: [""],
+      2: ["R2"],
       3: [""],
       4: [""],
       5: [""],
@@ -83,7 +96,7 @@ export const PermissionSubAction = (status: number, role: string) => {
   } else {
     const condition = {
       1: [""],
-      2: ["R2"],
+      2: [""],
       3: [""],
       4: [""],
       5: [""],

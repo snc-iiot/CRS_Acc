@@ -23,6 +23,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { getDateThai } from "@/helpers/calendar.helper";
 import { MODE_CODE } from "@/helpers/common.helper";
 import { ConditionHeight, DisableTabs, InitialTabs, PermissionSubAction } from "@/helpers/permission.helper";
 import { status } from "@/helpers/status.helper";
@@ -210,7 +211,7 @@ const RegistrationInfo: FC = () => {
 
   useEffect(() => {
     if (!role || !registration?.status_no) return;
-    if (role === "admin" || role === "user") {
+    if (role === "admin" || role === "user" || role === "fi" || role === "sap-code") {
       if (registration?.status_no >= 4) {
         setActiveTab("R4");
       } else {
@@ -242,8 +243,8 @@ const RegistrationInfo: FC = () => {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2 py-2">
-          <div className="flex items-center justify-start gap-2 px-4">
+        <header className="relative grid h-[3rem] w-full grid-cols-2 border-b-2">
+          <div className="flex h-full items-center justify-start gap-2 px-4">
             {showSplitScreen?.map((item, i) => (
               <TooltipProvider key={i}>
                 <Tooltip>
@@ -278,16 +279,26 @@ const RegistrationInfo: FC = () => {
               )}
             >
               {generalAssessmentForm?.status_desc_th} &nbsp;
-              {/* <span className="text-xs text-primary">
-                {registration?.regis_id}
-              </span> */}
             </Badge>
+            {registration?.status_no === 8 && (
+              <div className="flex flex-col border-x-2 px-1 text-right">
+                <h1 className="text-md font-semibold">รหัสลูกค้า: {generalAssessmentForm?.customer_code}</h1>
+                <p className="text-[8px]">
+                  วันและเวลาที่กรอกรหัสลูกค้า:{" "}
+                  {getDateThai(generalAssessmentForm?.filled_customer_code_at || "").dateTime}
+                </p>
+              </div>
+            )}
             <Button
               variant="outline"
               onClick={() => {
                 handlePrint();
               }}
-              className={cn(registration?.status_no !== 8 ? "hidden" : "flex items-center gap-2")}
+              className={cn(
+                registration?.status_no !== 8 && registration?.status_no !== 7 && registration?.status_no !== 5
+                  ? "hidden"
+                  : "flex items-center gap-2"
+              )}
             >
               <Icons.printer className="h-5 w-5" />
               Print PDF

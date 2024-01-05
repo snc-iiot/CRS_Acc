@@ -578,15 +578,16 @@ const PrintPage = forwardRef((_, ref: any) => {
             >
               แบบฟอร์มการคัดเลือกลูกค้าใหม่ (New Customer Assessment Form)
             </h1>
-            <h1
-              style={{
-                fontSize: 12,
-                fontWeight: "bold",
-                // textDecoration: "underline double",
-              }}
-            >
-              รหัสลูกค้า (Customer Code): {generalAssessmentForm?.customer_code}
-            </h1>
+            {generalAssessmentForm?.customer_code !== "" && generalAssessmentForm?.customer_code !== null ? (
+              <h1
+                style={{
+                  fontSize: 12,
+                  fontWeight: "bold",
+                }}
+              >
+                รหัสลูกค้า (Customer Code): {generalAssessmentForm?.customer_code}
+              </h1>
+            ) : null}
           </section>
           <div className="flex flex-col gap-4">
             <div className={cn("flex flex-col gap-4", index === 1 ? "hidden" : "")}>
@@ -795,19 +796,25 @@ const PrintPage = forwardRef((_, ref: any) => {
                       <div style={{ fontSize: NORMAL_SIZE }} className="flex flex-col items-center gap-1">
                         <p className="w-full border-b border-black text-center font-bold uppercase">{item.issued_by}</p>
                         <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center gap-1 font-normal">
-                          <p className="w-full border-black p-1 text-center text-[10px]">
-                            {item.is_approved === true
-                              ? `${item.issued_by}`
-                              : item.is_approved === false
-                              ? `${item.issued_by} (ไม่อนุมัติ)`
-                              : item?.is_approved === null
-                              ? `${item.issued_by} (รออนุมัติ)`
-                              : null}
-                          </p>
+                          {registration?.status_no !== 5 ? (
+                            <p className="w-full border-black p-1 text-center text-[10px]">
+                              {item.is_approved === true
+                                ? `${item.issued_by}`
+                                : item.is_approved === false
+                                ? `${item.issued_by} (ไม่อนุมัติ)`
+                                : item?.is_approved === null
+                                ? `${item.issued_by} (รออนุมัติ)`
+                                : null}
+                            </p>
+                          ) : (
+                            <p className="w-full border-black p-1 text-center text-[10px]">
+                              {item?.issued_by} (ระงับชั่วคราว)
+                            </p>
+                          )}
                         </div>
                       </div>
                       <p className="absolute bottom-0 w-full border-black p-1 text-center text-[8px] font-bold">
-                        {item?.issued_at}
+                        {item?.issued_at ?? "-"}
                       </p>
                     </div>
                   ))}
