@@ -47,7 +47,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       colSpan: 12,
     },
     {
-      label: "ฝ่ายจัดซื้อ (Purchasing Department)",
+      label: "ฝ่ายจัดซื้อ (Purchasing department)",
       value: findContact("scm_officer")?.name ?? "-",
       colSpan: 6,
     },
@@ -62,7 +62,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       colSpan: 3,
     },
     {
-      label: "ผู้จัดการฝ่ายจัดซื้อ (Purchasing Manager)",
+      label: "ผู้จัดการฝ่ายจัดซื้อ (Purchasing manager)",
       value: findContact("accounting_department_manager")?.name ?? "-",
       colSpan: 6,
     },
@@ -77,7 +77,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       colSpan: 3,
     },
     {
-      label: "ฝ่ายบัญชีและการเงิน (Accounting and Finance)",
+      label: "ฝ่ายบัญชีและการเงิน (Accounting & finance)",
       value: findContact("accounting_officer")?.name ?? "-",
       colSpan: 6,
     },
@@ -92,7 +92,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       colSpan: 3,
     },
     {
-      label: "ผู้จัดการฝ่ายบัญชีและการเงิน (Accounting & Finance Manager)",
+      label: "ผู้จัดการฝ่ายบัญชีและการเงิน (Accounting & finance Manager)",
       value: findContact("accounting_department_manager")?.name ?? "-",
       colSpan: 6,
     },
@@ -107,7 +107,7 @@ const PrintPage = forwardRef((_, ref: any) => {
       colSpan: 3,
     },
     {
-      label: "กรรมการผู้จัดการ (Managing Director)",
+      label: "กรรมการผู้จัดการ (Managing director)",
       value: findContact("managing_director")?.name ?? "-",
       colSpan: 6,
     },

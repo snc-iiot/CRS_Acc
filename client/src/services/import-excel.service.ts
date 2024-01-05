@@ -83,7 +83,7 @@ export class ImportExcelService extends APIService {
       const info = item?.info?.map((infoItem) => {
         return {
           ...infoItem,
-          ratio: infoItem.ratio !== null ? (isNaN(infoItem?.ratio) ? null : infoItem?.ratio) : null,
+          ratio: infoItem.ratio !== null ? (isNaN(infoItem?.ratio) ? 0 : infoItem?.ratio) : 0,
         };
       });
       return {
