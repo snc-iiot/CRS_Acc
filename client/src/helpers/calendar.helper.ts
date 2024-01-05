@@ -4,77 +4,51 @@ export const startOfWeek = (date: Date) => {
   const startOfWeekDate = new Date(
     startOfMonthDate.getFullYear(),
     startOfMonthDate.getMonth(),
-    startOfMonthDate.getDate() - dayOfWeek,
+    startOfMonthDate.getDate() - dayOfWeek
   );
   const timezoneOffset = startOfMonthDate.getTimezoneOffset();
   const timezoneOffsetMilliseconds = timezoneOffset * 60 * 1000;
-  const startOfWeekAdjusted = new Date(
-    startOfWeekDate.getTime() - timezoneOffsetMilliseconds,
-  );
+  const startOfWeekAdjusted = new Date(startOfWeekDate.getTime() - timezoneOffsetMilliseconds);
   return startOfWeekAdjusted;
 };
 
 export const lastDayOfWeek = (date: Date) => {
-  const lastDayOfPreviousMonth = new Date(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    0,
-  );
+  const lastDayOfPreviousMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   const dayOfWeek = lastDayOfPreviousMonth.getDay() % 7;
   const daysUntilEndOfWeek = 6 - dayOfWeek;
   const lastDayOfWeekDate = new Date(
     lastDayOfPreviousMonth.getFullYear(),
     lastDayOfPreviousMonth.getMonth(),
-    lastDayOfPreviousMonth.getDate() + daysUntilEndOfWeek,
+    lastDayOfPreviousMonth.getDate() + daysUntilEndOfWeek
   );
   const timezoneOffset = lastDayOfPreviousMonth.getTimezoneOffset();
   const timezoneOffsetMilliseconds = timezoneOffset * 60 * 1000;
-  const lastDayOfWeekAdjusted = new Date(
-    lastDayOfWeekDate.getTime() - timezoneOffsetMilliseconds,
-  );
+  const lastDayOfWeekAdjusted = new Date(lastDayOfWeekDate.getTime() - timezoneOffsetMilliseconds);
   return lastDayOfWeekAdjusted;
 };
 
 export const getCurrentWeekStartDate = (date: Date) => {
   const today = new Date(date);
   const dayOfWeek = today.getDay();
-  const startOfWeek = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() - dayOfWeek,
-  );
+  const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek);
   const timezoneOffset = startOfWeek.getTimezoneOffset();
   const timezoneOffsetMilliseconds = timezoneOffset * 60 * 1000;
-  const startOfWeekAdjusted = new Date(
-    startOfWeek.getTime() - timezoneOffsetMilliseconds,
-  );
+  const startOfWeekAdjusted = new Date(startOfWeek.getTime() - timezoneOffsetMilliseconds);
   return startOfWeekAdjusted;
 };
 
 export const getCurrentWeekEndDate = (date: Date) => {
   const today = new Date(date);
   const dayOfWeek = today.getDay();
-  const endOfWeek = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() + (6 - dayOfWeek),
-  );
+  const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (6 - dayOfWeek));
   const timezoneOffset = endOfWeek.getTimezoneOffset();
   const timezoneOffsetMilliseconds = timezoneOffset * 60 * 1000;
-  const endOfWeekAdjusted = new Date(
-    endOfWeek.getTime() - timezoneOffsetMilliseconds,
-  );
+  const endOfWeekAdjusted = new Date(endOfWeek.getTime() - timezoneOffsetMilliseconds);
   return endOfWeekAdjusted;
 };
 
-export const eachDayOfInterval = ({
-  start,
-  end,
-}: {
-  start: Date;
-  end: Date;
-}) => {
+export const eachDayOfInterval = ({ start, end }: { start: Date; end: Date }) => {
   const days = [];
   const current = new Date(start);
   while (current <= end) {
@@ -105,15 +79,7 @@ export const formatDate = (date: Date, format: string): string => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const monthsOfYear = [
     "January",
     "February",
@@ -199,20 +165,7 @@ export const getDateThai = (date: Date | string) => {
   };
 
   const monthShortThai = (month: number | string) => {
-    const months = [
-      "ม.ค.",
-      "ก.พ.",
-      "มี.ค.",
-      "เม.ย.",
-      "พ.ค.",
-      "มิ.ย.",
-      "ก.ค.",
-      "ส.ค.",
-      "ก.ย.",
-      "ต.ค.",
-      "พ.ย.",
-      "ธ.ค.",
-    ];
+    const months = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
     return months[Number(month) - 1];
   };
 
@@ -223,14 +176,17 @@ export const getDateThai = (date: Date | string) => {
   const hours = dateObj.getHours();
   const minutes = dateObj.getMinutes();
   const seconds = dateObj.getSeconds();
+
+  // padStart(2, "0") คือ ถ้าเป็นเลขหลักเดียวให้เติม 0 ไปด้านหน้า
+
   return {
     date: `${day} ${monthThai(month)} ${year}`,
     dateShort: `${day} ${monthShortThai(month)} ${year}`,
     month: monthThai(month),
     monthShort: monthShortThai(month),
-    dateTime: `${day} ${monthThai(
-      month,
-    )} ${year} ${hours}:${minutes}:${seconds} น.`,
+    dateTime: `${day} ${monthThai(month)} ${year} ${hours?.toString()?.padStart(2, "0")}:${minutes
+      ?.toString()
+      ?.padStart(2, "0")}:${seconds?.toString()?.padStart(2, "0")} น.`,
     year,
     time: `${hours}:${minutes}:${seconds}`,
   };

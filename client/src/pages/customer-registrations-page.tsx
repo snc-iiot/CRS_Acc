@@ -4,12 +4,7 @@ import { Spinner } from "@/components/common/spinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import {
-  ClearButton,
-  FilterBar,
-  FilterBarInput,
-  FilterSelect,
-} from "@/components/ui/filter-bar";
+import { ClearButton, FilterBar, FilterBarInput, FilterSelect } from "@/components/ui/filter-bar";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -23,6 +18,7 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { orderArrayBy } from "@/helpers/array.helper";
+import { getDateThai } from "@/helpers/calendar.helper";
 import { MODE_CODE } from "@/helpers/common.helper";
 import {
   initialStateDocByRegisId,
@@ -46,8 +42,7 @@ const CustomerRegistrations: FC = () => {
   const {
     profile: { role },
   } = useProfile();
-  const { useGetRegisList, mutateSendInvite, mutateGetRegisIdExternal } =
-    useForm();
+  const { useGetRegisList, mutateSendInvite, mutateGetRegisIdExternal } = useForm();
   const {
     setRegistration,
     regisList,
@@ -67,9 +62,7 @@ const CustomerRegistrations: FC = () => {
   const [tabsSelected, setTabsSelected] = useState<string>("4");
   const [openDialogInvite, setOpenDialogInvite] = useState<boolean>(false);
   const { isLoading } = useGetRegisList();
-  const [sortByDate, setSortByDate] = useState<"ascending" | "descending">(
-    "descending",
-  );
+  const [sortByDate, setSortByDate] = useState<"ascending" | "descending">("descending");
 
   // const tabsKey: {
   //   status_no: number;
@@ -116,9 +109,7 @@ const CustomerRegistrations: FC = () => {
         ...InitialRegistration,
         regis_id: regisId.data?.[0]?.regis_id || "",
       });
-      navigate(
-        `/registrations/customer/register?RegisID=${regisId.data?.[0]?.regis_id}&mode=${MODE_CODE.CREATE}`,
-      );
+      navigate(`/registrations/customer/register?RegisID=${regisId.data?.[0]?.regis_id}&mode=${MODE_CODE.CREATE}`);
     }
   };
 
@@ -180,7 +171,7 @@ const CustomerRegistrations: FC = () => {
             <Button
               className={cn(
                 "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
-                role !== "admin" && role !== "user" ? "hidden" : "flex",
+                role !== "admin" && role !== "user" ? "hidden" : "flex"
               )}
               onClick={getRegisterId}
             >
@@ -190,7 +181,7 @@ const CustomerRegistrations: FC = () => {
             <Button
               className={cn(
                 "flex items-center justify-between px-[1rem] py-[2rem] sm:w-[12rem] lg:w-[20rem]",
-                role !== "admin" && role !== "user" ? "hidden" : "flex",
+                role !== "admin" && role !== "user" ? "hidden" : "flex"
               )}
               onClick={async () => {
                 const res = await mutateGetRegisIdExternal();
@@ -246,7 +237,7 @@ const CustomerRegistrations: FC = () => {
                     setOpenDialogInvite(false);
                     const isConfirm = await confirmSwal(
                       "ส่งคำเชิญลงทะเบียน",
-                      "คุณต้องการส่งคำเชิญลงทะเบียนให้ลูกค้าใช่หรือไม่",
+                      "คุณต้องการส่งคำเชิญลงทะเบียนให้ลูกค้าใช่หรือไม่"
                     );
                     if (isConfirm) {
                       const res = await mutateSendInvite(sendInvite);
@@ -268,15 +259,11 @@ const CustomerRegistrations: FC = () => {
                 >
                   <section className="flex flex-col gap-y-1">
                     <article className="flex items-center gap-x-1">
-                      <h2 className="text-md font-semibold">
-                        ลงทะเบียนลูกค้าใหม่ (ส่งเมล)
-                      </h2>
+                      <h2 className="text-md font-semibold">ลงทะเบียนลูกค้าใหม่ (ส่งเมล)</h2>
                     </article>
                     <article className="flex flex-col gap-2 rounded-md">
                       <section className="rounded bg-secondary p-2">
-                        <p className="text-sm">
-                          กรุณากรอกข้อมูลลงทะเบียนลูกค้าใหม่ให้ครบถ้วน
-                        </p>
+                        <p className="text-sm">กรุณากรอกข้อมูลลงทะเบียนลูกค้าใหม่ให้ครบถ้วน</p>
                       </section>
                       <section className="flex flex-col gap-2">
                         <div className="flex gap-x-2">
@@ -376,9 +363,7 @@ const CustomerRegistrations: FC = () => {
                           <Separator className="bg-black" />
                           <div className="flex gap-x-2">
                             <div className="flex w-[10rem] items-center justify-start">
-                              <h3 className="text-sm font-semibold">
-                                Dear Sir/Madam
-                              </h3>
+                              <h3 className="text-sm font-semibold">Dear Sir/Madam</h3>
                             </div>
                             <Input
                               className="w-full px-0"
@@ -427,9 +412,7 @@ const CustomerRegistrations: FC = () => {
                       <section className="flex items-center justify-end gap-x-2">
                         <Button className="w-max" type="submit">
                           <Icons.send className="mr-1 h-4 w-4" />
-                          <span className="whitespace-nowrap">
-                            ส่งเมลไปยังลูกค้า
-                          </span>
+                          <span className="whitespace-nowrap">ส่งเมลไปยังลูกค้า</span>
                         </Button>
                       </section>
                     </article>
@@ -449,31 +432,51 @@ const CustomerRegistrations: FC = () => {
                 }}
               >
                 รอพิจารณาอนุมัติ
-                {regisListByAccount?.filter((item) => item?.status_no === 4)
-                  ?.length > 0
-                  ? ` (${regisListByAccount?.filter(
-                      (item) => item?.status_no === 4,
-                    )?.length})`
+                {regisListByAccount?.filter((item) => item?.status_no === 4)?.length > 0
+                  ? ` (${regisListByAccount?.filter((item) => item?.status_no === 4)?.length})`
                   : ""}
               </TabsTrigger>
+              {regisList?.filter((item) => item?.status_no === 0)?.length > 0 && (
+                <TabsTrigger
+                  value="0"
+                  onClick={() => {
+                    setTabsSelected("0");
+                  }}
+                  className={cn(role === "approver" && "hidden", role === "sap-code" && "hidden")}
+                >
+                  รออัพโหลดเอกสาร
+                  {regisList?.filter((item) => item?.status_no === 0)?.length > 0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 0)?.length})`
+                    : ""}
+                </TabsTrigger>
+              )}
+              {regisList?.filter((item) => item?.status_no === 1)?.length > 0 && (
+                <TabsTrigger
+                  value="1"
+                  onClick={() => {
+                    setTabsSelected("1");
+                  }}
+                  className={cn(role === "approver" && "hidden", role === "sap-code" && "hidden")}
+                >
+                  รอตรวจสอบข้อมูล
+                  {regisList?.filter((item) => item?.status_no === 1)?.length > 0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 1)?.length})`
+                    : ""}
+                </TabsTrigger>
+              )}
               <TabsTrigger
                 value="2"
                 onClick={() => {
                   setTabsSelected("2");
                 }}
-                className={cn(
-                  role === "approver" && "hidden",
-                  role === "sap-code" && "hidden",
-                )}
+                className={cn(role === "approver" && "hidden", role === "sap-code" && "hidden")}
               >
                 รอยืนยันข้อมูลการเงิน
                 {regisList?.filter((item) => item?.status_no === 2)?.length > 0
-                  ? ` (${regisList?.filter((item) => item?.status_no === 2)
-                      ?.length})`
+                  ? ` (${regisList?.filter((item) => item?.status_no === 2)?.length})`
                   : ""}
               </TabsTrigger>
-              {regisList?.filter((item) => item?.status_no === 3)?.length >
-                0 && (
+              {regisList?.filter((item) => item?.status_no === 3)?.length > 0 && (
                 <TabsTrigger
                   value="3"
                   onClick={() => {
@@ -481,55 +484,13 @@ const CustomerRegistrations: FC = () => {
                   }}
                 >
                   รอการแก้ไข
-                  {regisList?.filter((item) => item?.status_no === 3)?.length >
-                  0
-                    ? ` (${regisList?.filter((item) => item?.status_no === 3)
-                        ?.length})`
+                  {regisList?.filter((item) => item?.status_no === 3)?.length > 0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 3)?.length})`
                     : ""}
                 </TabsTrigger>
               )}
-              {regisList?.filter((item) => item?.status_no === 0)?.length >
-                0 && (
-                <TabsTrigger
-                  value="0"
-                  onClick={() => {
-                    setTabsSelected("0");
-                  }}
-                  className={cn(
-                    role === "approver" && "hidden",
-                    role === "sap-code" && "hidden",
-                  )}
-                >
-                  รออัพโหลดเอกสาร
-                  {regisList?.filter((item) => item?.status_no === 0)?.length >
-                  0
-                    ? ` (${regisList?.filter((item) => item?.status_no === 0)
-                        ?.length})`
-                    : ""}
-                </TabsTrigger>
-              )}
-              {regisList?.filter((item) => item?.status_no === 1)?.length >
-                0 && (
-                <TabsTrigger
-                  value="1"
-                  onClick={() => {
-                    setTabsSelected("1");
-                  }}
-                  className={cn(
-                    role === "approver" && "hidden",
-                    role === "sap-code" && "hidden",
-                  )}
-                >
-                  รอตรวจสอบข้อมูล
-                  {regisList?.filter((item) => item?.status_no === 1)?.length >
-                  0
-                    ? ` (${regisList?.filter((item) => item?.status_no === 1)
-                        ?.length})`
-                    : ""}
-                </TabsTrigger>
-              )}
-              {regisList?.filter((item) => item?.status_no === 5)?.length >
-                0 && (
+
+              {regisList?.filter((item) => item?.status_no === 5)?.length > 0 && (
                 <TabsTrigger
                   value="5"
                   onClick={() => {
@@ -538,31 +499,22 @@ const CustomerRegistrations: FC = () => {
                   className={cn(role === "sap-code" ? "hidden" : "")}
                 >
                   ระงับชั่วคราว
-                  {regisList?.filter((item) => item?.status_no === 5)?.length >
-                  0
-                    ? ` (${regisList?.filter((item) => item?.status_no === 5)
-                        ?.length})`
+                  {regisList?.filter((item) => item?.status_no === 5)?.length > 0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 5)?.length})`
                     : ""}
                 </TabsTrigger>
               )}
-              {regisList?.filter((item) => item?.status_no === 6)?.length >
-                0 && (
+              {regisList?.filter((item) => item?.status_no === 6)?.length > 0 && (
                 <TabsTrigger
                   value="6"
                   onClick={() => {
                     setTabsSelected("6");
                   }}
-                  className={cn(
-                    role === "sap-code" || role === "admin"
-                      ? "block"
-                      : "hidden",
-                  )}
+                  className={cn(role === "sap-code" || role === "admin" ? "block" : "hidden")}
                 >
                   อนุมัติ (รอกรอกรหัสลูกค้า)
-                  {regisList?.filter((item) => item?.status_no === 6)?.length >
-                  0
-                    ? ` (${regisList?.filter((item) => item?.status_no === 6)
-                        ?.length})`
+                  {regisList?.filter((item) => item?.status_no === 6)?.length > 0
+                    ? ` (${regisList?.filter((item) => item?.status_no === 6)?.length})`
                     : ""}
                 </TabsTrigger>
               )}
@@ -595,12 +547,7 @@ const CustomerRegistrations: FC = () => {
                 state={statusSelect}
                 setState={setStatusSelect}
               />
-              <FilterSelect
-                triggerText="บริษัท"
-                options={Company}
-                state={companySelect}
-                setState={setCompanySelect}
-              />
+              <FilterSelect triggerText="บริษัท" options={Company} state={companySelect} setState={setCompanySelect} />
               <ClearButton
                 className="text-red-600 hover:text-red-600"
                 onClick={() => {
@@ -625,9 +572,7 @@ const CustomerRegistrations: FC = () => {
                     <Th className="w-[10rem]">รหัสลูกค้า</Th>
                     <Th>บริษัทลูกค้า</Th>
                     <Th className="w-[200px]">
-                      <span className="flex cursor-pointer items-center gap-x-1">
-                        ขึ้นทะเบียนกับบริษัท
-                      </span>
+                      <span className="flex cursor-pointer items-center gap-x-1">ขึ้นทะเบียนกับบริษัท</span>
                     </Th>
                     <Th className="w-[10rem]">
                       <span className="flex cursor-pointer items-center gap-x-1">
@@ -667,49 +612,45 @@ const CustomerRegistrations: FC = () => {
                       </Td>
                     </Tr>
                   )}
-                  {orderArrayBy(filterData, "created_at", sortByDate)?.map(
-                    (item: TRegisList, i) => (
-                      <Tr
-                        key={i}
-                        className="cursor-pointer whitespace-nowrap border-b text-sm"
-                        onDoubleClick={() => {
-                          navigate(
-                            `/registrations/customer/${
-                              item?.status_no === 0 ? "register" : "info"
-                            }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`,
-                          );
-                        }}
-                      >
-                        <Td>{i + 1}</Td>
-                        <Td>{item?.juristic_id}</Td>
-                        <Td>{item?.customer_code ?? ""}</Td>
-                        <Td>{item?.company_name}</Td>
-                        <Td>{item?.company_admin}</Td>
-                        <Td>{item?.created_at}</Td>
-                        <Td>
-                          <Badge
-                            className={cn(
-                              statusHelper(item?.status_no)?.status_color,
-                              "text-center text-sm",
-                            )}
-                          >
-                            {item?.status_desc_th}
-                          </Badge>
-                        </Td>
-                        <Td>
-                          <Link
-                            to={`/registrations/customer/${
-                              item?.status_no === 0 ? "register" : "info"
-                            }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`}
-                            className="flex items-center gap-x-1 text-primary hover:underline"
-                          >
-                            <Icons.eye className="h-4 w-4" />{" "}
-                            <span>ดูละเอียด</span>
-                          </Link>
-                        </Td>
-                      </Tr>
-                    ),
-                  )}
+                  {orderArrayBy(filterData, "created_at", sortByDate)?.map((item: TRegisList, i) => (
+                    <Tr
+                      key={i}
+                      className="cursor-pointer whitespace-nowrap border-b text-sm"
+                      onDoubleClick={() => {
+                        navigate(
+                          `/registrations/customer/${
+                            item?.status_no === 0 ? "register" : "info"
+                          }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`
+                        );
+                      }}
+                    >
+                      <Td>{i + 1}</Td>
+                      <Td>{item?.juristic_id}</Td>
+                      <Td>{item?.customer_code ?? ""}</Td>
+                      <Td>{item?.company_name}</Td>
+                      <Td>{item?.company_admin}</Td>
+                      <Td>
+                        {/* {item?.created_at} */}
+                        {/* {renderFormattedDateTimestamp(item?.created_at)} */}
+                        {getDateThai(item?.created_at).dateTime}
+                      </Td>
+                      <Td>
+                        <Badge className={cn(statusHelper(item?.status_no)?.status_color, "text-center text-sm")}>
+                          {item?.status_desc_th}
+                        </Badge>
+                      </Td>
+                      <Td>
+                        <Link
+                          to={`/registrations/customer/${
+                            item?.status_no === 0 ? "register" : "info"
+                          }?RegisID=${item?.regis_id}&mode=EDIT&form=customer`}
+                          className="flex items-center gap-x-1 text-primary hover:underline"
+                        >
+                          <Icons.eye className="h-4 w-4" /> <span>ดูละเอียด</span>
+                        </Link>
+                      </Td>
+                    </Tr>
+                  ))}
                 </TBody>
               </Table>
             </section>

@@ -53,6 +53,7 @@ export const useSwal = () => {
       confirmButtonText: confirmButtonText || "ตกลง",
       cancelButtonText: cancelButtonText || "ยกเลิก",
       confirmButtonColor: PRIMARY_COLOR,
+      allowOutsideClick: false,
     });
     return result.isConfirmed;
   };

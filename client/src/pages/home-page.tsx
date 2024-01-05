@@ -3,7 +3,7 @@ import BarChartHorizontal from "@/components/common/chart/bar-chart-horizontal";
 import PieChartComponents from "@/components/common/chart/pi-chart";
 import TreeMap from "@/components/common/chart/tree-map";
 import { Select } from "@/components/ui/select-custom";
-import { sortByField } from "@/helpers/array.helper";
+import { orderArrayBy } from "@/helpers/array.helper";
 import { getDateThai } from "@/helpers/calendar.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn, COLORS_SERIES } from "@/lib/utils";
@@ -106,8 +106,8 @@ const HomePage: FC = () => {
       children: [{ name: company, size: regis_count }],
     }));
 
-  const countRegisList = regisList?.filter((item) => item?.approved_at !== "");
-  const dataCountRegisList = sortByField(countRegisList, "approved_at");
+  const countRegisList = regisList?.filter((item) => item?.approved_at != "");
+  const dataCountRegisList = orderArrayBy(countRegisList, "approved_at", "descending");
 
   return (
     <main className="relative flex h-full w-full flex-col gap-2">

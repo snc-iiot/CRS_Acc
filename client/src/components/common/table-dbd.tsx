@@ -1,11 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { FC, Fragment } from "react";
 
@@ -16,8 +9,8 @@ export interface ITableDBD {
 
 interface IInfo {
   Year: number;
-  Amount: number;
-  Change: number;
+  Amount: number | null;
+  Change: number | null;
 }
 
 interface ITableDBDProps {
@@ -27,33 +20,20 @@ interface ITableDBDProps {
   className?: string;
 }
 
-const TableDBD: FC<ITableDBDProps> = ({
-  data,
-  header,
-  description,
-  className,
-}) => {
+const TableDBD: FC<ITableDBDProps> = ({ data, header, description, className }) => {
   return (
     <div className={className}>
       {header ? <h2 className="text-base font-bold">{header}</h2> : null}
-      {description ? (
-        <p className="text-xs text-muted-foreground">{description ?? ""}</p>
-      ) : null}
+      {description ? <p className="text-xs text-muted-foreground">{description ?? ""}</p> : null}
       <Table className="b-rde w-full border-collapse border-spacing-0 border">
         <TableHeader className="bg-[#F7FAFC]">
           <TableRow className="text-xs">
-            <TableHead
-              rowSpan={2}
-              className="w-1/3 border border-black text-center font-bold text-black"
-            >
+            <TableHead rowSpan={2} className="w-1/3 border border-black text-center font-bold text-black">
               Unit : Baht
             </TableHead>
             {data[0]?.Info?.map((info) => (
               <Fragment key={info.Year}>
-                <TableHead
-                  colSpan={2}
-                  className="border border-black text-center font-bold text-black"
-                >
+                <TableHead colSpan={2} className="border border-black text-center font-bold text-black">
                   {info.Year}
                 </TableHead>
               </Fragment>
@@ -87,22 +67,15 @@ const TableDBD: FC<ITableDBDProps> = ({
                     "text-xs hover:cursor-pointer hover:bg-[#d4eaf7]",
                     table?.Topic === "สินทรัพย์รวม (Total Assets)" ||
                       table?.Topic === "หนี้สินรวม (Total Liabilities)" ||
-                      table?.Topic ===
-                        "หนี้สินรวมและส่วนของผู้ถือหุ้น (Total Liabilities and Equity)" ||
-                      table?.Topic ===
-                        "กำไร(ขาดทุน) ขั้นต้น (Gross Profit (Loss))" ||
-                      table?.Topic ===
-                        "รายได้หลัก (Revenue from Sales&Services)" ||
+                      table?.Topic === "หนี้สินรวมและส่วนของผู้ถือหุ้น (Total Liabilities and Equity)" ||
+                      table?.Topic === "กำไร(ขาดทุน) ขั้นต้น (Gross Profit (Loss))" ||
+                      table?.Topic === "รายได้หลัก (Revenue from Sales&Services)" ||
                       table?.Topic === "กำไร(ขาดทุน) สุทธิ (Net Profit (Loss))"
                       ? "bg-[#d4eaf7]"
-                      : "",
+                      : ""
                   )}
                 >
-                  <TableCell
-                    className={
-                      "whitespace-nowrap border border-x-black font-medium"
-                    }
-                  >
+                  <TableCell className={"whitespace-nowrap border border-x-black font-medium"}>
                     {table?.Topic ?? "-"}
                   </TableCell>
                   {table.Info?.map((info) => (
@@ -110,26 +83,27 @@ const TableDBD: FC<ITableDBDProps> = ({
                       <TableCell
                         className={cn(
                           "border border-l-black text-end",
-                          info.Amount < 0 ? "text-red-600" : "",
+                          info.Amount !== null ? (info.Amount < 0 ? "text-red-600" : "") : ""
                         )}
                       >
-                        {isNaN(info.Amount)
-                          ? "-"
-                          : info.Amount?.toLocaleString() ?? "-"}{" "}
+                        {/* {isNaN(info.Amount) ? "-" : info.Amount?.toLocaleString() ?? "-"}{" "} */}
+                        {info.Amount !== null ? (isNaN(info.Amount) ? "-" : info.Amount?.toLocaleString() ?? "-") : "-"}
                       </TableCell>
                       <TableCell
                         className={cn(
                           "whitespace-nowrap border border-r-black text-end",
-                          info.Change < 0
-                            ? "font-semibold text-red-600"
-                            : "font-semibold text-green-600",
+                          // info.Change < 0 ? "font-semibold text-red-600" : "font-semibold text-green-600"
+                          info.Change !== null ? (info.Change < 0 ? "text-red-600" : "text-green-600") : ""
                         )}
                       >
-                        {info.Change < 0
-                          ? `(${Number(
-                              Math.abs(info.Change).toFixed(2),
-                            )?.toLocaleString()})%`
-                          : `${info.Change?.toLocaleString()}%`}
+                        {/* {info.Change < 0
+                          ? `(${Number(Math.abs(info.Change).toFixed(2))?.toLocaleString()})%`
+                          : `${info.Change?.toLocaleString()}%`} */}
+                        {info.Change !== null
+                          ? info.Change < 0
+                            ? `(${Number(Math.abs(info.Change).toFixed(2))?.toLocaleString()})%`
+                            : `${info.Change?.toLocaleString()}%`
+                          : "-"}
                       </TableCell>
                     </Fragment>
                   ))}

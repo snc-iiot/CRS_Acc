@@ -7,7 +7,7 @@ export type ImportExcelTDBDList = {
 
 export type FinancialPositionType = {
   regis_id: string;
-  content: ContentFinancialPositionType[]
+  content: ContentFinancialPositionType[];
 };
 
 export type ContentFinancialPositionType = {
@@ -19,14 +19,14 @@ export type ContentFinancialPositionType = {
 };
 
 export type InfoContentFinancialPositionType = {
-  year: number,
-  amount: number,
-  change: number
+  year: number;
+  amount: number | null;
+  change: number | null;
 };
 
 export type IcomeStatementType = {
   regis_id: string;
-  content: ContentIcomeStatementType[]
+  content: ContentIcomeStatementType[];
 };
 
 export type ContentIcomeStatementType = {
@@ -38,14 +38,14 @@ export type ContentIcomeStatementType = {
 };
 
 export type InfoContentIcomeStatementType = {
-  year: number,
-  amount: number,
-  change: number
+  year: number;
+  amount: number | null;
+  change: number | null;
 };
 
 export type FinancialRatiosType = {
   regis_id: string;
-  content: ContentFinancialRatiosType[]
+  content: ContentFinancialRatiosType[];
 };
 
 export type ContentFinancialRatiosType = {
@@ -57,7 +57,6 @@ export type ContentFinancialRatiosType = {
 };
 
 export type InfoContentFinancialRatiosType = {
-  year: number,
-  ratio: number,
+  year: number;
+  ratio: number | null;
 };
-

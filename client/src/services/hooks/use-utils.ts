@@ -56,6 +56,8 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 
@@ -68,11 +70,13 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 
   const useGetCertificatedList = async () => {
-    useQuery({
+    return useQuery({
       queryKey: [queryKey.GET_CERTIFICATED_LIST],
       queryFn: (): Promise<TCertificatedList[]> => utilsService.getCertificatedList(),
       select(data: TCertificatedList[]) {
@@ -80,11 +84,13 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 
   const useGetBenefitsList = async () => {
-    useQuery({
+    return useQuery({
       queryKey: [queryKey.GET_BENEFITS_LIST],
       queryFn: (): Promise<TBenefitsList[]> => utilsService.getBenefitsList(),
       select(data: TBenefitsList[]) {
@@ -92,11 +98,13 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 
   const useGetDeliveryTermsList = async () => {
-    useQuery({
+    return useQuery({
       queryKey: [queryKey.GET_DELIVERY_TERMS_LIST],
       queryFn: (): Promise<TDeliveryTermsList[]> => utilsService.getDeliveryTermsList(),
       select(data: TDeliveryTermsList[]) {
@@ -104,11 +112,13 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 
   const useGetCompanyPolicyList = async () => {
-    useQuery({
+    return useQuery({
       queryKey: [queryKey.GET_COMPANY_POLICY_LIST],
       queryFn: (): Promise<TCompanyPolicyList[]> => utilsService.getCompanyPolicyList(),
       select(data: TCompanyPolicyList[]) {
@@ -116,11 +126,13 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 
   const useGetCompanyList = async () => {
-    useQuery({
+    return useQuery({
       queryKey: [queryKey.GET_COMPANY_LIST],
       queryFn: (): Promise<TCompanyList[]> => utilsService.getCompanyList(),
       select(data: TCompanyList[]) {
@@ -128,11 +140,13 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 
   const useGetCountryCodeList = async () => {
-    useQuery<TCountryCodeList[], Error>({
+    return useQuery<TCountryCodeList[], Error>({
       queryKey: [queryKey.GET_COUNTRY_CODE_LIST],
       queryFn: (): Promise<TCountryCodeList[]> => utilsService.getCountryCodeList(),
       select: (data: TCountryCodeList[]) => {
@@ -140,6 +154,8 @@ export const useUtils = () => {
         return data;
       },
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     });
   };
 

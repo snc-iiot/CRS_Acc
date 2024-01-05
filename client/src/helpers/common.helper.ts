@@ -1,11 +1,8 @@
 import { TRegistrationForm } from "@/types";
 
-export const API_BASE_URL =
-// "https://snc-services.sncformer.com/dev/iCRS/dev/api/public/index.php/api"
+export const API_BASE_URL = "https://snc-services.sncformer.com/dev/iCRS/dev/api/public/index.php/api";
 // "https://snc-services.sncformer.com/dev/iCRS/uat/api/public/index.php/api";
-"https://snc-services.sncformer.com/dev/iCRS/prd/api/public/index.php/api"
-
-
+// "https://snc-services.sncformer.com/dev/iCRS/prd/api/public/index.php/api"
 
 export const queryKey = {
   //! for register new customer

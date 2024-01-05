@@ -6,10 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select } from "@/components/ui/select-custom";
 import { CheckCustomerForeigner } from "@/helpers/common.helper";
 import { Sections } from "@/helpers/register.helper";
-import {
-  MainCustomerOfCompany,
-  ObjectivePurchasing,
-} from "@/helpers/standards.helper";
+import { MainCustomerOfCompany, ObjectivePurchasing } from "@/helpers/standards.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import CurrentCode from "@/mock/currency-code.json";
@@ -63,30 +60,22 @@ const StandardInformationForm: FC = () => {
         },
       }));
     }
-  }, [
-    companyPolicyList,
-    certificatedList,
-    benefitsList,
-    deliveryTermsList,
-    mode,
-  ]);
+  }, [companyPolicyList, certificatedList, benefitsList, deliveryTermsList, mode]);
 
   useEffect(() => {
     if (mode?.toLowerCase() === "edit") {
-      setDepositType(
-        registration?.payment_term?.deposit_term?.deposit_type ?? "",
-      );
+      setDepositType(registration?.payment_term?.deposit_term?.deposit_type ?? "");
       setCreditTerm(registration?.payment_term?.credit_term?.name ?? "");
       setWarranty(
-        registration?.payment_term?.product_warranty?.value !== 1 &&
-          registration?.payment_term?.product_warranty?.value !== 2 &&
-          registration?.payment_term?.product_warranty?.value !== 3 &&
-          registration?.payment_term?.product_warranty?.value !== 5
+        registration?.payment_term?.product_warranty?.value != 1 &&
+          registration?.payment_term?.product_warranty?.value != 2 &&
+          registration?.payment_term?.product_warranty?.value != 3 &&
+          registration?.payment_term?.product_warranty?.value != 5
           ? "other"
-          : "",
+          : registration?.payment_term?.product_warranty?.value?.toString() ?? ""
       );
     }
-  }, []);
+  }, [mode]);
 
   return (
     <section id="standard-certification-info" className="pr-4">
@@ -94,8 +83,7 @@ const StandardInformationForm: FC = () => {
         {/* //! Header */}
         <section className="flex w-full items-center justify-between">
           <h2 className="text-base font-bold">
-            {Sections?.find((item) => item.id === "standard-certification-info")
-              ?.title ?? "-"}
+            {Sections?.find((item) => item.id === "standard-certification-info")?.title ?? "-"}
           </h2>
         </section>
         {/* //! Certificate */}
@@ -109,10 +97,7 @@ const StandardInformationForm: FC = () => {
                 </h3>
               </div>
               <div className="col-span-6 flex justify-start">
-                <div
-                  className="grid w-full grid-cols-1 gap-1"
-                  ref={refCertification}
-                >
+                <div className="grid w-full grid-cols-1 gap-1" ref={refCertification}>
                   {registration?.standard?.certificate
                     ?.filter((item) => item.cer_id !== 15)
                     ?.map((item, i) => (
@@ -120,14 +105,12 @@ const StandardInformationForm: FC = () => {
                         <div className="col-span-2 flex items-center gap-2">
                           <Checkbox
                             checked={
-                              registration?.standard?.certificate?.find(
-                                (info) => info?.cer_id === item.cer_id,
-                              )?.is_checked ?? false
+                              registration?.standard?.certificate?.find((info) => info?.cer_id === item.cer_id)
+                                ?.is_checked ?? false
                             }
                             disabled={
-                              registration?.standard?.certificate?.find(
-                                (info) => info?.cer_id === 17,
-                              )?.is_checked && item?.cer_id !== 17
+                              registration?.standard?.certificate?.find((info) => info?.cer_id === 17)?.is_checked &&
+                              item?.cer_id !== 17
                             }
                             name={item.cer_name_en?.toString()}
                             id={item.cer_id?.toString()}
@@ -138,19 +121,17 @@ const StandardInformationForm: FC = () => {
                                   standard: {
                                     ...prev.standard,
                                     certificate: [
-                                      ...prev.standard.certificate.map(
-                                        (info) => {
-                                          if (info?.cer_id !== 17) {
-                                            return {
-                                              ...info,
-                                              is_checked: false,
-                                              exp: "",
-                                              value: "-",
-                                            };
-                                          }
-                                          return info;
-                                        },
-                                      ),
+                                      ...prev.standard.certificate.map((info) => {
+                                        if (info?.cer_id !== 17) {
+                                          return {
+                                            ...info,
+                                            is_checked: false,
+                                            exp: "",
+                                            value: "-",
+                                          };
+                                        }
+                                        return info;
+                                      }),
                                     ],
                                   },
                                 }));
@@ -178,23 +159,20 @@ const StandardInformationForm: FC = () => {
                             htmlFor={item.cer_id?.toString()}
                             className={cn(
                               "whitespace-nowrap text-sm font-medium",
-                              registration?.standard?.certificate?.find(
-                                (info) => info?.cer_id === 17,
-                              )?.is_checked && item?.cer_id !== 17
+                              registration?.standard?.certificate?.find((info) => info?.cer_id === 17)?.is_checked &&
+                                item?.cer_id !== 17
                                 ? "line-through opacity-50"
-                                : "",
+                                : ""
                             )}
                           >
                             {item.cer_name_th}
                           </label>
                         </div>
-                        <div
-                          className={cn("col-span-1 flex items-center gap-2")}
-                        >
+                        <div className={cn("col-span-1 flex items-center gap-2")}>
                           <select
                             className={cn(
                               "w-full rounded-sm border px-2 py-[0.1rem] text-sm",
-                              item?.cer_id !== 12 ? "hidden" : "",
+                              item?.cer_id !== 12 ? "hidden" : ""
                             )}
                             name="level"
                             value={
@@ -208,25 +186,22 @@ const StandardInformationForm: FC = () => {
                                 standard: {
                                   ...registration?.standard,
                                   certificate: [
-                                    ...registration.standard.certificate.map(
-                                      (info) => {
-                                        if (info?.cer_id === item?.cer_id) {
-                                          return {
-                                            ...info,
-                                            value: e.target.value,
-                                          };
-                                        }
-                                        return info;
-                                      },
-                                    ),
+                                    ...registration.standard.certificate.map((info) => {
+                                      if (info?.cer_id === item?.cer_id) {
+                                        return {
+                                          ...info,
+                                          value: e.target.value,
+                                        };
+                                      }
+                                      return info;
+                                    }),
                                   ],
                                 },
                               });
                             }}
                             disabled={
-                              !registration?.standard?.certificate?.find(
-                                (info) => info?.cer_id === item?.cer_id,
-                              )?.is_checked
+                              !registration?.standard?.certificate?.find((info) => info?.cer_id === item?.cer_id)
+                                ?.is_checked
                             }
                           >
                             <option value="" className="text-sm">
@@ -239,28 +214,19 @@ const StandardInformationForm: FC = () => {
                             ))}
                           </select>
                         </div>
-                        <div
-                          className={cn(
-                            "col-span-2 flex items-center gap-2",
-                            item?.cer_id === 17 ? "hidden" : "",
-                          )}
-                        >
-                          <p className="whitespace-nowrap text-sm font-normal">
-                            วันที่หมดอายุ
-                          </p>
+                        <div className={cn("col-span-2 flex items-center gap-2", item?.cer_id === 17 ? "hidden" : "")}>
+                          <p className="whitespace-nowrap text-sm font-normal">วันที่หมดอายุ</p>
                           <input
                             type="date"
                             name={`exp-${item?.cer_id}`}
                             className="w-full rounded-sm border px-2 text-sm"
                             required={
-                              registration?.standard?.certificate?.find(
-                                (info) => info?.cer_id === item?.cer_id,
-                              )?.is_checked && item?.cer_id !== 17
+                              registration?.standard?.certificate?.find((info) => info?.cer_id === item?.cer_id)
+                                ?.is_checked && item?.cer_id !== 17
                             }
                             disabled={
-                              !registration.standard.certificate?.find(
-                                (info) => info?.cer_id === item?.cer_id,
-                              )?.is_checked
+                              !registration.standard.certificate?.find((info) => info?.cer_id === item?.cer_id)
+                                ?.is_checked
                             }
                             onChange={(e) => {
                               setRegistration((prev) => ({
@@ -282,16 +248,13 @@ const StandardInformationForm: FC = () => {
                               }));
                             }}
                             value={
-                              registration?.standard?.certificate?.find(
-                                (info) => info?.cer_id === item?.cer_id,
-                              )?.exp ?? ""
+                              registration?.standard?.certificate?.find((info) => info?.cer_id === item?.cer_id)?.exp ??
+                              ""
                             }
                           />
                         </div>
                         {item?.cer_id === 18 &&
-                          registration?.standard?.certificate?.find(
-                            (info) => info?.cer_id === 18,
-                          )?.is_checked && (
+                          registration?.standard?.certificate?.find((info) => info?.cer_id === 18)?.is_checked && (
                             <div className="col-span-2 flex items-center gap-2">
                               <Input
                                 type="text"
@@ -299,9 +262,8 @@ const StandardInformationForm: FC = () => {
                                 className={cn("col-span-3 w-full")}
                                 variant="flushed"
                                 disabled={
-                                  !registration?.standard?.certificate?.find(
-                                    (info) => info?.cer_id === item?.cer_id,
-                                  )?.is_checked
+                                  !registration?.standard?.certificate?.find((info) => info?.cer_id === item?.cer_id)
+                                    ?.is_checked
                                 }
                                 onChange={(e) => {
                                   setRegistration((prev) => ({
@@ -309,27 +271,24 @@ const StandardInformationForm: FC = () => {
                                     standard: {
                                       ...prev.standard,
                                       certificate: [
-                                        ...prev.standard.certificate.map(
-                                          (info) => {
-                                            if (info?.cer_id === item?.cer_id) {
-                                              return {
-                                                ...info,
-                                                cer_name_en: "Other",
-                                                cer_name_th: "อื่นๆ",
-                                                value: e.target.value,
-                                              };
-                                            }
-                                            return info;
-                                          },
-                                        ),
+                                        ...prev.standard.certificate.map((info) => {
+                                          if (info?.cer_id === item?.cer_id) {
+                                            return {
+                                              ...info,
+                                              cer_name_en: "Other",
+                                              cer_name_th: "อื่นๆ",
+                                              value: e.target.value,
+                                            };
+                                          }
+                                          return info;
+                                        }),
                                       ],
                                     },
                                   }));
                                 }}
                                 value={
-                                  registration?.standard?.certificate?.find(
-                                    (info) => info?.cer_id === item?.cer_id,
-                                  )?.value ?? ""
+                                  registration?.standard?.certificate?.find((info) => info?.cer_id === item?.cer_id)
+                                    ?.value ?? ""
                                 }
                               />
                             </div>
@@ -344,9 +303,7 @@ const StandardInformationForm: FC = () => {
           <article>
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
-                <h3 className="text-sm font-bold">
-                  สิทธิประโยชน์ที่ได้รับ / Benefits
-                </h3>
+                <h3 className="text-sm font-bold">สิทธิประโยชน์ที่ได้รับ / Benefits</h3>
               </div>
               <div className="col-span-6 flex justify-start">
                 <div className="grid w-full grid-cols-1 gap-1">
@@ -356,14 +313,12 @@ const StandardInformationForm: FC = () => {
                         <Checkbox
                           id={item.cer_name_en?.toString()}
                           checked={
-                            registration.standard?.benefit?.find(
-                              (info) => info?.cer_id === item?.cer_id,
-                            )?.is_checked ?? false
+                            registration.standard?.benefit?.find((info) => info?.cer_id === item?.cer_id)?.is_checked ??
+                            false
                           }
                           disabled={
-                            registration?.standard?.benefit?.find(
-                              (info) => info?.cer_id === 4,
-                            )?.is_checked && item?.cer_id !== 4
+                            registration?.standard?.benefit?.find((info) => info?.cer_id === 4)?.is_checked &&
+                            item?.cer_id !== 4
                           }
                           onCheckedChange={(e) => {
                             if (item.cer_id === 4) {
@@ -410,37 +365,26 @@ const StandardInformationForm: FC = () => {
                           htmlFor={item.cer_name_en?.toString()}
                           className={cn(
                             "whitespace-nowrap text-sm font-medium",
-                            registration?.standard?.benefit?.find(
-                              (info) => info?.cer_id === 4,
-                            )?.is_checked && item?.cer_id !== 4
+                            registration?.standard?.benefit?.find((info) => info?.cer_id === 4)?.is_checked &&
+                              item?.cer_id !== 4
                               ? "line-through opacity-50"
-                              : "",
+                              : ""
                           )}
                         >
                           {item.cer_name_th}
                         </label>
                       </div>
-                      <div
-                        className={cn(
-                          "col-span-2 flex items-center gap-2",
-                          item?.cer_id === 4 ? "hidden" : "",
-                        )}
-                      >
-                        <p className="whitespace-nowrap text-sm font-normal">
-                          วันที่หมดอายุ
-                        </p>
+                      <div className={cn("col-span-2 flex items-center gap-2", item?.cer_id === 4 ? "hidden" : "")}>
+                        <p className="whitespace-nowrap text-sm font-normal">วันที่หมดอายุ</p>
                         <input
                           type="date"
                           className="w-full rounded-sm border px-2 text-sm"
                           required={
-                            registration?.standard?.benefit?.find(
-                              (info) => info?.cer_id === item?.cer_id,
-                            )?.is_checked && item?.cer_id !== 4
+                            registration?.standard?.benefit?.find((info) => info?.cer_id === item?.cer_id)
+                              ?.is_checked && item?.cer_id !== 4
                           }
                           disabled={
-                            !registration?.standard?.benefit?.find(
-                              (info) => info?.cer_id === item?.cer_id,
-                            )?.is_checked
+                            !registration?.standard?.benefit?.find((info) => info?.cer_id === item?.cer_id)?.is_checked
                           }
                           onChange={(e) => {
                             setRegistration((prev) => ({
@@ -462,16 +406,12 @@ const StandardInformationForm: FC = () => {
                             }));
                           }}
                           value={
-                            registration?.standard?.benefit?.find(
-                              (info) => info?.cer_id === item?.cer_id,
-                            )?.exp ?? ""
+                            registration?.standard?.benefit?.find((info) => info?.cer_id === item?.cer_id)?.exp ?? ""
                           }
                         />
                       </div>
                       {item?.cer_id === 5 &&
-                        registration?.standard?.benefit?.find(
-                          (info) => info?.cer_id === 5,
-                        )?.is_checked && (
+                        registration?.standard?.benefit?.find((info) => info?.cer_id === 5)?.is_checked && (
                           <div className="col-span-2 flex items-center gap-2">
                             <Input
                               type="text"
@@ -479,14 +419,12 @@ const StandardInformationForm: FC = () => {
                               className={cn("col-span-3 w-full")}
                               variant="flushed"
                               disabled={
-                                !registration?.standard?.benefit?.find(
-                                  (info) => info?.cer_id === item?.cer_id,
-                                )?.is_checked
+                                !registration?.standard?.benefit?.find((info) => info?.cer_id === item?.cer_id)
+                                  ?.is_checked
                               }
                               required={
-                                registration?.standard?.benefit?.find(
-                                  (info) => info?.cer_id === item?.cer_id,
-                                )?.is_checked
+                                registration?.standard?.benefit?.find((info) => info?.cer_id === item?.cer_id)
+                                  ?.is_checked
                               }
                               onChange={(e) => {
                                 setRegistration((prev) => ({
@@ -510,9 +448,8 @@ const StandardInformationForm: FC = () => {
                                 }));
                               }}
                               value={
-                                registration?.standard?.benefit?.find(
-                                  (info) => info?.cer_id === item?.cer_id,
-                                )?.value ?? ""
+                                registration?.standard?.benefit?.find((info) => info?.cer_id === item?.cer_id)?.value ??
+                                ""
                               }
                             />
                           </div>
@@ -563,26 +500,15 @@ const StandardInformationForm: FC = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="credit" id="credit" />
-                    <label
-                      htmlFor="credit"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
+                    <label htmlFor="credit" className="whitespace-nowrap text-sm font-medium">
                       เครดิตเทอม
                     </label>
                     <div className={cn("flex items-center gap-2")}>
                       <select
                         className="w-full rounded-sm border px-2 py-[0.1rem] text-sm"
-                        disabled={
-                          registration?.payment_term?.credit_term?.name ===
-                          "other"
-                        }
-                        required={
-                          registration?.payment_term?.credit_term?.name ===
-                          "credit"
-                        }
-                        value={
-                          registration?.payment_term?.credit_term?.value ?? ""
-                        }
+                        disabled={registration?.payment_term?.credit_term?.name === "other"}
+                        required={registration?.payment_term?.credit_term?.name === "credit"}
+                        value={registration?.payment_term?.credit_term?.value ?? ""}
                         onChange={(e) => {
                           if (e.target.value === "0") {
                             setRegistration((prev) => ({
@@ -622,10 +548,7 @@ const StandardInformationForm: FC = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="other" id="other" />
-                    <label
-                      htmlFor="other"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
+                    <label htmlFor="other" className="whitespace-nowrap text-sm font-medium">
                       อื่นๆ
                     </label>
                   </div>
@@ -633,10 +556,7 @@ const StandardInformationForm: FC = () => {
                 <Input
                   type="number"
                   placeholder="โปรดระบุ จำนวนวัน"
-                  className={cn(
-                    "w-full",
-                    creditTerm !== "other" ? "hidden" : "",
-                  )}
+                  className={cn("w-full", creditTerm !== "other" ? "hidden" : "")}
                   variant="flushed"
                   onChange={(e) => {
                     if (CreditTerm.includes(e.target.value)) return;
@@ -646,9 +566,7 @@ const StandardInformationForm: FC = () => {
                         ...prev.payment_term,
                         credit_term: {
                           ...prev.payment_term?.credit_term,
-                          value: isNaN(e.target.valueAsNumber)
-                            ? 0
-                            : e.target.valueAsNumber,
+                          value: isNaN(e.target.valueAsNumber) ? 0 : e.target.valueAsNumber,
                         },
                       },
                     }));
@@ -687,28 +605,19 @@ const StandardInformationForm: FC = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="cash" id="cash" />
-                    <label
-                      htmlFor="cash"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
+                    <label htmlFor="cash" className="whitespace-nowrap text-sm font-medium">
                       เงินสด
                     </label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="transfer" id="transfer" />
-                    <label
-                      htmlFor="transfer"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
+                    <label htmlFor="transfer" className="whitespace-nowrap text-sm font-medium">
                       โอน
                     </label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="check" id="check" />
-                    <label
-                      htmlFor="check"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
+                    <label htmlFor="check" className="whitespace-nowrap text-sm font-medium">
                       รับเช็ค
                     </label>
                   </div>
@@ -719,12 +628,8 @@ const StandardInformationForm: FC = () => {
                     placeholder="โปรดระบุสถานที่รับเช็ค, เวลา, ผู้ติดต่อ"
                     className={cn("w-full")}
                     variant="flushed"
-                    disabled={
-                      registration?.payment_term?.billing_term?.name !== "check"
-                    }
-                    required={
-                      registration?.payment_term?.billing_term?.name === "check"
-                    }
+                    disabled={registration?.payment_term?.billing_term?.name !== "check"}
+                    required={registration?.payment_term?.billing_term?.name === "check"}
                     onChange={(e) => {
                       setRegistration((prev) => ({
                         ...prev,
@@ -737,9 +642,7 @@ const StandardInformationForm: FC = () => {
                         },
                       }));
                     }}
-                    value={
-                      registration?.payment_term?.billing_term?.value ?? ""
-                    }
+                    value={registration?.payment_term?.billing_term?.value ?? ""}
                   />
                 )}
               </div>
@@ -782,10 +685,7 @@ const StandardInformationForm: FC = () => {
                 <h3
                   className={cn(
                     "text-sm font-bold",
-                    registration?.company_information?.company_registration
-                      ?.is_thai
-                      ? "opacity-50"
-                      : "",
+                    registration?.company_information?.company_registration?.is_thai ? "opacity-50" : ""
                   )}
                 >
                   Incoterm <RequiredTopic />
@@ -795,10 +695,7 @@ const StandardInformationForm: FC = () => {
                 <div className="w-full">
                   <Select
                     placeholder="โปรดเลือก Incoterm"
-                    disabled={
-                      registration?.company_information?.company_registration
-                        ?.is_thai
-                    }
+                    disabled={registration?.company_information?.company_registration?.is_thai}
                     onChange={(e) => {
                       setRegistration((prev) => ({
                         ...prev,
@@ -808,14 +705,10 @@ const StandardInformationForm: FC = () => {
                         },
                       }));
                     }}
-                    required={
-                      !registration?.company_information?.company_registration
-                        ?.is_thai
-                    }
+                    required={!registration?.company_information?.company_registration?.is_thai}
                     value={
                       registration?.payment_term?.incoterm ??
-                      registration?.company_information?.company_registration
-                        ?.is_thai
+                      registration?.company_information?.company_registration?.is_thai
                         ? registration?.payment_term?.incoterm
                         : ""
                     }
@@ -837,10 +730,7 @@ const StandardInformationForm: FC = () => {
                 <h3
                   className={cn(
                     "text-sm font-bold",
-                    registration?.company_information?.company_registration
-                      ?.is_thai
-                      ? "opacity-50"
-                      : "",
+                    registration?.company_information?.company_registration?.is_thai ? "opacity-50" : ""
                   )}
                 >
                   เงื่อนไขการเปิด L/C หรือ L/C Terms <RequiredTopic />
@@ -849,15 +739,8 @@ const StandardInformationForm: FC = () => {
               <div className="col-span-4 flex justify-start">
                 <RadioGroup
                   className="flex w-full flex-col gap-1"
-                  disabled={
-                    registration?.company_information?.company_registration
-                      ?.is_thai
-                  }
-                  value={
-                    registration?.payment_term?.lc_term?.is_lc
-                      ? "lc"
-                      : "none-lc"
-                  }
+                  disabled={registration?.company_information?.company_registration?.is_thai}
+                  value={registration?.payment_term?.lc_term?.is_lc ? "lc" : "none-lc"}
                   onValueChange={(e) => {
                     if (e === "lc") {
                       setRegistration((prev) => ({
@@ -893,10 +776,7 @@ const StandardInformationForm: FC = () => {
                         htmlFor="lc"
                         className={cn(
                           "whitespace-nowrap text-sm font-medium",
-                          registration?.company_information
-                            ?.company_registration?.is_thai
-                            ? "opacity-50"
-                            : "",
+                          registration?.company_information?.company_registration?.is_thai ? "opacity-50" : ""
                         )}
                       >
                         มี
@@ -905,8 +785,7 @@ const StandardInformationForm: FC = () => {
                     <select
                       className="rounded-sm border px-2 py-[0.1rem] text-sm"
                       disabled={
-                        registration?.company_information?.company_registration
-                          ?.is_thai ||
+                        registration?.company_information?.company_registration?.is_thai ||
                         !registration?.payment_term?.lc_term?.is_lc
                       }
                       value={registration?.payment_term?.lc_term?.lc_type ?? ""}
@@ -924,8 +803,7 @@ const StandardInformationForm: FC = () => {
                       }}
                       required={
                         registration?.payment_term?.lc_term?.is_lc &&
-                        !registration?.company_information?.company_registration
-                          ?.is_thai
+                        !registration?.company_information?.company_registration?.is_thai
                       }
                     >
                       <option value="" className="text-sm">
@@ -943,10 +821,7 @@ const StandardInformationForm: FC = () => {
                       htmlFor="none-lc"
                       className={cn(
                         "whitespace-nowrap text-sm font-medium",
-                        registration?.company_information?.company_registration
-                          ?.is_thai
-                          ? "opacity-50"
-                          : "",
+                        registration?.company_information?.company_registration?.is_thai ? "opacity-50" : ""
                       )}
                     >
                       ไม่มี
@@ -971,9 +846,8 @@ const StandardInformationForm: FC = () => {
                       <Checkbox
                         id={item?.cer_name_en}
                         checked={
-                          registration?.payment_term?.delivery_term?.find(
-                            (info) => info?.cer_id === item?.cer_id,
-                          )?.is_checked ?? false
+                          registration?.payment_term?.delivery_term?.find((info) => info?.cer_id === item?.cer_id)
+                            ?.is_checked ?? false
                         }
                         onCheckedChange={(e) => {
                           setRegistration((prev) => ({
@@ -981,26 +855,21 @@ const StandardInformationForm: FC = () => {
                             payment_term: {
                               ...prev.payment_term,
                               delivery_term: [
-                                ...prev.payment_term.delivery_term.map(
-                                  (info) => {
-                                    if (info?.cer_id === item?.cer_id) {
-                                      return {
-                                        ...info,
-                                        is_checked: JSON.parse(e.toString()),
-                                      };
-                                    }
-                                    return info;
-                                  },
-                                ),
+                                ...prev.payment_term.delivery_term.map((info) => {
+                                  if (info?.cer_id === item?.cer_id) {
+                                    return {
+                                      ...info,
+                                      is_checked: JSON.parse(e.toString()),
+                                    };
+                                  }
+                                  return info;
+                                }),
                               ],
                             },
                           }));
                         }}
                       />
-                      <label
-                        htmlFor={item?.cer_name_en}
-                        className="whitespace-nowrap text-sm font-medium"
-                      >
+                      <label htmlFor={item?.cer_name_en} className="whitespace-nowrap text-sm font-medium">
                         {item?.cer_name_th}
                       </label>
                     </div>
@@ -1019,11 +888,7 @@ const StandardInformationForm: FC = () => {
               </div>
               <div className="col-span-4 flex justify-start">
                 <RadioGroup
-                  value={
-                    registration?.payment_term?.deposit_term?.is_deposit
-                      ? "deposit"
-                      : "none-deposit"
-                  }
+                  value={registration?.payment_term?.deposit_term?.is_deposit ? "deposit" : "none-deposit"}
                   required={isForeigner}
                   onValueChange={(e) => {
                     setRegistration((prev) => ({
@@ -1046,7 +911,7 @@ const StandardInformationForm: FC = () => {
                       <label
                         htmlFor="deposit"
                         className={cn(
-                          "whitespace-nowrap text-sm font-medium",
+                          "whitespace-nowrap text-sm font-medium"
                           // !isForeigner ? "opacity-50" : "",
                         )}
                       >
@@ -1055,13 +920,8 @@ const StandardInformationForm: FC = () => {
                     </div>
                     <select
                       className="rounded-sm border px-2 py-[0.1rem] text-sm"
-                      disabled={
-                        !registration?.payment_term?.deposit_term?.is_deposit
-                      }
-                      required={
-                        registration?.payment_term?.deposit_term?.is_deposit &&
-                        isForeigner
-                      }
+                      disabled={!registration?.payment_term?.deposit_term?.is_deposit}
+                      required={registration?.payment_term?.deposit_term?.is_deposit && isForeigner}
                       value={depositType}
                       onChange={(e) => {
                         setDepositType(e.target.value);
@@ -1071,10 +931,7 @@ const StandardInformationForm: FC = () => {
                             ...prev.payment_term,
                             deposit_term: {
                               ...prev.payment_term?.deposit_term,
-                              deposit_type:
-                                e.target.value === "other"
-                                  ? ""
-                                  : e.target.value,
+                              deposit_type: e.target.value === "other" ? "" : e.target.value,
                             },
                           },
                         }));
@@ -1091,17 +948,11 @@ const StandardInformationForm: FC = () => {
                   </div>
                   <Input
                     type="text"
-                    className={cn(
-                      "w-full",
-                      depositType !== "other" ? "hidden" : "",
-                    )}
+                    className={cn("w-full", depositType !== "other" ? "hidden" : "")}
                     placeholder="โปรดระบุ"
                     variant="flushed"
                     disabled={!isForeigner}
-                    required={
-                      registration?.payment_term?.deposit_term?.is_deposit &&
-                      isForeigner
-                    }
+                    required={registration?.payment_term?.deposit_term?.is_deposit && isForeigner}
                     onChange={(e) => {
                       setRegistration((prev) => ({
                         ...prev,
@@ -1114,16 +965,11 @@ const StandardInformationForm: FC = () => {
                         },
                       }));
                     }}
-                    value={
-                      registration?.payment_term?.deposit_term?.deposit_type
-                    }
+                    value={registration?.payment_term?.deposit_term?.deposit_type}
                   />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-deposit" id="none-deposit" />
-                    <label
-                      htmlFor="none-deposit"
-                      className={cn("whitespace-nowrap text-sm font-medium")}
-                    >
+                    <label htmlFor="none-deposit" className={cn("whitespace-nowrap text-sm font-medium")}>
                       ไม่มี
                     </label>
                   </div>
@@ -1135,17 +981,11 @@ const StandardInformationForm: FC = () => {
           <article>
             <article className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
-                <h3 className="text-sm font-bold">
-                  เงื่อนไขการประกันสินค้า / Product Warranty
-                </h3>
+                <h3 className="text-sm font-bold">เงื่อนไขการประกันสินค้า / Product Warranty</h3>
               </div>
               <div className="col-span-4 flex justify-start">
                 <RadioGroup
-                  value={
-                    registration?.payment_term?.product_warranty?.is_warranty
-                      ? "warranty"
-                      : "none-warranty"
-                  }
+                  value={registration?.payment_term?.product_warranty?.is_warranty ? "warranty" : "none-warranty"}
                   className="flex w-full flex-col gap-1"
                   onValueChange={(e) => {
                     setWarranty("");
@@ -1164,29 +1004,17 @@ const StandardInformationForm: FC = () => {
                   <div className="item-center flex space-x-2">
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="warranty" id="warranty" />
-                      <label
-                        htmlFor="warranty"
-                        className="whitespace-nowrap text-sm font-medium"
-                      >
+                      <label htmlFor="warranty" className="whitespace-nowrap text-sm font-medium">
                         ต้องการ
                       </label>
                     </div>
                     <select
                       className={cn(
                         "rounded-sm border px-2 py-[0.1rem] text-sm",
-                        !registration?.payment_term?.product_warranty
-                          ?.is_warranty
-                          ? "hidden"
-                          : "",
+                        !registration?.payment_term?.product_warranty?.is_warranty ? "hidden" : ""
                       )}
-                      disabled={
-                        !registration?.payment_term?.product_warranty
-                          ?.is_warranty
-                      }
-                      required={
-                        registration?.payment_term?.product_warranty
-                          ?.is_warranty
-                      }
+                      disabled={!registration?.payment_term?.product_warranty?.is_warranty}
+                      required={registration?.payment_term?.product_warranty?.is_warranty}
                       value={warranty}
                       onChange={(e) => {
                         setWarranty(e.target.value);
@@ -1216,16 +1044,9 @@ const StandardInformationForm: FC = () => {
                     type="number"
                     placeholder="โปรดระบุ ปี"
                     variant="flushed"
-                    className={cn(
-                      "w-full",
-                      warranty !== "other" ? "hidden" : "",
-                    )}
-                    disabled={
-                      !registration?.payment_term?.product_warranty?.is_warranty
-                    }
-                    required={
-                      registration?.payment_term?.product_warranty?.is_warranty
-                    }
+                    className={cn("w-full", warranty !== "other" ? "hidden" : "")}
+                    disabled={!registration?.payment_term?.product_warranty?.is_warranty}
+                    required={registration?.payment_term?.product_warranty?.is_warranty}
                     onChange={(e) => {
                       setRegistration((prev) => ({
                         ...prev,
@@ -1238,16 +1059,11 @@ const StandardInformationForm: FC = () => {
                         },
                       }));
                     }}
-                    value={
-                      registration?.payment_term?.product_warranty?.value || ""
-                    }
+                    value={registration?.payment_term?.product_warranty?.value || ""}
                   />
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none-warranty" id="none-warranty" />
-                    <label
-                      htmlFor="none-warranty"
-                      className="whitespace-nowrap text-sm font-medium"
-                    >
+                    <label htmlFor="none-warranty" className="whitespace-nowrap text-sm font-medium">
                       ไม่ต้องการ
                     </label>
                   </div>
@@ -1259,9 +1075,7 @@ const StandardInformationForm: FC = () => {
           <article>
             <section className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
-                <h3 className="text-sm font-bold">
-                  นโยบายการดำเนินการ / Company Policies
-                </h3>
+                <h3 className="text-sm font-bold">นโยบายการดำเนินการ / Company Policies</h3>
               </div>
               <div className="col-span-6 grid grid-cols-1 gap-1">
                 {registration.payment_term.company_policy?.map((item, i) => (
@@ -1280,11 +1094,7 @@ const StandardInformationForm: FC = () => {
                     <div className="flex flex-col gap-1">
                       <RadioGroup
                         className="flex gap-5"
-                        value={
-                          item.is_checked
-                            ? `${item.cer_name_en}-yes`
-                            : `${item.cer_name_en}-no`
-                        }
+                        value={item.is_checked ? `${item.cer_name_en}-yes` : `${item.cer_name_en}-no`}
                         onValueChange={(e) => {
                           if (e === `${item.cer_name_en}-yes`) {
                             setRegistration((prev) => ({
@@ -1292,17 +1102,15 @@ const StandardInformationForm: FC = () => {
                               payment_term: {
                                 ...prev.payment_term,
                                 company_policy: [
-                                  ...prev.payment_term.company_policy.map(
-                                    (info) => {
-                                      if (info?.cer_id === item?.cer_id) {
-                                        return {
-                                          ...info,
-                                          is_checked: true,
-                                        };
-                                      }
-                                      return info;
-                                    },
-                                  ),
+                                  ...prev.payment_term.company_policy.map((info) => {
+                                    if (info?.cer_id === item?.cer_id) {
+                                      return {
+                                        ...info,
+                                        is_checked: true,
+                                      };
+                                    }
+                                    return info;
+                                  }),
                                 ],
                               },
                             }));
@@ -1312,17 +1120,15 @@ const StandardInformationForm: FC = () => {
                               payment_term: {
                                 ...prev.payment_term,
                                 company_policy: [
-                                  ...prev.payment_term.company_policy.map(
-                                    (info) => {
-                                      if (info?.cer_id === item?.cer_id) {
-                                        return {
-                                          ...info,
-                                          is_checked: false,
-                                        };
-                                      }
-                                      return info;
-                                    },
-                                  ),
+                                  ...prev.payment_term.company_policy.map((info) => {
+                                    if (info?.cer_id === item?.cer_id) {
+                                      return {
+                                        ...info,
+                                        is_checked: false,
+                                      };
+                                    }
+                                    return info;
+                                  }),
                                 ],
                               },
                             }));
@@ -1330,43 +1136,27 @@ const StandardInformationForm: FC = () => {
                         }}
                       >
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value={`${item.cer_name_en}-yes`}
-                            id={`${item.cer_name_en}-yes`}
-                          />
+                          <RadioGroupItem value={`${item.cer_name_en}-yes`} id={`${item.cer_name_en}-yes`} />
                           <Label htmlFor={`${item.cer_name_en}-yes`}>มี</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value={`${item.cer_name_en}-no`}
-                            id={`${item.cer_name_en}-no`}
-                          />
-                          <Label htmlFor={`${item.cer_name_en}-no`}>
-                            ไม่มี
-                          </Label>
+                          <RadioGroupItem value={`${item.cer_name_en}-no`} id={`${item.cer_name_en}-no`} />
+                          <Label htmlFor={`${item.cer_name_en}-no`}>ไม่มี</Label>
                         </div>
                       </RadioGroup>
                     </div>
                   </div>
                 ))}
-                {registration.payment_term.company_policy?.find(
-                  (info) => info?.cer_id === 8,
-                )?.is_checked && (
+                {registration.payment_term.company_policy?.find((info) => info?.cer_id === 8)?.is_checked && (
                   <Input
                     type="text"
                     placeholder="โปรดระบุ นโยบายการดำเนินการอื่นๆ"
                     variant="flushed"
                     className="w-full"
                     disabled={
-                      !registration?.payment_term?.company_policy?.find(
-                        (info) => info?.cer_id === 8,
-                      )?.is_checked
+                      !registration?.payment_term?.company_policy?.find((info) => info?.cer_id === 8)?.is_checked
                     }
-                    value={
-                      registration?.payment_term?.company_policy?.find(
-                        (info) => info?.cer_id === 8,
-                      )?.value ?? ""
-                    }
+                    value={registration?.payment_term?.company_policy?.find((info) => info?.cer_id === 8)?.value ?? ""}
                     onChange={(e) => {
                       setRegistration((prev) => ({
                         ...prev,
@@ -1396,8 +1186,7 @@ const StandardInformationForm: FC = () => {
             <section className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  วัตถุประสงค์หลักการซื้อสินค้า / The objective of purchasing{" "}
-                  <RequiredTopic />
+                  วัตถุประสงค์หลักการซื้อสินค้า / The objective of purchasing <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-6 flex flex-col justify-start">
@@ -1415,9 +1204,7 @@ const StandardInformationForm: FC = () => {
                       },
                     }));
                   }}
-                  value={
-                    registration?.payment_term?.objective_purchasing?.name ?? ""
-                  }
+                  value={registration?.payment_term?.objective_purchasing?.name ?? ""}
                 >
                   {ObjectivePurchasing?.map((item, i) => (
                     <div className="flex items-center space-x-2" key={i}>
@@ -1426,16 +1213,12 @@ const StandardInformationForm: FC = () => {
                     </div>
                   ))}
                 </RadioGroup>
-                {registration?.payment_term?.objective_purchasing?.name ===
-                  "other" && (
+                {registration?.payment_term?.objective_purchasing?.name === "other" && (
                   <Input
                     type="text"
                     placeholder="โปรดระบุ"
                     variant="flushed"
-                    value={
-                      registration?.payment_term?.objective_purchasing?.value ??
-                      ""
-                    }
+                    value={registration?.payment_term?.objective_purchasing?.value ?? ""}
                     onChange={(e) => {
                       setRegistration((prev) => ({
                         ...prev,
@@ -1458,8 +1241,7 @@ const StandardInformationForm: FC = () => {
             <section className="grid w-full grid-cols-10 items-center gap-2">
               <div className="col-span-4 flex h-full items-start justify-end">
                 <h3 className="text-sm font-bold">
-                  ลูกค้าหลักของลูกค้า / Main customer of customer{" "}
-                  <RequiredTopic />
+                  ลูกค้าหลักของลูกค้า / Main customer of customer <RequiredTopic />
                 </h3>
               </div>
               <div className="col-span-4 flex items-center justify-start gap-2">
@@ -1485,14 +1267,10 @@ const StandardInformationForm: FC = () => {
                       <Label htmlFor={item?.name} className="whitespace-nowrap">
                         {item?.label ?? "-"}
                       </Label>
-                      {registration?.payment_term?.main_customer?.name ===
-                        "foreign" && (
+                      {registration?.payment_term?.main_customer?.name === "foreign" && (
                         <select
                           placeholder="เลือกประเทศ"
-                          className={cn(
-                            "w-full rounded-sm border px-2 py-[0.1rem] text-sm",
-                            i === 0 ? "hidden" : "",
-                          )}
+                          className={cn("w-full rounded-sm border px-2 py-[0.1rem] text-sm", i === 0 ? "hidden" : "")}
                           onChange={(e) => {
                             setRegistration((prev) => ({
                               ...prev,
@@ -1505,14 +1283,8 @@ const StandardInformationForm: FC = () => {
                               },
                             }));
                           }}
-                          required={
-                            registration?.payment_term?.main_customer?.name ===
-                            "foreign"
-                          }
-                          value={
-                            registration?.payment_term?.main_customer?.value ??
-                            ""
-                          }
+                          required={registration?.payment_term?.main_customer?.name === "foreign"}
+                          value={registration?.payment_term?.main_customer?.value ?? ""}
                         >
                           <option value="">เลือกประเทศ</option>
                           {countryCodeList?.map((item, i) => (

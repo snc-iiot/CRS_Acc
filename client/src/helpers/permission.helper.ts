@@ -20,10 +20,7 @@
  * - 7: ไม่อนุมัติ
  * - 8: ดำเนินการเสร็จสิ้น
  */
-export const DisableTabs = (
-  action: "R1" | "R2" | "R3" | "R4" | "R5",
-  status: number,
-) => {
+export const DisableTabs = (action: "R1" | "R2" | "R3" | "R4" | "R5", status: number) => {
   const condition = {
     R1: [1, 2, 3, 4, 5, 6, 7, 8],
     R2: [2, 3, 4, 5, 6, 7, 8],
@@ -123,10 +120,9 @@ export const ConditionHeight = (status: number) => {
  * greater than or equal to 4 and the role is "approver", then "R4" is returned. Otherwise, "R1" is
  * returned.
  */
-export const InitialTabs = (status: number, role: string) => {
-  if (status >= 4 && role == "approver") {
+export const InitialTabs = (status: number) => {
+  if (status >= 4) {
     return "R4";
   }
-
   return "R1";
 };

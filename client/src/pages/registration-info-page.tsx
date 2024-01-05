@@ -209,15 +209,17 @@ const RegistrationInfo: FC = () => {
   }, [registration?.status_no]);
 
   useEffect(() => {
-    if (!role) return;
-    if (role === "admin") {
-      setActiveTab("R1");
-    } else if (role === "user") {
-      setActiveTab("R1");
+    if (!role || !registration?.status_no) return;
+    if (role === "admin" || role === "user") {
+      if (registration?.status_no >= 4) {
+        setActiveTab("R4");
+      } else {
+        setActiveTab("R1");
+      }
     } else if (role === "approver") {
-      setActiveTab(InitialTabs(registration?.status_no as number, role));
+      setActiveTab(InitialTabs(registration?.status_no as number));
     }
-  }, [role]);
+  }, [role, registration?.status_no]);
 
   return (
     <FadeIn>

@@ -7,12 +7,7 @@ import { useForm, useUtils } from "@/services";
 import { useImportExcel } from "@/services/hooks/use-import-excel";
 import { FC, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Button } from "../ui/button";
 import { Icons } from "./icons";
 import TableDBD, { ITableDBD } from "./table-dbd";
@@ -24,7 +19,7 @@ interface Props {
 
 const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
   const { Confirm } = useConfirm();
-  const { showLoading, closeSwal, confirmSwal } = useSwal();
+  const { showLoading, closeSwal, confirmSwal, showError } = useSwal();
   const [isOpenUpload, setIsOpenUpdate] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const regisId = searchParams.get("RegisID");
@@ -32,11 +27,8 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
   const { mutateConfirmDBDInfo } = useForm();
 
   const UploadDBDDialog = () => {
-    const {
-      mutateImportExcelFinancialPosition,
-      mutateImportExcelIcomeStatement,
-      mutateImportExcelFinancialRatios,
-    } = useImportExcel();
+    const { mutateImportExcelFinancialPosition, mutateImportExcelIcomeStatement, mutateImportExcelFinancialRatios } =
+      useImportExcel();
 
     const inputFileFinancialPosition = useRef<HTMLInputElement>(null);
     const inputFileIncomeStatement = useRef<HTMLInputElement>(null);
@@ -48,9 +40,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
 
     const Financial =
       dataDBDSyncList?.financial_position?.map((item) => ({
-        Topic: `${item?.topic_th} ${
-          item?.topic_en === "" ? "" : `(${item?.topic_en})`
-        }`,
+        Topic: `${item?.topic_th} ${item?.topic_en === "" ? "" : `(${item?.topic_en})`}`,
         Info: item?.info?.map((info) => ({
           Year: info?.year,
           Amount: info?.amount,
@@ -60,9 +50,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
 
     const Income =
       dataDBDSyncList?.income_statement?.map((item) => ({
-        Topic: `${item?.topic_th} ${
-          item?.topic_en === "" ? "" : `(${item?.topic_en})`
-        }`,
+        Topic: `${item?.topic_th} ${item?.topic_en === "" ? "" : `(${item?.topic_en})`}`,
         Info: item?.info?.map((info) => ({
           Year: info.year,
           Amount: info.amount,
@@ -126,70 +114,49 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
       "Return on Assets (%)": "อัตราผลตอบแทนจากสินทรัพย์รวม(ROA) (%)",
       "Return on Equity (%)": "อัตราผลตอบแทนจากส่วนของผู้ถือหุ้น(ROE) (%)",
       "Gross Profit Margin (%)": "ผลตอบแทนจากกำไรขั้นต้นต่อรายได้รวม (%)",
-      "Operating Income on Revenue Ratio (%)":
-        "ผลตอบแทนจากการดำเนินงานต่อรายได้รวม (%)",
+      "Operating Income on Revenue Ratio (%)": "ผลตอบแทนจากการดำเนินงานต่อรายได้รวม (%)",
       "Net Profit Margin (%)": "ผลตอบแทนจากกำไรสุทธิต่อรายได้รวม (%)",
       "Current Ratio (times)": "อัตราส่วนทุนหมุนเวียน(เท่า)",
-      "Accounts Receivable Turnover (times)":
-        "อัตราการหมุนเวียนของลูกหนี้ (เท่า)",
+      "Accounts Receivable Turnover (times)": "อัตราการหมุนเวียนของลูกหนี้ (เท่า)",
       "Inventory Turnover (times)": "อัตราการหมุนเวียนของสินค้าคงเหลือ (เท่า)",
-      "Accounts Payable Turnover (times)":
-        "อัตราการหมุนเวียนของเจ้าหนี้ (เท่า)",
-      "Total Assets Turnover (times)":
-        "อัตราการหมุนเวียนของสินทรัพย์รวม (เท่า)",
-      "Operation Expense to Total Revenue Ratio (%)":
-        "อัตราค่าใช้จ่ายการดำเนินงานต่อรายได้รวม (%)",
-      "Asset to Equity Ratio or Financial Leverage (times)":
-        "อัตราส่วนสินทรัพย์รวมต่อส่วนของผู้ถือหุ้น (เท่า)",
-      "Debt to Asset Ratio (times)":
-        "อัตราส่วนหนี้สินรวมต่อสินทรัพย์รวม (เท่า)",
-      "Debt to Equity Ratio (times)":
-        "อัตราส่วนหนี้สินรวมต่อส่วนของผู้ถือหุ้น (เท่า)",
-      "Debt to Capital Ratio (times)":
-        "อัตราส่วนหนี้สินรวมต่อทุนดำเนินงาน (เท่า)",
+      "Accounts Payable Turnover (times)": "อัตราการหมุนเวียนของเจ้าหนี้ (เท่า)",
+      "Total Assets Turnover (times)": "อัตราการหมุนเวียนของสินทรัพย์รวม (เท่า)",
+      "Operation Expense to Total Revenue Ratio (%)": "อัตราค่าใช้จ่ายการดำเนินงานต่อรายได้รวม (%)",
+      "Asset to Equity Ratio or Financial Leverage (times)": "อัตราส่วนสินทรัพย์รวมต่อส่วนของผู้ถือหุ้น (เท่า)",
+      "Debt to Asset Ratio (times)": "อัตราส่วนหนี้สินรวมต่อสินทรัพย์รวม (เท่า)",
+      "Debt to Equity Ratio (times)": "อัตราส่วนหนี้สินรวมต่อส่วนของผู้ถือหุ้น (เท่า)",
+      "Debt to Capital Ratio (times)": "อัตราส่วนหนี้สินรวมต่อทุนดำเนินงาน (เท่า)",
 
       "อัตราผลตอบแทนจากสินทรัพย์รวม(ROA) (%)": "Return on Assets (%)",
       "อัตราผลตอบแทนจากส่วนของผู้ถือหุ้น(ROE) (%)": "Return on Equity (%)",
       "ผลตอบแทนจากกำไรขั้นต้นต่อรายได้รวม (%)": "Gross Profit Margin (%)",
-      "ผลตอบแทนจากการดำเนินงานต่อรายได้รวม (%)":
-        "Operating Income on Revenue Ratio (%)",
+      "ผลตอบแทนจากการดำเนินงานต่อรายได้รวม (%)": "Operating Income on Revenue Ratio (%)",
       "ผลตอบแทนจากกำไรสุทธิต่อรายได้รวม (%)": "Net Profit Margin (%)",
       "อัตราส่วนทุนหมุนเวียน(เท่า)": "Current Ratio (times)",
-      "อัตราการหมุนเวียนของลูกหนี้ (เท่า)":
-        "Accounts Receivable Turnover (times)",
+      "อัตราการหมุนเวียนของลูกหนี้ (เท่า)": "Accounts Receivable Turnover (times)",
       "อัตราการหมุนเวียนของสินค้าคงเหลือ (เท่า)": "Inventory Turnover (times)",
-      "อัตราการหมุนเวียนของเจ้าหนี้ (เท่า)":
-        "Accounts Payable Turnover (times)",
-      "อัตราการหมุนเวียนของสินทรัพย์รวม (เท่า)":
-        "Total Assets Turnover (times)",
-      "อัตราค่าใช้จ่ายการดำเนินงานต่อรายได้รวม (%)":
-        "Operation Expense to Total Revenue Ratio (%)",
-      "อัตราส่วนสินทรัพย์รวมต่อส่วนของผู้ถือหุ้น (เท่า)":
-        "Asset to Equity Ratio or Financial Leverage (times)",
-      "อัตราส่วนหนี้สินรวมต่อสินทรัพย์รวม (เท่า)":
-        "Debt to Asset Ratio (times)",
-      "อัตราส่วนหนี้สินรวมต่อส่วนของผู้ถือหุ้น (เท่า)":
-        "Debt to Equity Ratio (times)",
-      "อัตราส่วนหนี้สินรวมต่อทุนดำเนินงาน (เท่า)":
-        "Debt to Capital Ratio (times)",
+      "อัตราการหมุนเวียนของเจ้าหนี้ (เท่า)": "Accounts Payable Turnover (times)",
+      "อัตราการหมุนเวียนของสินทรัพย์รวม (เท่า)": "Total Assets Turnover (times)",
+      "อัตราค่าใช้จ่ายการดำเนินงานต่อรายได้รวม (%)": "Operation Expense to Total Revenue Ratio (%)",
+      "อัตราส่วนสินทรัพย์รวมต่อส่วนของผู้ถือหุ้น (เท่า)": "Asset to Equity Ratio or Financial Leverage (times)",
+      "อัตราส่วนหนี้สินรวมต่อสินทรัพย์รวม (เท่า)": "Debt to Asset Ratio (times)",
+      "อัตราส่วนหนี้สินรวมต่อส่วนของผู้ถือหุ้น (เท่า)": "Debt to Equity Ratio (times)",
+      "อัตราส่วนหนี้สินรวมต่อทุนดำเนินงาน (เท่า)": "Debt to Capital Ratio (times)",
     };
 
     const mapShortKeysT3 = {
       "Return on Assets (%)": "ROA",
       "Return on Equity (%)": "ROE",
       "Gross Profit Margin (%)": "gross_profit_margin",
-      "Operating Income on Revenue Ratio (%)":
-        "operating_income_on_revenue_ratio",
+      "Operating Income on Revenue Ratio (%)": "operating_income_on_revenue_ratio",
       "Net Profit Margin (%)": "net_profit_margin",
       "Current Ratio (times)": "current_ratio",
       "Accounts Receivable Turnover (times)": "accounts_receivable_turnover",
       "Inventory Turnover (times)": "inventory_turnover",
       "Accounts Payable Turnover (times)": "accounts_payable_turnover",
       "Total Assets Turnover (times)": "total_assets_turnover",
-      "Operation Expense to Total Revenue Ratio (%)":
-        "operation_expense_to_total_revenue_ratio",
-      "Asset to Equity Ratio or Financial Leverage (times)":
-        "asset_to_equity_ratio_or_financial_leverage",
+      "Operation Expense to Total Revenue Ratio (%)": "operation_expense_to_total_revenue_ratio",
+      "Asset to Equity Ratio or Financial Leverage (times)": "asset_to_equity_ratio_or_financial_leverage",
       "Debt to Asset Ratio (times)": "debt_to_asset_ratio",
       "Debt to Equity Ratio (times)": "debt_to_equity_ratio",
       "Debt to Capital Ratio (times)": "debt_to_capital_ratio",
@@ -209,17 +176,13 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
       return text.charCodeAt(0) > 3584 && text.charCodeAt(0) < 3711;
     }
 
-    async function onChangeIFileFinancialPosition(
-      e: React.ChangeEvent<HTMLInputElement>,
-    ) {
+    async function onChangeIFileFinancialPosition(e: React.ChangeEvent<HTMLInputElement>) {
       const files = e.target.files || [];
       if (files?.length > 0) {
         try {
           const file = files[0];
 
-          const data: { [key: string]: string }[] = (await excel.importFile(
-            file,
-          )) as {
+          const data: { [key: string]: string }[] = (await excel.importFile(file)) as {
             [key: string]: string;
           }[];
 
@@ -232,52 +195,36 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
             topic_no: i + 1,
             topic_th: isThais
               ? info?.[dataKey] ?? ""
-              : mapTopicsT1?.[
-                  (typeof info?.[dataKey] === "string"
-                    ? info[dataKey]
-                    : "") as keyof typeof mapTopicsT1
-                ] ?? "",
+              : mapTopicsT1?.[(typeof info?.[dataKey] === "string" ? info[dataKey] : "") as keyof typeof mapTopicsT1] ??
+                "",
             topic_en: isThais
-              ? mapTopicsT1?.[
-                  (typeof info?.[dataKey] === "string"
-                    ? info[dataKey]
-                    : "") as keyof typeof mapTopicsT1
-                ] ?? ""
+              ? mapTopicsT1?.[(typeof info?.[dataKey] === "string" ? info[dataKey] : "") as keyof typeof mapTopicsT1] ??
+                ""
               : info?.[dataKey] ?? "",
             short_key: "",
             info: [
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_1?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_1?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_1?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_2?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_4?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_6?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_7?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_7?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_7?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_8?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_9?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_9?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_9?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_10?.replace(/,/g, "")) ?? "-",
               },
@@ -291,17 +238,13 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
       }
     }
 
-    async function onChangeIFileIncomeStatement(
-      e: React.ChangeEvent<HTMLInputElement>,
-    ) {
+    async function onChangeIFileIncomeStatement(e: React.ChangeEvent<HTMLInputElement>) {
       const files = e.target.files || [];
       if (files?.length > 0) {
         try {
           const file = files[0];
 
-          const data: { [key: string]: string }[] = (await excel.importFile(
-            file,
-          )) as {
+          const data: { [key: string]: string }[] = (await excel.importFile(file)) as {
             [key: string]: string;
           }[];
 
@@ -314,52 +257,36 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
             topic_no: i + 1,
             topic_th: isThais
               ? info?.[dataKey] ?? ""
-              : mapTopicsT2?.[
-                  (typeof info?.[dataKey] === "string"
-                    ? info[dataKey]
-                    : "") as keyof typeof mapTopicsT2
-                ] ?? "",
+              : mapTopicsT2?.[(typeof info?.[dataKey] === "string" ? info[dataKey] : "") as keyof typeof mapTopicsT2] ??
+                "",
             topic_en: isThais
-              ? mapTopicsT2?.[
-                  (typeof info?.[dataKey] === "string"
-                    ? info[dataKey]
-                    : "") as keyof typeof mapTopicsT2
-                ] ?? ""
+              ? mapTopicsT2?.[(typeof info?.[dataKey] === "string" ? info[dataKey] : "") as keyof typeof mapTopicsT2] ??
+                ""
               : info?.[dataKey] ?? "",
             short_key: "",
             info: [
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_1?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_1?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_1?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_2?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_4?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_6?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_7?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_7?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_7?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_8?.replace(/,/g, "")) ?? "-",
               },
               {
-                year:
-                  (isThais ? 0 : 543) +
-                    parseFloat(data?.[1]?.__EMPTY_9?.replace(/,/g, "")) ?? "-",
+                year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_9?.replace(/,/g, "")) ?? "-",
                 amount: parseFloat(info?.__EMPTY_9?.replace(/,/g, "")) ?? "-",
                 change: parseFloat(info?.__EMPTY_10?.replace(/,/g, "")) ?? "-",
               },
@@ -373,17 +300,13 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
       }
     }
 
-    async function onChangeIFileFinancialRatios(
-      e: React.ChangeEvent<HTMLInputElement>,
-    ) {
+    async function onChangeIFileFinancialRatios(e: React.ChangeEvent<HTMLInputElement>) {
       const files = e.target.files || [];
       if (files?.length > 0) {
         try {
           const file = files[0];
 
-          const data: { [key: string]: string }[] = (await excel.importFile(
-            file,
-          )) as {
+          const data: { [key: string]: string }[] = (await excel.importFile(file)) as {
             [key: string]: string;
           }[];
 
@@ -397,61 +320,40 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
               topic_th: isThais
                 ? info?.__EMPTY_1 ?? ""
                 : mapTopicsT3?.[
-                    (typeof info?.__EMPTY_1 === "string"
-                      ? info?.__EMPTY_1
-                      : "") as keyof typeof mapTopicsT3
+                    (typeof info?.__EMPTY_1 === "string" ? info?.__EMPTY_1 : "") as keyof typeof mapTopicsT3
                   ] ?? "",
               topic_en: isThais
                 ? mapTopicsT3?.[
-                    (typeof info?.__EMPTY_1 === "string"
-                      ? info?.__EMPTY_1
-                      : "") as keyof typeof mapTopicsT3
+                    (typeof info?.__EMPTY_1 === "string" ? info?.__EMPTY_1 : "") as keyof typeof mapTopicsT3
                   ] ?? ""
                 : info?.__EMPTY_1 ?? "",
               short_key:
                 mapShortKeysT3[
                   (isThais
                     ? mapTopicsT3?.[
-                        (typeof info?.__EMPTY_1 === "string"
-                          ? info?.__EMPTY_1
-                          : "") as keyof typeof mapTopicsT3
+                        (typeof info?.__EMPTY_1 === "string" ? info?.__EMPTY_1 : "") as keyof typeof mapTopicsT3
                       ] ?? ""
                     : info?.__EMPTY_1 ?? "") as keyof typeof mapShortKeysT3
                 ] ?? "",
               info: [
                 {
-                  year:
-                    (isThais ? 0 : 543) +
-                      parseFloat(data?.[1]?.__EMPTY_2?.replace(/,/g, "")) ??
-                    "-",
+                  year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_2?.replace(/,/g, "")) ?? "-",
                   ratio: parseFloat(info?.__EMPTY_2?.replace(/,/g, "")) ?? "-",
                 },
                 {
-                  year:
-                    (isThais ? 0 : 543) +
-                      parseFloat(data?.[1]?.__EMPTY_3?.replace(/,/g, "")) ??
-                    "-",
+                  year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
                   ratio: parseFloat(info?.__EMPTY_3?.replace(/,/g, "")) ?? "-",
                 },
                 {
-                  year:
-                    (isThais ? 0 : 543) +
-                      parseFloat(data?.[1]?.__EMPTY_4?.replace(/,/g, "")) ??
-                    "-",
+                  year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_4?.replace(/,/g, "")) ?? "-",
                   ratio: parseFloat(info?.__EMPTY_4?.replace(/,/g, "")) ?? "-",
                 },
                 {
-                  year:
-                    (isThais ? 0 : 543) +
-                      parseFloat(data?.[1]?.__EMPTY_5?.replace(/,/g, "")) ??
-                    "-",
+                  year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
                   ratio: parseFloat(info?.__EMPTY_5?.replace(/,/g, "")) ?? "-",
                 },
                 {
-                  year:
-                    (isThais ? 0 : 543) +
-                      parseFloat(data?.[1]?.__EMPTY_6?.replace(/,/g, "")) ??
-                    "-",
+                  year: (isThais ? 0 : 543) + parseFloat(data?.[1]?.__EMPTY_6?.replace(/,/g, "")) ?? "-",
                   ratio: parseFloat(info?.__EMPTY_6?.replace(/,/g, "")) ?? "-",
                 },
               ],
@@ -468,7 +370,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
     }
 
     const handleUploadDBD = async () => {
-      showLoading("กำลังดำเนินการ Sync ข้อมูล DBD", "กรุณารอสักครู่...");
+      showLoading("กำลังอัพโหลดข้อมูล", "กรุณารอสักครู่...");
       // await Promise.all([
       //   dataDBDSyncList?.financial_position?.[0] &&
       //     mutateImportExcelFinancialPosition({
@@ -487,23 +389,42 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
       //     }),
       // ]);
       if (dataDBDSyncList?.financial_position?.[0]) {
-        await mutateImportExcelFinancialPosition({
+        const data = await mutateImportExcelFinancialPosition({
           regis_id: regisId as string,
           content: dataDBDSyncList?.financial_position,
         });
+        if (data?.status === "error") {
+          closeSwal();
+          setIsOpenUpdate(false);
+          showError(data?.message, "");
+          return;
+        }
       }
       if (dataDBDSyncList?.income_statement?.[0]) {
-        await mutateImportExcelIcomeStatement({
+        const data = await mutateImportExcelIcomeStatement({
           regis_id: regisId as string,
           content: dataDBDSyncList?.income_statement,
         });
+        if (data?.status === "error") {
+          closeSwal();
+          setIsOpenUpdate(false);
+          showError(data?.message, "");
+          return;
+        }
       }
       if (dataDBDSyncList?.financial_ratio?.[0]) {
-        await mutateImportExcelFinancialRatios({
+        const data = await mutateImportExcelFinancialRatios({
           regis_id: regisId as string,
           content: dataDBDSyncList?.financial_ratio,
         });
+        if (data?.status === "error") {
+          closeSwal();
+          setIsOpenUpdate(false);
+          showError(data?.message, "");
+          return;
+        }
       }
+
       await mutateGetDBDInfo(regisId as string);
       setIsOpenUpdate(false);
       closeSwal();
@@ -529,15 +450,10 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
             className="flex flex-col overflow-clip p-2"
           >
             <div className="flex w-full flex-col gap-2 overflow-clip">
-              <h2 className="text-lg font-semibold">
-                กรุณากรอกรหัสลูกค้าให้ถูกต้อง
-              </h2>
+              <h2 className="text-lg font-semibold">กรุณากรอกรหัสลูกค้าให้ถูกต้อง</h2>
               <div className="flex gap-2">
                 {dataDBDSyncList?.financial_position?.[0] === undefined ? (
-                  <Button
-                    className="w-[20rem]"
-                    onClick={() => handleChooseFileFinancialPosition()}
-                  >
+                  <Button className="w-[20rem]" onClick={() => handleChooseFileFinancialPosition()}>
                     <Icons.uploadCloudIcon className="mr-2" />
                     Upload ข้อมูล งบแสดงฐานะการเงิน
                   </Button>
@@ -557,10 +473,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
                 )}
 
                 {dataDBDSyncList?.income_statement?.[0] === undefined ? (
-                  <Button
-                    className="w-[20rem]"
-                    onClick={() => handleChooseFileIncomeStatement()}
-                  >
+                  <Button className="w-[20rem]" onClick={() => handleChooseFileIncomeStatement()}>
                     <Icons.uploadCloudIcon className="mr-2" />
                     Upload ข้อมูล งบกำไรขาดทุน
                   </Button>
@@ -580,10 +493,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
                 )}
 
                 {dataDBDSyncList?.financial_ratio?.[0] === undefined ? (
-                  <Button
-                    className="w-[20rem]"
-                    onClick={() => handleChooseFileFinancialRatios()}
-                  >
+                  <Button className="w-[20rem]" onClick={() => handleChooseFileFinancialRatios()}>
                     <Icons.uploadCloudIcon className="mr-2" />
                     Upload ข้อมูล อัตราส่วนทางการเงินที่สำคัญ
                   </Button>
@@ -603,10 +513,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
                 )}
               </div>
               <div className="flex h-full w-full overflow-auto">
-                <Accordion
-                  type="multiple"
-                  defaultValue={["item-1", "item-2", "item-3"]}
-                >
+                <Accordion type="multiple" defaultValue={["item-1", "item-2", "item-3"]}>
                   <AccordionItem className="min-w-[1200px]" value="item-1">
                     <AccordionTrigger className="p-1 text-xs font-bold">
                       งบการเงิน / Statement of Financial Position
@@ -699,10 +606,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
         <div className="flex gap-2">
           <Button
             onClick={async () => {
-              showLoading(
-                "กำลังดำเนินการ Sync ข้อมูล DBD",
-                "กรุณารอสักครู่...",
-              );
+              showLoading("กำลังดำเนินการ Sync ข้อมูล DBD", "กรุณารอสักครู่...");
               await mutateSyncDBD(regisId as string);
               closeSwal();
             }}
@@ -715,10 +619,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
         <Button
           className="bg-green-600 hover:bg-green-600/80"
           onClick={async () => {
-            const isConfirm = await confirmSwal(
-              "ยืนยันข้อมูลการเงิน",
-              "คุณต้องการยืนยันข้อมูลการเงินใช่หรือไม่",
-            );
+            const isConfirm = await confirmSwal("ยืนยันข้อมูลการเงิน", "คุณต้องการยืนยันข้อมูลการเงินใช่หรือไม่");
             if (isConfirm) {
               await mutateConfirmDBDInfo(regisId as string);
             }
