@@ -49,7 +49,7 @@ class DbdFinancialReportController extends Controller
             ], 400);
 
             //! Block by role
-            if (!\in_array($decoded->role, ['admin'])) return response()->json([
+            if (!\in_array($decoded->role, ['user'])) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
                 "data" => [],
@@ -146,7 +146,7 @@ class DbdFinancialReportController extends Controller
             ], 400);
 
             //! Block by role
-            if (!\in_array($decoded->role, ['admin'])) return response()->json([
+            if (!\in_array($decoded->role, ['user'])) return response()->json([
                 "status" => "error",
                 "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
                 "data" => [],
@@ -182,7 +182,7 @@ class DbdFinancialReportController extends Controller
             //! User Action Logger ********************************************************
             DB::table("tb_transaction_logger")->insert([
                 "regis_id"          => $request->regis_id,
-                "transaction_desc"  => "Acc confirmed financial information",
+                "transaction_desc"  => "Confirmed financial information",
                 "api_endpoint"      => "[PATCH] /dbd-financial-report/confirm",
                 "creator_id"        => $decoded->user_id,
             ]);
@@ -275,6 +275,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
+    //! Block Role OK
     //TODO [POST] /dbd-financial-report/import-excel/financial-position (DBD Table1)
     function financialPosition(Request $request)
     {
@@ -315,6 +316,14 @@ class DbdFinancialReportController extends Controller
                     ]
                 ]
             ], 400);
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             //! Get Juristic ID
             $result = DB::table("tb_regis_informations")->selectRaw("company_information->>'juristic_id' as juristic_id")->where("regis_id", $request->regis_id)->get();
@@ -381,6 +390,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
+    //! Block Role OK
     //TODO [POST] /dbd-financial-report/import-excel/icome-statement (DBD Table2)
     function icomeStatement(Request $request)
     {
@@ -421,6 +431,14 @@ class DbdFinancialReportController extends Controller
                     ]
                 ]
             ], 400);
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             //! Get Juristic ID
             $result = DB::table("tb_regis_informations")->selectRaw("company_information->>'juristic_id' as juristic_id")->where("regis_id", $request->regis_id)->get();
@@ -484,6 +502,7 @@ class DbdFinancialReportController extends Controller
         }
     }
 
+    //! Block Role OK
     //TODO [POST] /dbd-financial-report/import-excel/financial-ratios (DBD Table3)
     function financialRatios(Request $request)
     {
@@ -519,6 +538,14 @@ class DbdFinancialReportController extends Controller
                     ]
                 ]
             ], 400);
+
+            //! Block by role
+            if (!\in_array($decoded->role, ['user'])) return response()->json([
+                "status" => "error",
+                "message" => "ไม่สามารถทำรายการได้ (สิทธิ์ในการใช้งานไม่ถูกต้อง)",
+                "data" => [],
+            ], 401);
+            //! ./Block by role
 
             // return response()->json($validator->validated());
 
