@@ -32,6 +32,10 @@ const LoginPage: FC = () => {
       label: "ตารางการกำหนดสิทธิการเข้าถึงระบบ (Authority matrix) ระบบ SNC-iCRS",
       link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authority-matrix.pdf",
     },
+    {
+      label: "ตัวอย่างเอกสารที่ Export ออกจากระบบ iCRS (PDF)",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-export-sample.pdf",
+    },
   ];
 
   const {

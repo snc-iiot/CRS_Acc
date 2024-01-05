@@ -99,6 +99,7 @@ const HomePage: FC = () => {
       name: company,
       children: [{ name: company, size: regis_count }],
     }));
+
   const dataRegisEast = dataRegisCount
     ?.filter(({ province, regis_count }) => province !== "SAMUTPAKAN" && regis_count > 0)
     ?.map(({ company, regis_count }) => ({
@@ -117,7 +118,7 @@ const HomePage: FC = () => {
           {dataCountRegisList.length > 0 && (
             <span className="text-sm text-primary">
               (อัพเดทล่าสุดเมื่อวันที่:{" "}
-              {getDateThai(dataCountRegisList.length > 0 && dataCountRegisList[0]?.created_at).dateTime})
+              {getDateThai(dataCountRegisList.length > 0 && dataCountRegisList[0]?.approved_at).dateTime})
             </span>
           )}
         </h1>

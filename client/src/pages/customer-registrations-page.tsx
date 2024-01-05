@@ -536,7 +536,7 @@ const CustomerRegistrations: FC = () => {
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}
-                className="w-[5rem]"
+                className="w-[12rem]"
               />
               <FilterSelect
                 triggerText="สถานะ"
