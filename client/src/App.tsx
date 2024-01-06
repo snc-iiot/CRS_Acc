@@ -16,9 +16,9 @@ import {
 function App() {
   return (
     <>
-      <BrowserRouter basename={"/icrs/admin/dev"}>
-        {/* <BrowserRouter basename={"/icrs/admin/uat"}> */}
-        {/* <BrowserRouter basename={"/icrs/admin"}> */}
+      {/* <BrowserRouter basename={"/icrs/admin/dev"}> */}
+      {/* <BrowserRouter basename={"/icrs/admin/uat"}> */}
+      <BrowserRouter basename={"/icrs/admin"}>
         {/* <BrowserRouter> */}
         <Routes>
           <Route path="/login" element={<LoginPage />} />

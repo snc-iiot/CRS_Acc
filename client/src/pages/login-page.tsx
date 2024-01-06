@@ -22,19 +22,19 @@ const LoginPage: FC = () => {
   const annoucements: { label: string; link: string }[] = [
     {
       label: "ผังการดำเนินการ (Flow chart) ระบบ SNC-iCRS",
-      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-dfd.pdf",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-dfd2.pdf",
     },
     {
       label: "รายชื่อสายอนุมัติ (Approval name list) ระบบ SNC-iCRS",
-      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authen-user.pdf",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authen-user2.pdf",
     },
     {
       label: "ตารางการกำหนดสิทธิการเข้าถึงระบบ (Authority matrix) ระบบ SNC-iCRS",
-      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authority-matrix.pdf",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-authority-matrix2.pdf",
     },
     {
       label: "ตัวอย่างเอกสารที่ Export ออกจากระบบ iCRS (PDF)",
-      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-export-sample.pdf",
+      link: "https://snc-services.sncformer.com/dev/icrs/docs/pdf/icrs-export-sample2.pdf",
     },
   ];
 
