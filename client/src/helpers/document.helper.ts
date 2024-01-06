@@ -39,19 +39,19 @@ export const DocumentUpload = [
   },
   {
     id: 7,
-    label: "สัญญาขาย",
+    label: "สัญญาซื้อขายกับลูกค้า",
     label_en: "Sale Contract",
     name: "sale_contract",
   },
   {
     id: 8,
-    label: "การเยี่ยมชมโรงงาน",
+    label: "การเยี่ยมชมโรงงาน / รูปถ่าย",
     label_en: "Factory Visit",
     name: "factory_visit",
   },
   {
     id: 9,
-    label: "สภาพเครื่องจักร",
+    label: "สภาพเครื่องจักร + รูปถ่าย",
     label_en: "Machine Condition",
     name: "machine_condition",
   },
@@ -248,26 +248,16 @@ export const UploadDocument = (regisForm: TRegistrationForm) => {
   const { certificate, benefit } = standard;
   const { company_policy } = payment_term;
 
-  const certificateList = certificate.filter(
-    (item) => item.is_checked === true,
-  );
+  const certificateList = certificate.filter((item) => item.is_checked === true);
 
   const benefitList = benefit.filter((item) => item.is_checked === true);
 
-  const companyPolicy = company_policy.filter(
-    (item) => item.is_checked === true,
-  );
+  const companyPolicy = company_policy.filter((item) => item.is_checked === true);
 
   return DocumentUpload?.filter((item) => {
-    const isCertificate = certificateList.find(
-      (certificate) => certificate.cer_name_en === item.label_en,
-    );
-    const isBenefit = benefitList.find(
-      (benefit) => benefit.cer_name_en === item.label_en,
-    );
-    const isCompanyPolicy = companyPolicy.find(
-      (policy) => policy.cer_id === item.id,
-    );
+    const isCertificate = certificateList.find((certificate) => certificate.cer_name_en === item.label_en);
+    const isBenefit = benefitList.find((benefit) => benefit.cer_name_en === item.label_en);
+    const isCompanyPolicy = companyPolicy.find((policy) => policy.cer_id === item.id);
     return (
       isCertificate ||
       isBenefit ||
