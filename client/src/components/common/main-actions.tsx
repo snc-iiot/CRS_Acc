@@ -1,5 +1,4 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-// import { getDateThai } from "@/helpers/calendar.helper";
 import { validateGeneralAssessmentForm } from "@/helpers/validate.helper";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
@@ -28,9 +27,19 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     profile: { role },
   } = useProfile();
 
+  interface IAction {
+    [key: string]: JSX.Element | null;
+  }
+
   //! role = approver and fi and viewer
-  const actionApprove = (status_no: number) => {
+  const actionApprove = (status_no: number): IAction => {
     const status = {
+      0: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
       1: {
         ["R1"]: null,
         ["R2"]: null,
@@ -84,8 +93,14 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
   };
 
   //! role = sap-code
-  const actionSapCode = (status_no: number) => {
+  const actionSapCode = (status_no: number): IAction => {
     const status = {
+      0: {
+        ["R1"]: null,
+        ["R2"]: null,
+        ["R3"]: null,
+        ["R4"]: null,
+      },
       1: {
         ["R1"]: null,
         ["R2"]: null,
@@ -139,7 +154,7 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
   };
 
   //! role = user
-  const actionUser = (status_no: number) => {
+  const actionUser = (status_no: number): IAction => {
     if (status_no === 0) {
       //! สถานะ รออัพโหลดเอกสาร
       return {
@@ -222,7 +237,7 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
   };
 
   //! role = admin
-  const actionButton = (status_no: number) => {
+  const actionButton = (status_no: number): IAction => {
     if (status_no === 0) {
       //! สถานะ รออัพโหลดเอกสาร
       return {
@@ -316,7 +331,6 @@ const MainActions: FC<Props> = ({ activeTab = "R1" }) => {
     return { ...actionApprove(registration?.status_no as number) }[activeTab] || null;
   }
 };
-
 export default MainActions;
 
 //! Status รอพิจารณาอนุมัติ
@@ -461,6 +475,7 @@ const ActionButton = () => {
                 //     setOpenDialog((prev) => ({ ...prev, suspend: true }));
                 //   }
                 // }}
+                type="submit"
               >
                 <Icons.MinusCircle className="mr-2 h-5 w-5" />
                 ระงับชั่วคราว
@@ -532,6 +547,7 @@ const ActionButton = () => {
                 //     setOpenDialog((prev) => ({ ...prev, reject: true }));
                 //   }
                 // }}
+                type="submit"
               >
                 <Icons.xCircle className="mr-2 h-5 w-5" />
                 ไม่อนุมัติ
@@ -621,27 +637,7 @@ const AccAction = () => {
                 required
               />
             </div>
-            <Button
-              className="mt-2 bg-yellow-500 hover:bg-yellow-500/80"
-              // onClick={async () => {
-              //   setOpenDialog((prev) => ({ ...prev, edit: false }));
-              //   const isConfirm = await confirmSwal(
-              //     "ยืนยันการส่งกลับเพื่อแก้ไข",
-              //     "",
-              //   );
-              //   if (isConfirm) {
-              //     const res = await mutateSendToEdit({
-              //       regis_id: regisId,
-              //       comments,
-              //     });
-              //     if (res?.status === "success") {
-              //       setComments("");
-              //     }
-              //   } else {
-              //     setOpenDialog((prev) => ({ ...prev, edit: true }));
-              //   }
-              // }}
-            >
+            <Button className="mt-2 bg-yellow-500 hover:bg-yellow-500/80" type="submit">
               <Icons.edit className="mr-2 h-5 w-5" />
               ส่งกลับเพื่อแก้ไข
             </Button>
@@ -663,10 +659,6 @@ const EditR1 = () => {
 
   useEffect(() => {
     setOldData(generalAssessmentForm);
-    // setCommon((prev) => ({
-    //   ...prev,
-    //   isEditGeneralAssessmentForm: false,
-    // }));
   }, []);
 
   return (
@@ -761,7 +753,7 @@ const CustomerCode = () => {
               e.preventDefault();
               if (customer_code?.toString()?.length !== 6 || !customer_code) {
                 setOpenDialog((prev) => ({ ...prev, customerCode: false }));
-                showError("กรุณากรอกรหัสลูกค้าให้ถูกต้อง", "กรุณากรอกรหัสลูกค้าให้ถูกต้อง");
+                showError("กรุณากรอกรหัสลูกค้าให้ถูกต้อง", "รหัสลูกค้าต้องมี 6 หลัก");
                 return;
               } else {
                 setOpenDialog((prev) => ({ ...prev, customerCode: false }));
@@ -792,9 +784,10 @@ const CustomerCode = () => {
                   const value = isNaN(parseInt(e.target.value)) ? null : parseInt(e.target.value);
                   setCustomer_code(value);
                 }}
-                required={true}
+                required
+                placeholder="กรุณากรอกรหัสลูกค้า"
                 pattern="[0-9]*"
-                inputMode="numeric"
+                // อย่างน้อย 6 ตัว และ ไม่เกิน 6 ตัว
                 minLength={6}
                 maxLength={6}
               />

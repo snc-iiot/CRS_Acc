@@ -221,7 +221,7 @@ export const useUtils = () => {
     mutationKey: [queryKey.CREATE_COMMENT],
     mutationFn: ({ regisId, comment }) => utilsService.createComment(regisId, comment),
     onMutate: () => {
-      showLoading("กำลังสร้างข้อเสนอแนะ", "กรุณารอสักครู่");
+      showLoading("กำลังบันทึกข้อเสนอแนะ", "กรุณารอสักครู่");
     },
     onSuccess: (data) => {
       closeSwal();
@@ -229,7 +229,7 @@ export const useUtils = () => {
         mutateGetCommentByRegisId(regisId);
         showSuccess(data?.message, "");
       } else {
-        showError("สร้างข้อเสนอแนะไม่สำเร็จ", data?.message);
+        showError("บันทึกข้อเสนอแนะไม่สำเร็จ", data?.message);
       }
     },
     onError: (error) => {

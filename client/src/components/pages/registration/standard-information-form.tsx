@@ -77,6 +77,8 @@ const StandardInformationForm: FC = () => {
     }
   }, [mode]);
 
+  console.log("registration", registration.payment_term?.credit_term);
+
   return (
     <section id="standard-certification-info" className="pr-4">
       <main className="flex h-full w-full flex-col gap-2">
@@ -503,7 +505,12 @@ const StandardInformationForm: FC = () => {
                     <label htmlFor="credit" className="whitespace-nowrap text-sm font-medium">
                       เครดิตเทอม
                     </label>
-                    <div className={cn("flex items-center gap-2")}>
+                    <div
+                      className={cn(
+                        "flex items-center gap-2",
+                        creditTerm === "" || creditTerm === "other" ? "hidden" : ""
+                      )}
+                    >
                       <select
                         className="w-full rounded-sm border px-2 py-[0.1rem] text-sm"
                         disabled={registration?.payment_term?.credit_term?.name === "other"}

@@ -1,0 +1,14 @@
+[
+  {
+    "link_id": 1,
+    "link_full_name": "จองรถส่วนกลาง",
+    "link_short_name": "จองรถส่วนกลาง",
+    "link_desc": "SCAN (iCRS)",
+    "link_url": "http://www.snc.co.th",
+    "link_image": "http://www.google.com",
+    "access_role": ["admin", "user"],
+    "is_active": true,
+    "service_id": 1,
+    "sub_link": []
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "service_id": 1,
+    "service_name": "ศูนย์จองออนไลน์",
+    "service_name_en": "Booking Center",
+    "service_desc": "ศูนย์รวมเว็บไซต์สำหรับบริการจองออนไลน์(Booking Center)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 2,
+    "service_name": "เว็บไซต์บริการ",
+    "service_name_en": "The CoDE",
+    "service_desc": "ศูนย์รวมเว็บไซต์บริการ(The CoDE)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 3,
+    "service_name": "บริการด้านไอที",
+    "service_name_en": "IT Helpdesk",
+    "service_desc": "ศูนย์รวมเว็บไซต์สำหรับบริการด้านไอที (IT HelpDesk)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 4,
+    "service_name": "ขออนุมัติทั่วไป",
+    "service_name_en": "Quick Form",
+    "service_desc": "ศูนย์รวมแบบฟอร์มขออนุมัติทั่วไป (Quick Form)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 5,
+    "service_name": "แบบฟอร์มฝ่ายบุคคล",
+    "service_name_en": "HR Form",
+    "service_desc": "ศูนย์รวมแบบฟอร์มฝ่ายบุคคล (HR Form)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 6,
+    "service_name": "แบบฟอร์มทั่วไป",
+    "service_name_en": "General Form",
+    "service_desc": "ศูนย์รวมแบบฟอร์มทั่วไป (General Form)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 7,
+    "service_name": "ระบบคุณภาพ",
+    "service_name_en": "Quality System",
+    "service_desc": "ศูนย์รวมระบบคุณภาพ (Quality System)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 8,
+    "service_name": "แผนกจัดซื้อ",
+    "service_name_en": "SCM's Site",
+    "service_desc": "ศูนย์รวมเว็บไซต์สำหรับแผนกจัดซื้อ (SCM's Site)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 9,
+    "service_name": "แผนกบัญชี",
+    "service_name_en": "ACC's Site",
+    "service_desc": "ศูนย์รวมเว็บไซต์สำหรับแผนกบัญชี (ACC's Site)",
+    "is_active": true,
+    "access_role": ["admin"]
+  },
+  {
+    "service_id": 10,
+    "service_name": "แผนกพัฒนา",
+    "service_name_en": "The CoDE",
+    "service_desc": "ศูนย์รวมเว็บไซต์สำหรับ แผนกพัฒนา (The CoDE)",
+    "is_active": true,
+    "access_role": ["admin"]
+  }
+]

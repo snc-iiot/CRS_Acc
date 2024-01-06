@@ -204,7 +204,8 @@ const RegistrationInfo: FC = () => {
     if (registration?.status_no === 1) {
       setCommon((prev) => ({
         ...prev,
-        isEditGeneralAssessmentForm: role == "approver" || role == "sap-code" ? false : true,
+        isEditGeneralAssessmentForm:
+          role == "approver" || role == "sap-code" || role == "fi" || role == "viewer" ? false : true,
       }));
     }
   }, [registration?.status_no]);
@@ -280,7 +281,7 @@ const RegistrationInfo: FC = () => {
             >
               {generalAssessmentForm?.status_desc_th} &nbsp;
             </Badge>
-            {registration?.status_no === 8 && (
+            {/* {registration?.status_no === 8 && (
               <div className="flex flex-col border-x-2 px-1 text-right">
                 <h1 className="text-md font-semibold">รหัสลูกค้า: {generalAssessmentForm?.customer_code}</h1>
                 <p className="text-[8px]">
@@ -288,7 +289,7 @@ const RegistrationInfo: FC = () => {
                   {getDateThai(generalAssessmentForm?.filled_customer_code_at || "").dateTime}
                 </p>
               </div>
-            )}
+            )} */}
             <Button
               variant="outline"
               onClick={() => {
@@ -391,17 +392,18 @@ const RegistrationInfo: FC = () => {
             <div className={cn("relative h-full px-1 py-0", viewPage == "L" ? "hidden delay-500" : "col-span-2 block")}>
               <div
                 className={cn(
+                  "relative",
                   PermissionSubAction(registration?.status_no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, role).includes(
                     activeTab
                   )
                     ? "h-[calc(66%-0.5rem)] "
-                    : role === "approver" || role === "sap-code"
+                    : role === "approver" || role === "sap-code" || role === "fi" || role === "viewer"
                     ? ConditionHeight(registration?.status_no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)
                     : "h-[calc(73%-0.5rem)]"
                 )}
               >
                 <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)} className="h-full">
-                  <nav className="fixed right-1 top-2">
+                  <nav className="fixed right-[0.325rem] top-[0.325rem]">
                     <TabsList>
                       {TabList.map((info, i) => (
                         <TabsTrigger
@@ -417,21 +419,57 @@ const RegistrationInfo: FC = () => {
                     </TabsList>
                   </nav>
                   <TabsContent value="R1" className="h-full overflow-auto">
+                    {registration?.status_no === 8 && (
+                      <div className="py-b sticky top-0 z-20 mb-1 flex flex-col border-b bg-white px-1 pb-2 text-right">
+                        <h1 className="text-lg font-semibold">รหัสลูกค้า: {generalAssessmentForm?.customer_code}</h1>
+                        <p className="text-xs">
+                          วันและเวลาที่กรอกรหัสลูกค้า:{" "}
+                          {getDateThai(generalAssessmentForm?.filled_customer_code_at || "")?.dateTime}
+                        </p>
+                      </div>
+                    )}
                     <div className="flex h-0 flex-grow flex-col">
                       <R1Form />
                     </div>
                   </TabsContent>
                   <TabsContent value="R2" className="h-full overflow-auto">
+                    {registration?.status_no === 8 && (
+                      <div className="py-b sticky top-0 z-20 mb-1 flex flex-col border-b bg-white px-1 pb-2 text-right">
+                        <h1 className="text-lg font-semibold">รหัสลูกค้า: {generalAssessmentForm?.customer_code}</h1>
+                        <p className="text-xs">
+                          วันและเวลาที่กรอกรหัสลูกค้า:{" "}
+                          {getDateThai(generalAssessmentForm?.filled_customer_code_at || "")?.dateTime}
+                        </p>
+                      </div>
+                    )}
                     <div className="flex h-0 flex-grow flex-col">
                       <R2Form />
                     </div>
                   </TabsContent>
                   <TabsContent value="R3" className="h-full overflow-auto">
+                    {registration?.status_no === 8 && (
+                      <div className="py-b sticky top-0 z-20 mb-1 flex flex-col border-b bg-white px-1 pb-2 text-right">
+                        <h1 className="text-lg font-semibold">รหัสลูกค้า: {generalAssessmentForm?.customer_code}</h1>
+                        <p className="text-xs">
+                          วันและเวลาที่กรอกรหัสลูกค้า:{" "}
+                          {getDateThai(generalAssessmentForm?.filled_customer_code_at || "")?.dateTime}
+                        </p>
+                      </div>
+                    )}
                     <div className="flex h-0 flex-grow flex-col">
                       <R3Form />
                     </div>
                   </TabsContent>
                   <TabsContent value="R4" className="h-full overflow-auto">
+                    {registration?.status_no === 8 && (
+                      <div className="py-b sticky top-0 z-20 mb-1 flex flex-col border-b bg-white px-1 pb-2 text-right">
+                        <h1 className="text-lg font-semibold">รหัสลูกค้า: {generalAssessmentForm?.customer_code}</h1>
+                        <p className="text-xs">
+                          วันและเวลาที่กรอกรหัสลูกค้า:{" "}
+                          {getDateThai(generalAssessmentForm?.filled_customer_code_at || "").dateTime}
+                        </p>
+                      </div>
+                    )}
                     <div className="flex h-0 flex-grow flex-col">
                       <R4Form />
                     </div>
@@ -509,30 +547,51 @@ const RegistrationInfo: FC = () => {
                     </section>
                     <section className="px-2 py-1">
                       <Popover>
-                        <PopoverTrigger className="text-xs text-primary">เพิ่มข้อเสนอแนะ</PopoverTrigger>
+                        <PopoverTrigger
+                          className={cn(
+                            "text-xs text-primary",
+                            (role !== "admin" && role !== "user" && role !== "approver") ||
+                              (registration?.status_no ?? 0) > 5
+                              ? "pointer-events-none opacity-50"
+                              : ""
+                          )}
+                        >
+                          เพิ่มข้อเสนอแนะ
+                        </PopoverTrigger>
                         <PopoverContent align="start" className="h-60 w-72 p-1 shadow-sm">
                           <main className="flex h-full w-full flex-col gap-2 overflow-hidden p-1">
                             <h2 className="px-2 py-1 text-sm font-semibold underline">
                               เพิ่มข้อเสนอแนะ / Add Comments
                             </h2>
-                            <Textarea
-                              className="h-full w-full"
-                              value={commentText}
-                              onChange={(e) => setCommentText(e.target.value)}
-                            />
-                            <div className="text-end">
-                              <Button
-                                size="sm"
-                                onClick={async () => {
-                                  mutateCreateComment({
-                                    regisId: RegisID as string,
+                            <form
+                              className="flex h-full w-full flex-col gap-2 overflow-hidden p-1"
+                              onSubmit={async (e) => {
+                                e.preventDefault();
+                                const isConfirm = await confirmSwal(
+                                  "บันทึกข้อเสนอแนะ",
+                                  "คุณต้องการบันทึกข้อเสนอแนะทางการเงินหรือไม่"
+                                );
+                                if (isConfirm) {
+                                  await mutateCreateComment({
                                     comment: commentText,
+                                    regisId: RegisID ?? "",
                                   });
-                                }}
-                              >
-                                บันทึก
-                              </Button>
-                            </div>
+                                  setCommentText("");
+                                }
+                              }}
+                            >
+                              <Textarea
+                                className="h-full w-full"
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                                required
+                              />
+                              <div className="text-end">
+                                <Button size="sm" type="submit">
+                                  บันทึก
+                                </Button>
+                              </div>
+                            </form>
                           </main>
                         </PopoverContent>
                       </Popover>

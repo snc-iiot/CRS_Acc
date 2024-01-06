@@ -442,7 +442,12 @@ const CustomerRegistrations: FC = () => {
                   onClick={() => {
                     setTabsSelected("0");
                   }}
-                  className={cn(role === "approver" && "hidden", role === "sap-code" && "hidden")}
+                  className={cn(
+                    role === "approver" && "hidden",
+                    role === "sap-code" && "hidden",
+                    role === "fi" && "hidden",
+                    role === "viewer" && "hidden"
+                  )}
                 >
                   รออัพโหลดเอกสาร
                   {regisList?.filter((item) => item?.status_no === 0)?.length > 0
@@ -456,7 +461,12 @@ const CustomerRegistrations: FC = () => {
                   onClick={() => {
                     setTabsSelected("1");
                   }}
-                  className={cn(role === "approver" && "hidden", role === "sap-code" && "hidden")}
+                  className={cn(
+                    role === "approver" && "hidden",
+                    role === "sap-code" && "hidden",
+                    role === "fi" && "hidden",
+                    role === "viewer" && "hidden"
+                  )}
                 >
                   รอตรวจสอบข้อมูล
                   {regisList?.filter((item) => item?.status_no === 1)?.length > 0
@@ -469,7 +479,12 @@ const CustomerRegistrations: FC = () => {
                 onClick={() => {
                   setTabsSelected("2");
                 }}
-                className={cn(role === "approver" && "hidden", role === "sap-code" && "hidden")}
+                className={cn(
+                  role === "approver" && "hidden",
+                  role === "sap-code" && "hidden",
+                  role === "fi" && "hidden",
+                  role === "viewer" && "hidden"
+                )}
               >
                 รอยืนยันข้อมูลการเงิน
                 {regisList?.filter((item) => item?.status_no === 2)?.length > 0
@@ -482,6 +497,12 @@ const CustomerRegistrations: FC = () => {
                   onClick={() => {
                     setTabsSelected("3");
                   }}
+                  className={cn(
+                    role === "approver" && "hidden",
+                    role === "sap-code" && "hidden",
+                    role === "fi" && "hidden",
+                    role === "viewer" && "hidden"
+                  )}
                 >
                   รอการแก้ไข
                   {regisList?.filter((item) => item?.status_no === 3)?.length > 0
@@ -496,7 +517,7 @@ const CustomerRegistrations: FC = () => {
                   onClick={() => {
                     setTabsSelected("5");
                   }}
-                  className={cn(role === "sap-code" ? "hidden" : "")}
+                  className={cn(role === "sap-code" || role === "fi" || role === "viewer" ? "hidden" : "")}
                 >
                   ระงับชั่วคราว
                   {regisList?.filter((item) => item?.status_no === 5)?.length > 0

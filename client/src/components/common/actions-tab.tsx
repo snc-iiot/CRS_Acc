@@ -425,6 +425,7 @@ const ActionTab: FC<Props> = ({ activeTab = "R2" }) => {
         }
       }
 
+      await mutateSyncDBD(regisId as string);
       await mutateGetDBDInfo(regisId as string);
       setIsOpenUpdate(false);
       closeSwal();

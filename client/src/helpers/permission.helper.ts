@@ -117,7 +117,7 @@ export const PermissionSubAction = (status: number, role: string) => {
  * "h-[calc(100%-0.5rem)]". Otherwise, it returns the string "h-[calc(73%-0.5rem)]".
  */
 export const ConditionHeight = (status: number) => {
-  if (status === 1 || status === 2 || status === 3) {
+  if (status === 0 || status === 1) {
     return "h-[calc(100%-0.5rem)]";
   }
   return "h-[calc(73%-0.5rem)]";

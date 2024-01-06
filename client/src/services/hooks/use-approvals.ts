@@ -24,7 +24,9 @@ the `react-query` library. */
         closeSwal();
         if (data?.status === "success") {
           showSuccess(data?.message, "");
-          navigate("/registrations");
+          setTimeout(() => {
+            navigate("/registrations");
+          }, 1500);
         } else {
           showError(data?.message, "");
         }
@@ -51,7 +53,9 @@ the `react-query` library. */
       closeSwal();
       if (data?.status === "success") {
         showSuccess(data?.message, "");
-        navigate("/registrations");
+        setTimeout(() => {
+          navigate("/registrations");
+        }, 1500);
       } else {
         showError(data?.message, "");
       }
@@ -77,7 +81,9 @@ the `react-query` library. */
       closeSwal();
       if (data?.status === "success") {
         showSuccess(data?.message, "");
-        navigate("/registrations");
+        setTimeout(() => {
+          navigate("/registrations");
+        }, 1500);
       } else {
         showError(data?.message, "");
       }
