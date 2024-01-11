@@ -1,6 +1,7 @@
 import BarChart from "@/components/common/chart/bar-chart";
 import BarChartHorizontal from "@/components/common/chart/bar-chart-horizontal";
 import PieChartComponents from "@/components/common/chart/pi-chart";
+import TreeMap from "@/components/common/chart/tree-map";
 import { Select } from "@/components/ui/select-custom";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { COLORS_SERIES } from "@/lib/utils";
@@ -20,8 +21,9 @@ const HomePage: FC = () => {
     isFetchingMainCustomerRatio,
     isFetchingShareHolderRatio,
     isFetchingObjectivePurchasingRatio,
-    isFetchingRegisStat,
   } = useHome();
+
+  console.log(dataRegisStat);
 
   const Datanationality = dataShareHolderRatio
     ?.map(({ country, percent }, i) => ({
@@ -74,7 +76,7 @@ const HomePage: FC = () => {
   ];
 
   const data = dataRegisCount
-    ?.filter(({ company }) => company !== "Undefine" && company !== "SNC")
+    ?.filter(({ regis_count }) => regis_count > 0)
     ?.map(({ company, regis_count }, i) => ({
       name: company,
       value: regis_count,
@@ -82,7 +84,43 @@ const HomePage: FC = () => {
     }))
     ?.sort((a, b) => b?.value - a?.value);
 
-  // console.log(Datanationality);
+  const TotolRegis = dataRegisCount
+    ?.map(({ regis_count }) => regis_count ?? 0)
+    ?.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+  const TotolRegisWest = dataRegisCount
+    ?.map(({ regis_count, province }) =>
+      province !== "RAYONG" ? 0 : regis_count ?? 0,
+    )
+    ?.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+  const TotolRegisEast = dataRegisCount
+    ?.map(({ regis_count, province }) =>
+      province !== "SAMUTPAKAN" ? 0 : regis_count ?? 0,
+    )
+    ?.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+
+  const dataRegisWest = dataRegisCount
+    ?.filter(
+      ({ province, regis_count }) => province !== "RAYONG" && regis_count > 0,
+    )
+    ?.map(({ company, regis_count }) => ({
+      name: company,
+      children: [{ name: company, size: regis_count }],
+    }));
+  const dataRegisEast = dataRegisCount
+    ?.filter(
+      ({ province, regis_count }) =>
+        province !== "SAMUTPAKAN" && regis_count > 0,
+    )
+    ?.map(({ company, regis_count }) => ({
+      name: company,
+      children: [{ name: company, size: regis_count }],
+    }));
 
   return (
     <main className="relative flex h-full w-full flex-col gap-2">
@@ -96,24 +134,80 @@ const HomePage: FC = () => {
           </Select>
         </div>
       </section>
-      <section className="grid h-full grid-cols-8 grid-rows-2 gap-2 overflow-clip">
-        <article className="col-span-6 row-span-1 flex h-full flex-col overflow-clip rounded-md border p-2">
-          <section>
-            <h3 className="text-md font-bold">สถิติการลงทะเบียน (คะแนน)</h3>
-          </section>
-          <section className="flex h-full w-full flex-col">
-            {dataRegisStat?.length === 0 ? (
-              <article className="flex h-full w-full flex-col items-center justify-center">
-                <text className="text-sm">
-                  {isFetchingRegisStat
-                    ? "กำลังโหลดข้อมูล..."
-                    : "ยังไม่มีข้อมูลการลงทะเบียน"}
-                </text>
+      <section className="grid h-full grid-cols-8 grid-rows-2 gap-2">
+        <article className="col-span-6 row-span-1 flex h-full flex-col">
+          {dataRegisStat?.length === 0 ? (
+            <article className="flex h-full w-full flex-col items-center justify-center">
+              <text className="text-sm">
+                {isFetchingRegisCount
+                  ? "กำลังโหลดข้อมูล..."
+                  : "ยังไม่มีข้อมูลการลงทะเบียน"}
+              </text>
+            </article>
+          ) : (
+            <section className="grid h-full w-full grid-cols-8 grid-rows-2 gap-2 ">
+              <article className="col-span-2 row-span-2 flex h-full flex-col items-center justify-center rounded-md border p-2">
+                <h3 className="text-md font-bold">
+                  จำนวนลูกค้า SNC รวมทั้งเครือ
+                </h3>
+                <h1
+                  className={`${
+                    TotolRegis < 1000
+                      ? "text-[6rem]"
+                      : TotolRegis < 10000
+                      ? "text-[5rem]"
+                      : TotolRegis < 100000
+                      ? "text-[4rem]"
+                      : "text-[3rem]"
+                  }`}
+                >
+                  {TotolRegis?.toLocaleString("en")}
+                </h1>
               </article>
-            ) : (
-              <article className="flex h-full w-full flex-col"></article>
-            )}
-          </section>
+              <article className="relative z-10 col-span-2 flex h-full flex-col items-center  justify-center rounded-md border p-2">
+                <h3 className="text-md absolute left-0 top-[-10px] bg-white px-2 font-bold">
+                  East :
+                </h3>
+                <h1
+                  className={`${
+                    TotolRegis < 1000
+                      ? "text-[6rem]"
+                      : TotolRegis < 10000
+                      ? "text-[5rem]"
+                      : TotolRegis < 100000
+                      ? "text-[4rem]"
+                      : "text-[3rem]"
+                  }`}
+                >
+                  {TotolRegisEast?.toLocaleString("en")}
+                </h1>
+              </article>
+              <article className="col-span-4 row-span-1 flex h-full flex-col  overflow-clip rounded-md border ">
+                <TreeMap data={dataRegisEast} />
+              </article>
+              <article className="relative col-span-2 flex h-full flex-col items-center justify-center rounded-md border p-2">
+                <h3 className="text-md absolute left-0 top-[-10px] bg-white px-2 font-bold">
+                  West :
+                </h3>
+                <h1
+                  className={`${
+                    TotolRegis < 1000
+                      ? "text-[6rem]"
+                      : TotolRegis < 10000
+                      ? "text-[5rem]"
+                      : TotolRegis < 100000
+                      ? "text-[4rem]"
+                      : "text-[3rem]"
+                  }`}
+                >
+                  {TotolRegisWest?.toLocaleString("en")}
+                </h1>
+              </article>
+              <article className="col-span-4 row-span-1 flex h-full flex-col overflow-clip rounded-md border ">
+                <TreeMap data={dataRegisWest} />
+              </article>
+            </section>
+          )}
         </article>
         <article className="col-span-2 row-span-1 flex h-full flex-col rounded-md border p-2">
           <section>

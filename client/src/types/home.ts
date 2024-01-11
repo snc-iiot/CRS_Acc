@@ -1,6 +1,9 @@
 export type DataRegisCountType = {
   company: string;
-  regis_count: number
+  regis_count: number;
+  company_full_name_th: string;
+  company_full_name_en: string;
+  province: "SAMUTPAKAN" | "RAYONG"
 }
 
 export type DataMainCustomerRatioType = {
@@ -20,8 +23,6 @@ export type DataObjectivePurchasingRatioType = {
   amount: number
 }
 export type DataRegisStatType = {
-  regis_id: string;
-  company_name: string;
-  score: number;
-  approved_at: string
+  province: string;
+  amount: number
 }

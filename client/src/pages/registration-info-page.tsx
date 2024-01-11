@@ -1,5 +1,5 @@
 import ActionTab from "@/components/common/actions-tab";
-import BarChartHorizontal from "@/components/common/chart/bar-chart-horizontal";
+import TreeMap from "@/components/common/chart/tree-map";
 import { FadeIn } from "@/components/common/framer-motion";
 import { Icons } from "@/components/common/icons";
 import MainActions from "@/components/common/main-actions";
@@ -43,7 +43,7 @@ import { status } from "@/helpers/status.helper";
 import { CommentType } from "@/helpers/utils.helpers";
 import { useSwal } from "@/hooks/use-swal";
 import { useAtomStore } from "@/jotai/use-atom-store";
-import { cn, COLORS_SERIES } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useForm, useUtils } from "@/services/";
 import { useFormGeneral } from "@/services/hooks/use-general-form";
 import { useProfile } from "@/services/hooks/use-profile";
@@ -725,7 +725,15 @@ const RegistrationInfo: FC = () => {
                     </section>
                     <section className="grid h-full w-full grid-cols-2">
                       <div className="col-span-2 h-full w-full flex-grow overflow-y-auto">
-                        <BarChartHorizontal
+                        <TreeMap
+                          data={dataRegisCount
+                            ?.filter(({ regis_count }) => regis_count > 0)
+                            ?.map(({ company, regis_count }) => ({
+                              name: company,
+                              children: [{ name: company, size: regis_count }],
+                            }))}
+                        />
+                        {/* <BarChartHorizontal
                           data={dataRegisCount
                             ?.filter(
                               ({ company }) =>
@@ -743,7 +751,7 @@ const RegistrationInfo: FC = () => {
                           keyYAxis="value"
                           isLabelInside={true}
                           barFontSize={8}
-                        />
+                        /> */}
                       </div>
                       {/* <div className="relative flex h-full w-full flex-col">
                         <h5 className="px-2 text-xs font-semibold underline">

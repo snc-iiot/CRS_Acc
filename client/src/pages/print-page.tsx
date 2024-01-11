@@ -25,6 +25,29 @@ const PrintPage = forwardRef((_, ref: any) => {
     colSpan?: number;
   }
 
+  const summaryPartInfo2 = {
+    เงื่อนไขการปรับราคา: "Price conditions",
+    "ระยะทางในการขนส่งสินค้า / ค่าใช้จ่าย":
+      "Distance of Goods Transport / Expenses",
+    "ระเบียบการวางบิล / รับเงิน": "Invoice / Payment Procedures",
+    เงื่อนไขการขนส่งสินค้า: "Terms and Conditions of Goods Transportation",
+    เงื่อนไขในการวางเงินมัดจำ: "Terms and Conditions for Deposit Placement",
+    รับประกันสินค้า: "Product Warranty",
+    การรับรองที่ได้รับ: "Received Certification",
+    มีนโยบายการต่อต้านทุจริตคอร์รัปชั่น: "Anti-corruption policy",
+    "มีนโยบายไม่รับแรงงานต่ำกวา 18 ปี": "Child labor policy",
+    "มีนโยบายการประเมินผลกระทบต่อสื่งแวดล้อมต่อตนเอง และชุมชนโดยรอบ":
+      "Environmental impact assessment policy",
+    มีนโยบายการเปิดเผยช่องทางให้ติดต่อร้องเรียน: "Complaints policy",
+    "มีนโยบายประเมินความปลอดภัย อาชีวอนามัยและสภาพแวดล้อมในการทำงาน":
+      "Safety, health, and environmental policy",
+    มีนโยบายสวัสดิการแรงงานตามกฎหมายกำหนด: "Minimum welfare policy",
+    "งบการเงิน 5 ปี": "Five-year budget.",
+    สัญญาซื้อขายกับลูกค้า: "Sales Agreement with Customers",
+    "เยี่ยมชมโรงงาน / รูปถ่าย": "Visit to the factory / Photographs",
+    "สภาพเครื่องจักร + รูปถ่าย": "Machine condition + Photographs",
+  };
+
   const { contact_person } = registration;
   const { approvals } = generalAssessmentForm;
 
@@ -766,9 +789,13 @@ const PrintPage = forwardRef((_, ref: any) => {
                       >
                         <p className="truncate whitespace-nowrap text-[12px]">
                           {i + 1}. {evaluate?.label_th}{" "}
-                          {evaluate?.label_en !== ""
-                            ? `(${evaluate?.label_en})`
-                            : null}
+                          {summaryPartInfo2?.[
+                            evaluate?.label_th as keyof typeof summaryPartInfo2
+                          ] ?? "" !== ""
+                            ? `(${summaryPartInfo2?.[
+                                evaluate?.label_th as keyof typeof summaryPartInfo2
+                              ]})`
+                            : ""}
                         </p>
                         <div className={`flex items-center gap-2`}>
                           <div className="flex items-center">
