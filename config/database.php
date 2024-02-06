@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    // 'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => 'pgsql',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,14 +64,29 @@ return [
             ]) : [],
         ],
 
+        // 'pgsql' => [
+        //     'driver' => 'pgsql',
+        //     'url' => env('DATABASE_URL'),
+        //     'host' => env('DB_HOST', '10.0.0.8'),
+        //     'port' => env('DB_PORT', '5432'),
+        //     'database' => env('DB_DATABASE', 'iCRS_PRD'),
+        //     'username' => env('DB_USERNAME', 'Backend-CoDE'),
+        //     'password' => env('DB_PASSWORD', '$nc.C0DE@z0z3'),
+        //     'charset' => 'utf8',
+        //     'prefix' => '',
+        //     'prefix_indexes' => true,
+        //     'schema' => 'public',
+        //     'sslmode' => 'prefer',
+        // ],
+
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '10.0.0.7'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'url' => '',
+            'host' => '10.0.0.8',
+            'port' => '5432',
+            'database' => 'iCRS_PRD',
+            'username' => 'Backend-CoDE',
+            'password' => '$nc.C0DE@z0z3',
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
