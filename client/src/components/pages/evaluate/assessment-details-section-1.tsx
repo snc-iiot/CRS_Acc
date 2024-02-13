@@ -1,10 +1,5 @@
 import TableAssessmentSummary from "@/components/common/table-assessment-summary";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { groupByField } from "@/helpers/array.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC } from "react";
@@ -24,12 +19,8 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.1"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.1.1"]?.[0]?.label_en}`
+      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection["1.1.1"]?.[0]?.label_th} ${
+        allSection["1.1.1"]?.[0]?.label_en === "" ? "" : `${allSection["1.1.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.1"]?.[0]?.score,
       maxScore: allSection["1.1.1"]?.[0]?.max_score,
@@ -53,12 +44,8 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.2"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.1.2"]?.[0]?.label_en}`
+      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection["1.1.2"]?.[0]?.label_th} ${
+        allSection["1.1.2"]?.[0]?.label_en === "" ? "" : `${allSection["1.1.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.2"]?.[0]?.score,
       maxScore: allSection["1.1.2"]?.[0]?.max_score,
@@ -82,12 +69,8 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.3"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.3"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.1.3"]?.[0]?.label_en}`
+      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection["1.1.3"]?.[0]?.label_th} ${
+        allSection["1.1.3"]?.[0]?.label_en === "" ? "" : `${allSection["1.1.3"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.3"]?.[0]?.score,
       maxScore: allSection["1.1.3"]?.[0]?.max_score,
@@ -111,12 +94,8 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.4"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.4"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.1.4"]?.[0]?.label_en}`
+      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection["1.1.4"]?.[0]?.label_th} ${
+        allSection["1.1.4"]?.[0]?.label_en === "" ? "" : `${allSection["1.1.4"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.1.4"]?.[0]?.score,
       maxScore: allSection["1.1.4"]?.[0]?.max_score,
@@ -141,6 +120,8 @@ const AssessmentDetailsSection: FC = () => {
     },
   ];
 
+  // console.log("Section1", Section1);
+
   const Section2: {
     label: string;
     activeScore: number;
@@ -151,12 +132,8 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.2.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.2.1"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.2.1"]?.[0]?.label_en}`
+      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection["1.2.1"]?.[0]?.label_th} ${
+        allSection["1.2.1"]?.[0]?.label_en === "" ? "" : `${allSection["1.2.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.2.1"]?.[0]?.score,
       maxScore: allSection["1.2.1"]?.[0]?.max_score,
@@ -180,12 +157,8 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.2.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.2.2"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.2.2"]?.[0]?.label_en}`
+      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection["1.2.2"]?.[0]?.label_th} ${
+        allSection["1.2.2"]?.[0]?.label_en === "" ? "" : `${allSection["1.2.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.2.2"]?.[0]?.score,
       maxScore: allSection["1.2.2"]?.[0]?.max_score,
@@ -220,12 +193,8 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.1"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.3.1"]?.[0]?.label_en}`
+      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection["1.3.1"]?.[0]?.label_th} ${
+        allSection["1.3.1"]?.[0]?.label_en === "" ? "" : `${allSection["1.3.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.1"]?.[0]?.score,
       maxScore: allSection["1.3.1"]?.[0]?.max_score,
@@ -249,12 +218,8 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.2"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.3.2"]?.[0]?.label_en}`
+      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection["1.3.2"]?.[0]?.label_th} ${
+        allSection["1.3.2"]?.[0]?.label_en === "" ? "" : `${allSection["1.3.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.2"]?.[0]?.score,
       maxScore: allSection["1.3.2"]?.[0]?.max_score,
@@ -278,12 +243,8 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.3"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.3"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.3.3"]?.[0]?.label_en}`
+      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection["1.3.3"]?.[0]?.label_th} ${
+        allSection["1.3.3"]?.[0]?.label_en === "" ? "" : `${allSection["1.3.3"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.3.3"]?.[0]?.score,
       maxScore: allSection["1.3.3"]?.[0]?.max_score,
@@ -318,12 +279,8 @@ const AssessmentDetailsSection: FC = () => {
     }[];
   }[] = [
     {
-      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.4.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.4.1"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.4.1"]?.[0]?.label_en}`
+      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection["1.4.1"]?.[0]?.label_th} ${
+        allSection["1.4.1"]?.[0]?.label_en === "" ? "" : `${allSection["1.4.1"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.4.1"]?.[0]?.score,
       maxScore: allSection["1.4.1"]?.[0]?.max_score,
@@ -343,12 +300,8 @@ const AssessmentDetailsSection: FC = () => {
       ],
     },
     {
-      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.4.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.4.2"]?.[0]?.label_en === ""
-          ? ""
-          : `${allSection["1.4.2"]?.[0]?.label_en}`
+      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection["1.4.2"]?.[0]?.label_th} ${
+        allSection["1.4.2"]?.[0]?.label_en === "" ? "" : `${allSection["1.4.2"]?.[0]?.label_en}`
       }`,
       activeScore: allSection["1.4.2"]?.[0]?.score,
       maxScore: allSection["1.4.2"]?.[0]?.max_score,
@@ -488,15 +441,10 @@ const AssessmentDetailsSection: FC = () => {
           <AccordionItem key={index} value={`item-${index}`}>
             <AccordionTrigger className="p-1 text-xs">
               <p>
-                {item.label}{" "}
-                <span className="text-primary">
-                  ({labelScore[index + 1] as number}/10) คะแนน
-                </span>
+                {item.label} <span className="text-primary">({labelScore[index + 1] as number}/10) คะแนน</span>
               </p>
             </AccordionTrigger>
-            <AccordionContent className="px-6">
-              {item.component}
-            </AccordionContent>
+            <AccordionContent className="px-6">{item.component}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>

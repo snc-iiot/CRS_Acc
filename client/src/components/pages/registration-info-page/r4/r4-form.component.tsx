@@ -1,32 +1,13 @@
 import { Icons } from "@/components/common/icons";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { groupByField } from "@/helpers/array.helper";
 import { CopyToClipboardCustom } from "@/hooks/use-copy-to-clipboard";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { cn } from "@/lib/utils";
 import { FC, Fragment, useMemo } from "react";
-import {
-  AssessmentDetailsSectionComponent,
-  EvaluateFormComponent,
-} from "../../evaluate";
+import { AssessmentDetailsSectionComponent, EvaluateFormComponent } from "../../evaluate";
 
 const R4Form: FC = () => {
   const { summaryPart2, companyProfile, summaryPart1 } = useAtomStore();
@@ -38,45 +19,29 @@ const R4Form: FC = () => {
     maxScore: number;
   }[] = [
     {
-      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.1"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.1"]?.[0]?.label_en})`
+      label: `${allSection["1.1.1"]?.[0]?.topic_no_hint} ${allSection["1.1.1"]?.[0]?.label_th} ${
+        allSection["1.1.1"]?.[0]?.label_en === "" ? "" : `(${allSection["1.1.1"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.1.1"]?.[0]?.score,
       maxScore: allSection["1.1.1"]?.[0]?.max_score,
     },
     {
-      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.2"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.2"]?.[0]?.label_en})`
+      label: `${allSection["1.1.2"]?.[0]?.topic_no_hint} ${allSection["1.1.2"]?.[0]?.label_th} ${
+        allSection["1.1.2"]?.[0]?.label_en === "" ? "" : `(${allSection["1.1.2"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.1.2"]?.[0]?.score,
       maxScore: allSection["1.1.2"]?.[0]?.max_score,
     },
     {
-      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.3"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.3"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.3"]?.[0]?.label_en})`
+      label: `${allSection["1.1.3"]?.[0]?.topic_no_hint} ${allSection["1.1.3"]?.[0]?.label_th} ${
+        allSection["1.1.3"]?.[0]?.label_en === "" ? "" : `(${allSection["1.1.3"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.1.3"]?.[0]?.score,
       maxScore: allSection["1.1.3"]?.[0]?.max_score,
     },
     {
-      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection[
-        "1.1.4"
-      ]?.[0]?.label_th} ${
-        allSection["1.1.4"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.1.4"]?.[0]?.label_en})`
+      label: `${allSection["1.1.4"]?.[0]?.topic_no_hint} ${allSection["1.1.4"]?.[0]?.label_th} ${
+        allSection["1.1.4"]?.[0]?.label_en === "" ? "" : `(${allSection["1.1.4"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.1.4"]?.[0]?.score,
       maxScore: allSection["1.1.4"]?.[0]?.max_score,
@@ -89,23 +54,15 @@ const R4Form: FC = () => {
     maxScore: number;
   }[] = [
     {
-      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.2.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.2.1"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.2.1"]?.[0]?.label_en})`
+      label: `${allSection["1.2.1"]?.[0]?.topic_no_hint} ${allSection["1.2.1"]?.[0]?.label_th} ${
+        allSection["1.2.1"]?.[0]?.label_en === "" ? "" : `(${allSection["1.2.1"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.2.1"]?.[0]?.score,
       maxScore: allSection["1.2.1"]?.[0]?.max_score,
     },
     {
-      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.2.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.2.2"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.2.2"]?.[0]?.label_en})`
+      label: `${allSection["1.2.2"]?.[0]?.topic_no_hint} ${allSection["1.2.2"]?.[0]?.label_th} ${
+        allSection["1.2.2"]?.[0]?.label_en === "" ? "" : `(${allSection["1.2.2"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.2.2"]?.[0]?.score,
       maxScore: allSection["1.2.2"]?.[0]?.max_score,
@@ -118,34 +75,22 @@ const R4Form: FC = () => {
     maxScore: number;
   }[] = [
     {
-      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.1"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.3.1"]?.[0]?.label_en})`
+      label: `${allSection["1.3.1"]?.[0]?.topic_no_hint} ${allSection["1.3.1"]?.[0]?.label_th} ${
+        allSection["1.3.1"]?.[0]?.label_en === "" ? "" : `(${allSection["1.3.1"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.3.1"]?.[0]?.score,
       maxScore: allSection["1.3.1"]?.[0]?.max_score,
     },
     {
-      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.2"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.3.2"]?.[0]?.label_en})`
+      label: `${allSection["1.3.2"]?.[0]?.topic_no_hint} ${allSection["1.3.2"]?.[0]?.label_th} ${
+        allSection["1.3.2"]?.[0]?.label_en === "" ? "" : `(${allSection["1.3.2"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.3.2"]?.[0]?.score,
       maxScore: allSection["1.3.2"]?.[0]?.max_score,
     },
     {
-      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection[
-        "1.3.3"
-      ]?.[0]?.label_th} ${
-        allSection["1.3.3"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.3.3"]?.[0]?.label_en})`
+      label: `${allSection["1.3.3"]?.[0]?.topic_no_hint} ${allSection["1.3.3"]?.[0]?.label_th} ${
+        allSection["1.3.3"]?.[0]?.label_en === "" ? "" : `(${allSection["1.3.3"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.3.3"]?.[0]?.score,
       maxScore: allSection["1.3.3"]?.[0]?.max_score,
@@ -158,23 +103,15 @@ const R4Form: FC = () => {
     maxScore: number;
   }[] = [
     {
-      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection[
-        "1.4.1"
-      ]?.[0]?.label_th} ${
-        allSection["1.4.1"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.4.1"]?.[0]?.label_en})`
+      label: `${allSection["1.4.1"]?.[0]?.topic_no_hint} ${allSection["1.4.1"]?.[0]?.label_th} ${
+        allSection["1.4.1"]?.[0]?.label_en === "" ? "" : `(${allSection["1.4.1"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.4.1"]?.[0]?.score,
       maxScore: allSection["1.4.1"]?.[0]?.max_score,
     },
     {
-      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection[
-        "1.4.2"
-      ]?.[0]?.label_th} ${
-        allSection["1.4.2"]?.[0]?.label_en === ""
-          ? ""
-          : `(${allSection["1.4.2"]?.[0]?.label_en})`
+      label: `${allSection["1.4.2"]?.[0]?.topic_no_hint} ${allSection["1.4.2"]?.[0]?.label_th} ${
+        allSection["1.4.2"]?.[0]?.label_en === "" ? "" : `(${allSection["1.4.2"]?.[0]?.label_en})`
       }`,
       activeScore: allSection["1.4.2"]?.[0]?.score,
       maxScore: allSection["1.4.2"]?.[0]?.max_score,
@@ -229,9 +166,7 @@ const R4Form: FC = () => {
     },
     {
       label: "ขึ้นทะเบียนกับบริษัท (To Register With)",
-      value: `[${companyProfile?.company_admin ?? "-"}] ${
-        companyProfile?.company_full_name_th ?? "-"
-      }`,
+      value: `[${companyProfile?.company_admin ?? "-"}] ${companyProfile?.company_full_name_th ?? "-"}`,
     },
     {
       label: "สินค้า (Product)",
@@ -299,9 +234,7 @@ const R4Form: FC = () => {
       section_2: CalculatePart2() ?? "-",
       summary: CalculatePart1 + CalculatePart2(),
       grade: CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2())),
-      result: Result(
-        CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2())),
-      ),
+      result: Result(CalculateGrade(Math.floor(CalculatePart1 + CalculatePart2()))),
     },
   ];
 
@@ -323,34 +256,27 @@ const R4Form: FC = () => {
     },
   ];
 
+  // console.log("summaryPart1", summaryPart1);
+  // console.log("summaryPart2", summaryPart2);
+
   if (summaryPart1.length === 0 || summaryPart2.length === 0) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <p className="text-2xl font-bold text-gray-400">
-          ไม่มีข้อมูลการประเมิน
-        </p>
+        <p className="text-2xl font-bold text-gray-400">ไม่มีข้อมูลการประเมิน</p>
       </div>
     );
   }
 
   return (
     <div className="relative flex w-full flex-col gap-4">
-      <h3 className="text-base font-bold">
-        สรุปผลการประเมินคะแนน (Assessment Result)
-      </h3>
+      <h3 className="text-base font-bold">สรุปผลการประเมินคะแนน (Assessment Result)</h3>
       <div className="grid grid-cols-4 gap-1 pl-1 pr-4 text-xs">
         {companyInformation?.map((item, i) => (
           <Fragment key={i}>
             <h4>{item?.label}</h4>
             <div className="col-span-3 flex items-center gap-x-1">
-              <CopyToClipboardCustom
-                text={item?.value}
-                delay={500}
-                className="h-3 w-3"
-              />
-              <p className="w-full truncate border-b text-primary">
-                {item?.value}
-              </p>
+              <CopyToClipboardCustom text={item?.value} delay={500} className="h-3 w-3" />
+              <p className="w-full truncate border-b text-primary">{item?.value}</p>
             </div>
           </Fragment>
         ))}
@@ -359,10 +285,7 @@ const R4Form: FC = () => {
         <Table>
           <TableHeader className="bg-secondary text-xs font-bold text-white">
             <TableRow>
-              <TableHead
-                colSpan={5}
-                className="border text-center font-bold text-secondary-foreground"
-              >
+              <TableHead colSpan={5} className="border text-center font-bold text-secondary-foreground">
                 สรุปผลการประเมิน (Assessment Summary)
               </TableHead>
             </TableRow>
@@ -373,29 +296,19 @@ const R4Form: FC = () => {
               <TableHead className="border text-center font-bold text-secondary-foreground">
                 ส่วนที่ 2: การจัดการ เงื่อนไข และนโยบาย (60)
               </TableHead>
-              <TableHead className="border text-center font-bold text-secondary-foreground">
-                คะแนนรวม (100)
-              </TableHead>
+              <TableHead className="border text-center font-bold text-secondary-foreground">คะแนนรวม (100)</TableHead>
               <TableHead className="flex items-center justify-center gap-2 border text-center font-bold text-secondary-foreground">
                 <p className="flex items-center justify-center">เกรด (Grade)</p>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Icons.helpCircle className="h-4 w-4" />
                   </PopoverTrigger>
-                  <PopoverContent
-                    className="flex flex-col gap-1 p-2"
-                    side="bottom"
-                    align="end"
-                  >
-                    <h2 className="text-sm font-bold">
-                      เกณฑ์การประเมิน (Assessment Criteria)
-                    </h2>
+                  <PopoverContent className="flex flex-col gap-1 p-2" side="bottom" align="end">
+                    <h2 className="text-sm font-bold">เกณฑ์การประเมิน (Assessment Criteria)</h2>
                     <Table>
                       <TableHeader className="bg-secondary">
                         <TableRow className="text-xs text-black">
-                          <TableHead className="border font-semibold text-secondary-foreground">
-                            เกรด
-                          </TableHead>
+                          <TableHead className="border font-semibold text-secondary-foreground">เกรด</TableHead>
                           <TableHead className="border font-semibold text-secondary-foreground">
                             ผลการประเมิน (Assessment Result)
                           </TableHead>
@@ -404,12 +317,8 @@ const R4Form: FC = () => {
                       <TableBody>
                         {GradeDetail?.map((item, i) => (
                           <TableRow key={i} className="text-xs">
-                            <TableCell className="border">
-                              {item?.label}
-                            </TableCell>
-                            <TableCell className="border">
-                              {item?.value}
-                            </TableCell>
+                            <TableCell className="border">{item?.label}</TableCell>
+                            <TableCell className="border">{item?.value}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -417,32 +326,20 @@ const R4Form: FC = () => {
                   </PopoverContent>
                 </Popover>
               </TableHead>
-              <TableHead className="border text-center font-bold text-secondary-foreground">
-                สรุปผล
-              </TableHead>
+              <TableHead className="border text-center font-bold text-secondary-foreground">สรุปผล</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {SummaryData?.map((item, i) => (
               <TableRow key={i} className="h-14">
-                <TableCell className="border text-center text-lg font-bold text-primary">
-                  {item?.section_1}
-                </TableCell>
-                <TableCell className="border text-center text-lg font-bold text-primary">
-                  {item?.section_2}
-                </TableCell>
-                <TableCell className="border text-center text-lg font-bold text-primary">
-                  {item?.summary}
-                </TableCell>
-                <TableCell className="border text-center text-lg font-bold text-primary">
-                  {item?.grade}
-                </TableCell>
+                <TableCell className="border text-center text-lg font-bold text-primary">{item?.section_1}</TableCell>
+                <TableCell className="border text-center text-lg font-bold text-primary">{item?.section_2}</TableCell>
+                <TableCell className="border text-center text-lg font-bold text-primary">{item?.summary}</TableCell>
+                <TableCell className="border text-center text-lg font-bold text-primary">{item?.grade}</TableCell>
                 <TableCell
                   className={cn(
                     "border text-center text-lg font-bold",
-                    item?.result === "ไม่ขาย"
-                      ? "text-red-600"
-                      : "text-green-600",
+                    item?.result === "ไม่ขาย" ? "text-red-600" : "text-green-600"
                   )}
                 >
                   {item?.result}
@@ -453,9 +350,7 @@ const R4Form: FC = () => {
         </Table>
       </div>
       <div>
-        <h3 className="text-sm font-bold">
-          รายละเอียดผลการประเมิน (Assessment Details)
-        </h3>
+        <h3 className="text-sm font-bold">รายละเอียดผลการประเมิน (Assessment Details)</h3>
         <div>
           <Accordion type="multiple">
             {AssessmentDetails?.map((item, i) => (
@@ -465,15 +360,11 @@ const R4Form: FC = () => {
                   <p>
                     {item?.label}
                     <span className="text-primary">
-                      {i === 0
-                        ? ` (${CalculatePart1}/40 คะแนน)`
-                        : ` (${CalculatePart2()}/60 คะแนน)`}
+                      {i === 0 ? ` (${CalculatePart1}/40 คะแนน)` : ` (${CalculatePart2()}/60 คะแนน)`}
                     </span>
                   </p>
                 </AccordionTrigger>
-                <AccordionContent className="px-6">
-                  {item?.component}
-                </AccordionContent>
+                <AccordionContent className="px-6">{item?.component}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

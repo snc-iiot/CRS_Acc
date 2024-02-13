@@ -76,6 +76,7 @@ export class FormGeneralService extends APIService {
   getSummaryByRegisIdPart2 = async (regis_id: string): Promise<TSummaryPart2[]> => {
     try {
       const { data: responseData } = await this.get(`/assessment-result/part2-score?regis_id=${regis_id}`);
+      console.warn("FormGeneralService -> getSummaryByRegisIdPart2 -> responseData", responseData);
       return responseData?.data ?? ([] as TSummaryPart2[]);
     } catch (error: any) {
       console.error("FormGeneralService -> getSummaryByRegisIdPart2 -> error", error);
