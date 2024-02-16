@@ -13,6 +13,8 @@ import {
   TestPage,
 } from "./pages";
 
+//FIXME: สำหรับการทดสอบการใช้งาน
+
 function App() {
   return (
     <>
