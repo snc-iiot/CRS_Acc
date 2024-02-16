@@ -85,6 +85,7 @@ const LoginPage: FC = () => {
   return (
     <FadeIn>
       <div className="relative h-screen w-full">
+        <p className="absolute bottom-0 right-0 p-1 text-xs font-medium">{import.meta.env.VITE_VERSION}</p>
         <div className="bg-login h-full w-full overflow-hidden">
           {/* //! Header */}
           <div
@@ -101,7 +102,6 @@ const LoginPage: FC = () => {
               <p className="text-sm">บมจ. เอส เอ็น ซี ฟอร์เมอร์ และบริษัทในเครือฯ</p>
             </div>
           </div>
-
           {/* //! Content */}
           <div className="flex h-full">
             {/* //! Left */}
@@ -163,6 +163,7 @@ const LoginPage: FC = () => {
               </div>
             </div>
           </div>
+          pp
         </div>
 
         <TooltipProvider>

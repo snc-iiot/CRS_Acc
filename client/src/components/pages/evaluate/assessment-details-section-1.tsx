@@ -1,6 +1,7 @@
 import TableAssessmentSummary from "@/components/common/table-assessment-summary";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { groupByField } from "@/helpers/array.helper";
+import { getNumber } from "@/helpers/number.helper";
 import { useAtomStore } from "@/jotai/use-atom-store";
 import { FC } from "react";
 
@@ -322,32 +323,37 @@ const AssessmentDetailsSection: FC = () => {
     },
   ];
 
+  //FIXME: แก้ไขการคำนวณคะแนน
   const CalculateSection1 = () => {
     const sumScore = Section1?.reduce((a, b) => a + b?.activeScore, 0);
     const sumMaxScore = Section1?.reduce((a, b) => a + b?.maxScore, 0);
     const result = (sumScore / sumMaxScore) * 10;
-    return Math.floor(result);
+    // return Math.floor(result);
+    return getNumber(result, 2);
   };
 
   const CalculateSection2 = () => {
     const sumScore = Section2?.reduce((a, b) => a + b?.activeScore, 0);
     const sumMaxScore = Section2?.reduce((a, b) => a + b?.maxScore, 0);
     const result = (sumScore / sumMaxScore) * 10;
-    return Math.floor(result);
+    // return Math.floor(result);
+    return getNumber(result, 2);
   };
 
   const CalculateSection3 = () => {
     const sumScore = Section3?.reduce((a, b) => a + b?.activeScore, 0);
     const sumMaxScore = Section3?.reduce((a, b) => a + b?.maxScore, 0);
     const result = (sumScore / sumMaxScore) * 10;
-    return Math.floor(result);
+    // return Math.floor(result);
+    return getNumber(result, 2);
   };
 
   const CalculateSection4 = () => {
     const sumScore = Section4?.reduce((a, b) => a + b?.activeScore, 0);
     const sumMaxScore = Section4?.reduce((a, b) => a + b?.maxScore, 0);
     const result = (sumScore / sumMaxScore) * 10;
-    return Math.floor(result);
+    // return Math.floor(result);
+    return getNumber(result, 2);
   };
 
   const AssessmentDetails = [

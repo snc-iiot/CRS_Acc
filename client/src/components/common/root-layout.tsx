@@ -71,10 +71,7 @@ const RootLayout: FC = () => {
                 >
                   <Icons.menu className="text-gray-500" />
                 </div>
-                <div
-                  className="flex cursor-pointer items-center gap-x-2"
-                  onClick={() => navigate("/")}
-                >
+                <div className="flex cursor-pointer items-center gap-x-2" onClick={() => navigate("/")}>
                   <img
                     src="/images/logo.webp"
                     alt="SNC Logo"
@@ -82,17 +79,10 @@ const RootLayout: FC = () => {
                     height={230}
                     className="h-auto w-[5.5rem] select-none"
                   />
-                  <Separator
-                    orientation="vertical"
-                    className="h-[2rem] bg-foreground"
-                  />
+                  <Separator orientation="vertical" className="h-[2rem] bg-foreground" />
                   <div className="flex flex-col">
-                    <p className="text-sm font-bold">
-                      CUSTOMER REGISTRATION SYSTEM
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Powered by The Center of Digital Expertise (CoDE)
-                    </p>
+                    <p className="text-sm font-bold">CUSTOMER REGISTRATION SYSTEM</p>
+                    <p className="text-xs text-muted-foreground">Powered by The Center of Digital Expertise (CoDE)</p>
                   </div>
                 </div>
               </div>
@@ -102,43 +92,28 @@ const RootLayout: FC = () => {
                 <div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <div
-                        className={cn(
-                          "group flex cursor-pointer items-center justify-start gap-2.5",
-                        )}
-                      >
+                      <div className={cn("group flex cursor-pointer items-center justify-start gap-2.5")}>
                         <Avatar className="h-6 w-6 cursor-pointer">
                           <AvatarImage src="" />
                           <AvatarFallback className="bg-primary/10 uppercase">
                             {profile?.name?.en?.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
-                        <p className="text-sm font-semibold uppercase">
-                          {profile?.name?.en}
-                        </p>
+                        <p className="text-sm font-semibold uppercase">{profile?.name?.en}</p>
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      side="bottom"
-                      align="start"
-                      className={cn("w-72")}
-                    >
+                    <DropdownMenuContent side="bottom" align="start" className={cn("w-72")}>
                       <DropdownMenuLabel>
-                        <p className="text-sm font-semibold">
-                          {profile?.name?.en}
-                        </p>
+                        <p className="text-sm font-semibold">{profile?.name?.en}</p>
                         <p className="text-xs text-gray-400">
-                          {profile?.name?.en}{" "}
-                          {profile?.role !== "" ? `(${profile?.role})` : ""}
+                          {profile?.name?.en} {profile?.role !== "" ? `(${profile?.role})` : ""}
                         </p>
                       </DropdownMenuLabel>
 
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         onClick={() => {
-                          localStorage.removeItem(
-                            KEY_LOCAL_STORAGE.ICRS_ADMIN_LOCAL_STORAGE,
-                          );
+                          localStorage.removeItem(KEY_LOCAL_STORAGE.ICRS_ADMIN_LOCAL_STORAGE);
                           resetAtom();
                           navigate("/login");
                         }}
@@ -167,11 +142,12 @@ const RootLayout: FC = () => {
             </article>
           </section>
         </main>
-        <footer className="flex h-5 w-full items-center justify-center gap-2 border-t">
-          <p className="text-xs text-muted-foreground">
-            Copyright © 2023 SNC-The Center of Digital Expertise (CoDE)
-          </p>
+        <footer className="relative flex h-5 w-full items-center justify-center gap-2 border-t">
+          <p className="text-xs text-muted-foreground">Copyright © 2023 SNC-The Center of Digital Expertise (CoDE)</p>
           <p className="text-xs text-muted-foreground">All rights reserved.</p>
+          <p className="absolute bottom-0 right-0 p-1 text-[10px] font-medium text-muted-foreground">
+            {import.meta.env.VITE_VERSION}
+          </p>
         </footer>
       </div>
     </ReqAuth>

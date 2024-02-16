@@ -73,4 +73,37 @@ export class NumberHelper {
   ): string {
     return numeral(number).format(format).replace("%", "% ");
   }
+
+  // getNumber form number add config to fix the issue
+  
 }
+
+
+/**
+ * The function checks if a given string is numeric.
+ * @param {string} str - The parameter `str` is a string that you want to check if it represents a
+ * numeric value.
+ * @returns a boolean value. It returns true if the input string can be converted to a numeric value,
+ * and false otherwise.
+ */
+export const isNumeric = (str: string) => {
+  if (typeof str != "string") return false;
+  return !isNaN(Number(str)) && !isNaN(parseFloat(str));
+};
+
+/**
+ * The function `getNumber` takes a number and a configuration value, and returns the number rounded to
+ * the specified decimal places if it is numeric, otherwise it returns 0.
+ * @param {number} number - The `number` parameter is the number that you want to format.
+ * @param {number} config - The `config` parameter is a number that specifies the number of decimal
+ * places to round the `number` parameter to.
+ * @returns a number. If the input number is numeric, it will return the number rounded to the
+ * specified decimal places (config). If the input number is not numeric, it will return 0.
+ */
+export const getNumber = (number: number, config: number): number => {
+  if (isNumeric(number.toString())) {
+    return parseFloat(number.toFixed(config));
+  }
+  return 0;
+};
+
